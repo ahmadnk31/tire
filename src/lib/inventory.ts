@@ -35,6 +35,59 @@ export async function getLocationById(id: string) {
   }
 }
 
+export async function updateInventory(
+  id: string,
+  data: {
+    quantity: number
+    minimumLevel: number
+    reorderLevel: number
+    reorderQty: number
+  }
+) {
+  try {
+    // Get the current inventory state first
+    const currentInventory = await prisma.inventory.findUnique({
+      where: { id },
+    });
+    
+    if (!currentInventory) {
+      throw new Error("Inventory item not found");
+    }
+    
+    // Calculate the quantity change
+    const quantityChange = data.quantity - currentInventory.quantity;
+    
+    // Update the inventory
+    const updatedInventory = await prisma.inventory.update({
+      where: { id },
+      data,
+      include: {
+        product: true,
+        location: true,
+      }
+    });      // If quantity changed, create a movement record
+    if (quantityChange !== 0) {
+      await prisma.inventoryMovement.create({
+        data: {
+          inventoryId: id,
+          locationId: currentInventory.locationId,
+          quantity: quantityChange,
+          movementType: MovementType.ADJUSTMENT,
+          reason: "Inventory update",
+          notes: `Quantity ${quantityChange > 0 ? 'increased' : 'decreased'} by ${Math.abs(quantityChange)} during inventory update`,
+        },
+      });
+    }
+    
+    return updatedInventory;
+  } catch (error) {
+    console.error(`Failed to update inventory with ID ${id}:`, error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Failed to update inventory");
+  }
+}
 // Create a new location
 export async function createLocation(data: {
   name: string

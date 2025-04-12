@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateInventory } from "@/lib/inventory";
-
+import { prisma } from "@/lib/db";
 import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
@@ -27,18 +27,31 @@ export async function POST(request: NextRequest) {
     // Check for admin or manager permissions here
     if (session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }    const body = await request.json();
+    const validatedData = updateInventorySchema.parse(body);
+    
+    // First, find the inventory ID using productId and locationId
+    const inventory = await prisma.inventory.findUnique({
+      where: {
+        productId_locationId: {
+          productId: validatedData.productId,
+          locationId: validatedData.locationId
+        }
+      }
+    });
+    
+    if (!inventory) {
+      return NextResponse.json({ error: "Inventory not found" }, { status: 404 });
     }
 
-    const body = await request.json();
-    const validatedData = updateInventorySchema.parse(body);
-
     const updatedInventory = await updateInventory(
-      validatedData.productId,
-      validatedData.locationId,
-      validatedData.quantityChange,
-      validatedData.movementType,
-      validatedData.orderId,
-      validatedData.notes
+      inventory.id,
+      {
+        quantity: inventory.quantity + validatedData.quantityChange, // Add the change to current quantity
+        minimumLevel: inventory.minimumLevel, // Preserve existing values
+        reorderLevel: inventory.reorderLevel, // Preserve existing values
+        reorderQty: inventory.reorderQty, // Preserve existing values
+      }
     );
 
     return NextResponse.json({ success: true, data: updatedInventory });
