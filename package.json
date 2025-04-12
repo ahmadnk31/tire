@@ -4,7 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
+    "test": "jest",
+    "test:ci": "jest --ci --passWithNoTests",
+    "test:coverage": "jest --coverage",
+    "test:coverage:ci": "jest --coverage --ci --passWithNoTests",
     "start": "next start",
     "lint": "next lint"
   },
