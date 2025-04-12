@@ -290,6 +290,7 @@ model Product {
   @@index([width, aspectRatio, rimDiameter]) // Common search pattern
   InventoryHistory InventoryHistory[]
   Favorite Favorite[]
+  InventoryMovement InventoryMovement[]
 }
 
 model Inventory {
@@ -360,6 +361,8 @@ model InventoryMovement {
   inventoryId   String
   inventory     Inventory       @relation(fields: [inventoryId], references: [id])
   locationId    String
+  productId     String
+  product       Product         @relation(fields: [productId], references: [id])
   location      Location        @relation(fields: [locationId], references: [id])
   orderId       String?
   order         Order?          @relation(fields: [orderId], references: [id])

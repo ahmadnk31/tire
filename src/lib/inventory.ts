@@ -65,12 +65,13 @@ export async function updateInventory(
         product: true,
         location: true,
       }
-    });      // If quantity changed, create a movement record
+    });    // If quantity changed, create a movement record
     if (quantityChange !== 0) {
       await prisma.inventoryMovement.create({
         data: {
           inventoryId: id,
           locationId: currentInventory.locationId,
+          productId: currentInventory.productId,
           quantity: quantityChange,
           movementType: MovementType.ADJUSTMENT,
           reason: "Inventory update",
@@ -294,6 +295,7 @@ export async function addProductToInventory(data: {
         data: {
           inventoryId: inventory.id,
           locationId: data.locationId,
+          productId: data.productId,
           quantity: data.quantity,
           movementType: MovementType.PURCHASE,
           reason: "Initial inventory",
@@ -348,6 +350,7 @@ export async function updateInventoryQuantity(
         inventoryId,
         locationId: inventory.locationId,
         quantity: change,
+        productId: inventory.productId,
         movementType,
         reason,
         notes: `Quantity ${change >= 0 ? "increased" : "decreased"} by ${Math.abs(change)}`,
@@ -404,6 +407,7 @@ export async function removeProductFromInventory(inventoryId: string) {
         data: {
           inventoryId,
           locationId: inventory.locationId,
+          productId: inventory.productId,
           quantity: -inventory.quantity, // negative as we're removing
           movementType: MovementType.OTHER,
           reason: "Product removed from inventory",
