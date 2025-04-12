@@ -8,10 +8,9 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { ThumbsUp, MessageSquare, ChevronDown, ChevronUp, Image, Edit, Trash2 } from 'lucide-react';
 import { ReadOnlyRating } from './rating';
-import { useReviews, Review, ReviewComment } from '@/hooks/use-reviews';
+import { useReviews, Review } from '@/hooks/use-reviews';
 import { ReviewCommentForm } from './review-comment-form';
 import { ReviewCommentItem } from './review-comment-item';
-import { Textarea } from '@/components/ui/textarea';
 
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/utils';

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { QuantitySelector } from './quantity-selector'
-import { useCart } from '@/contexts/cart-context'
 
 interface QuantitySectionProps {
   totalStock: number

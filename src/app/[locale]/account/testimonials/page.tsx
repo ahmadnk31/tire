@@ -6,9 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 import UserTestimonialForm from "@/components/user/user-testimonial-form";
+import { getTranslations } from "next-intl/server";
 
 export default async function AccountTestimonialsPage() {
   const session = await getServerSession(authOptions);
+  const t = await getTranslations("Account.testimonials");
   
   if (!session?.user) {
     redirect("/signin");
@@ -23,19 +25,21 @@ export default async function AccountTestimonialsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-xl font-semibold">Your Testimonials</h3>
+        <h3 className="text-xl font-semibold">
+          {t("title")}
+        </h3>
         <p className="text-sm text-muted-foreground">
-          Share your experience with our products and services
+          {t("description")}
         </p>
       </div>
       <Separator />
 
-      <Tabs defaultValue={testimonials.length > 0 ? "existing" : "new"} className="space-y-4">
+      <Tabs defaultValue={testimonials.length > 0 ? t("actions.edit") : t("actions.add")} className="space-y-4">
         <TabsList>
           {testimonials.length > 0 && (
-            <TabsTrigger value="existing">Your Testimonials</TabsTrigger>
+            <TabsTrigger value="existing">{t("actions.edit")}</TabsTrigger>
           )}
-          <TabsTrigger value="new">Submit a Testimonial</TabsTrigger>
+          <TabsTrigger value="new">{t("actions.add")}</TabsTrigger>
         </TabsList>
 
         {testimonials.length > 0 && (
@@ -62,12 +66,12 @@ export default async function AccountTestimonialsPage() {
 
                     <div className="ml-auto px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-800">
                       {testimonial.status === "PENDING"
-                        ? "Pending Review"
+                        ? t("status.pending")
                         : testimonial.status === "APPROVED"
-                        ? "Approved"
+                        ? t("status.approved")
                         : testimonial.status === "FEATURED"
-                        ? "Featured"
-                        : "Rejected"}
+                        ? t("status.featured")
+                        : t("status.rejected")}
                     </div>
                   </div>
 
@@ -80,7 +84,7 @@ export default async function AccountTestimonialsPage() {
                   <p className="text-sm italic">"{testimonial.content}"</p>
                   
                   <div className="text-xs text-muted-foreground mt-2">
-                    Submitted: {new Date(testimonial.createdAt).toLocaleDateString()}
+                    {t("status.submitted")}: {new Date(testimonial.createdAt).toLocaleDateString()}
                   </div>
                 </Card>
               ))}
@@ -88,7 +92,7 @@ export default async function AccountTestimonialsPage() {
 
             {testimonials.some((t) => t.status === "PENDING") && (
               <p className="text-sm text-muted-foreground mt-2">
-                * Pending testimonials are under review by our team and will appear on the website once approved.
+                * {t("status.pendingMessage")}
               </p>
             )}
           </TabsContent>

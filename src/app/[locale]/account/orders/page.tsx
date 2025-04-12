@@ -3,12 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format, parseISO } from "date-fns";
+import { useTranslations } from "next-intl";
 import { 
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle 
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -56,6 +54,8 @@ import { StarIcon, ExternalLink } from "lucide-react";
 
 export default function OrdersPage() {
   const router = useRouter();
+  const t = useTranslations('Account.orders');
+  const tCommon = useTranslations('Account.common');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -122,17 +122,16 @@ export default function OrdersPage() {
                           order.items.some(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesStatus && matchesSearch;
   }) || [];
-
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
       case "processing":
-        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Processing</Badge>;
+        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{t('status.processing')}</Badge>;
       case "shipped":
-        return <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">Shipped</Badge>;
+        return <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">{t('status.shipped')}</Badge>;
       case "delivered":
-        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Delivered</Badge>;
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">{t('status.delivered')}</Badge>;
       case "cancelled":
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Cancelled</Badge>;
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">{t('status.cancelled')}</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -143,7 +142,7 @@ export default function OrdersPage() {
     // Get customer notes from metadata
     const customerNotes = order.metadata && typeof order.metadata === 'object' 
       ? (order.metadata as any)?.customerNotes || ""
-      : order.customerNotes || "";
+      : "";
     setOrderNotes(customerNotes);
     setIsModalOpen(true);
   };
@@ -275,7 +274,7 @@ export default function OrdersPage() {
         // Reset notes to original value
         const originalNotes = selectedOrder?.metadata && typeof selectedOrder.metadata === 'object'
           ? (selectedOrder.metadata as any)?.customerNotes || ""
-          : selectedOrder?.customerNotes || "";
+          : "";
         setOrderNotes(originalNotes);
       }
     });
@@ -321,15 +320,14 @@ export default function OrdersPage() {
       </div>
     );
   };
-
   // Show loading state
   if (isLoadingOrders) {
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-medium">Order History</h3>
+          <h3 className="text-lg font-medium">{t('title')}</h3>
           <p className="text-sm text-muted-foreground">
-            View and track your order history
+            {t('description')}
           </p>
         </div>
         <Separator />
@@ -348,34 +346,32 @@ export default function OrdersPage() {
       </div>
     );
   }
-
   // Show error state
   if (ordersError) {
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-medium">Order History</h3>
+          <h3 className="text-lg font-medium">{t('title')}</h3>
           <p className="text-sm text-muted-foreground">
-            View and track your order history
+            {t('description')}
           </p>
         </div>
         <Separator />
         <Card>
           <CardContent className="p-6 text-center">
             <p className="text-red-500 mb-4">Failed to load orders. Please try again later.</p>
-            <Button onClick={() => window.location.reload()}>Retry</Button>
+            <Button onClick={() => window.location.reload()}>{tCommon('retry')}</Button>
           </CardContent>
         </Card>
       </div>
     );
   }
-
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Order History</h3>
+        <h3 className="text-lg font-medium">{t('title')}</h3>
         <p className="text-sm text-muted-foreground">
-          View and track your order history
+          {t('description')}
         </p>
       </div>
       <Separator />
@@ -383,7 +379,7 @@ export default function OrdersPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="w-full sm:w-auto">
           <Input
-            placeholder="Search orders..."
+            placeholder={t('search')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full sm:w-[250px]"
@@ -392,14 +388,14 @@ export default function OrdersPage() {
         <div className="w-full sm:w-auto">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Filter by status" />
+              <SelectValue placeholder={t('filter.title')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Orders</SelectItem>
-              <SelectItem value="processing">Processing</SelectItem>
-              <SelectItem value="shipped">Shipped</SelectItem>
-              <SelectItem value="delivered">Delivered</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
+              <SelectItem value="all">{t('filter.all')}</SelectItem>
+              <SelectItem value="processing">{t('filter.processing')}</SelectItem>
+              <SelectItem value="shipped">{t('filter.shipped')}</SelectItem>
+              <SelectItem value="delivered">{t('filter.delivered')}</SelectItem>
+              <SelectItem value="cancelled">{t('filter.cancelled')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -407,41 +403,38 @@ export default function OrdersPage() {
       
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
+          <Table>            <TableHeader>
               <TableRow>
-                <TableHead>Order #</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t('labels.orderNumber')}</TableHead>
+                <TableHead>{t('labels.date')}</TableHead>
+                <TableHead>{t('labels.status')}</TableHead>
+                <TableHead className="text-right">{t('labels.total')}</TableHead>
+                <TableHead className="text-right">{t('labels.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredOrders.length > 0 ? (
                 filteredOrders.map((order) => (
                   <TableRow key={order.id}>
-                    <TableCell className="font-medium">{order.orderNumber || order.id.substring(0, 8)}</TableCell>
+                    <TableCell className="font-medium">{order.trackingNumber || order.id.substring(0, 8)}</TableCell>
                     <TableCell>{format(parseISO(order.date), "MMM d, yyyy")}</TableCell>
                     <TableCell>{getStatusBadge(order.status)}</TableCell>
                     <TableCell className="text-right">${order.total.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">
-                      <Button
+                    <TableCell className="text-right">                      <Button
                         variant="outline"
                         size="sm"
                         onClick={() => openOrderDetails(order)}
                       >
-                        View Details
+                        {t('actions.viewDetails')}
                       </Button>
                     </TableCell>
                   </TableRow>
                 ))
-              ) : (
-                <TableRow>
+              ) : (                <TableRow>
                   <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
                     {searchQuery || statusFilter !== "all" 
-                      ? "No orders match your filters. Try adjusting your search or filter." 
-                      : "You haven't placed any orders yet."}
+                      ? t('noResults') 
+                      : t('empty.description')}
                   </TableCell>
                 </TableRow>
               )}
@@ -450,16 +443,15 @@ export default function OrdersPage() {
         </CardContent>
       </Card>
       
-      {/* Order Details Modal */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      {/* Order Details Modal */}      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         {selectedOrder && (
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                Order #{selectedOrder.orderNumber || selectedOrder.id.substring(0, 8)}
+                {t('labels.orderNumber')} #{selectedOrder.trackingNumber || selectedOrder.id.substring(0, 8)}
               </DialogTitle>
               <DialogDescription>
-                Placed on {format(parseISO(selectedOrder.date), "MMMM d, yyyy")}
+                {t('placedOn')} {format(parseISO(selectedOrder.date), "MMMM d, yyyy")}
               </DialogDescription>
             </DialogHeader>
             
@@ -473,7 +465,7 @@ export default function OrdersPage() {
                     disabled={isCancellingOrder}
                     onClick={() => handleCancelOrder(selectedOrder.id)}
                   >
-                    {isCancellingOrder ? "Cancelling..." : "Cancel Order"}
+                    {isCancellingOrder ? t('actions.cancelling') : t('actions.cancelOrder')}
                   </Button>
                 )}
                 
@@ -483,7 +475,7 @@ export default function OrdersPage() {
                   size="sm"
                   onClick={() => handleDownloadInvoice(selectedOrder.id)}
                 >
-                  Download Invoice
+                  {t('actions.downloadInvoice')}
                 </Button>
                 
                 <Button 
@@ -492,7 +484,7 @@ export default function OrdersPage() {
                   disabled={isEmailingInvoice}
                   onClick={() => handleEmailInvoice(selectedOrder.id)}
                 >
-                  {isEmailingInvoice ? "Sending..." : "Email Invoice"}
+                  {isEmailingInvoice ? t('actions.sending') : t('actions.emailInvoice')}
                 </Button>
                 
                 <Button
@@ -501,7 +493,7 @@ export default function OrdersPage() {
                   disabled={isReordering}
                   onClick={() => handleReorder(selectedOrder.id)}
                 >
-                  {isReordering ? "Processing..." : "Reorder Items"}
+                  {isReordering ? t('actions.processing') : t('actions.reorderItems')}
                 </Button>
                 
                 <Button
@@ -509,17 +501,17 @@ export default function OrdersPage() {
                   size="sm"
                   onClick={() => setIsHistoryOpen(true)}
                 >
-                  View History
+                  {t('actions.viewHistory')}
                 </Button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <h4 className="font-medium mb-2">Shipping Information</h4>
+                  <h4 className="font-medium mb-2">{t('labels.shipping')}</h4>
                   <p className="text-sm">{selectedOrder.deliveryAddress}</p>
                   {selectedOrder.trackingNumber && (
                     <div className="mt-2">
-                      <p className="text-sm font-medium">Tracking Number:</p>
+                      <p className="text-sm font-medium">{t('labels.tracking')}:</p>
                       <p className="text-sm">{selectedOrder.trackingNumber}</p>
                       {selectedOrder.status === "shipped" && (
                         <div className="mt-1">
@@ -532,7 +524,7 @@ export default function OrdersPage() {
                               selectedOrder.trackingUrl
                             )}
                           >
-                            Track Package
+                            {t('actions.trackShipment')}
                             {selectedOrder.trackingUrl && (
                               <ExternalLink className="h-3 w-3" />
                             )}
@@ -544,24 +536,24 @@ export default function OrdersPage() {
                   
                   {selectedOrder.estimatedDeliveryDate && (
                     <div className="mt-2">
-                      <p className="text-sm font-medium">Estimated Delivery:</p>
+                      <p className="text-sm font-medium">{t('labels.estimatedDelivery')}:</p>
                       <p className="text-sm">{format(parseISO(selectedOrder.estimatedDeliveryDate), "MMMM d, yyyy")}</p>
                     </div>
                   )}
                 </div>
                 <div>
-                  <h4 className="font-medium mb-2">Order Status</h4>
+                  <h4 className="font-medium mb-2">{t('labels.status')}</h4>
                   <div className="flex items-center">
                     {getStatusBadge(selectedOrder.status)}
                   </div>
                   
                   <div className="mt-4">
-                    <h4 className="font-medium mb-2">Payment Method</h4>
+                    <h4 className="font-medium mb-2">{t('labels.paymentMethod')}</h4>
                     <p className="text-sm">{selectedOrder.paymentMethod}</p>
                     <p className="text-sm">
-                      Status: 
+                      {t('labels.paymentStatus')}: 
                       <span className="ml-1 font-medium">
-                        {selectedOrder.paymentStatus.charAt(0).toUpperCase() + selectedOrder.paymentStatus.slice(1)}
+                        {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
                       </span>
                     </p>
                   </div>
@@ -570,9 +562,9 @@ export default function OrdersPage() {
               
               {/* Order Notes */}
               <div>
-                <h4 className="font-medium mb-2">Order Notes</h4>
+                <h4 className="font-medium mb-2">{t('labels.notes')}</h4>
                 <Textarea
-                  placeholder="Add notes about your order..."
+                  placeholder={t('notes.placeholder')}
                   value={orderNotes}
                   onChange={(e) => setOrderNotes(e.target.value)}
                   className="min-h-[100px]"
@@ -585,27 +577,27 @@ export default function OrdersPage() {
                     orderNotes === (
                       (selectedOrder.metadata && typeof selectedOrder.metadata === 'object'
                         ? (selectedOrder.metadata as any)?.customerNotes
-                        : selectedOrder.customerNotes) || ""
+                        : "") || ""
                     )
                   }
                   onClick={() => handleUpdateNotes(selectedOrder.id, orderNotes)}
                 >
-                  {isUpdatingNotes ? "Saving..." : "Save Notes"}
+                  {isUpdatingNotes ? t('notes.saving') : t('notes.save')}
                 </Button>
               </div>
               
               <Separator />
               
               <div>
-                <h4 className="font-medium mb-4">Order Items</h4>
+                <h4 className="font-medium mb-4">{t('labels.items')}</h4>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Item</TableHead>
-                      <TableHead className="text-right">Quantity</TableHead>
-                      <TableHead className="text-right">Price</TableHead>
-                      <TableHead className="text-right">Subtotal</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t('labels.items')}</TableHead>
+                      <TableHead className="text-right">{t('labels.quantity')}</TableHead>
+                      <TableHead className="text-right">{t('labels.price')}</TableHead>
+                      <TableHead className="text-right">{t('labels.subtotal')}</TableHead>
+                      <TableHead className="text-right">{t('labels.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -649,7 +641,7 @@ export default function OrdersPage() {
                               className="text-xs h-8"
                               onClick={() => openRatingDialog(item)}
                             >
-                              Rate
+                              {t('actions.rate')}
                             </Button>
                           )}
                         </TableCell>
@@ -657,16 +649,16 @@ export default function OrdersPage() {
                     ))}
                     <TableRow>
                       <TableCell colSpan={3} className="text-right font-medium">
-                        Subtotal
+                        {t('labels.subtotal')}
                       </TableCell>
                       <TableCell className="text-right">
-                        ${selectedOrder.subtotal.toFixed(2)}
+                        ${selectedOrder?.subtotal?.toFixed(2)}
                       </TableCell>
                       <TableCell />
                     </TableRow>
                     <TableRow>
                       <TableCell colSpan={3} className="text-right font-medium">
-                        Order Total
+                        {t('labels.orderTotal')}
                       </TableCell>
                       <TableCell className="text-right font-bold">
                         ${selectedOrder.total.toFixed(2)}
@@ -679,7 +671,9 @@ export default function OrdersPage() {
             </div>
             
             <DialogFooter>
-              <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+              <Button onClick={() => setIsModalOpen(false)}>
+                {tCommon('close')}
+              </Button>
             </DialogFooter>
           </DialogContent>
         )}
@@ -689,9 +683,9 @@ export default function OrdersPage() {
       <Dialog open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Order History</DialogTitle>
+            <DialogTitle>{t('history.title')}</DialogTitle>
             <DialogDescription>
-              Order #{selectedOrder?.orderNumber || selectedOrder?.id.substring(0, 8)}
+              {t('labels.orderNumber')} #{selectedOrder?.trackingNumber || selectedOrder?.id.substring(0, 8)}
             </DialogDescription>
           </DialogHeader>
           
@@ -721,13 +715,13 @@ export default function OrdersPage() {
               </div>
             ) : (
               <p className="text-center text-muted-foreground">
-                No history available for this order.
+                {t('history.noHistory')}
               </p>
             )}
           </div>
           
           <DialogFooter>
-            <Button onClick={() => setIsHistoryOpen(false)}>Close</Button>
+            <Button onClick={() => setIsHistoryOpen(false)}>{tCommon('cancel')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -736,7 +730,7 @@ export default function OrdersPage() {
       <Dialog open={ratingItem.open} onOpenChange={(open) => setRatingItem({ ...ratingItem, open })}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Rate Your Purchase</DialogTitle>
+            <DialogTitle>{t('rating.title')}</DialogTitle>
             <DialogDescription>
               {ratingItem.item?.name}
             </DialogDescription>
@@ -744,14 +738,14 @@ export default function OrdersPage() {
           
           <div className="py-4 space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Your Rating</label>
+              <label className="block text-sm font-medium mb-2">{t('rating.yourRating')}</label>
               <StarRating max={5} value={rating} onChange={setRating} />
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-2">Your Review (optional)</label>
+              <label className="block text-sm font-medium mb-2">{t('rating.yourReview')}</label>
               <Textarea
-                placeholder="Share your experience with this product..."
+                placeholder={t('rating.placeholder')}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 className="min-h-[100px]"
@@ -761,13 +755,13 @@ export default function OrdersPage() {
           
           <DialogFooter>
             <Button variant="outline" onClick={() => setRatingItem({ open: false, item: null })}>
-              Cancel
+              {tCommon('cancel')}
             </Button>
             <Button 
               disabled={isRatingItem || rating === 0} 
               onClick={handleRateItem}
             >
-              {isRatingItem ? "Submitting..." : "Submit Rating"}
+              {isRatingItem ? t('rating.submitting') : t('rating.submit')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -777,16 +771,16 @@ export default function OrdersPage() {
       <Dialog open={isInvoiceModalOpen} onOpenChange={setIsInvoiceModalOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Email Invoice</DialogTitle>
+            <DialogTitle>{t('invoice.title')}</DialogTitle>
             <DialogDescription>
-              Enter the email address to send the invoice to.
+              {t('invoice.description')}
             </DialogDescription>
           </DialogHeader>
           
           <div className="py-4">
             <Input
               type="email"
-              placeholder="Email address"
+              placeholder={t('invoice.placeholder')}
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
             />
@@ -794,13 +788,13 @@ export default function OrdersPage() {
           
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsInvoiceModalOpen(false)}>
-              Cancel
+              {tCommon('cancel')}
             </Button>
             <Button 
               disabled={isEmailingInvoice || !customerEmail} 
               onClick={() => selectedOrder && handleEmailInvoice(selectedOrder.id, customerEmail)}
             >
-              {isEmailingInvoice ? "Sending..." : "Send Invoice"}
+              {isEmailingInvoice ? t('actions.sending') : t('invoice.send')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -810,9 +804,11 @@ export default function OrdersPage() {
       <Dialog open={trackingDetails.isOpen} onOpenChange={closeTrackingDetails}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Tracking Information</DialogTitle>
+            <DialogTitle>
+              {t('tracking.title')}
+            </DialogTitle>
             <DialogDescription>
-              Tracking Number: {trackingDetails.trackingNumber}
+              {t('tracking.number')}: {trackingDetails.trackingNumber}
             </DialogDescription>
           </DialogHeader>
           
@@ -825,12 +821,12 @@ export default function OrdersPage() {
               </div>
             ) : trackingData ? (
               <div className="space-y-4">
-                <p className="text-sm font-medium">Current Status: 
+                <p className="text-sm font-medium">{t('tracking.currentStatus')}:
                   <span className="ml-2 font-normal">{trackingData.status}</span>
                 </p>
                 
                 <div>
-                  <h4 className="text-sm font-medium mb-2">Tracking Updates</h4>
+                  <h4 className="text-sm font-medium mb-2">{t('tracking.updates')}</h4>
                   <div className="space-y-3">
                     {trackingData.updates.map((update, index) => (
                       <div 
@@ -846,27 +842,29 @@ export default function OrdersPage() {
                   </div>
                 </div>
                 
-                {trackingData.trackingUrl && (
+                {trackingData?.trackingUrl && (
                   <div className="mt-4">
                     <Button
                       variant="outline"
                       className="w-full"
                       onClick={() => window.open(trackingData.trackingUrl, '_blank')}
                     >
-                      View on Carrier Website
+                      {t('tracking.viewOnCarrier')}
                     </Button>
                   </div>
                 )}
               </div>
             ) : (
               <p className="text-center text-muted-foreground">
-                No tracking information available at this time.
+                {t('tracking.noTracking')}
               </p>
             )}
           </div>
           
           <DialogFooter>
-            <Button onClick={closeTrackingDetails}>Close</Button>
+            <Button onClick={closeTrackingDetails}>
+              {tCommon('close')}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

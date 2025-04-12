@@ -32,7 +32,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -48,7 +47,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   SearchIcon,
-  FilterIcon,
   MoreHorizontalIcon,
   EyeIcon,
   TruckIcon,

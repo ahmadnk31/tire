@@ -1,4 +1,275 @@
 {
+   
+    "Account": {
+      "testimonials": {
+            "title": "Mijn Testimonials",
+            "description": "Bekijk en beheer je testimonials",
+            "loading": "Testimonials laden...",
+            "empty": {
+                "title": "Nog geen testimonials",
+                "description": "Je hebt nog geen testimonials gedeeld",
+                "button": "Schrijf een Testimonial"
+            },
+            "actions": {
+                "add": "Testimonial Toevoegen",
+                "edit": "Testimonial Bewerken",
+                "delete": "Testimonial Verwijderen"
+            },
+            "status": {
+                "published": "Geplaatst",
+                "pending": "In Afwachting",
+                "rejected": "Afgewezen",
+                "featured": "Uitgelicht",
+                "submitted": "Ingediend",
+                "pendingMessage": "Testimonials in behandeling worden door ons team beoordeeld en verschijnen op de website zodra ze zijn goedgekeurd." 
+            },
+            "form": {
+                "title": "Deel Je Ervaring",
+                "rating": "Beoordeling",
+                "headline": "Koptekst",
+                "content": "Jouw Testimonial",
+                "publish": "Publiceer Mijn Naam",
+                "submit": "Testimonial Indienen",
+                "success": "Testimonial succesvol ingediend",
+                "error": "Testimonial indienen mislukt"
+            },
+            "delete": {
+                "confirm": "Weet je zeker dat je deze testimonial wilt verwijderen?",
+                "warning": "Deze actie kan niet ongedaan worden gemaakt.",
+                "success": "Testimonial succesvol verwijderd",
+                "error": "Testimonial verwijderen mislukt"
+            }
+        },
+        "layout": {
+            "title": "Mijn Account",
+            "description": "Beheer je accountinstellingen en voorkeuren",
+            "tabs": {
+                "settings": "Instellingen",
+                "orders": "Bestellingen",
+                "favorites": "Favorieten",
+                "testimonials": "Getuigenissen"
+            }
+        },
+        "common": {
+            "loading": "Laden...",
+            "save": "Opslaan",
+            "cancel": "Annuleren",
+            "delete": "Verwijderen",
+            "edit": "Bewerken",
+            "view": "Bekijk Details",
+            "back": "Terug",
+            "update": "Bijwerken",
+            "add": "Toevoegen",
+            "remove": "Verwijderen",
+            "confirm": "Bevestigen",
+            "success": "Succes",
+            "close": "Sluiten",
+            "open": "Open"
+        },
+        "favorites": {
+            "title": "Mijn Favorieten",
+            "description": "Bekijk en beheer je favoriete producten",
+            "loading": "Favorieten laden...",
+            "search": "Zoek in favorieten...",
+            "sortBy": "Sorteren op:",
+            "sortOptions": {
+                "recent": "Meest Recent",
+                "name": "Naam",
+                "priceAsc": "Prijs (Laag naar Hoog)",
+                "priceDesc": "Prijs (Hoog naar Laag)"
+            },
+            "empty": {
+                "title": "Nog geen favorieten",
+                "description": "Je hebt nog geen producten toegevoegd aan je favorieten",
+                "button": "Producten Bekijken"
+            },
+            "noResults": {
+                "title": "Geen resultaten gevonden",
+                "description": "Geen producten komen overeen met je zoekcriteria"
+            },
+            "actions": {
+                "remove": "Verwijder uit favorieten",
+                "view": "Bekijk Details"
+            }
+        },        
+        "orders": {
+            "title": "Mijn Bestellingen",
+            "description": "Volg en beheer je bestellingen",
+            "loading": "Bestellingen laden...",
+            "search": "Zoek bestellingen...",
+            "noResults": "Geen bestellingen komen overeen met je filters. Probeer je zoekopdracht of filter aan te passen.",
+            "placedOn": "Geplaatst op",
+            "empty": {
+                "title": "Nog geen bestellingen",
+                "description": "Je hebt nog geen bestellingen geplaatst",
+                "button": "Begin met Winkelen"
+            },
+            "filter": {
+                "title": "Filter op status",
+                "all": "Alle Bestellingen",
+                "processing": "In Behandeling",
+                "shipped": "Verzonden",
+                "delivered": "Afgeleverd",
+                "cancelled": "Geannuleerd"
+            },
+            "labels": {
+                "orderNumber": "Bestelnr.",
+                "date": "Besteldatum",
+                "status": "Status",
+                "total": "Totaal",
+                "items": "Items",
+                "tracking": "Volgen",
+                "actions": "Acties",
+                "shipping": "Verzendgegevens",
+                "estimatedDelivery": "Geschatte Leverdatum",
+                "paymentMethod": "Betaalmethode",
+                "paymentStatus": "Status",
+                "notes": "Bestel Notities",
+                "quantity": "Aantal",
+                "price": "Prijs",
+                "subtotal": "Subtotaal",
+                "orderTotal": "Bestelling Totaal"
+            },
+            "status": {
+                "pending": "In Afwachting",
+                "processing": "In Behandeling",
+                "shipped": "Verzonden",
+                "delivered": "Afgeleverd",
+                "cancelled": "Geannuleerd",
+                "returned": "Geretourneerd",
+                "refunded": "Terugbetaald"
+            },
+            "actions": {
+                "viewDetails": "Bekijk Details",
+                "viewHistory": "Bekijk Geschiedenis",
+                "trackShipment": "Volg Pakket",
+                "cancelOrder": "Bestelling Annuleren",
+                "downloadInvoice": "Factuur Downloaden",
+                "emailInvoice": "Factuur E-mailen",
+                "reorderItems": "Opnieuw Bestellen",
+                "returnItems": "Items Retourneren",
+                "writeReview": "Schrijf een Recensie",
+                "rate": "Beoordeel",
+                "processing": "Verwerken...",
+                "cancelling": "Annuleren...",
+                "sending": "Versturen..."
+            },
+            "history": {
+                "title": "Bestelgeschiedenis",
+                "noHistory": "Geen geschiedenis beschikbaar voor deze bestelling."
+            },
+            "tracking": {
+                "title": "Volginformatie",
+                "currentStatus": "Huidige Status",
+                "updates": "Volgupdates",
+                "noTracking": "Op dit moment is er geen volginformatie beschikbaar.",
+                "viewOnCarrier": "Bekijk op Website van Vervoerder",
+                "number": "Volgnummer"
+            },
+            "rating": {
+                "title": "Beoordeel Je Aankoop",
+                "yourRating": "Jouw Beoordeling",
+                "yourReview": "Jouw Recensie (optioneel)",
+                "placeholder": "Deel je ervaring met dit product...",
+                "submit": "Beoordeling Indienen",
+                "submitting": "Indienen..."
+            },
+            "invoice": {
+                "title": "Factuur E-mailen",
+                "description": "Voer het e-mailadres in waarnaar de factuur moet worden verzonden.",
+                "placeholder": "E-mailadres",
+                "send": "Factuur Verzenden"
+            },
+            "notes": {
+                "placeholder": "Voeg notities toe over je bestelling...",
+                "save": "Notities Opslaan",
+                "saving": "Opslaan..."
+            },
+            "notifications": {
+                "cancelSuccess": "Bestelling is succesvol geannuleerd",
+                "cancelError": "Kon bestelling niet annuleren: {error}",
+                "noTracking": "Geen volginformatie beschikbaar",
+                "reorderSuccess": "Items zijn toegevoegd aan je winkelwagen",
+                "reorderError": "Opnieuw bestellen mislukt: {error}",
+                "downloadSuccess": "Factuur succesvol gedownload",
+                "downloadError": "Factuur downloaden mislukt: {error}",
+                "emailSuccess": "Factuur is succesvol gemaild",
+                "emailError": "Factuur mailen mislukt: {error}",
+                "notesSuccess": "Bestelnotities succesvol bijgewerkt",
+                "notesError": "Notities bijwerken mislukt: {error}",
+                "ratingSuccess": "Bedankt voor je beoordeling!",
+                "ratingError": "Beoordeling indienen mislukt: {error}"
+            }
+            }
+        },
+        "settings": {
+            "title": "Account Instellingen",
+            "description": "Beheer je accountvoorkeuren en informatie",
+            "tabs": {
+                "profile": "Profiel",
+                "password": "Wachtwoord",
+                "notifications": "Notificaties",
+                "payment": "Betaalmethoden",
+                "addresses": "Adressen",
+                "retailer": "Retailer Account"
+            },
+            
+            "profile": {
+                "title": "Profielinformatie",
+                "description": "Update je persoonlijke gegevens",
+                "avatar": {
+                    "change": "Avatar Wijzigen",
+                    "remove": "Avatar Verwijderen",
+                    "dropzone": "Sleep een afbeelding hierheen of klik om te bladeren"
+                },
+                "fields": {
+                    "name": "Volledige Naam",
+                    "email": "E-mailadres",
+                    "phone": "Telefoonnummer",
+                    "company": "Bedrijf (Optioneel)",
+                    "website": "Website (Optioneel)",
+                    "bio": "Bio (Optioneel)"
+                },
+                "success": "Profiel succesvol bijgewerkt",
+                "error": "Profiel bijwerken mislukt"
+            },
+            "password": {
+                "title": "Wachtwoord Wijzigen",
+                "description": "Update je wachtwoord om accountbeveiliging te behouden",
+                "fields": {
+                    "current": "Huidig Wachtwoord",
+                    "new": "Nieuw Wachtwoord",
+                    "confirm": "Bevestig Nieuw Wachtwoord"
+                },
+                "success": "Wachtwoord succesvol gewijzigd",
+                "error": "Wachtwoord wijzigen mislukt"
+            },
+            "notifications": {
+                "title": "Notificatievoorkeuren",
+                "description": "Beheer hoe je notificaties ontvangt",
+                "categories": {
+                    "orders": "Bestellingen & Verzendingen",
+                    "marketing": "Marketing & Promoties",
+                    "account": "Account Updates",
+                    "reviews": "Beoordelingen & Feedback",
+                    "reminders": "Afspraakherinneringen"
+                },
+                "channels": {
+                    "email": "E-mail",
+                    "sms": "SMS",
+                    "push": "Push Notificaties"
+                },
+                "frequency": {
+                    "title": "E-mail Frequentie",
+                    "instant": "Direct",
+                    "daily": "Dagelijks Overzicht",
+                    "weekly": "Wekelijks Overzicht"
+                },
+                "success": "Notificatievoorkeuren succesvol bijgewerkt",
+                "error": "Notificatievoorkeuren bijwerken mislukt"
+            }
+        },
+        
     "ProductDetail": {
         "breadcrumb": {
             "home": "Huis",
@@ -111,7 +382,13 @@
         "signOut": "Uitloggen"
       },
       "cart": {
-        "aria": "Winkelwagen"
+        "aria": "Winkelwagen",
+        "ariaCount":"{count} artikelen in de winkelwagen",
+        "items": {
+          "one": "{count} artikel",
+          "other": "{count} artikelen"
+        },
+        "empty": "Je winkelwagen is leeg"
       }
     },
     "productsHeader": {

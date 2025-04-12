@@ -12,6 +12,8 @@ export interface Order {
   retailerId?: string;
   notes?: string;
   customerEmail?: string;
+  customerNotes?: string;
+  subtotal?: number;
   metadata?: Record<string, any>;
   estimatedDeliveryDate?: string;
 }

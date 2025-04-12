@@ -35,6 +35,9 @@ export async function GET(request: NextRequest) {
         role: true,
         notificationPreferences: true,
         retailerProfile: session.user.role === "RETAILER",
+        paymentMethods: session.user.role === "RETAILER",
+        orders: true,
+        orderHistory: true
       },
     });
     

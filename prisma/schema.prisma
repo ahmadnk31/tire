@@ -476,7 +476,7 @@ model Order {
   paymentStatus       PaymentStatus @default(PENDING)
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
-  
+  customerNotes       String?
   orderItems OrderItem[]
   inventoryMovements InventoryMovement[]
   

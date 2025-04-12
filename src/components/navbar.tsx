@@ -1,6 +1,6 @@
 'use client'
 
-import { ShoppingCart, User, Menu, LogOut, X, Globe } from "lucide-react"
+import { ShoppingCart, User, Menu, LogOut, X } from "lucide-react"
 import Link from "next/link"
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from "./ui/button"
