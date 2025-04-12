@@ -1,0 +1,313 @@
+{
+    "ProductDetail": {
+        "breadcrumb": {
+            "home": "Huis",
+            "products": "Producten"
+        },
+        "badge": {
+            "featured": "Uitgelicht",
+            "runFlat": "Run Flat",
+            "reinforced": "Versterkt"
+        },
+        "reviews": {
+            "review": "beoordeling",
+            "reviews": "beoordelingen",
+            "writeReview": "Schrijf een Beoordeling",
+            "seeAllReviews": "Bekijk alle beoordelingen",
+            "noReviews": "Nog geen beoordelingen. Wees de eerste om dit product te beoordelen!"
+        },
+        "price": {
+            "outOfStock": "Niet op voorraad",
+            "lowStock": "Bijna uitverkocht - nog maar {count} over",
+            "inStock": "Op voorraad - {count} beschikbaar"
+        },
+        "performance": {
+            "title": "Prestatie Beoordelingen",
+            "wetGrip": "Natte Grip",
+            "fuelEfficiency": "Brandstofefficiëntie",
+            "noise": "Geluid (dB)",
+            "ratings": {
+                "A": "Uitstekend",
+                "B": "Goed",
+                "C": "Redelijk",
+                "D": "Matig",
+                "E": "Slecht"
+            }
+        },
+        "tabs": {
+            "specifications": "Specificaties",
+            "performance": "Prestaties",
+            "details": "Extra Details"
+        },
+        "specifications": {
+            "size": "Maat",
+            "loadSpeed": "Belasting & Snelheidsindex",
+            "type": "Type",
+            "construction": "Constructie",
+            "treadDepth": "Profieldiepte",
+            "sidewall": "Zijwand",
+            "runFlat": "Run Flat",
+            "reinforced": "Versterkt",
+            "plyRating": "Koordlagen",
+            "maxPressure": "Max. Druk",
+            "maxLoad": "Max. Belasting",
+            "standard": "Standaard",
+            "yes": "Ja",
+            "no": "Nee"
+        },
+        "performanceTab": {
+            "treadPattern": "Profielpatroon",
+            "wetGrip": "Natte Grip",
+            "fuelEfficiency": "Brandstofefficiëntie",
+            "noiseLevel": "Geluidsniveau",
+            "snowRating": "Sneeuwclassificatie",
+            "utqgRating": "UTQG Rating",
+            "mileageWarranty": "Kilometergarantie",
+            "miles": "mijlen"
+        },
+        "detailsTab": {
+            "sku": "Artikelnummer",
+            "manufacturerPart": "Fabrikantcode",
+            "brand": "Merk",
+            "model": "Model",
+            "category": "Categorie",
+            "countryOrigin": "Land van Herkomst",
+            "certifications": "Certificeringen",
+            "na": "N.v.t."
+        },
+        "recommendations": {
+            "title": "Misschien Vindt U Dit Ook Leuk"
+        }
+    },
+    "navbar": {
+      "logo": "Banden E-Commerce",
+      "logoShort": "BE",
+      "navigation": "Navigatie",
+      "account": "Account",
+      "navLinks": {
+        "allTires": "Alle Banden",
+        "tireFinder": "Banden Zoeker",
+        "brands": "Merken",
+        "deals": "Aanbiedingen",
+        "installation": "Installatie"
+      },
+      "search": {
+        "placeholder": "Producten zoeken..."
+      },
+      "auth": {
+        "login": "Inloggen",
+        "register": "Registreren",
+        "becomeRetailer": "Word een Verkoper"
+      },
+      "userMenu": {
+        "myOrders": "Mijn Bestellingen",
+        "profileSettings": "Profielinstellingen",
+        "appointments": "Afspraken",
+        "dashboard": "Dashboard",
+        "manageProducts": "Producten Beheren",
+        "manageOrders": "Bestellingen Beheren",
+        "retailerApplications": "Verkoper Aanvragen",
+        "myAppointments": "Mijn Afspraken",
+        "signOut": "Uitloggen"
+      },
+      "cart": {
+        "aria": "Winkelwagen"
+      }
+    },
+    "productsHeader": {
+      "title": "Banden",
+      "description": "Bekijk onze selectie premium banden voor elk type voertuig",
+      "search": {
+        "placeholder": "Zoek banden...",
+        "button": "Zoeken"
+      },
+      "sort": {
+        "label": "Sorteren op:",
+        "placeholder": "Sorteren op",
+        "options": {
+          "featured": "Aanbevolen",
+          "price_low": "Prijs: Laag naar Hoog",
+          "price_high": "Prijs: Hoog naar Laag",
+          "newest": "Nieuwste",
+          "rating": "Klantbeoordeling",
+          "discount": "Korting %"
+        }
+      },
+      "categories": {
+        "all": "Alle Banden",
+        "all_season": "All Season",
+        "summer": "Zomer",
+        "winter": "Winter",
+        "all_terrain": "All Terrain",
+        "high_performance": "Hoge Prestatie",
+        "sale": "In de Aanbieding"
+      }
+    },
+    "productGrid": {
+      "noProducts": {
+        "title": "Geen producten gevonden",
+        "description": "Pas je filters of zoekterm aan"
+      },
+      "showing": "{count} van {total} producten weergegeven",
+      "productCard": {
+        "discount": "{discount}% KORTING",
+        "runFlat": "Run Flat",
+        "lowStock": "Beperkte Voorraad",
+        "outOfStock": "Niet op Voorraad",
+        "inStock": "{count} op voorraad",
+        "noImage": "Geen afbeelding",
+        "specifications": "Technische Specificaties",
+        "specs": {
+          "treadDepth": "Profieldiepte",
+          "sidewall": "Zijwand",
+          "treadPattern": "Profielpatroon",
+          "snowRating": "Sneeuwclassificatie",
+          "utqg": "UTQG",
+          "warranty": "Garantie",
+          "warrantyMiles": "{miles} mijl"
+        },
+        "performance": {
+          "wetGrip": "Grip op nat wegdek",
+          "fuelEfficiency": "Brandstofefficiëntie",
+          "noiseLevel": "Geluidsniveau",
+          "ratings": {
+            "A": "Uitstekend",
+            "B": "Goed",
+            "C": "Redelijk",
+            "D": "Matig",
+            "E": "Slecht"
+          }
+        },
+        "buttons": {
+          "viewDetails": "Details Bekijken"
+        }
+      }
+    },
+    "appointments": {
+      "title": "Mijn Afspraken",
+      "description": "Maak en beheer je afspraken",
+      "loading": "Je afspraken worden geladen...",
+      "newButton": "Nieuwe Afspraak Maken",
+      "tabs": {
+        "upcoming": "Aankomend",
+        "past": "Verleden",
+        "all": "Alle"
+      },
+      "emptyStates": {
+        "upcoming": {
+          "title": "Geen aankomende afspraken",
+          "description": "Je hebt geen aankomende afspraken gepland. Maak een nieuwe afspraak om te beginnen.",
+          "button": "Afspraak Maken"
+        },
+        "past": {
+          "title": "Geen eerdere afspraken",
+          "description": "Je hebt geen geschiedenis van eerdere afspraken."
+        },
+        "all": {
+          "title": "Geen afspraken gevonden",
+          "description": "Je hebt nog geen afspraken gemaakt. Maak nu je eerste afspraak.",
+          "button": "Afspraak Maken"
+        }
+      },
+      "dialog": {
+        "title": "Maak een Afspraak",
+        "description": "Gebruik de kalender om een nieuwe afspraak te maken op jouw gewenste tijdstip."
+      },
+      "card": {
+        "duration": "{duration} minuten",
+        "viewButton": "Details Bekijken",
+        "cancelButton": "Annuleren",
+        "cancelConfirm": "Weet je zeker dat je deze afspraak wilt annuleren?"
+      },
+      "status": {
+        "scheduled": "Gepland",
+        "confirmed": "Bevestigd",
+        "completed": "Voltooid",
+        "cancelled": "Geannuleerd",
+        "no_show": "Niet Verschenen"
+      },
+      "serviceTypes": {
+        "TIRE_INSTALLATION": "Bandeninstallatie",
+        "TIRE_ROTATION": "Bandenrotatie",
+        "WHEEL_ALIGNMENT": "Wieluitlijning",
+        "FLAT_REPAIR": "Lekke Band Reparatie",
+        "TIRE_BALANCING": "Bandenbalancering",
+        "TIRE_INSPECTION": "Bandeninspectie",
+        "OTHER": "Andere Service"
+      },
+      "notifications": {
+        "bookSuccess": "Afspraak succesvol geboekt",
+        "bookError": "Afspraak boeken mislukt",
+        "cancelSuccess": "Afspraak succesvol geannuleerd",
+        "cancelError": "Afspraak annuleren mislukt",
+        "loadError": "Afspraken laden mislukt"
+      }
+    },
+    "form": {
+      "view": {
+        "calendar": "Kalenderweergave",
+        "form": "Formulierweergave"
+      },
+      "alert": "Klik op een datum om uw afspraak te plannen. Blauwe vakjes zijn geboekte afspraken.",
+      "fields": {
+        "name": {
+          "label": "Naam",
+          "placeholder": "Uw volledige naam"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Uw e-mailadres"
+        },
+        "phone": {
+          "label": "Telefoonnummer",
+          "placeholder": "Uw telefoonnummer"
+        },
+        "serviceType": {
+          "label": "Soort Service",
+          "placeholder": "Selecteer een service",
+          "tooltip": "Serviceduur beïnvloedt beschikbare tijdslots",
+          "options": {
+            "TIRE_INSTALLATION": "Bandeninstallatie (60 min)",
+            "TIRE_ROTATION": "Bandenrotatie (30 min)",
+            "WHEEL_ALIGNMENT": "Wieluitlijning (60 min)",
+            "FLAT_REPAIR": "Lekke band reparatie (45 min)",
+            "TIRE_BALANCING": "Banden balanceren (45 min)",
+            "TIRE_INSPECTION": "Bandeninspectie (30 min)",
+            "OTHER": "Andere service (60 min)"
+          }
+        },
+        "appointmentDate": {
+          "label": "Afspraakdatum",
+          "placeholder": "Kies een datum"
+        },
+        "appointmentTime": {
+          "label": "Afspraaktijd",
+          "placeholder": "Selecteer een tijd",
+          "loading": "Beschikbare tijden laden...",
+          "noTimes": "Geen beschikbare tijden voor geselecteerde datum",
+          "minutesLabel": "min",
+          "noTimeSlotsMessage": "Geen beschikbare tijdsloten voor deze datum"
+        },
+        "vehicleInfo": {
+          "label": "Voertuiginformatie (Optioneel)",
+          "placeholder": "bijv., 2018 Honda Civic, Zilver"
+        },
+        "notes": {
+          "label": "Extra notities (Optioneel)",
+          "placeholder": "Specifieke details of vereisten"
+        }
+      },
+      "buttons": {
+        "backToCalendar": "Terug naar Kalender",
+        "bookAppointment": "Afspraak Boeken",
+        "booking": "Boeken..."
+      },
+      "errors": {
+        "pastDates": "Kan geen datums in het verleden selecteren",
+        "closedDays": "We zijn gesloten op zondagen",
+        "fetchError": "Kon beschikbare tijdsloten niet laden",
+        "appointmentError": "Kon bestaande afspraken niet laden",
+        "submissionError": "Er is een fout opgetreden bij het boeken van uw afspraak"
+      }
+    }
+  }

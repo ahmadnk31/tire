@@ -1,0 +1,313 @@
+{
+    "ProductDetail": {
+        "breadcrumb": {
+            "home": "Home",
+            "products": "Products"
+        },
+        "badge": {
+            "featured": "Featured",
+            "runFlat": "Run Flat",
+            "reinforced": "Reinforced"
+        },
+        "reviews": {
+            "review": "review",
+            "reviews": "reviews",
+            "writeReview": "Write a Review",
+            "seeAllReviews": "See all reviews",
+            "noReviews": "No reviews yet. Be the first to review this product!"
+        },
+        "price": {
+            "outOfStock": "Out of stock",
+            "lowStock": "Low stock - only {count} left",
+            "inStock": "In stock - {count} available"
+        },
+        "performance": {
+            "title": "Performance Ratings",
+            "wetGrip": "Wet Grip",
+            "fuelEfficiency": "Fuel Efficiency",
+            "noise": "Noise (dB)",
+            "ratings": {
+                "A": "Excellent",
+                "B": "Good",
+                "C": "Fair",
+                "D": "Poor",
+                "E": "Very Poor"
+            }
+        },
+        "tabs": {
+            "specifications": "Specifications",
+            "performance": "Performance",
+            "details": "Additional Details"
+        },
+        "specifications": {
+            "size": "Size",
+            "loadSpeed": "Load & Speed Rating",
+            "type": "Type",
+            "construction": "Construction",
+            "treadDepth": "Tread Depth",
+            "sidewall": "Sidewall",
+            "runFlat": "Run Flat",
+            "reinforced": "Reinforced",
+            "plyRating": "Ply Rating",
+            "maxPressure": "Max Pressure",
+            "maxLoad": "Max Load",
+            "standard": "Standard",
+            "yes": "Yes",
+            "no": "No"
+        },
+        "performanceTab": {
+            "treadPattern": "Tread Pattern",
+            "wetGrip": "Wet Grip",
+            "fuelEfficiency": "Fuel Efficiency",
+            "noiseLevel": "Noise Level",
+            "snowRating": "Snow Rating",
+            "utqgRating": "UTQG Rating",
+            "mileageWarranty": "Mileage Warranty",
+            "miles": "miles"
+        },
+        "detailsTab": {
+            "sku": "SKU",
+            "manufacturerPart": "Manufacturer Part #",
+            "brand": "Brand",
+            "model": "Model",
+            "category": "Category",
+            "countryOrigin": "Country of Origin",
+            "certifications": "Certifications",
+            "na": "N/A"
+        },
+        "recommendations": {
+            "title": "You May Also Like"
+        }
+    },
+    "navbar": {
+      "logo": "Tire E-Commerce",
+      "logoShort": "TE",
+      "navigation": "Navigation",
+      "account": "Account",
+      "navLinks": {
+        "allTires": "All Tires",
+        "tireFinder": "Tire Finder",
+        "brands": "Brands",
+        "deals": "Deals",
+        "installation": "Installation"
+      },
+      "search": {
+        "placeholder": "Search products..."
+      },
+      "auth": {
+        "login": "Login",
+        "register": "Register",
+        "becomeRetailer": "Become a Retailer"
+      },
+      "userMenu": {
+        "myOrders": "My Orders",
+        "profileSettings": "Profile Settings",
+        "appointments": "Appointments",
+        "dashboard": "Dashboard",
+        "manageProducts": "Manage Products",
+        "manageOrders": "Manage Orders",
+        "retailerApplications": "Retailer Applications",
+        "myAppointments": "My Appointments",
+        "signOut": "Sign Out"
+      },
+      "cart": {
+        "aria": "Shopping Cart"
+      }
+    },
+    "productsHeader": {
+      "title": "Tires",
+      "description": "Browse our selection of premium tires for every vehicle type",
+      "search": {
+        "placeholder": "Search tires...",
+        "button": "Search"
+      },
+      "sort": {
+        "label": "Sort by:",
+        "placeholder": "Sort by",
+        "options": {
+          "featured": "Featured",
+          "price_low": "Price: Low to High",
+          "price_high": "Price: High to Low",
+          "newest": "Newest",
+          "rating": "Customer Rating",
+          "discount": "Discount %"
+        }
+      },
+      "categories": {
+        "all": "All Tires",
+        "all_season": "All Season",
+        "summer": "Summer",
+        "winter": "Winter",
+        "all_terrain": "All Terrain",
+        "high_performance": "High Performance",
+        "sale": "On Sale"
+      }
+    },
+    "productGrid": {
+      "noProducts": {
+        "title": "No products found",
+        "description": "Try adjusting your filters or search term"
+      },
+      "showing": "Showing {count} of {total} products",
+      "productCard": {
+        "discount": "{discount}% OFF",
+        "runFlat": "Run Flat",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock",
+        "inStock": "{count} in stock",
+        "noImage": "No image",
+        "specifications": "Technical Specifications",
+        "specs": {
+          "treadDepth": "Tread Depth",
+          "sidewall": "Sidewall",
+          "treadPattern": "Tread Pattern",
+          "snowRating": "Snow Rating",
+          "utqg": "UTQG",
+          "warranty": "Warranty",
+          "warrantyMiles": "{miles} miles"
+        },
+        "performance": {
+          "wetGrip": "Wet Grip",
+          "fuelEfficiency": "Fuel Efficiency",
+          "noiseLevel": "Noise Level",
+          "ratings": {
+            "A": "Excellent",
+            "B": "Good",
+            "C": "Fair",
+            "D": "Poor",
+            "E": "Very Poor"
+          }
+        },
+        "buttons": {
+          "viewDetails": "View Details"
+        }
+      }
+    },
+    "appointments": {
+      "title": "My Appointments",
+      "description": "Book and manage your appointments",
+      "loading": "Loading your appointments...",
+      "newButton": "Book New Appointment",
+      "tabs": {
+        "upcoming": "Upcoming",
+        "past": "Past",
+        "all": "All"
+      },
+      "emptyStates": {
+        "upcoming": {
+          "title": "No upcoming appointments",
+          "description": "You don't have any upcoming appointments scheduled. Book a new appointment to get started.",
+          "button": "Book Appointment"
+        },
+        "past": {
+          "title": "No past appointments",
+          "description": "You don't have any past appointment history."
+        },
+        "all": {
+          "title": "No appointments found",
+          "description": "You haven't booked any appointments yet. Book your first appointment now.",
+          "button": "Book Appointment"
+        }
+      },
+      "dialog": {
+        "title": "Book an Appointment",
+        "description": "Use the calendar to book a new appointment at your preferred time."
+      },
+      "card": {
+        "duration": "{duration} minutes",
+        "viewButton": "View Details",
+        "cancelButton": "Cancel",
+        "cancelConfirm": "Are you sure you want to cancel this appointment?"
+      },
+      "status": {
+        "scheduled": "Scheduled",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "no_show": "No show"
+      },
+      "serviceTypes": {
+        "TIRE_INSTALLATION": "Tire Installation",
+        "TIRE_ROTATION": "Tire Rotation",
+        "WHEEL_ALIGNMENT": "Wheel Alignment",
+        "FLAT_REPAIR": "Flat Repair",
+        "TIRE_BALANCING": "Tire Balancing",
+        "TIRE_INSPECTION": "Tire Inspection",
+        "OTHER": "Other Service"
+      },
+      "notifications": {
+        "bookSuccess": "Appointment booked successfully",
+        "bookError": "Failed to book appointment",
+        "cancelSuccess": "Appointment cancelled successfully",
+        "cancelError": "Failed to cancel appointment",
+        "loadError": "Failed to load appointments"
+      }
+    },
+    "form": {
+      "view": {
+        "calendar": "Calendar View",
+        "form": "Form View"
+      },
+      "alert": "Click on a date to schedule your appointment. Blue slots are booked appointments.",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Your full name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Your email address"
+        },
+        "phone": {
+          "label": "Phone Number",
+          "placeholder": "Your phone number"
+        },
+        "serviceType": {
+          "label": "Service Type",
+          "placeholder": "Select a service",
+          "tooltip": "Service duration affects available time slots",
+          "options": {
+            "TIRE_INSTALLATION": "Tire Installation (60 min)",
+            "TIRE_ROTATION": "Tire Rotation (30 min)",
+            "WHEEL_ALIGNMENT": "Wheel Alignment (60 min)",
+            "FLAT_REPAIR": "Flat Repair (45 min)",
+            "TIRE_BALANCING": "Tire Balancing (45 min)",
+            "TIRE_INSPECTION": "Tire Inspection (30 min)",
+            "OTHER": "Other Service (60 min)"
+          }
+        },
+        "appointmentDate": {
+          "label": "Appointment Date",
+          "placeholder": "Pick a date"
+        },
+        "appointmentTime": {
+          "label": "Appointment Time",
+          "placeholder": "Select a time",
+          "loading": "Loading available times...",
+          "noTimes": "No available times for selected date",
+          "minutesLabel": "min",
+          "noTimeSlotsMessage": "No available time slots for this date"
+        },
+        "vehicleInfo": {
+          "label": "Vehicle Information (Optional)",
+          "placeholder": "e.g., 2018 Honda Civic, Silver"
+        },
+        "notes": {
+          "label": "Additional Notes (Optional)",
+          "placeholder": "Any specific details or requirements"
+        }
+      },
+      "buttons": {
+        "backToCalendar": "Back to Calendar",
+        "bookAppointment": "Book Appointment",
+        "booking": "Booking..."
+      },
+      "errors": {
+        "pastDates": "Cannot select past dates",
+        "closedDays": "We are closed on Sundays",
+        "fetchError": "Failed to load available time slots",
+        "appointmentError": "Failed to load existing appointments",
+        "submissionError": "An error occurred while booking your appointment"
+      }
+    }
+  }

@@ -1,0 +1,817 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subscriber {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String?
+  source          String?   @default("website")
+  subscribed      Boolean   @default(true)
+  subscribedAt    DateTime  @default(now())
+  unsubscribedAt  DateTime?
+  lastActive      DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  groups          SubscriberGroup[]
+}
+
+model SubscriberGroup {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  subscribers Subscriber[]
+  newsletters Newsletter[]
+}
+
+model Newsletter {
+  id              String             @id @default(cuid())
+  title           String
+  subject         String
+  content         String             @db.Text
+  status          NewsletterStatus   @default(DRAFT)
+  scheduledFor    DateTime?
+  sentAt          DateTime?
+  recipientCount  Int?
+  openRate        Float?
+  clickRate       Float?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  
+  recipientGroups SubscriberGroup[]
+}
+
+
+
+model Testimonial {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customerTitle   String?
+  content         String
+  rating          Int              @default(5)
+  isVisible       Boolean          @default(false)  // Default to false until approved
+  status          TestimonialStatus @default(PENDING)
+  adminNotes      String?
+  reviewedBy      String?          // Admin who reviewed the testimonial
+  reviewedAt      DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          Role      @default(USER)
+  emailVerified DateTime?
+  image         String?
+  stripeCustomerId String? // Stripe customer ID for payment processing
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  retailerProfile RetailerProfile?
+  accounts        Account[]
+  sessions        Session[]
+  orders          Order[]
+  notificationPreferences NotificationPreferences?
+  appointments    Appointment[]
+  paymentMethods  PaymentMethod[]
+  reviews         Review[]
+  reviewLikes     ReviewLike[]
+  reviewComments  ReviewComment[]
+  testimonials    Testimonial[]
+
+  Favorite Favorite[]
+
+  orderHistory orderHistory[]
+}
+
+model RetailerProfile {
+  id              String  @id @default(cuid())
+  companyName     String
+  phone           String
+  businessAddress String
+  taxId           String?
+  yearsInBusiness String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
+
+model RetailerRequest {
+  id              String         @id @default(cuid())
+  name            String
+  email           String
+  companyName     String
+  phone           String
+  businessAddress String
+  taxId           String?
+  yearsInBusiness String
+  additionalInfo  String?
+  status          RequestStatus  @default(PENDING)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now())
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model PasswordResetToken {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  imageUrl    String?
+  isActive    Boolean   @default(true)
+  displayOrder Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Brand {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  logoUrl     String?
+  logoKey     String?   // Storage key for the logo file
+  popularityScore Int?      // 1-10 scale
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  models      Model[]
+  products    Product[]
+}
+
+model Model {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  brandId     String
+  brand       Brand     @relation(fields: [brandId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  products    Product[]
+
+  @@unique([name, brandId])
+}
+
+model Product {
+  id                    String     @id @default(cuid())
+  name                  String
+  description           String?    @db.Text
+  sku                   String?    @unique // Stock Keeping Unit
+  // Brand and categorization
+  brandId               String
+  brand                 Brand      @relation(fields: [brandId], references: [id])
+  modelId               String
+  model                 Model      @relation(fields: [modelId], references: [id])
+  categoryId            String
+  category              Category   @relation(fields: [categoryId], references: [id])
+  
+  // Tire specifications
+  width                 Int        // in millimeters
+  aspectRatio           Int        // as percentage
+  rimDiameter           Int        // in inches
+  loadIndex             Int
+  speedRating           SpeedRating
+  constructionType      String?    // Radial, Bias, etc.
+  treadDepth            Float      // in millimeters
+  sidewallType          String
+  tireType              TireType   @default(ALL_SEASON)
+  runFlat               Boolean    @default(false)
+  reinforced            Boolean    @default(false)
+  
+  // Performance characteristics
+  treadPattern          String     // Asymmetric, Symmetric, Directional
+  wetGrip               PerformanceRating
+  fuelEfficiency        PerformanceRating
+  noiseLevel            String     // in decibels
+  snowRating            String     // 3PMSF, M+S, etc.
+  treadwear             Int        // UTQG rating (200-800)
+  traction              TreadwearRating
+  temperature           TreadwearRating
+  
+  // Additional specifications
+  mileageWarranty       Int?       // in miles
+  plyRating             Int
+  maxInflationPressure  Int?       // in PSI
+  maxLoad               Int?       // in pounds
+  
+  // Business information
+  retailPrice           Float     // Price for individual customers
+  wholesalePrice        Float     // Price for retailers
+  discount              Float      @default(0)
+  retailerDiscount      Float      @default(0) // Special discount for retailers
+  salePrice             Float?     // Calculated field for individual customers
+  wholesaleSalePrice    Float?     // Calculated field for retailers
+  stock                 Int        @default(0)
+  manufacturerPartNumber String
+  certifications        String     // DOT, ECE, etc.
+  countryOfOrigin       String
+  
+  // Media
+  images                String[]
+  
+  // Metadata
+  isVisible             Boolean    @default(true)
+  isFeatured            Boolean    @default(false)
+  isDiscontinued        Boolean    @default(false)
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  
+  // Relations
+  orderItems            OrderItem[]
+  inventory             Inventory[]
+  vehicleFits           VehicleTire[]
+  reviews               Review[]
+
+  @@index([brandId, modelId])
+  @@index([categoryId])
+  @@index([tireType])
+  @@index([width, aspectRatio, rimDiameter]) // Common search pattern
+  InventoryHistory InventoryHistory[]
+  Favorite Favorite[]
+}
+
+model Inventory {
+  id            String          @id @default(cuid())
+  productId     String
+  product       Product         @relation(fields: [productId], references: [id])
+  locationId    String
+  location      Location        @relation(fields: [locationId], references: [id])
+  quantity      Int             @default(0)
+  minimumLevel  Int             @default(5)    // Low stock threshold
+  reorderLevel  Int             @default(10)   // When to reorder
+  reorderQty    Int             @default(20)   // How much to reorder
+  lastUpdated   DateTime        @updatedAt
+  createdAt     DateTime        @default(now())
+  
+  // Relations
+  movements     InventoryMovement[]
+
+  @@unique([productId, locationId])
+  @@index([productId])
+  @@index([locationId])
+  InventoryHistory InventoryHistory[]
+}
+
+model InventoryHistory {
+  id            String          @id @default(cuid())
+  inventoryId   String
+  productId     String
+  product       Product         @relation(fields: [productId], references: [id])
+  inventory     Inventory       @relation(fields: [inventoryId], references: [id])
+  quantity      Int             // Can be positive (incoming) or negative (outgoing)
+  movementType  MovementType
+  reason        String?
+  referenceNumber String?       // Purchase order, transfer #, etc.
+  notes         String?
+  performedBy   String?
+  performedAt   DateTime        @default(now())
+  locationId    String
+  location      Location        @relation(fields: [locationId], references: [id])
+  createdBy     String?
+  createdAt     DateTime        @default(now())
+  
+  @@index([inventoryId])
+}
+
+model Location {
+  id            String          @id @default(cuid())
+  name          String
+  type          LocationType    @default(WAREHOUSE)
+  address       String?
+  city          String?
+  state         String?
+  postalCode    String?
+  country       String?
+  isActive      Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  // Relations
+  inventory     Inventory[]
+  movements     InventoryMovement[]
+
+  InventoryHistory InventoryHistory[]
+}
+
+model InventoryMovement {
+  id            String          @id @default(cuid())
+  inventoryId   String
+  inventory     Inventory       @relation(fields: [inventoryId], references: [id])
+  locationId    String
+  location      Location        @relation(fields: [locationId], references: [id])
+  orderId       String?
+  order         Order?          @relation(fields: [orderId], references: [id])
+  quantity      Int             // Can be positive (incoming) or negative (outgoing)
+  movementType  MovementType
+  reason        String?
+  referenceNumber String?       // Purchase order, transfer #, etc.
+  notes         String?
+  createdBy     String?
+  createdAt     DateTime        @default(now())
+  
+  @@index([inventoryId])
+  @@index([locationId])
+  @@index([orderId])
+  @@index([movementType])
+  @@index([createdAt])
+}
+
+enum LocationType {
+  WAREHOUSE
+  STORE
+  SUPPLIER
+  CUSTOMER
+  OTHER
+}
+
+enum MovementType {
+  PURCHASE      // Incoming from supplier
+  SALE          // Outgoing to customer
+  RETURN        // Customer return
+  TRANSFER      // Between locations
+  ADJUSTMENT    // Inventory count adjustment
+  DAMAGED       // Write-off for damaged goods
+  EXPIRED       // Write-off for expired goods
+  OTHER         // Other reasons
+}
+
+enum NewsletterStatus {
+  DRAFT         // Not yet sent
+  SCHEDULED     // Scheduled to be sent later
+  SENDING       // In the process of being sent
+  SENT          // Successfully sent
+  FAILED        // Failed to send
+}
+
+enum TireType {
+  ALL_SEASON
+  SUMMER
+  WINTER
+  ALL_TERRAIN
+  MUD_TERRAIN
+  HIGH_PERFORMANCE
+  TOURING
+  HIGHWAY
+  COMMERCIAL
+  TRACK
+}
+
+enum SpeedRating {
+  L   // 75 mph
+  M   // 81 mph
+  N   // 87 mph
+  P   // 93 mph
+  Q   // 99 mph
+  R   // 106 mph
+  S   // 112 mph
+  T   // 118 mph
+  U   // 124 mph
+  H   // 130 mph
+  V   // 149 mph
+  W   // 168 mph
+  Y   // 186 mph
+  Z   // 149+ mph
+}
+
+enum TreadwearRating {
+  A // Excellent
+  B // Good
+  C // Fair
+}
+
+enum PerformanceRating {
+  A // Excellent
+  B // Good
+  C // Fair
+  D // Poor
+  E // Very Poor
+}
+
+model Order {
+  id                  String      @id @default(cuid())
+  orderNumber         String      @unique
+  userId              String?
+  user                User?       @relation(fields: [userId], references: [id])
+  status              OrderStatus @default(PENDING)
+  total               Float
+  subtotal            Float
+  isRetailerOrder     Boolean     @default(false)  // Flag to identify retailer orders
+  trackingNumber      String?     
+  trackingUrl         String?
+  metadata            Json?       
+  shippingAddressLine1 String
+  shippingAddressLine2 String?
+  shippingCity        String
+  shippingState       String
+  shippingPostalCode  String
+  shippingCountry     String
+  billingAddress      String
+  paymentMethod       String
+  carrier            String @default("DHL") // Default carrier
+  paymentStatus       PaymentStatus @default(PENDING)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  orderItems OrderItem[]
+  inventoryMovements InventoryMovement[]
+  
+  @@index([userId])
+  @@index([isRetailerOrder])
+  @@index([status])
+  @@index([paymentStatus])
+  orderHistory orderHistory[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+  isWholesalePrice Boolean @default(false) // Flag to identify if the price is wholesale
+  
+  @@index([orderId])
+  @@index([productId])
+}
+model orderHistory {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  note     String?
+  userId   String?
+  user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+}
+enum Role {
+  USER
+  ADMIN
+  RETAILER
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+  CHARGEBACK
+  DISPUTED
+  CANCELLED
+}
+
+model NotificationPreferences {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailNotifications Boolean  @default(true)
+  orderUpdates      Boolean  @default(true)
+  promotionalEmails Boolean  @default(false)
+  inventoryAlerts   Boolean  @default(true)
+  priceChanges      Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model VehicleMake {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  logoUrl     String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  models      VehicleModel[]
+}
+
+model VehicleModel {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  makeId      String
+  make        VehicleMake   @relation(fields: [makeId], references: [id])
+  trims       VehicleTrim[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+
+  @@unique([name, makeId])
+  @@index([makeId])
+}
+
+model VehicleTrim {
+  id           String        @id @default(cuid())
+  name         String
+  description  String?      
+  modelId      String
+  model        VehicleModel  @relation(fields: [modelId], references: [id])
+  vehicleYears VehicleYear[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+
+  @@unique([name, modelId])
+  @@index([modelId])
+}
+
+model VehicleYear {
+  id         String        @id @default(cuid())
+  year       Int
+  trimId     String
+  trim       VehicleTrim   @relation(fields: [trimId], references: [id])
+  tireFits   VehicleTire[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @default(now())
+
+  @@unique([year, trimId])
+  @@index([trimId])
+}
+
+model VehicleTire {
+  id            String      @id @default(cuid())
+  productId     String
+  product       Product     @relation(fields: [productId], references: [id])
+  vehicleYearId String
+  vehicleYear   VehicleYear @relation(fields: [vehicleYearId], references: [id])
+  isOEM         Boolean     @default(false)  // Original Equipment Manufacturer
+  isFitment     Boolean     @default(true)   // Alternative/Aftermarket Fitment
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now())
+
+  @@unique([productId, vehicleYearId])
+  @@index([productId])
+  @@index([vehicleYearId])
+}
+
+model Appointment {
+  id                String            @id @default(cuid())
+  userId            String?
+  user              User?             @relation(fields: [userId], references: [id])
+  customerName      String            // For non-registered users
+  customerEmail     String            
+  customerPhone     String            
+  appointmentDate   DateTime
+  appointmentTime   String            // Store as string for easier management (e.g., "10:00 AM")
+  duration          Int               // Duration in minutes
+  serviceType       ServiceType
+  vehicleInfo       String?           // Customer's vehicle information  
+  notes             String?
+  status            AppointmentStatus @default(SCHEDULED)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([appointmentDate])
+  @@index([status])
+}
+
+model BusinessHours {
+  id        String   @id @default(cuid())
+  dayOfWeek Int      // 0=Sunday, 1=Monday, etc.
+  isOpen    Boolean  @default(true)
+  openTime  String   // Format: "HH:MM" in 24-hour format (e.g., "09:00")
+  closeTime String   // Format: "HH:MM" in 24-hour format (e.g., "17:00")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([dayOfWeek])
+}
+
+model PaymentMethod {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          String   // 'card', 'bank_account', etc.
+  cardBrand     String?  // 'visa', 'mastercard', 'amex', etc.
+  last4         String?  // Last 4 digits of card or account
+  expiryMonth   Int?     // Expiry month for cards
+  expiryYear    Int?     // Expiry year for cards
+  isDefault     Boolean  @default(false)
+  billingName   String?
+  billingEmail  String?
+  billingPhone  String?
+  billingAddress String?
+  billingCity   String?
+  billingState  String?
+  billingPostalCode String?
+  billingCountry String?
+  providerPaymentId String? // ID from payment provider (e.g., Stripe)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum ServiceType {
+  TIRE_INSTALLATION
+  TIRE_ROTATION
+  WHEEL_ALIGNMENT
+  FLAT_REPAIR
+  TIRE_BALANCING
+  TIRE_INSPECTION
+  OTHER
+}
+
+// Review system models
+model Review {
+  id          String         @id @default(cuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating      Int            // 1-5 star rating
+  title       String?
+  content     String         @db.Text
+  verified    Boolean        @default(false) // Indicates if the reviewer purchased the product
+  helpfulCount Int           @default(0)     // Count of users who found this review helpful
+  status      ReviewStatus   @default(PUBLISHED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  
+  // Relations
+  images      ReviewImage[]
+  likes       ReviewLike[]
+  comments    ReviewComment[]
+
+  @@index([productId])
+  @@index([userId])
+  @@index([rating])
+}
+
+model ReviewImage {
+  id          String    @id @default(cuid())
+  reviewId    String
+  review      Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  imageUrl    String
+  caption     String?
+  createdAt   DateTime  @default(now())
+
+  @@index([reviewId])
+}
+
+model ReviewLike {
+  id          String    @id @default(cuid())
+  reviewId    String
+  review      Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+
+  @@unique([reviewId, userId])
+  @@index([reviewId])
+  @@index([userId])
+}
+
+model ReviewComment {
+  id          String    @id @default(cuid())
+  reviewId    String
+  review      Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content     String    @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([reviewId])
+  @@index([userId])
+}
+
+enum ReviewStatus {
+  PENDING
+  PUBLISHED
+  REJECTED
+  REPORTED
+}
+
+enum TestimonialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FEATURED
+}
+
+// Favorites model
+model Favorite {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+}
+
+model SystemSetting {
+  id         String   @id @default(cuid())
+  key        String   @unique
+  value      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([key])
+}
+
+// ApiUsage model to track shipping provider API calls
+model ApiUsage {
+  id        String   @id @default(uuid())
+  provider  String
+  endpoint  String
+  eventType String
+  success   Boolean
+  latencyMs Int
+  timestamp DateTime
+  metadata  String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([provider, eventType])
+  @@index([timestamp])
+}
+
