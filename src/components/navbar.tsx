@@ -28,6 +28,7 @@ import { Badge } from "./ui/badge"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
 import { LocaleSwitcher } from "./locale-switcher"
+import { useCart } from "@/contexts/cart-context"
 
 export function Navbar() {
   const t = useTranslations('navbar')
@@ -38,7 +39,7 @@ export function Navbar() {
   const { theme, setTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const [cartCount, setCartCount] = useState(0) // This would be connected to your actual cart state
+  const { itemCount } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -335,9 +336,13 @@ export function Navbar() {
               onClick={() => router.push(`/${locale}/cart`)}
             >
               <ShoppingCart className="h-5 w-5" />
-              {cartCount > 0 && (
-                <Badge variant="destructive" className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs">
-                  {cartCount > 99 ? '99+' : cartCount}
+              {itemCount > 0 && (
+                <Badge
+                  variant="default"
+                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center"
+                  aria-label={t('cart.ariaCount', { count: itemCount })}
+                >
+                  {itemCount}
                 </Badge>
               )}
             </Button>

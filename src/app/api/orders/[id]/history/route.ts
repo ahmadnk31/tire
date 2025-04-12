@@ -19,7 +19,7 @@ export async function GET(
     const orderId = params.id;
     
     // Build query based on user role
-    let where = { id: orderId };
+    const where = { id: orderId };
     
     // Regular users and retailers can only see their own orders
     if (session.user.role === 'USER' || session.user.role === 'RETAILER') {

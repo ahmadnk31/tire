@@ -77,7 +77,7 @@ export function appointmentsToEvents(appointments: any[]): CalendarAppointment[]
     // Set color based on status
     let backgroundColor = '#3b82f6'; // blue for scheduled
     let borderColor = '#2563eb';
-    let textColor = '#ffffff';
+    const textColor = '#ffffff';
     
     if (appointment.status === 'CONFIRMED') {
       backgroundColor = '#10b981'; // green for confirmed

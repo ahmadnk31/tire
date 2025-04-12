@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search');
 
     // Build the query
-    let where: any = {};
+    const where: any = {};
     
     if (status) {
       where.status = status;

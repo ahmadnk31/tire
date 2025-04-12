@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, HeartOff } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 interface AddToFavoriteButtonProps {
   productId: string;
@@ -28,7 +28,6 @@ export function AddToFavoriteButton({
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   const [isLoading, setIsLoading] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(initialFavoriteCount);
-  const { toast } = useToast();
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -52,11 +51,7 @@ export function AddToFavoriteButton({
 
   const toggleFavorite = async () => {
     if (status !== "authenticated") {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to add products to favorites",
-        variant: "destructive",
-      });
+      toast.info("Please log in to manage your favorites.");
       return;
     }
 
@@ -75,22 +70,17 @@ export function AddToFavoriteButton({
         setIsFavorite(newIsFavorite);
         setFavoriteCount(prev => newIsFavorite ? prev + 1 : Math.max(0, prev - 1));
         
-        toast({
-          title: newIsFavorite ? "Added to favorites" : "Removed from favorites",
-          description: newIsFavorite 
-            ? "This product has been added to your favorites" 
-            : "This product has been removed from your favorites",
-        });
+        toast.success(
+          newIsFavorite ? "Added to favorites" : "Removed from favorites"
+        );
       } else {
         throw new Error("Failed to update favorites");
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
-      toast({
-        title: "Something went wrong",
-        description: "We couldn't update your favorites. Please try again.",
-        variant: "destructive",
-      });
+      toast.error(
+        isFavorite ? "Failed to remove from favorites" : "Failed to add to favorites"
+      );
     } finally {
       setIsLoading(false);
     }

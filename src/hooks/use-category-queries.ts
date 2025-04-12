@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { 
   getCategories, 
   getCategoryById,
   getProductsByCategory,
-  type Category,
+
   type CategorySearchParams
 } from "@/lib/api/category-api";
 

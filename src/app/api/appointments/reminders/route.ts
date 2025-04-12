@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     const targetDate = addDays(today, days);
     
     // Build the query to find appointments for the target date
-    let where: any = {
+    const where: any = {
       appointmentDate: {
         gte: targetDate,
         lt: addDays(targetDate, 1) // next day
@@ -152,7 +152,7 @@ export async function GET(request: NextRequest) {
     const targetDate = addDays(today, days);
     
     // Build the query to find appointments for the target date
-    let where: any = {
+    const where: any = {
       appointmentDate: {
         gte: targetDate,
         lt: addDays(targetDate, 1) // next day

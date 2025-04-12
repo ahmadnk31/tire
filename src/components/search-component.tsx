@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { 
   Command,
-  CommandInput,
   CommandList,
   CommandEmpty,
   CommandGroup,
