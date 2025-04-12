@@ -75,9 +75,8 @@ const billingInfoSchema = z.object({
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 // Stripe Card Input Component
-const StripeCardInput = ({ onChange, onBlur, value, name, error }: any) => {
-  const stripe = useStripe();
-  const elements = useElements();
+const StripeCardInput = ({ onChange, onBlur, error }: any) => {
+ 
   const [cardError, setCardError] = useState<string | null>(null);
 
   const handleChange = (event: any) => {
@@ -356,10 +355,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
 }
 
 export default function SettingsPage() {
-  const router = useRouter();
+  
   const [activeTab, setActiveTab] = useState("profile");
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  
   const [showAddPaymentForm, setShowAddPaymentForm] = useState(false);
 
   // Fetch user data with React Query

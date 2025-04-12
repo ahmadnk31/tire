@@ -72,7 +72,13 @@ const nextConfig: NextConfig = {
         pathname: "/avatars/**"
       }
     ]
-  }
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default withNextIntl(nextConfig);

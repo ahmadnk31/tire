@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useCart, ShippingAddress, ShippingOption } from "@/contexts/cart-context";
+import { useCart, ShippingAddress } from "@/contexts/cart-context";
 import { validateShippingAddress, getShippingRates } from "@/lib/shipping/shipping-client";
 
 import {

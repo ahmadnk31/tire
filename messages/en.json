@@ -7,7 +7,7 @@
             "loading": "Loading testimonials...",
             "empty": {
                 "title": "No testimonials yet",
-                "description": "You haven't shared any testimonials yet",
+                "description": "You haven&apos;t shared any testimonials yet",
                 "button": "Write a Testimonial"
             },
             "actions": {
@@ -71,7 +71,7 @@
             },
             "empty": {
                 "title": "No favorites yet",
-                "description": "You haven't added any products to your favorites yet",
+                "description": "You haven&apos;t added any products to your favorites yet",
                 "button": "Browse Products"
             },
             "noResults": {
@@ -92,7 +92,7 @@
             "placedOn": "Placed on",
             "empty": {
                 "title": "No orders yet",
-                "description": "You haven't placed any orders yet",
+                "description": "You haven&apos;t placed any orders yet",
                 "button": "Start Shopping"
             },
             "filter": {
@@ -494,16 +494,16 @@
       "emptyStates": {
         "upcoming": {
           "title": "No upcoming appointments",
-          "description": "You don't have any upcoming appointments scheduled. Book a new appointment to get started.",
+          "description": "You don&apos;t have any upcoming appointments scheduled. Book a new appointment to get started.",
           "button": "Book Appointment"
         },
         "past": {
           "title": "No past appointments",
-          "description": "You don't have any past appointment history."
+          "description": "You don&apos;t have any past appointment history."
         },
         "all": {
           "title": "No appointments found",
-          "description": "You haven't booked any appointments yet. Book your first appointment now.",
+          "description": "You haven&apos;t booked any appointments yet. Book your first appointment now.",
           "button": "Book Appointment"
         }
       },

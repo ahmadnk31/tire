@@ -77,8 +77,6 @@ export default function OrdersPage() {
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [customerEmail, setCustomerEmail] = useState("");
   
-  // Fetch user data to check role
-  const { data: userData } = useUserProfile();
   
   // Fetch order data
   const { 
