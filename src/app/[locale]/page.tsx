@@ -7,11 +7,33 @@ import { BadgePercent, Check, Star, Truck } from "lucide-react";
 import NewsletterSubscription from "@/components/newsletter-subscription";
 
 async function getFeaturedProducts() {
-  return prisma.product.findMany({
+  // First try to get featured products
+  const featured = await prisma.product.findMany({
     where: {
       isFeatured: true,
       isVisible: true,
     },
+    include: {
+      brand: true,
+      model: true,
+    },
+    take: 4,
+  });
+  
+  // If we have featured products, return them
+  if (featured.length > 0) {
+    return featured;
+  }
+  
+  // Otherwise, return the newest products or those with highest discount
+  return prisma.product.findMany({
+    where: {
+      isVisible: true,
+    },
+    orderBy: [
+      { discount: 'desc' },
+      { createdAt: 'desc' }
+    ],
     include: {
       brand: true,
       model: true,

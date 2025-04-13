@@ -11,7 +11,8 @@ import {
   TrackingResponse,
   TrackingStatus,
   TrackingEvent,
-  ShippingServiceType
+  ShippingServiceType,
+  Address
 } from '../shipping-interfaces';
 
 /**
@@ -51,19 +52,21 @@ const TRACKING_STATUS_MAP: Record<string, TrackingStatus> = {
  * GLS implementation of the ShippingProvider interface
  */
 export class GLSShippingProvider implements ShippingProvider {
-  private config: GLSConfig;
-
+  private config: any;
+  
   constructor() {
+    // Initialize with environment variables or default test credentials
     this.config = {
       apiKey: process.env.GLS_API_KEY || '',
       apiSecret: process.env.GLS_API_SECRET || '',
-      customerId: process.env.GLS_CUSTOMER_ID || '',
-      apiUrl: process.env.GLS_API_URL || 'https://api.gls-group.eu'
+      accountNumber: process.env.GLS_ACCOUNT_NUMBER || '',
+      apiUrl: process.env.GLS_API_URL || 'https://api-test.gls.com/v1'
     };
   }
-
+  
   /**
-   * Get the name of the provider
+   * Get the provider name
+   * @returns The name of this shipping provider
    */
   getProviderName(): string {
     return 'GLS';
@@ -284,8 +287,14 @@ export class GLSShippingProvider implements ShippingProvider {
 
   /**
    * Validate a shipping address
+   * @param address Address to validate
+   * @returns Validation result with valid flag, suggested address, and messages
    */
-  async validateAddress(address: ShippingAddress): Promise<{ isValid: boolean; suggestedAddress?: ShippingAddress }> {
+  async validateAddress(address: Address): Promise<{
+    valid: boolean;
+    suggestedAddress?: Address;
+    messages: string[];
+  }> {
     try {
       // GLS requires authentication with each request
       const authHeaders = {
@@ -295,10 +304,10 @@ export class GLSShippingProvider implements ShippingProvider {
 
       const payload = {
         address: {
-          street1: address.addressLine1,
+          street1: address.street,
           street2: address.addressLine2 || '',
           city: address.city,
-          province: address.state,
+          province: address.state || '',
           zipCode: address.postalCode,
           countryCode: address.countryCode
         }
@@ -311,17 +320,31 @@ export class GLSShippingProvider implements ShippingProvider {
       );
 
       const result = response.data;
+      const messages: string[] = [];
       
       // Check if address is valid
-      const isValid = result.valid;
+      const valid = result.valid === true;
+      
+      if (valid) {
+        messages.push('Address is valid');
+      } else {
+        messages.push('Address validation failed');
+      }
+      
+      // Add any additional messages from the API response
+      if (result.messages && Array.isArray(result.messages)) {
+        result.messages.forEach((msg: any) => {
+          messages.push(msg.text || msg.message || 'Address validation message');
+        });
+      }
       
       // If address is not valid but a suggested address is provided
-      if (!isValid && result.suggestions && result.suggestions.length > 0) {
+      let suggestedAddress: Address | undefined = undefined;
+      if (!valid && result.suggestions && result.suggestions.length > 0) {
         const suggested = result.suggestions[0];
         
-        const suggestedAddress: ShippingAddress = {
-          ...address, // Keep original contact information
-          addressLine1: suggested.street1,
+        suggestedAddress = {
+          street: suggested.street1,
           addressLine2: suggested.street2 || undefined,
           city: suggested.city,
           state: suggested.province,
@@ -329,13 +352,59 @@ export class GLSShippingProvider implements ShippingProvider {
           countryCode: suggested.countryCode
         };
         
-        return { isValid, suggestedAddress };
+        messages.push('Address suggestions available');
       }
       
-      return { isValid };
+      return { valid, suggestedAddress, messages };
     } catch (error) {
       console.error('Error validating address with GLS:', error);
-      throw new Error('Failed to validate address with GLS');
+      return {
+        valid: false,
+        messages: [`Failed to validate address with GLS: ${error instanceof Error ? error.message : 'Unknown error'}`]
+      };
+    }
+  }
+
+  /**
+   * Test authentication with GLS API
+   * @returns Authentication status
+   */
+  async testAuthentication(): Promise<{ authenticated: boolean; message: string }> {
+    try {
+      // GLS requires authentication with each request
+      const authHeaders = {
+        'Authorization': `Basic ${Buffer.from(`${this.config.apiKey}:${this.config.apiSecret}`).toString('base64')}`,
+        'Content-Type': 'application/json'
+      };
+
+      // Try a simple API call to verify authentication
+      const response = await axios.get(
+        `${this.config.apiUrl}/account/info`,
+        { headers: authHeaders }
+      );
+
+      // If we get here, authentication was successful
+      return {
+        authenticated: true,
+        message: 'Successfully authenticated with GLS API'
+      };
+    } catch (error) {
+      console.error('Error testing GLS authentication:', error);
+      
+      // Check for specific error types
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 401 || error.response.status === 403) {
+          return {
+            authenticated: false,
+            message: 'Authentication failed: Invalid API credentials'
+          };
+        }
+      }
+      
+      return {
+        authenticated: false,
+        message: `Authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
     }
   }
 }

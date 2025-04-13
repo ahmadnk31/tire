@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ShippingOption, useCart } from "@/contexts/cart-context";
+import { defaultShippingOptions, useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { 
   ArrowLeft, 
@@ -15,7 +15,12 @@ import {
   ShieldCheck,
   LockIcon,
   AppleIcon,
-  SmartphoneIcon
+  SmartphoneIcon,
+  ChevronRight,
+  PackageIcon,
+  UserIcon,
+  ShoppingBag,
+  CheckCircle2
 } from "lucide-react";
 import { 
   Tabs, 
@@ -46,13 +51,16 @@ import {
   useElements,
   PaymentRequestButtonElement
 } from "@stripe/react-stripe-js";
+import { ShippingOption } from "@/contexts/cart-context";
 import { loadStripe } from "@stripe/stripe-js";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-
+import { DEFAULT_SHIPPING_OPTIONS, convertPricesToCents } from "@/lib/shipping/shipping-options";
+import { useTranslations } from 'next-intl';
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 import { ShippingService } from '@/lib/shipping/shipping-service';
+import { formatPrice } from "@/lib/utils";
 
 // Load Stripe outside of component to avoid recreation on renders
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -73,16 +81,42 @@ interface PaymentErrorDetails {
   technical?: string;
 }
 
+// Steps for the multi-step payment process
+enum PaymentStep {
+  REVIEW = 'review',
+  PAYMENT = 'payment',
+  CONFIRMATION = 'confirmation'
+}
+
+// Interface for collected user data during the payment process
+interface PaymentUserData {
+  email: string;
+  name?: string;
+  phone?: string;
+  shippingAddress?: any;
+  billingAddress?: any;
+  shippingOption?: ShippingOption;
+  receiveMarketingEmails?: boolean;
+  savePaymentMethod?: boolean;
+  notes?: string;
+}
+
 // Stripe Payment Form Component
 function StripePaymentForm({ 
   total, 
   onSuccess, 
-  onError 
+  onError,
+  userData,
+  onUserDataChange,
+  handleShippingOptionChange
 }: { 
   total: number; 
   onSuccess: () => void; 
   onError: (message: string, details?: PaymentErrorDetails) => void;
-}) {
+  userData: PaymentUserData;
+  onUserDataChange: (data: Partial<PaymentUserData>) => void;
+  handleShippingOptionChange: (option: ShippingOption) => void;
+}){
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -90,8 +124,8 @@ function StripePaymentForm({
   const [savePaymentMethod, setSavePaymentMethod] = useState(false);
   const [paymentRequest, setPaymentRequest] = useState<any>(null);
   const [canMakePayment, setCanMakePayment] = useState(false);
-  
-  // Set up payment request for Apple Pay/Google Pay
+  const [collectedAddress, setCollectedAddress] = useState<any>(null);
+    // Set up payment request for Apple Pay/Google Pay
   useEffect(() => {
     if (stripe) {
       const pr = stripe.paymentRequest({
@@ -103,6 +137,8 @@ function StripePaymentForm({
         },
         requestPayerEmail: true,
         requestPayerName: true,
+        requestShipping: true,
+        shippingOptions: convertPricesToCents(DEFAULT_SHIPPING_OPTIONS),
       });
       
       // Check if payment request can be used
@@ -111,6 +147,15 @@ function StripePaymentForm({
           setPaymentRequest(pr);
           setCanMakePayment(true);
         }
+      });
+      
+      // Handle shipping address change
+      pr.on('shippingaddresschange', (e) => {
+        // Store the shipping address
+        if (e.shippingAddress) {
+          setCollectedAddress(e.shippingAddress);
+        }
+        e.updateWith({ status: 'success' });
       });
       
       // Handle payment request success
@@ -122,12 +167,35 @@ function StripePaymentForm({
             throw new Error('Stripe Elements not initialized');
           }
           
-          const {error: confirmError} = await stripe.confirmPayment({
+          // Store shipping details if available
+          if (e.shippingAddress || e.payerName || e.payerEmail || e.payerPhone) {
+            // Combine shipping and payment details
+            const collectedInfo = {
+              name: e.payerName,
+              email: e.payerEmail,
+              phone: e.payerPhone,
+              address: e.shippingAddress
+            };
+            setCollectedAddress(collectedInfo);
+          }
+            const {error: confirmError} = await stripe.confirmPayment({
             elements,
             confirmParams: {
               return_url: `${window.location.origin}/checkout/confirmation`,
               payment_method: e.paymentMethod.id,
-              receipt_email: email,
+              receipt_email: e.payerEmail || email,
+              shipping: e.shippingAddress ? {
+                name: e.shippingAddress.recipient || e.payerName || '',
+                phone: e.shippingAddress.phone || e.payerPhone || '',
+                address: {
+                  line1: e.shippingAddress.addressLine && e.shippingAddress.addressLine[0] ? e.shippingAddress.addressLine[0] : '',
+                  line2: e.shippingAddress.addressLine && e.shippingAddress.addressLine[1] ? e.shippingAddress.addressLine[1] : '',
+                  city: e.shippingAddress.city || '',
+                  state: e.shippingAddress.region || '',
+                  postal_code: e.shippingAddress.postalCode || '',
+                  country: e.shippingAddress.country || '',
+                }
+              } : undefined
             },
             redirect: 'if_required'
           });
@@ -167,6 +235,19 @@ function StripePaymentForm({
     setIsProcessing(true);
     
     try {
+      // Collect address information if provided via the Address Element
+      let addressData = null;
+      const addressElement = elements.getElement('address');
+      if (addressElement) {
+        const { complete, value } = await addressElement.getValue();
+        
+        if (complete) {
+          addressData = value;
+          // Store the address data for future reference
+          setCollectedAddress(addressData);
+        }
+      }
+      
       // Confirm the payment
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
@@ -174,6 +255,18 @@ function StripePaymentForm({
           return_url: `${window.location.origin}/checkout/confirmation`,
           receipt_email: email,
           save_payment_method: savePaymentMethod,
+          shipping: addressData ? {
+            name: addressData.name,
+            address: {
+              line1: addressData.address.line1,
+              line2: addressData.address.line2 === null ? undefined : addressData.address.line2,
+              city: addressData.address.city,
+              state: addressData.address.state,
+              postal_code: addressData.address.postal_code,
+              country: addressData.address.country,
+            },
+            phone: addressData.phone,
+          } : undefined
         },
         redirect: 'if_required'
       });
@@ -273,8 +366,119 @@ function StripePaymentForm({
           <div className="text-sm font-medium">Or pay with card</div>
         </div>
       )}
-      
-      <PaymentElement />
+        <div className="space-y-4">
+        <div>
+          <h3 className="text-sm font-medium mb-2">Shipping Address</h3>
+          <AddressElement 
+            options={{
+              mode: 'shipping',
+              fields: {
+                phone: 'always',
+              },
+              validation: {
+                phone: {
+                  required: 'always',
+                },
+              },
+              defaultValues: {
+                name: '',
+                address: {
+                  line1: '',
+                  line2: '',
+                  city: '',
+                  state: '',
+                  postal_code: '',
+                  country: 'BE',
+                },
+                phone: '',
+              },
+            }}
+            onChange={(event) => {
+              if (event.complete) {
+                // Address is complete and valid
+                setCollectedAddress(event.value);
+              }
+            }}
+          />
+        </div>
+          <div>
+          <h3 className="text-sm font-medium mb-2">Shipping Options</h3>
+            <div className="space-y-2 border rounded-md p-3">            
+              {defaultShippingOptions && defaultShippingOptions.length > 0 ? (
+              defaultShippingOptions.map((option) => (
+                <div 
+                  key={option.id} 
+                  className={`flex items-center justify-between p-3 rounded-md cursor-pointer border ${
+                    collectedAddress && collectedAddress.shippingOption === option.id ? 'border-primary bg-primary/5' : 'border-muted'
+                  } hover:border-primary hover:bg-primary/5 transition-all`}
+                  onClick={() => {
+                    setCollectedAddress((prev: any) => ({
+                      ...prev,
+                      shippingOption: option.id
+                    }));
+                    // Update shipping option in cart context
+                    handleShippingOptionChange(option);
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className={`w-4 h-4 rounded-full border ${
+                      collectedAddress && collectedAddress.shippingOption === option.id ? 'border-4 border-primary' : 'border border-muted-foreground'
+                    }`} />
+                    <div>
+                      <div className="font-medium">{option.name}</div>
+                      <div className="text-sm text-muted-foreground">{option.description}</div>
+                      <div className="text-xs text-muted-foreground">{option.estimatedDelivery}</div>
+                    </div>
+                  </div>
+                  <div className="font-medium">{formatPrice(option.price)}</div>
+                </div>
+              ))            ) : (
+              // Fallback options if API call fails - use standardized shipping options
+              DEFAULT_SHIPPING_OPTIONS.map((option) => (
+                <div 
+                  key={option.id} 
+                  className={`flex items-center justify-between p-3 rounded-md cursor-pointer border ${
+                    collectedAddress && collectedAddress.shippingOption === option.id ? 'border-primary bg-primary/5' : 'border-muted'
+                  } hover:border-primary hover:bg-primary/5 transition-all`}
+                  onClick={() => {
+                    setCollectedAddress((prev: any) => ({
+                      ...prev,
+                      shippingOption: option.id
+                    }));
+                    // Update shipping option in cart context with fallback option
+                    handleShippingOptionChange({
+                      id: option.id,
+                      name: option.name,
+                      price: option.price,
+                      description: option.description,
+                      estimatedDelivery: option.estimatedDelivery
+                    });
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className={`w-4 h-4 rounded-full border ${
+                      collectedAddress && collectedAddress.shippingOption === option.id ? 'border-4 border-primary' : 'border border-muted-foreground'
+                    }`} />
+                    <div>
+                      <div className="font-medium">{option.name}</div>
+                      <div className="text-sm text-muted-foreground">{option.description}</div>
+                      <div className="text-xs text-muted-foreground">{option.estimatedDelivery}</div>
+                    </div>
+                  </div>
+                  <div className="font-medium">
+                    {formatPrice(option.price)}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-sm font-medium mb-2">Payment Details</h3>
+          <PaymentElement />
+        </div>
+      </div>
       
       <div className="flex items-center space-x-2">
         <Checkbox 
@@ -306,7 +510,7 @@ function StripePaymentForm({
             <span>Processing...</span>
           </div>
         ) : (
-          <span>Pay ${total.toFixed(2)}</span>
+          <span>Pay {formatPrice(total)}</span>
         )}
       </Button>
     </form>
@@ -314,7 +518,7 @@ function StripePaymentForm({
 }
 
 export default function PaymentPage() {
-  // Remove the state for shippingService since it's a static class
+  const t = useTranslations('Checkout');
   const router = useRouter();
   const { 
     items, 
@@ -322,19 +526,50 @@ export default function PaymentPage() {
     shippingAddress, 
     selectedShippingOption,
     setSelectedShippingOption,
-    clearCart 
+    clearCart,
+    updateSummary
   } = useCart();
+  
+  // Current step in the payment process
+  const [currentStep, setCurrentStep] = useState<PaymentStep>(PaymentStep.REVIEW);
+  
+  // Payment method selection
   const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal" | "wallet">("stripe");
+  
+  // Processing and error states
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentErrorDetails, setPaymentErrorDetails] = useState<PaymentErrorDetails | null>(null);
+  
+  // Stripe payment states
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
   const [paymentProgress, setPaymentProgress] = useState(0);
-  const [isOrderReviewed, setIsOrderReviewed] = useState(false);
+  
+  // Shipping options
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+    // User data collected during payment process
+  const [userData, setUserData] = useState<PaymentUserData>({
+    email: shippingAddress?.email || '',
+    name: shippingAddress ? `${shippingAddress.firstName} ${shippingAddress.lastName}` : '',
+    phone: shippingAddress?.phone || '',
+    shippingAddress: null,
+    receiveMarketingEmails: false,
+    savePaymentMethod: false,
+    notes: ''
+  });
+  
+  // Handle shipping option change - memoized with useCallback
+  const handleShippingOptionChange = useCallback((option: ShippingOption) => {
+    // Set the selected shipping option in the cart context
+    setSelectedShippingOption(option);
+    
+    // Update the summary with the new shipping cost
+    const newShippingCost = option.price;
+    updateSummary(summary.subtotal + newShippingCost + summary.tax - summary.discount);
+  }, [setSelectedShippingOption, updateSummary, summary]);
 
   // Check if required info is available and create payment intent
   useEffect(() => {
@@ -559,9 +794,7 @@ export default function PaymentPage() {
       if (!selectedShippingOption) {
         toast.error('Please select a shipping option');
         return false;
-      }
-
-      const response = await fetch('/api/orders/create', {
+      }      const response = await fetch('/api/orders/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -577,6 +810,12 @@ export default function PaymentPage() {
           shippingMethod: selectedShippingOption,
           paymentIntentId: paymentIntentId || `manual_${Date.now()}`,
           paymentMethod,
+          // Include additional user data collected during checkout
+          userData: {
+            notes: userData.notes || '',
+            receiveMarketingEmails: userData.receiveMarketingEmails || false,
+            savePaymentMethod: userData.savePaymentMethod || false
+          },
         }),
       });
       
@@ -677,14 +916,10 @@ export default function PaymentPage() {
     } finally {
       setIsProcessing(false);
     }
+  };  // Handle updating user data fields
+  const updateUserData = (data: Partial<PaymentUserData>) => {
+    setUserData(prev => ({...prev, ...data}));
   };
-
-  // Handle shipping option change - memoized with useCallback
-  const handleShippingOptionChange = useCallback((option: ShippingOption) => {
-    // Set the selected shipping option in the cart context
-    setSelectedShippingOption(option);
-    // No need to call setSummary directly since it's handled by the cart context
-  }, [setSelectedShippingOption]);
 
   // Content to display when payment is successful
   if (paymentSuccess) {
@@ -710,38 +945,74 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="container max-w-7xl py-12">
+    <div className="container max-w-7xl py-12 space-y-8">
       <div className="mb-8">
         <Link 
           href="/checkout" 
           className="flex items-center text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Shipping
+          {t('backToShipping')}
         </Link>
-        <h1 className="text-3xl font-bold mt-2">Payment</h1>
-        <div className="w-full mt-4 flex items-center gap-2">
-          <div className="bg-primary rounded-full w-3 h-3"></div>
-          <div className="h-1 bg-primary w-32"></div>
-          <div className="bg-primary rounded-full w-3 h-3"></div>
-          <div className="h-1 bg-primary w-32"></div>
-          <div className="bg-primary-foreground border border-primary rounded-full w-3 h-3"></div>
+        <h1 className="text-3xl font-bold mt-2">{t('payment')}</h1>
+      </div>
+      
+      {/* Step indicator */}
+      <div className="flex mb-8 border-b pb-4">
+        <div className="flex items-center text-muted-foreground">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-muted text-xs font-medium">
+            1
+          </div>
+          <span className="ml-2 font-medium">{t('shipping')}</span>
+        </div>
+        <div className="mx-4 flex items-center">
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </div>
+        <div className={`flex items-center ${currentStep === PaymentStep.REVIEW ? 'text-primary' : 'text-muted-foreground'}`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${currentStep === PaymentStep.REVIEW ? 'border-primary bg-primary text-white' : 'border-muted'} text-xs font-bold`}>
+            2
+          </div>
+          <span className="ml-2 font-medium">{t('review')}</span>
+        </div>
+        <div className="mx-4 flex items-center">
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </div>
+        <div className={`flex items-center ${currentStep === PaymentStep.PAYMENT ? 'text-primary' : 'text-muted-foreground'}`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${currentStep === PaymentStep.PAYMENT ? 'border-primary bg-primary text-white' : 'border-muted'} text-xs font-medium`}>
+            3
+          </div>
+          <span className="ml-2 font-medium">{t('payment')}</span>
+        </div>
+        <div className="mx-4 flex items-center">
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </div>
+        <div className={`flex items-center ${currentStep === PaymentStep.CONFIRMATION ? 'text-primary' : 'text-muted-foreground'}`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${currentStep === PaymentStep.CONFIRMATION ? 'border-primary bg-primary text-white' : 'border-muted'} text-xs font-medium`}>
+            4
+          </div>
+          <span className="ml-2 font-medium">{t('confirmation')}</span>
         </div>
       </div>
       
+      {/* Progress indicator during transition between steps */}
+      {isProcessing && (
+        <Progress value={paymentProgress} className="h-1 w-full" />
+      )}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Payment Methods */}
+        {/* Payment Content - Main area */}
         <div className="lg:col-span-2">
-          {!isOrderReviewed ? (
+          {currentStep === PaymentStep.REVIEW && (
             <Card>
               <CardHeader className="flex flex-row items-center gap-2">
-                <h2 className="text-xl font-semibold">Review Your Order</h2>
+                <ShoppingBag className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold">{t('reviewOrder')}</h2>
               </CardHeader>
               
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div>
-                    <h3 className="font-medium">Order Items ({items.length})</h3>
+                    <h3 className="font-medium">{t('orderItems')} ({items.length})</h3>
                     <div className="mt-2 space-y-4">
                       {items.map(item => (
                         <div key={item.id} className="flex items-center gap-4">
@@ -759,10 +1030,10 @@ export default function PaymentPage() {
                           <div className="flex-1">
                             <div className="font-medium">{item.name}</div>
                             <div className="text-sm text-muted-foreground">
-                              Quantity: {item.quantity}
+                              {t('quantity')}: {item.quantity}
                             </div>
                           </div>
-                          <div className="font-medium">${formatPrice(item.price * item.quantity)}</div>
+                          <div className="font-medium">{formatPrice(item.price * item.quantity)}</div>
                         </div>
                       ))}
                     </div>
@@ -772,7 +1043,7 @@ export default function PaymentPage() {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <h3 className="font-medium mb-2">Shipping Address</h3>
+                      <h3 className="font-medium mb-2">{t('shippingAddress')}</h3>
                       {shippingAddress && (
                         <div className="text-sm space-y-1">
                           <p className="font-medium">{shippingAddress.firstName} {shippingAddress.lastName}</p>
@@ -785,19 +1056,17 @@ export default function PaymentPage() {
                           <p className="mt-1">{shippingAddress.email}</p>
                           {shippingAddress.phone && <p>{shippingAddress.phone}</p>}
                         </div>
-                      )
-                      }
-                    
+                      )}
                     </div>
                     
                     <div>
-                      <h3 className="font-medium mb-2">Shipping Method</h3>
+                      <h3 className="font-medium mb-2">{t('shippingMethod')}</h3>
                       {selectedShippingOption && (
                         <div className="text-sm space-y-1">
                           <p className="font-medium">{selectedShippingOption.name}</p>
                           <p>{selectedShippingOption.description}</p>
                           <p>{selectedShippingOption.estimatedDelivery}</p>
-                          <p className="font-medium">${formatPrice(selectedShippingOption.price)}</p>
+                          <p className="font-medium">{formatPrice(selectedShippingOption.price)}</p>
                         </div>
                       )}
                     </div>
@@ -805,53 +1074,50 @@ export default function PaymentPage() {
                   
                   <Separator />
                   
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="receiveMarketingEmails" 
+                      checked={userData.receiveMarketingEmails || false}
+                      onCheckedChange={(checked) => 
+                        updateUserData({ receiveMarketingEmails: !!checked })
+                      }
+                    />
+                    <label
+                      htmlFor="receiveMarketingEmails"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {t('receiveMarketingEmails')}
+                    </label>
+                  </div>
+                  
                   <div>
-                    <h3 className="font-medium mb-2">Order Summary</h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Subtotal</span>
-                        <span>${formatPrice(summary.subtotal)}</span>
-                      </div>
-                      
-                      {summary.discount > 0 && (
-                        <div className="flex justify-between text-green-600">
-                          <span>Discount</span>
-                          <span>-${formatPrice(summary.discount)}</span>
-                        </div>
-                      )}
-                      
-                      <div className="flex justify-between">
-                        <span>Shipping</span>
-                        <span>${formatPrice(summary.shipping)}</span>
-                      </div>
-                      
-                      <div className="flex justify-between">
-                        <span>Tax</span>
-                        <span>${formatPrice(summary.tax)}</span>
-                      </div>
-                      
-                      <Separator className="my-2" />
-                      
-                      <div className="flex justify-between font-medium">
-                        <span>Total</span>
-                        <span>${formatPrice(summary.total)}</span>
-                      </div>
-                    </div>
+                    <h3 className="font-medium mb-2">{t('orderNotes')}</h3>
+                    <textarea 
+                      className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+                      placeholder={t('orderNotesPlaceholder')}
+                      value={userData.notes || ''}
+                      onChange={(e) => updateUserData({ notes: e.target.value })}
+                    ></textarea>
                   </div>
                 </div>
               </CardContent>
               
               <CardFooter className="flex justify-end">
-                <Button onClick={() => setIsOrderReviewed(true)}>
-                  Proceed to Payment
+                <Button 
+                  onClick={() => setCurrentStep(PaymentStep.PAYMENT)}
+                  className="min-w-32"
+                >
+                  {t('continueToPayment')} <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
             </Card>
-          ) : (
+          )}
+          
+          {currentStep === PaymentStep.PAYMENT && (
             <Card>
               <CardHeader className="flex flex-row items-center gap-2">
-                <LockIcon className="h-4 w-4 text-green-600" />
-                <h2 className="text-xl font-semibold">Secure Payment</h2>
+                <LockIcon className="h-5 w-5 text-green-600" />
+                <h2 className="text-xl font-semibold">{t('securePayment')}</h2>
               </CardHeader>
               
               <CardContent>
@@ -859,38 +1125,24 @@ export default function PaymentPage() {
                   <div className="py-12 space-y-4">
                     <div className="text-center">
                       <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary mb-4" />
-                      <p className="text-muted-foreground">Initializing payment...</p>
+                      <p className="text-muted-foreground">{t('initializingPayment')}</p>
                     </div>
                     <Progress value={paymentProgress} className="w-full h-2" />
                   </div>
                 ) : (
-                  <Tabs 
-                    value={paymentMethod} 
-                    onValueChange={(value) => setPaymentMethod(value as "stripe" | "paypal" | "wallet")}
-                    className="w-full"
-                  >
-                    <TabsList className="grid w-full grid-cols-3 mb-8">
-                      <TabsTrigger value="stripe" className="flex items-center gap-2">
-                        <CreditCard className="h-4 w-4" />
-                        <span>Credit Card</span>
+                  <Tabs defaultValue="card" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 mb-6">
+                      <TabsTrigger value="card" onClick={() => setPaymentMethod("stripe")}>
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        {t('creditCard')}
                       </TabsTrigger>
-                      <TabsTrigger value="paypal" className="flex items-center gap-2">
-                        <Image 
-                          src="/images/paypal-logo.svg" 
-                          alt="PayPal" 
-                          width={16} 
-                          height={16} 
-                          className="h-4 w-auto"
-                        />
-                        <span>PayPal</span>
-                      </TabsTrigger>
-                      <TabsTrigger value="wallet" className="flex items-center gap-2">
-                        <SmartphoneIcon className="h-4 w-4" />
-                        <span>Digital Wallet</span>
+                      <TabsTrigger value="paypal" onClick={() => setPaymentMethod("paypal")}>
+                        <Image src="/paypal.svg" alt="PayPal" width={18} height={18} className="mr-2" />
+                        PayPal
                       </TabsTrigger>
                     </TabsList>
                     
-                    <TabsContent value="stripe" className="space-y-4">
+                    <TabsContent value="card">
                       {clientSecret && (
                         <Elements
                           stripe={stripePromise}
@@ -909,8 +1161,8 @@ export default function PaymentPage() {
                               },
                             },
                           }}
-                        >
-                          <StripePaymentForm
+                        >                          
+                        <StripePaymentForm
                             total={summary.total}
                             onSuccess={handleSuccessfulPayment}
                             onError={(message, details) => {
@@ -919,482 +1171,255 @@ export default function PaymentPage() {
                               toast.error(message);
                               setIsProcessing(false);
                             }}
+                            userData={userData}
+                            onUserDataChange={updateUserData}
+                            handleShippingOptionChange={handleShippingOptionChange}
                           />
                         </Elements>
                       )}
                     </TabsContent>
                     
-                    <TabsContent value="paypal" className="space-y-4">
-                      <div className="rounded-md border p-6">
-                        <div className="w-full max-w-md mx-auto">
-                          <div className="flex justify-center mb-6">
-                            <Image 
-                              src="/images/paypal-logo-large.svg" 
-                              alt="PayPal" 
-                              width={180} 
-                              height={50} 
-                              className="h-12 w-auto" 
-                            />
-                          </div>
-                          
-                          <p className="text-center text-sm text-muted-foreground mb-6">
-                            Click the PayPal button below to complete your purchase securely.
+                    <TabsContent value="paypal">
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-sm font-medium mb-2">{t('payWithPayPal')}</h3>
+                          <p className="text-sm text-muted-foreground mb-6">
+                            {t('payPalDescription')}
                           </p>
                           
-                          <PayPalScriptProvider options={{ 
-                            currency: "EUR",
-                            clientId: PAYPAL_CLIENT_ID,
-                            intent: "capture",
-                            components: "buttons,funding-eligibility"
-                          }}>
-                            <PayPalButtons 
-                              style={{ 
-                                layout: "vertical",
-                                shape: "rect",
-                                label: "pay"
-                              }}
-                              disabled={isProcessing}
-                              fundingSource={undefined}
-                              createOrder={(data, actions) => {
-                                if (!shippingAddress) {
-                                  router.replace("/checkout");
-                                  throw new Error("Shipping address is missing");
-                                }
+                          <div className="w-full">
+                            <PayPalScriptProvider options={{ 
+                              'client-id': PAYPAL_CLIENT_ID,
+                              clientId: PAYPAL_CLIENT_ID,
+                              currency: 'EUR',
+                              
+                            }}>
+                              <PayPalButtons 
+                                style={{ 
+                                  layout: 'vertical',
+                                  shape: 'rect',
+                                  color: 'blue'
+                                }}
                                 
-                                // Convert country name to ISO 3166-1 alpha-2 format
-                                const countryCodeMap: Record<string, string> = {
-                                  'AFGHANISTAN': 'AF',
-                                  'ALBANIA': 'AL',
-                                  'ALGERIA': 'DZ',
-                                  'ANDORRA': 'AD',
-                                  'ANGOLA': 'AO',
-                                  'ARGENTINA': 'AR',
-                                  'ARMENIA': 'AM',
-                                  'AUSTRALIA': 'AU',
-                                  'AUSTRIA': 'AT',
-                                  'AZERBAIJAN': 'AZ',
-                                  'BAHAMAS': 'BS',
-                                  'BAHRAIN': 'BH',
-                                  'BANGLADESH': 'BD',
-                                  'BARBADOS': 'BB',
-                                  'BELARUS': 'BY',
-                                  'BELGIUM': 'BE',
-                                  'BELIZE': 'BZ',
-                                  'BENIN': 'BJ',
-                                  'BHUTAN': 'BT',
-                                  'BOLIVIA': 'BO',
-                                  'BOSNIA': 'BA',
-                                  'BOSNIA AND HERZEGOVINA': 'BA',
-                                  'BOTSWANA': 'BW',
-                                  'BRAZIL': 'BR',
-                                  'BRUNEI': 'BN',
-                                  'BULGARIA': 'BG',
-                                  'BURKINA FASO': 'BF',
-                                  'BURUNDI': 'BI',
-                                  'CAMBODIA': 'KH',
-                                  'CAMEROON': 'CM',
-                                  'CANADA': 'CA',
-                                  'CAPE VERDE': 'CV',
-                                  'CENTRAL AFRICAN REPUBLIC': 'CF',
-                                  'CHAD': 'TD',
-                                  'CHILE': 'CL',
-                                  'CHINA': 'CN',
-                                  'COLOMBIA': 'CO',
-                                  'COMOROS': 'KM',
-                                  'CONGO': 'CG',
-                                  'COSTA RICA': 'CR',
-                                  'CROATIA': 'HR',
-                                  'CUBA': 'CU',
-                                  'CYPRUS': 'CY',
-                                  'CZECH REPUBLIC': 'CZ',
-                                  'DENMARK': 'DK',
-                                  'DJIBOUTI': 'DJ',
-                                  'DOMINICA': 'DM',
-                                  'DOMINICAN REPUBLIC': 'DO',
-                                  'EAST TIMOR': 'TL',
-                                  'ECUADOR': 'EC',
-                                  'EGYPT': 'EG',
-                                  'EL SALVADOR': 'SV',
-                                  'EQUATORIAL GUINEA': 'GQ',
-                                  'ERITREA': 'ER',
-                                  'ESTONIA': 'EE',
-                                  'ETHIOPIA': 'ET',
-                                  'FIJI': 'FJ',
-                                  'FINLAND': 'FI',
-                                  'FRANCE': 'FR',
-                                  'GABON': 'GA',
-                                  'GAMBIA': 'GM',
-                                  'GEORGIA': 'GE',
-                                  'GERMANY': 'DE',
-                                  'GHANA': 'GH',
-                                  'GREECE': 'GR',
-                                  'GRENADA': 'GD',
-                                  'GUATEMALA': 'GT',
-                                  'GUINEA': 'GN',
-                                  'GUINEA-BISSAU': 'GW',
-                                  'GUYANA': 'GY',
-                                  'HAITI': 'HT',
-                                  'HONDURAS': 'HN',
-                                  'HUNGARY': 'HU',
-                                  'ICELAND': 'IS',
-                                  'INDIA': 'IN',
-                                  'INDONESIA': 'ID',
-                                  'IRAN': 'IR',
-                                  'IRAQ': 'IQ',
-                                  'IRELAND': 'IE',
-                                  'ISRAEL': 'IL',
-                                  'ITALY': 'IT',
-                                  'IVORY COAST': 'CI',
-                                  'JAMAICA': 'JM',
-                                  'JAPAN': 'JP',
-                                  'JORDAN': 'JO',
-                                  'KAZAKHSTAN': 'KZ',
-                                  'KENYA': 'KE',
-                                  'KIRIBATI': 'KI',
-                                  'NORTH KOREA': 'KP',
-                                  'SOUTH KOREA': 'KR',
-                                  'KOSOVO': 'XK',
-                                  'KUWAIT': 'KW',
-                                  'KYRGYZSTAN': 'KG',
-                                  'LAOS': 'LA',
-                                  'LATVIA': 'LV',
-                                  'LEBANON': 'LB',
-                                  'LESOTHO': 'LS',
-                                  'LIBERIA': 'LR',
-                                  'LIBYA': 'LY',
-                                  'LIECHTENSTEIN': 'LI',
-                                  'LITHUANIA': 'LT',
-                                  'LUXEMBOURG': 'LU',
-                                  'MACEDONIA': 'MK',
-                                  'MADAGASCAR': 'MG',
-                                  'MALAWI': 'MW',
-                                  'MALAYSIA': 'MY',
-                                  'MALDIVES': 'MV',
-                                  'MALI': 'ML',
-                                  'MALTA': 'MT',
-                                  'MARSHALL ISLANDS': 'MH',
-                                  'MAURITANIA': 'MR',
-                                  'MAURITIUS': 'MU',
-                                  'MEXICO': 'MX',
-                                  'MICRONESIA': 'FM',
-                                  'MOLDOVA': 'MD',
-                                  'MONACO': 'MC',
-                                  'MONGOLIA': 'MN',
-                                  'MONTENEGRO': 'ME',
-                                  'MOROCCO': 'MA',
-                                  'MOZAMBIQUE': 'MZ',
-                                  'MYANMAR': 'MM',
-                                  'NAMIBIA': 'NA',
-                                  'NAURU': 'NR',
-                                  'NEPAL': 'NP',
-                                  'NETHERLANDS': 'NL',
-                                  'NEW ZEALAND': 'NZ',
-                                  'NICARAGUA': 'NI',
-                                  'NIGER': 'NE',
-                                  'NIGERIA': 'NG',
-                                  'NORWAY': 'NO',
-                                  'OMAN': 'OM',
-                                  'PAKISTAN': 'PK',
-                                  'PALAU': 'PW',
-                                  'PANAMA': 'PA',
-                                  'PAPUA NEW GUINEA': 'PG',
-                                  'PARAGUAY': 'PY',
-                                  'PERU': 'PE',
-                                  'PHILIPPINES': 'PH',
-                                  'POLAND': 'PL',
-                                  'PORTUGAL': 'PT',
-                                  'QATAR': 'QA',
-                                  'ROMANIA': 'RO',
-                                  'RUSSIA': 'RU',
-                                  'RWANDA': 'RW',
-                                  'SAINT KITTS AND NEVIS': 'KN',
-                                  'SAINT LUCIA': 'LC',
-                                  'SAINT VINCENT AND THE GRENADINES': 'VC',
-                                  'SAMOA': 'WS',
-                                  'SAN MARINO': 'SM',
-                                  'SAO TOME AND PRINCIPE': 'ST',
-                                  'SAUDI ARABIA': 'SA',
-                                  'SENEGAL': 'SN',
-                                  'SERBIA': 'RS',
-                                  'SEYCHELLES': 'SC',
-                                  'SIERRA LEONE': 'SL',
-                                  'SINGAPORE': 'SG',
-                                  'SLOVAKIA': 'SK',
-                                  'SLOVENIA': 'SI',
-                                  'SOLOMON ISLANDS': 'SB',
-                                  'SOMALIA': 'SO',
-                                  'SOUTH AFRICA': 'ZA',
-                                  'SPAIN': 'ES',
-                                  'SRI LANKA': 'LK',
-                                  'SUDAN': 'SD',
-                                  'SURINAME': 'SR',
-                                  'SWAZILAND': 'SZ',
-                                  'SWEDEN': 'SE',
-                                  'SWITZERLAND': 'CH',
-                                  'SYRIA': 'SY',
-                                  'TAIWAN': 'TW',
-                                  'TAJIKISTAN': 'TJ',
-                                  'TANZANIA': 'TZ',
-                                  'THAILAND': 'TH',
-                                  'TOGO': 'TG',
-                                  'TONGA': 'TO',
-                                  'TRINIDAD AND TOBAGO': 'TT',
-                                  'TUNISIA': 'TN',
-                                  'TURKEY': 'TR',
-                                  'TURKMENISTAN': 'TM',
-                                  'TUVALU': 'TV',
-                                  'UGANDA': 'UG',
-                                  'UKRAINE': 'UA',
-                                  'UNITED ARAB EMIRATES': 'AE',
-                                  'UNITED KINGDOM': 'GB',
-                                  'UNITED STATES': 'US',
-                                  'URUGUAY': 'UY',
-                                  'UZBEKISTAN': 'UZ',
-                                  'VANUATU': 'VU',
-                                  'VATICAN CITY': 'VA',
-                                  'VENEZUELA': 'VE',
-                                  'VIETNAM': 'VN',
-                                  'YEMEN': 'YE',
-                                  'ZAMBIA': 'ZM',
-                                  'ZIMBABWE': 'ZW'
-                                };
-
-                                // Get the country code from the map, or fallback to the original if not found
-                                const countryName = shippingAddress.country.toUpperCase();
-                                const countryCode = countryCodeMap[countryName] || shippingAddress.country;
-                                
-                                return actions.order.create({
-                                  intent: "CAPTURE",
-                                  purchase_units: [
-                                    {
+                                createOrder={(data, actions) => {
+                                  return actions.order.create({
+                                    intent: "CAPTURE",
+                                    purchase_units: [{
                                       amount: {
                                         value: summary.total.toFixed(2),
-                                        currency_code: "EUR",
+                                        currency_code: 'EUR',
                                         breakdown: {
                                           item_total: {
                                             value: summary.subtotal.toFixed(2),
-                                            currency_code: "EUR"
+                                            currency_code: 'EUR'
                                           },
                                           shipping: {
                                             value: summary.shipping.toFixed(2),
-                                            currency_code: "EUR"
+                                            currency_code: 'EUR'
                                           },
                                           tax_total: {
                                             value: summary.tax.toFixed(2),
-                                            currency_code: "EUR"
+                                            currency_code: 'EUR'
                                           },
                                           discount: {
                                             value: summary.discount.toFixed(2),
-                                            currency_code: "EUR"
+                                            currency_code: 'EUR'
                                           }
                                         }
                                       },
                                       items: items.map(item => ({
                                         name: item.name,
-                                        quantity: String(item.quantity),
+                                        quantity: item.quantity.toString(),
                                         unit_amount: {
                                           value: item.price.toFixed(2),
-                                          currency_code: "EUR"
+                                          currency_code: 'EUR'
                                         }
-                                      })),
-                                      shipping: {
-                                        name: {
-                                          full_name: `${shippingAddress.firstName} ${shippingAddress.lastName}`
-                                        },
-                                        address: {
-                                          address_line_1: shippingAddress.addressLine1,
-                                          address_line_2: shippingAddress.addressLine2 || '',
-                                          admin_area_2: shippingAddress.city,
-                                          admin_area_1: shippingAddress.state,
-                                          postal_code: shippingAddress.postalCode,
-                                          country_code: countryCode  // Use the converted country code here
-                                        }
-                                      }
+                                      }))
+                                    }]
+                                  });
+                                }}
+                                onApprove={(data, actions) => {
+                                  return actions.order!.capture().then((details) => {
+                                    handlePayPalPayment(data);
+                                  });
+                                }}
+                                onShippingAddressChange={async (data, actions) => {
+                                  // Update shipping address in the UI
+                                  const shippingAddress = data.shippingAddress;
+                                  if (shippingAddress) {
+                                    // Handle name from PayPal shipping address - might come as fullName or separate fields
+                                    let firstName = '';
+                                    let lastName = '';
+                                    
+                                    // Try to extract name from recipientName in shippingAddress if available
+                                    // Use type assertion since PayPal may include properties not in the TypeScript definition
+                                    const recipientName = (shippingAddress as any).recipientName;
+                                    if (recipientName) {
+                                      const fullName = recipientName || '';
+                                      const nameParts = fullName.split(' ');
+                                      firstName = nameParts[0] || '';
+                                      lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
                                     }
-                                  ]
-                                });
-                              }}
-                              onApprove={(data, actions) => {
-                                if (!actions.order) {
-                                  return Promise.resolve();
-                                }
-                                return actions.order.capture().then((details) => {
-                                  handlePayPalPayment(data);
-                                });
-                              }}
-                              onError={(err) => {
-                                console.error('PayPal error:', err);
-                                setPaymentError('An error occurred with PayPal. Please try again.');
-                                toast.error('An error occurred with PayPal. Please try again.');
-                              }}
-                            />
-                          </PayPalScriptProvider>
+                                    
+                                    updateUserData({
+                                      shippingAddress: {
+                                        firstName: firstName,
+                                        lastName: lastName,
+                                        addressLine1: (shippingAddress as any).addressLine?.[0] || (shippingAddress as any).address_line_1 || '',
+                                        addressLine2: (shippingAddress as any).addressLine?.[1] || (shippingAddress as any).address_line_2 || '',
+                                        city: shippingAddress.city || '',
+                                        state: shippingAddress.state || '',
+                                        postalCode: shippingAddress.postalCode || '',
+                                        country: shippingAddress.countryCode || ''
+                                      }
+                                    });
+                                  }
+                                }}
+                                onError={(err) => {
+                                  console.error('PayPal error:', err);
+                                  setPaymentError('An error occurred with PayPal. Please try again or use a different payment method.');
+                                  toast.error('PayPal error: Please try again or use a different payment method');
+                                }}
+                              />
+                              
+                            </PayPalScriptProvider>
+                          </div>
                         </div>
                       </div>
                     </TabsContent>
-                    
-                    <TabsContent value="wallet" className="space-y-4">
-                      <div className="rounded-md border p-6">
-                        <div className="w-full max-w-md mx-auto">
-                          <div className="text-center mb-4">
-                            <h3 className="text-lg font-medium">Digital Wallet Payment</h3>
-                            <p className="text-sm text-muted-foreground">
-                              Pay securely using your digital wallet
-                            </p>
-                          </div>
-                          
-                          <div className="space-y-4">
-                            <Button 
-                              variant="outline" 
-                              className="w-full h-14 justify-start gap-4"
-                              onClick={() => {
-                                toast.info("Apple Pay is currently being set up. Please use another payment method.");
-                              }}
-                            >
-                              <AppleIcon className="h-6 w-6" />
-                              <span className="font-medium">Apple Pay</span>
-                            </Button>
-                            
-                              <Button 
-                                variant="outline" 
-                                className="w-full h-14 justify-start gap-4"
-                                onClick={() => {
-                                  toast.info("Google Pay is currently being set up. Please use another payment method.");
-                                }}
-                              >
-                                <Image 
-                                  src="/images/google-pay-logo.svg" 
-                                  alt="Google Pay" 
-                                  width={60} 
-                                  height={24} 
-                                  className="h-6 w-auto"
-                                />
-                              </Button>
-                              
-                              <p className="text-xs text-center text-muted-foreground mt-6">
-                                Digital wallet payments provide a fast, secure checkout experience.
-                                To use them, you need to have them set up on your device.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </TabsContent>
                   </Tabs>
                 )}
                 
                 {paymentError && (
                   <Alert variant="destructive" className="mt-6">
                     <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Payment Error</AlertTitle>
+                    <AlertTitle>{t('paymentError')}</AlertTitle>
                     <AlertDescription>
-                          <div className="space-y-2">
-                            {paymentErrorDetails && (
-                              <Accordion type="single" collapsible className="w-full">
-                                <AccordionItem value="details">
-                                  <AccordionTrigger className="text-sm">
-                                    Technical Details
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <div className="text-xs space-y-1">
-                                      <p><strong>Error Code:</strong> {paymentErrorDetails.code}</p>
-                                      {paymentErrorDetails.technical && (
-                                        <p><strong>Type:</strong> {paymentErrorDetails.technical}</p>
-                                      )}
-                                    </div>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              </Accordion>
-                            )}
-                          </div>
-                        </AlertDescription>
+                      {paymentError}
+                      <div className="mt-2">
+                        {paymentErrorDetails && (
+                          <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="details">
+                              <AccordionTrigger className="text-sm">
+                                {t('technicalDetails')}
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                <div className="text-xs space-y-1">
+                                  <p><strong>{t('errorCode')}:</strong> {paymentErrorDetails.code}</p>
+                                  {paymentErrorDetails.technical && (
+                                    <p><strong>{t('type')}:</strong> {paymentErrorDetails.technical}</p>
+                                  )}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                        )}
+                      </div>
+                    </AlertDescription>
                   </Alert>
                 )}
+                
+                <div className="mt-8 pt-4 border-t">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="h-5 w-5 text-green-600" />
+                    <span className="text-sm font-medium">{t('paymentMethodsAccepted')}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    <Image src="/amex.svg" alt="American Express" width={40} height={25} />
+                    <Image src="/visa.svg" alt="Visa" width={40} height={25} />
+                    <Image src="/mastercard.svg" alt="Mastercard" width={40} height={25} />
+                    <Image src="/paypal.svg" alt="PayPal" width={50} height={25} />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {t('securePaymentNote')}
+                  </p>
+                </div>
               </CardContent>
               
-              <CardFooter className="flex flex-col gap-4">
-                <Separator />
-                <div className="flex justify-between w-full">
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsOrderReviewed(false)}
-                    disabled={isProcessing || isLoading}
-                  >
-                    Back to Review
+              <CardFooter className="flex justify-between">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentStep(PaymentStep.REVIEW)}
+                  disabled={isProcessing}
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" /> {t('backToReview')}
+                </Button>
+              </CardFooter>
+            </Card>
+          )}
+          
+          {currentStep === PaymentStep.CONFIRMATION && (
+            <Card>
+              <CardHeader className="flex flex-row items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <h2 className="text-xl font-semibold">{t('orderConfirmation')}</h2>
+              </CardHeader>
+              
+              <CardContent className="text-center py-12">
+                <div className="flex justify-center mb-6">
+                  <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
+                    <Check className="h-8 w-8 text-green-600" />
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-2">{t('thankYouForOrder')}</h3>
+                <p className="text-muted-foreground mb-6">{t('orderConfirmationMessage')}</p>
+                
+                <div className="flex justify-center">
+                  <Button asChild>
+                    <Link href="/checkout/confirmation">
+                      {t('viewOrderDetails')}
+                    </Link>
                   </Button>
                 </div>
-              </CardFooter>
+              </CardContent>
             </Card>
           )}
         </div>
         
-        {/* Order Summary */}
+        {/* Order Summary - Sidebar */}
         <div className="lg:col-span-1">
           <Card className="sticky top-24">
-            <CardContent className="pt-6">
-              <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Review your order before completing your purchase
-              </p>
+            <CardHeader>
+              <CardTitle>{t('orderSummary')}</CardTitle>
+            </CardHeader>
+            
+            <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span>${formatPrice(summary.subtotal)}</span>
+                  <span className="text-muted-foreground">{t('subtotal')}</span>
+                  <span>{formatPrice(summary.subtotal)}</span>
                 </div>
-              
+                
                 {summary.discount > 0 && (
                   <div className="flex justify-between text-green-600">
-                    <span>Discount</span>
-                    <span>-${formatPrice(summary.discount)}</span>
+                    <span>{t('discount')}</span>
+                    <span>-{formatPrice(summary.discount)}</span>
                   </div>
                 )}
                 
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Shipping</span>
-                  <span>${formatPrice(summary.shipping)}</span>
+                  <span className="text-muted-foreground">{t('shipping')}</span>
+                  <span>{formatPrice(summary.shipping)}</span>
                 </div>
                 
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Tax</span>
-                  <span>${formatPrice(summary.tax)}</span>
+                  <span className="text-muted-foreground">{t('tax')}</span>
+                  <span>{formatPrice(summary.tax)}</span>
                 </div>
               </div>
               
               <Separator className="my-4" />
               
               <div className="flex justify-between text-lg font-semibold">
-                <span>Total</span>
-                <span>${formatPrice(summary.total)}</span>
+                <span>{t('total')}</span>
+                <span>{formatPrice(summary.total)}</span>
               </div>
               
               <Separator className="my-4" />
               
-              <div className="space-y-3">
-                <div>
-                  {shippingAddress && (
-                    <div className="text-sm text-muted-foreground mt-1">
-                      <p>{shippingAddress.firstName} {shippingAddress.lastName}</p>
-                      <p>{shippingAddress.addressLine1}</p>
-                      {shippingAddress.addressLine2 && <p>{shippingAddress.addressLine2}</p>}
-                      <p>
-                        {shippingAddress.city}, {shippingAddress.state} {shippingAddress.postalCode}
-                      </p>
-                      <p>{shippingAddress.country}</p>
-                    </div>
-                  )}
-                </div>
-                
-                <div>
-                  <h4 className="font-medium">Shipping Method</h4>
-                  {selectedShippingOption && (
-                    <div className="text-sm text-muted-foreground mt-1">
-                      <p>{selectedShippingOption.name}</p>
-                      <p>{selectedShippingOption.estimatedDelivery}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="mt-6 space-y-4">
-                <h4 className="font-medium">Order Items</h4>
+              <div className="space-y-4">
+                <h4 className="font-medium">{t('orderItems')}</h4>
                 
                 <div className="max-h-56 overflow-y-auto space-y-2 border rounded-md p-3">
                   {items.map((item) => (
@@ -1403,15 +1428,16 @@ export default function PaymentPage() {
                         <span className="font-medium">{item.name}</span>
                         <span className="text-muted-foreground"> × {item.quantity}</span>
                       </div>
-                      <span>${formatPrice(item.price * item.quantity)}</span>
+                      <span>{formatPrice(item.price * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
               </div>
+              
               <div className="mt-6 space-y-4">
-                <div className="text-sm text-muted-foreground bg-muted p-3 rounded">
-                  <p className="font-medium text-foreground">Secure Payment</p>
-                  <p className="mt-1">Your payment and personal information are secure through SSL encryption.</p>
+                <div className="flex items-center gap-2 text-sm">
+                  <ShieldCheck className="h-4 w-4 text-green-600" />
+                  <span>{t('secureCheckout')}</span>
                 </div>
               </div>
             </CardContent>

@@ -196,6 +196,12 @@ export interface ShippingProvider {
   createShipment(request: ShipmentRequest): Promise<ShipmentResponse>;
   
   /**
+   * Validate provider credentials to ensure they are correctly configured
+   * @returns Promise that resolves to true if credentials are valid, false otherwise
+   */
+  validateCredentials?(): Promise<boolean>;
+  
+  /**
    * Track a shipment by tracking number
    * @param request Tracking request parameters
    * @returns Tracking response

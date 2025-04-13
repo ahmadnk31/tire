@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -13,33 +13,54 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
+import { ProductFilters } from "./product-filters";
 
 export function ProductsHeader() {
-  const t = useTranslations("productsHeader");
+  const t = useTranslations("Products");
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // Get sort options from translations
+  // Define sort options using translations
   const SORT_OPTIONS = [
-    { value: "featured", label: t("sort.options.featured") },
-    { value: "price_low", label: t("sort.options.price_low") },
-    { value: "price_high", label: t("sort.options.price_high") },
-    { value: "newest", label: t("sort.options.newest") },
-    { value: "rating", label: t("sort.options.rating") },
-    { value: "discount", label: t("sort.options.discount") }
+    { value: "featured", label: t("sort.featured") },
+    { value: "price_asc", label: t("sort.priceAsc") },
+    { value: "price_desc", label: t("sort.priceDesc") },
+    { value: "newest", label: t("sort.newest") },
+    { value: "popular", label: t("sort.popular") }
   ];
   
   const [sortOption, setSortOption] = useState(searchParams.get('sort') || "featured");
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || "");
+  const [activeFiltersCount, setActiveFiltersCount] = useState(0);
+  
+  // Calculate the number of active filters
+  useEffect(() => {
+    let count = 0;
+    
+    // Count each type of filter from the URL
+    if (searchParams.has('brandIds')) count += searchParams.get('brandIds')!.split(',').length;
+    if (searchParams.has('categoryIds')) count += searchParams.get('categoryIds')!.split(',').length;
+    if (searchParams.has('tireType')) count += searchParams.get('tireType')!.split(',').length;
+    if (searchParams.has('widths')) count += 1;
+    if (searchParams.has('aspectRatios')) count += 1;
+    if (searchParams.has('rimDiameters')) count += 1;
+    if (searchParams.has('speedRatings')) count += searchParams.get('speedRatings')!.split(',').length;
+    if (searchParams.has('runFlat')) count += 1;
+    if (searchParams.has('reinforced')) count += 1;
+    
+    // Consider price range as 1 filter if it's not the default
+    const minPrice = searchParams.has('minPrice') ? Number(searchParams.get('minPrice')) : 50;
+    const maxPrice = searchParams.has('maxPrice') ? Number(searchParams.get('maxPrice')) : 500;
+    if (minPrice !== 50 || maxPrice !== 500) count += 1;
+    
+    setActiveFiltersCount(count);
+  }, [searchParams]);
   
   // Apply sorting
   const handleSortChange = (value: string) => {
-    // Ensure the value is valid by checking if it exists in our options
-    if (!SORT_OPTIONS.some(option => option.value === value)) {
-      value = "featured"; // Default to "featured" if invalid
-    }
-    
     setSortOption(value);
     const params = new URLSearchParams(searchParams.toString());
     params.set('sort', value);
@@ -47,117 +68,113 @@ export function ProductsHeader() {
   };
   
   // Handle search form submission
-  const handleSearch = (e: { preventDefault: () => void; }) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
     
     const params = new URLSearchParams(searchParams.toString());
-    params.set('q', searchQuery);
-    router.push(`/products?${params.toString()}`);
-  };
-  
-  // Handle category filter tabs
-  const handleTabChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    if (value === "all") {
-      params.delete('category');
+    if (searchQuery.trim()) {
+      params.set('q', searchQuery.trim());
     } else {
-      params.set('category', value);
+      params.delete('q');
     }
     
     router.push(`/products?${params.toString()}`);
   };
   
-  // Validate sortOption exists in options on component mount or URL change
-  useEffect(() => {
-    const currentSort = searchParams.get('sort');
-    if (currentSort && !SORT_OPTIONS.some(option => option.value === currentSort)) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('sort', 'featured');
-      router.replace(`/products?${params.toString()}`);
-    }
-  }, [searchParams, router, SORT_OPTIONS]);
+  // Clear all filters and search
+  const clearAll = () => {
+    router.push('/products');
+    setSearchQuery('');
+    setSortOption('featured');
+  };
   
   return (
-    <div className="mb-8 space-y-6">
+    <div className="mb-6 md:mb-8 space-y-4 md:space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <p className="text-muted-foreground text-sm md:text-base mt-1">
           {t("description")}
         </p>
       </div>
       
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <form onSubmit={handleSearch} className="relative w-full sm:w-auto sm:min-w-[300px]">
-          <Input
-            type="search"
-            placeholder={t("search.placeholder")}
-            className="pr-10"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Button 
-            type="submit" 
-            variant="ghost" 
-            size="sm"
-            className="absolute right-0 top-0 h-full px-3"
-            aria-label={t("search.button")}
-          >
-            <Search className="h-4 w-4" />
-          </Button>
-        </form>
-        <div className="flex items-center space-x-2 w-full sm:w-auto">
-          <span className="text-sm text-gray-500 whitespace-nowrap">{t("sort.label")}</span>
-          <Select
-            value={sortOption}
-            onValueChange={handleSortChange}
-            defaultValue="featured"
-          >
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder={t("sort.placeholder")} />
-            </SelectTrigger>
-            <SelectContent>
-              {SORT_OPTIONS.map(option => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {/* Mobile filters button - only shown on small screens */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2" size="sm">
+                <SlidersHorizontal className="h-4 w-4" />
+                <span>{t("filters.title")}</span>
+                {activeFiltersCount > 0 && (
+                  <Badge variant="secondary" className="ml-1 text-xs">
+                    {activeFiltersCount}
+                  </Badge>
+                )}
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+              <div className="py-6">
+                <h2 className="text-lg font-semibold mb-4">{t("filters.title")}</h2>
+                <ProductFilters />
+              </div>
+            </SheetContent>
+          </Sheet>
+          
+          {activeFiltersCount > 0 && (
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={clearAll}
+              className="text-xs"
+            >
+              {t("filters.clear")}
+            </Button>
+          )}
+        </div>
+        
+        {/* Search and sort controls */}
+        <div className="flex flex-1 flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+          <form onSubmit={handleSearch} className="relative flex-1 max-w-md">
+            <Input
+              type="search"
+              placeholder="Search tires..."
+              className="pr-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Button 
+              type="submit"
+              size="icon"
+              variant="ghost"
+              className="absolute right-0 top-0 h-full"
+            >
+              <Search className="h-4 w-4" />
+              <span className="sr-only">Search</span>
+            </Button>
+          </form>
+          
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground hidden sm:inline">
+              {t("sort.title")}:
+            </span>
+            <Select
+              value={sortOption}
+              onValueChange={handleSortChange}
+            >
+              <SelectTrigger className="w-[180px] h-9">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SORT_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
-      
-      <Tabs 
-        defaultValue="all" 
-        value={searchParams.get('category') || 'all'}
-        onValueChange={handleTabChange}
-        className="w-full"
-      >
-        <TabsList className="w-full justify-start overflow-x-auto">
-          <TabsTrigger value="all" className="text-sm">
-            {t("categories.all")}
-          </TabsTrigger>
-          <TabsTrigger value="all_season" className="text-sm">
-            {t("categories.all_season")}
-          </TabsTrigger>
-          <TabsTrigger value="summer" className="text-sm">
-            {t("categories.summer")}
-          </TabsTrigger>
-          <TabsTrigger value="winter" className="text-sm">
-            {t("categories.winter")}
-          </TabsTrigger>
-          <TabsTrigger value="all_terrain" className="text-sm">
-            {t("categories.all_terrain")}
-          </TabsTrigger>
-          <TabsTrigger value="high_performance" className="text-sm">
-            {t("categories.high_performance")}
-          </TabsTrigger>
-          <TabsTrigger value="sale" className="text-sm">
-            {t("categories.sale")}
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
     </div>
   );
 }

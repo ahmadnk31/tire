@@ -29,6 +29,7 @@ import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
 import { LocaleSwitcher } from "./locale-switcher"
 import { useCart } from "@/contexts/cart-context"
+import { CartQuickView } from "./cart-quick-view"
 
 export function Navbar() {
   const t = useTranslations('navbar')
@@ -40,19 +41,29 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const { itemCount } = useCart()
-
+  const isHomePage = pathname === `/${locale}` || pathname === '/'
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      // Set isScrolled to true immediately when on homepage
+      // This ensures the navbar is always visible
+      if (isHomePage) {
         setIsScrolled(true)
       } else {
-        setIsScrolled(false)
+        // For other pages, maintain normal scroll behavior
+        if (window.scrollY > 10) {
+          setIsScrolled(true)
+        } else {
+          setIsScrolled(false)
+        }
       }
     }
 
+    // Set initial scroll state
+    handleScroll()
+    
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [isHomePage])
 
   // Close mobile menu when navigating to a new page
   useEffect(() => {
@@ -105,12 +116,12 @@ export function Navbar() {
   const menuItems = getMenuItems()
 
   // Determine text and background colors based on scroll state and path
-  const isHomePage = pathname === `/${locale}` || pathname === '/'
+  
   const textColor = isHomePage && !isScrolled ? "text-white" : "text-foreground"
   const bgColor = isScrolled
     ? "bg-background shadow-md"
     : isHomePage 
-      ? "bg-transparent" 
+      ? "bg-background/50 backdrop-blur-md" 
       : "bg-background border-b"
 
   return (
@@ -325,27 +336,58 @@ export function Navbar() {
                   </>
                 )}
               </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Cart Button */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className={`relative ${textColor}`}
-              aria-label={t('cart.aria')}
-              onClick={() => router.push(`/${locale}/cart`)}
-            >
-              <ShoppingCart className="h-5 w-5" />
-              {itemCount > 0 && (
-                <Badge
-                  variant="default"
-                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center"
-                  aria-label={t('cart.ariaCount', { count: itemCount })}
+            </DropdownMenu>            {/* Cart Button with Quick View Sheet */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className={`relative ${textColor}`}
+                  aria-label={t('cart.aria')}
                 >
-                  {itemCount}
-                </Badge>
-              )}
-            </Button>
+                  <ShoppingCart className="h-5 w-5" />
+                  {itemCount > 0 && (
+                    <Badge
+                      variant="default"
+                      className="absolute -top-1 -right-1 h-5 w-5 rounded-full text-xs flex items-center justify-center"
+                      aria-label={t('cart.ariaCount', { count: itemCount })}
+                    >
+                      {itemCount}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-full sm:max-w-lg">                <SheetHeader className="space-y-2">
+                  <SheetTitle className="flex items-center">
+                    <ShoppingCart className="mr-2 h-5 w-5" />
+                    {useTranslations('cart')('title')} ({itemCount})
+                  </SheetTitle>
+                </SheetHeader>
+                
+                <CartQuickView />
+                
+                <div className="mt-auto pt-4 space-y-3">
+                  <Button 
+                    variant="default" 
+                    size="lg" 
+                    className="w-full" 
+                    onClick={() => router.push(`/${locale}/cart`)}
+                  >
+                    {useTranslations('cart')('viewCart')}
+                  </Button>
+                  
+                  <Button 
+                    variant="secondary" 
+                    size="lg" 
+                    className="w-full" 
+                    onClick={() => router.push(`/${locale}/checkout`)}
+                    disabled={itemCount === 0}
+                  >
+                    {useTranslations('cart')('checkout')}
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
         

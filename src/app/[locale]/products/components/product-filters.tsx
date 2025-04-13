@@ -7,6 +7,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +28,7 @@ import {
 interface FilterState {
   brands: string[];
   categories: string[];
-  tireTypes: string[];
+  tireType: string[];
   widths: number[];
   aspectRatios: number[];
   rimDiameters: number[];
@@ -40,7 +43,7 @@ interface FilterState {
 interface FilterOptions {
   brands: {id: string; name: string}[];
   categories: {id: string; name: string}[];
-  tireTypes: string[];
+  tireType: string[];
   widths: number[];
   aspectRatios: number[];
   rimDiameters: number[];
@@ -48,14 +51,16 @@ interface FilterOptions {
 }
 
 export function ProductFilters() {
+  const t = useTranslations("Products");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [priceRange, setPriceRange] = useState([50, 500]);
   const [loading, setLoading] = useState(true);
+  const [activeFiltersCount, setActiveFiltersCount] = useState(0);
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     brands: [],
     categories: [],
-    tireTypes: [],
+    tireType: [],
     widths: [],
     aspectRatios: [],
     rimDiameters: [],
@@ -66,7 +71,7 @@ export function ProductFilters() {
   const [filters, setFilters] = useState<FilterState>({
     brands: [],
     categories: [],
-    tireTypes: [],
+    tireType: [],
     widths: [],
     aspectRatios: [],
     rimDiameters: [],
@@ -76,6 +81,23 @@ export function ProductFilters() {
     minPrice: 50,
     maxPrice: 500
   });
+
+  // Effect to count active filters
+  useEffect(() => {
+    let count = 0;
+    if (filters.brands.length) count += filters.brands.length;
+    if (filters.categories.length) count += filters.categories.length;
+    if (filters.tireType.length) count += filters.tireType.length;
+    if (filters.widths.length) count += 1;
+    if (filters.aspectRatios.length) count += 1;
+    if (filters.rimDiameters.length) count += 1;
+    if (filters.speedRatings.length) count += filters.speedRatings.length;
+    if (filters.runFlat !== null) count += 1;
+    if (filters.reinforced !== null) count += 1;
+    if (filters.minPrice !== 50 || filters.maxPrice !== 500) count += 1;
+    
+    setActiveFiltersCount(count);
+  }, [filters]);
 
   // Fetch filter options
   useEffect(() => {
@@ -103,7 +125,7 @@ export function ProductFilters() {
     // Parse URL parameters here
     const brandIds = searchParams.get('brandIds')?.split(',') || [];
     const categoryIds = searchParams.get('categoryIds')?.split(',') || [];
-    const tireTypes = searchParams.get('tireTypes')?.split(',') || [];
+    const tireType = searchParams.get('tireType')?.split(',') || [];
     const widths = searchParams.get('widths')?.split(',').map(Number) || [];
     const aspectRatios = searchParams.get('aspectRatios')?.split(',').map(Number) || [];
     const rimDiameters = searchParams.get('rimDiameters')?.split(',').map(Number) || [];
@@ -117,7 +139,7 @@ export function ProductFilters() {
     setFilters({
       brands: brandIds,
       categories: categoryIds,
-      tireTypes,
+      tireType,
       widths,
       aspectRatios,
       rimDiameters,
@@ -139,7 +161,7 @@ export function ProductFilters() {
     // Add all active filters to the URL
     if (filters.brands.length > 0) params.set('brandIds', filters.brands.join(','));
     if (filters.categories.length > 0) params.set('categoryIds', filters.categories.join(','));
-    if (filters.tireTypes.length > 0) params.set('tireTypes', filters.tireTypes.join(','));
+    if (filters.tireType.length > 0) params.set('tireType', filters.tireType.join(','));
     if (filters.widths.length > 0) params.set('widths', filters.widths.join(','));
     if (filters.aspectRatios.length > 0) params.set('aspectRatios', filters.aspectRatios.join(','));
     if (filters.rimDiameters.length > 0) params.set('rimDiameters', filters.rimDiameters.join(','));
@@ -153,12 +175,12 @@ export function ProductFilters() {
     router.push(`/products?${params.toString()}`);
   };
 
-  // Reset all filters
-  const resetFilters = () => {
+  // Clear all filters
+  const clearAllFilters = () => {
     setFilters({
       brands: [],
       categories: [],
-      tireTypes: [],
+      tireType: [],
       widths: [],
       aspectRatios: [],
       rimDiameters: [],
@@ -168,337 +190,257 @@ export function ProductFilters() {
       minPrice: 50,
       maxPrice: 500
     });
-    setPriceRange([50, 500]);
-
-    // Clear URL parameters
+    
+    // Clear URL params and redirect
     router.push('/products');
   };
 
-  // Handle brand selection change
-  const handleBrandChange = (brandId: string) => {
-    setFilters(prev => ({
-      ...prev,
-      brands: prev.brands.includes(brandId)
-        ? prev.brands.filter(b => b !== brandId)
-        : [...prev.brands, brandId]
-    }));
-  };
+  // Render loading state
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="space-y-2">
+            <div className="h-6 bg-gray-200 rounded animate-pulse w-1/3" />
+            <div className="h-12 bg-gray-200 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
-  // Handle category selection change
-  const handleCategoryChange = (categoryId: string) => {
-    setFilters(prev => ({
-      ...prev,
-      categories: prev.categories.includes(categoryId)
-        ? prev.categories.filter(c => c !== categoryId)
-        : [...prev.categories, categoryId]
-    }));
-  };
-
-  // Handle tire type selection change
-  const handleTireTypeChange = (tireType: string) => {
-    setFilters(prev => ({
-      ...prev,
-      tireTypes: prev.tireTypes.includes(tireType)
-        ? prev.tireTypes.filter(t => t !== tireType)
-        : [...prev.tireTypes, tireType]
-    }));
+  // Show active filters summary
+  const renderActiveFiltersBadge = () => {
+    if (activeFiltersCount === 0) return null;
+    
+    return (
+      <div className="flex items-center mb-4 flex-wrap gap-2">
+        <Badge variant="outline" className="py-1 px-3">
+          {t("filters.title")}: {activeFiltersCount}
+        </Badge>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={clearAllFilters}
+          className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground flex items-center"
+        >
+          <X className="h-3 w-3 mr-1" />
+          {t("filters.clear")}
+        </Button>
+      </div>
+    );
   };
 
   return (
-    <div className="space-y-6 sticky top-24">
-      <Card>
-        <CardContent className="p-6">
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Find Your Tire Size</h3>
-            
-            <div className="space-y-4">
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <Label htmlFor="width">Width</Label>
-                  <Select 
-                    value={filters.widths.length === 1 ? String(filters.widths[0]) : ""}
-                    onValueChange={(value) => {
-                      const width = Number(value);
-                      setFilters(prev => ({
-                        ...prev,
-                        widths: value ? [width] : []
-                      }));
+    <div className="space-y-6 px-4 lg:px-6 py-4 lg:py-6 bg-white rounded-lg shadow-sm border">
+      {renderActiveFiltersBadge()}
+      
+      <Accordion type="multiple" defaultValue={["brands", "categories", "tireTypes"]}>
+        {/* Brand filter */}
+        <AccordionItem value="brands" className="border-b">
+          <AccordionTrigger className="py-3 text-base hover:no-underline">
+            {t("filters.brands")}
+          </AccordionTrigger>
+          <AccordionContent className="pt-1 pb-3">
+            <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
+              {filterOptions.brands.map((brand) => (
+                <div key={brand.id} className="flex items-center space-x-2">
+                  <Checkbox 
+                    id={`brand-${brand.id}`} 
+                    checked={filters.brands.includes(brand.id)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setFilters({...filters, brands: [...filters.brands, brand.id]});
+                      } else {
+                        setFilters({...filters, brands: filters.brands.filter(id => id !== brand.id)});
+                      }
                     }}
+                  />
+                  <Label 
+                    htmlFor={`brand-${brand.id}`}
+                    className="text-sm cursor-pointer flex-grow"
                   >
-                    <SelectTrigger id="width">
-                      <SelectValue placeholder="Width" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0">Any</SelectItem>
-                      {filterOptions.widths.length > 0 ? (
-                        filterOptions.widths.map(width => (
-                          <SelectItem key={width} value={String(width)}>{width}</SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="0" disabled>No options available</SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
+                    {brand.name}
+                  </Label>
                 </div>
-                
-                <div>
-                  <Label htmlFor="aspectRatio">Aspect Ratio</Label>
-                  <Select
-                    value={filters.aspectRatios.length === 1 ? String(filters.aspectRatios[0]) : ""}
-                    onValueChange={(value) => {
-                      const aspectRatio = Number(value);
-                      setFilters(prev => ({
-                        ...prev,
-                        aspectRatios: value ? [aspectRatio] : []
-                      }));
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        {/* Category filter */}
+        <AccordionItem value="categories" className="border-b">
+          <AccordionTrigger className="py-3 text-base hover:no-underline">
+            {t("filters.categories")}
+          </AccordionTrigger>
+          <AccordionContent className="pt-1 pb-3">
+            <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
+              {filterOptions.categories.map((category) => (
+                <div key={category.id} className="flex items-center space-x-2">
+                  <Checkbox 
+                    id={`category-${category.id}`} 
+                    checked={filters.categories.includes(category.id)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setFilters({...filters, categories: [...filters.categories, category.id]});
+                      } else {
+                        setFilters({...filters, categories: filters.categories.filter(id => id !== category.id)});
+                      }
                     }}
+                  />
+                  <Label 
+                    htmlFor={`category-${category.id}`}
+                    className="text-sm cursor-pointer flex-grow"
                   >
-                    <SelectTrigger id="aspectRatio">
-                      <SelectValue placeholder="Ratio" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0">Any</SelectItem>
-                      {filterOptions.aspectRatios.length > 0 ? (
-                        filterOptions.aspectRatios.map(ratio => (
-                          <SelectItem key={ratio} value={String(ratio)}>{ratio}</SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="0" disabled>No options available</SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
+                    {category.name}
+                  </Label>
                 </div>
-                
-                <div>
-                  <Label htmlFor="rimDiameter">Rim Diameter</Label>
-                  <Select
-                    value={filters.rimDiameters.length === 1 ? String(filters.rimDiameters[0]) : ""}
-                    onValueChange={(value) => {
-                      const diameter = Number(value);
-                      setFilters(prev => ({
-                        ...prev,
-                        rimDiameters: value ? [diameter] : []
-                      }));
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        {/* Tire Type filter */}
+        <AccordionItem value="tireTypes" className="border-b">
+          <AccordionTrigger className="py-3 text-base hover:no-underline">
+            {t("filters.tireTypes")}
+          </AccordionTrigger>
+          <AccordionContent className="pt-1 pb-3">
+            <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
+              {filterOptions.tireType.map((type) => (
+                <div key={type} className="flex items-center space-x-2">
+                  <Checkbox 
+                    id={`type-${type}`} 
+                    checked={filters.tireType.includes(type)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setFilters({...filters, tireType: [...filters.tireType, type]});
+                      } else {
+                        setFilters({...filters, tireType: filters.tireType.filter(t => t !== type)});
+                      }
                     }}
+                  />
+                  <Label 
+                    htmlFor={`type-${type}`}
+                    className="text-sm cursor-pointer flex-grow"
                   >
-                    <SelectTrigger id="rimDiameter">
-                      <SelectValue placeholder="Rim" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0">Any</SelectItem>
-                      {filterOptions.rimDiameters.length > 0 ? (
-                        filterOptions.rimDiameters.map(diameter => (
-                          <SelectItem key={diameter} value={String(diameter)}>{diameter}"</SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="0" disabled>No options available</SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
+                    {type.replace(/_/g, ' ')}
+                  </Label>
                 </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        {/* Price Range filter */}
+        <AccordionItem value="priceRange" className="border-b">
+          <AccordionTrigger className="py-3 text-base hover:no-underline">
+            {t("filters.priceRange")}
+          </AccordionTrigger>
+          <AccordionContent className="pt-1 pb-3">
+            <div className="space-y-6 px-1">
+              <Slider
+                defaultValue={priceRange}
+                min={0}
+                max={1000}
+                step={10}
+                onValueChange={setPriceRange}
+              />
+              <div className="flex items-center justify-between">
+                <p className="text-sm">
+                  ${priceRange[0]} - ${priceRange[1]}
+                </p>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        {/* Tire Sizes filter */}
+        <AccordionItem value="tireSizes" className="border-b">
+          <AccordionTrigger className="py-3 text-base hover:no-underline">
+            {t("filters.sizes")}
+          </AccordionTrigger>
+          <AccordionContent className="pt-1 pb-3">
+            <div className="space-y-3">
+              <div className="space-y-1">
+                <Label className="text-sm text-muted-foreground">Width</Label>
+                <Select
+                  value={filters.widths[0]?.toString() || ""}
+                  onValueChange={(value) => {
+                    setFilters({...filters, widths: [parseInt(value)]});
+                  }}
+                >
+                  <SelectTrigger className="h-8">
+                    <SelectValue placeholder="Select width" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Any</SelectItem>
+                    {filterOptions.widths.map((width) => (
+                      <SelectItem key={width} value={width.toString()}>
+                        {width}mm
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               
-              <Button 
-                className="w-full" 
-                onClick={applyFilters}
-              >
-                Find Tires
-              </Button>
+              <div className="space-y-1">
+                <Label className="text-sm text-muted-foreground">Aspect Ratio</Label>
+                <Select
+                  value={filters.aspectRatios[0]?.toString() || ""}
+                  onValueChange={(value) => {
+                    setFilters({...filters, aspectRatios: value ? [parseInt(value)] : []});
+                  }}
+                >
+                  <SelectTrigger className="h-8">
+                    <SelectValue placeholder="Select ratio" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Any</SelectItem>
+                    {filterOptions.aspectRatios.map((ratio) => (
+                      <SelectItem key={ratio} value={ratio.toString()}>
+                        {ratio}%
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               
-              <p className="text-sm text-gray-500 mt-2">
-                Not sure about your tire size? 
-                <a href="/tire-finder" className="text-blue-500 ml-1 hover:underline">
-                  Use our Tire Finder
-                </a>
-              </p>
+              <div className="space-y-1">
+                <Label className="text-sm text-muted-foreground">Rim Diameter</Label>
+                <Select
+                  value={filters.rimDiameters[0]?.toString() || ""}
+                  onValueChange={(value) => {
+                    setFilters({...filters, rimDiameters: value ? [parseInt(value)] : []});
+                  }}
+                >
+                  <SelectTrigger className="h-8">
+                    <SelectValue placeholder="Select diameter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Any</SelectItem>
+                    {filterOptions.rimDiameters.map((diameter) => (
+                      <SelectItem key={diameter} value={diameter.toString()}>
+                        {diameter}"
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
-          
-          <Accordion type="multiple" defaultValue={["price", "types"]}>
-            <AccordionItem value="price">
-              <AccordionTrigger className="text-base font-medium">Price Range</AccordionTrigger>
-              <AccordionContent>
-                <div className="pt-2 px-1">
-                  <Slider
-                    value={priceRange}
-                    onValueChange={(values) => {
-                      setPriceRange(values as number[]);
-                      setFilters(prev => ({
-                        ...prev,
-                        minPrice: values[0],
-                        maxPrice: values[1]
-                      }));
-                    }}
-                    min={0}
-                    max={1000}
-                    step={10}
-                  />
-                  <div className="flex justify-between mt-2 text-sm">
-                    <span>${priceRange[0]}</span>
-                    <span>${priceRange[1]}</span>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="brands">
-              <AccordionTrigger className="text-base font-medium">Brands</AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
-                  {loading ? (
-                    <div className="text-sm text-gray-500">Loading brands...</div>
-                  ) : (
-                    filterOptions.brands.map(brand => (
-                      <div key={brand.id} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`brand-${brand.id}`} 
-                          checked={filters.brands.includes(brand.id)}
-                          onCheckedChange={() => handleBrandChange(brand.id)}
-                        />
-                        <Label htmlFor={`brand-${brand.id}`} className="text-sm font-normal cursor-pointer">
-                          {brand.name}
-                        </Label>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="categories">
-              <AccordionTrigger className="text-base font-medium">Categories</AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-2">
-                  {loading ? (
-                    <div className="text-sm text-gray-500">Loading categories...</div>
-                  ) : (
-                    filterOptions.categories.map(category => (
-                      <div key={category.id} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`category-${category.id}`} 
-                          checked={filters.categories.includes(category.id)}
-                          onCheckedChange={() => handleCategoryChange(category.id)}
-                        />
-                        <Label htmlFor={`category-${category.id}`} className="text-sm font-normal cursor-pointer">
-                          {category.name}
-                        </Label>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="types">
-              <AccordionTrigger className="text-base font-medium">Tire Types</AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-2">
-                  {loading ? (
-                    <div className="text-sm text-gray-500">Loading tire types...</div>
-                  ) : (
-                    filterOptions.tireTypes.map(tireType => (
-                      <div key={tireType} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`type-${tireType}`} 
-                          checked={filters.tireTypes.includes(tireType)}
-                          onCheckedChange={() => handleTireTypeChange(tireType)}
-                        />
-                        <Label htmlFor={`type-${tireType}`} className="text-sm font-normal cursor-pointer">
-                          {tireType.replace('_', ' ')}
-                        </Label>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="advanced">
-              <AccordionTrigger className="text-base font-medium">Advanced Options</AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="speed-rating">Speed Rating</Label>
-                    <Select
-                      value={filters.speedRatings.length === 1 ? filters.speedRatings[0] : ""}
-                      onValueChange={(value) => {
-                        setFilters(prev => ({
-                          ...prev,
-                          speedRatings: value ? [value] : []
-                        }));
-                      }}
-                    >
-                      <SelectTrigger id="speed-rating">
-                        <SelectValue placeholder="Any" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="0">Any</SelectItem>
-                        {filterOptions.speedRatings.length > 0 ? (
-                          filterOptions.speedRatings.map(rating => (
-                            <SelectItem key={rating} value={rating}>{rating}</SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="0" disabled>No options available</SelectItem>
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="run-flat" 
-                      checked={filters.runFlat === true}
-                      onCheckedChange={(value) => {
-                        setFilters(prev => ({
-                          ...prev,
-                          runFlat: value === true ? true : value === false ? null : false
-                        }));
-                      }}
-                    />
-                    <Label htmlFor="run-flat" className="text-sm font-normal cursor-pointer">
-                      Run Flat Technology
-                    </Label>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="reinforced" 
-                      checked={filters.reinforced === true}
-                      onCheckedChange={(value) => {
-                        setFilters(prev => ({
-                          ...prev,
-                          reinforced: value === true ? true : value === false ? null : false
-                        }));
-                      }}
-                    />
-                    <Label htmlFor="reinforced" className="text-sm font-normal cursor-pointer">
-                      Reinforced
-                    </Label>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          
-          <div className="flex gap-2 mt-6">
-            <Button 
-              variant="default" 
-              className="flex-1"
-              onClick={applyFilters}
-            >
-              Apply Filters
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="flex-1"
-              onClick={resetFilters}
-            >
-              Reset
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      
+      {/* Apply filters button for mobile */}
+      <div className="lg:hidden pt-2">
+        <Button 
+          className="w-full" 
+          onClick={applyFilters}
+        >
+          {t("filters.apply")}
+        </Button>
+      </div>
     </div>
   );
 }

@@ -32,6 +32,7 @@ interface AddToCartButtonProps {
   showQuantity?: boolean;
   variant?: "default" | "secondary" | "outline" | "ghost";
   size?: "default" | "sm" | "lg" | "icon";
+  children?: React.ReactNode;
 }
 
 export function AddToCartButton({
@@ -41,6 +42,7 @@ export function AddToCartButton({
   showQuantity = false,
   variant = "default",
   size = "default",
+  children
 }: AddToCartButtonProps) {
   const { addItem } = useCart();
   const [itemQuantity, setItemQuantity] = useState(quantity);
@@ -190,7 +192,7 @@ export function AddToCartButton({
         ) : (
           <>
             <ShoppingCart className="mr-2 h-4 w-4" />
-            Add to Cart
+            {children || "Add to Cart"}
           </>
         )}
       </Button>

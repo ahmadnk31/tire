@@ -1,7 +1,7 @@
 import { FedExProvider } from './providers/fedex-provider';
 import { DHLShippingProvider } from './providers/dhl-provider';
 import { GLSShippingProvider } from './providers/gls-provider';
-import { ShippingProvider } from './shipping-interfaces';
+import { ShippingProvider, RateRequest } from './shipping-interfaces';
 import { prisma } from '@/lib/db';
 
 // Detect if we're running in a browser environment (client component)
@@ -69,7 +69,6 @@ export class ShippingProviderFactory {
     
     this.initialized = true;
   }
-
   /**
    * Get a shipping provider by name
    * @param providerName Optional provider name, uses default if not provided
@@ -80,31 +79,47 @@ export class ShippingProviderFactory {
 
     const providerKey = providerName?.toLowerCase() || this.defaultProvider;
     
-    // If the requested provider is not available or marked as not working
-    if (!providerKey || !this.providers.has(providerKey) || this.providerStatus.get(providerKey) === false) {
-      // If a specific provider was requested but it's not working
-      if (providerName) {
-        console.warn(`Shipping provider "${providerName}" is not available or not working, using default.`);
-      }
-      
-      // Try to use the default provider
-      if (this.defaultProvider && this.providers.has(this.defaultProvider) && 
-          this.providerStatus.get(this.defaultProvider) !== false) {
-        return this.providers.get(this.defaultProvider)!;
-      }
-      
-      // If default is also not working, find any working provider
-      for (const [key, isWorking] of this.providerStatus.entries()) {
-        if (isWorking && this.providers.has(key)) {
-          return this.providers.get(key)!;
+    // Check if we have credentials for the requested provider
+    try {
+      // If the requested provider is not available or marked as not working
+      if (!providerKey || !this.providers.has(providerKey) || this.providerStatus.get(providerKey) === false) {
+        // If a specific provider was requested but it's not working
+        if (providerName) {
+          console.warn(`Shipping provider "${providerName}" is not available or not working, using default.`);
         }
+        
+        // Try to use the default provider
+        if (this.defaultProvider && this.providers.has(this.defaultProvider) && 
+            this.providerStatus.get(this.defaultProvider) !== false) {
+          return this.providers.get(this.defaultProvider)!;
+        }
+        
+        // If default is also not working, find any working provider
+        for (const [key, isWorking] of this.providerStatus.entries()) {
+          if (isWorking && this.providers.has(key)) {
+            return this.providers.get(key)!;
+          }
+        }
+        
+        // Log that we're having issues with all shipping providers
+        console.warn("All shipping providers are marked as not working. Using first available provider as fallback.");
       }
       
+      // Get the selected provider
+      const selectedProvider = this.providers.get(providerKey || [...this.providers.keys()][0])!;
+      
+      // Validate the provider before returning it (but don't throw if validation fails)
+      this.validateProviderCredentials(selectedProvider).catch(error => {
+        console.error(`Shipping provider validation failed for ${selectedProvider.getProviderName()}:`, error);
+        this.markProviderAsNotWorking(selectedProvider.getProviderName());
+      });
+      
+      return selectedProvider;
+    } catch (error) {
+      console.error("Error getting shipping provider:", error);
       // Last resort - just return any provider even if marked as not working
       return this.providers.get([...this.providers.keys()][0])!;
     }
-
-    return this.providers.get(providerKey)!;
   }
 
   /**
@@ -222,5 +237,72 @@ export class ShippingProviderFactory {
     }
     
     return this.providers.delete(providerKey);
+  }
+
+  /**
+   * Validate provider credentials with API to ensure they're working
+   * @param provider The shipping provider to validate
+   * @returns Promise that resolves if validation passes, rejects with error if not
+   */
+  private static async validateProviderCredentials(provider: ShippingProvider): Promise<void> {
+    try {
+      // Check if the provider has implemented the validateCredentials method
+      if (typeof provider.validateCredentials === 'function') {
+        // Test the provider's API connection
+        const isValid = await provider.validateCredentials();
+        
+        if (!isValid) {
+          throw new Error(`Failed to validate credentials for ${provider.getProviderName()}`);
+        }
+      } else {
+        // For providers without the validateCredentials method,
+        // we'll do a simple check by trying to get rates
+        try {
+          // Create a minimal rate request to test the connection
+          const testRequest: RateRequest = {
+            shipperAddress: {
+              contactName: 'Test Shipper',
+              phone: '1234567890',
+              email: 'test@example.com',
+              addressLine1: '123 Shipper St',
+              city: 'Shipper City',
+              state: 'CA',
+              postalCode: '90210',
+              countryCode: 'US'
+            },
+            recipientAddress: {
+              contactName: 'Test Recipient',
+              phone: '0987654321',
+              email: 'recipient@example.com',
+              addressLine1: '456 Recipient St',
+              city: 'Recipient City', 
+              state: 'NY',
+              postalCode: '10001',
+              countryCode: 'US'
+            },
+            packages: [{
+              weight: 1,
+              length: 10,
+              width: 10,
+              height: 10
+            }]
+          };
+          
+          // Just getting rates is enough to test the API connection
+          // We don't need to check the actual rates returned
+          await provider.getRates(testRequest);
+        } catch (apiError) {
+          // If getRates fails, consider the provider as not working
+          throw new Error(`Provider ${provider.getProviderName()} API test failed: ${apiError instanceof Error ? apiError.message : 'Unknown error'}`);
+        }
+      }
+      
+      // If we got here, credentials are valid, ensure the provider is marked as working
+      this.providerStatus.set(provider.getProviderName().toLowerCase(), true);
+    } catch (error) {
+      // Mark the provider as not working
+      this.providerStatus.set(provider.getProviderName().toLowerCase(), false);
+      throw error;
+    }
   }
 }

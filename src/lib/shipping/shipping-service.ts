@@ -77,19 +77,89 @@ export class ShippingService {
   }
 
   /**
-   * Create a shipment using the specified provider or the default provider
-   * @param request Shipment request parameters
-   * @param providerName Optional provider name, uses default if not specified
+   * Create a shipment with the specified provider
+   * @param options Shipment creation options
    * @returns Shipment creation response
    */
-  static async createShipment(request: ShipmentRequest, providerName?: string): Promise<ShipmentResponse> {
+  static async createShipment(options: {
+    provider: string;
+    serviceLevel: string;
+    toAddress: ShippingAddress;
+    fromAddress: any; 
+    items: Array<{
+      id: string;
+      weight: number;
+      dimensions: {
+        length: number;
+        width: number;
+        height: number;
+      };
+      quantity: number;
+    }>;
+  }): Promise<ShipmentResponse> {
     try {
-      const provider = await ShippingProviderFactory.getProvider(providerName);
+      // Get the specified provider
+      const provider = await ShippingProviderFactory.getProvider(options.provider);
+      
+      // Format the request for the shipment
+      const request: ShipmentRequest = {
+        shipperAddress: {
+          contactName: options.fromAddress.company || 'Shipping Department',
+          companyName: options.fromAddress.company,
+          phone: options.fromAddress.phone || '555-555-5555',
+          email: options.fromAddress.email || 'shipping@example.com',
+          addressLine1: options.fromAddress.street,
+          addressLine2: options.fromAddress.addressLine2 || '',
+          city: options.fromAddress.city,
+          state: options.fromAddress.state,
+          postalCode: options.fromAddress.postalCode,
+          countryCode: options.fromAddress.country
+        },
+        recipientAddress: {
+          contactName: options.toAddress.contactName || 'Recipient',
+          companyName: options.toAddress.companyName || '',
+          phone: options.toAddress.phone,
+          email: options.toAddress.email || '',
+          addressLine1: options.toAddress.addressLine1 || '',
+          addressLine2: options.toAddress.addressLine2 || '',
+          city: options.toAddress.city,
+          state: options.toAddress.state,
+          postalCode: options.toAddress.postalCode,
+          countryCode: options.toAddress.countryCode
+        },
+        packages: options.items.map(item => ({
+          weight: item.weight,
+          length: item.dimensions.length,
+          width: item.dimensions.width,
+          height: item.dimensions.height,
+          description: `Order item ${item.id} (Qty: ${item.quantity})`
+        })),
+        reference: `Order-${Date.now()}`,
+        serviceType: this.mapServiceLevelToType(options.serviceLevel)
+      };
+      
+      // Create the shipment with the provider
       return await provider.createShipment(request);
     } catch (error) {
-      logApiError('ShippingService.createShipment', error);
+      logApiError('Create Shipment Error', error);
       throw error;
     }
+  }
+  
+  /**
+   * Map service level string to ShippingServiceType
+   * @param serviceLevel Service level string
+   * @returns Matching ShippingServiceType or undefined
+   */
+  private static mapServiceLevelToType(serviceLevel: string) {
+    const serviceMap: Record<string, any> = {
+      'standard': 'STANDARD',
+      'express': 'EXPRESS',
+      'priority': 'PRIORITY',
+      'economy': 'ECONOMY'
+    };
+    
+    return serviceMap[serviceLevel.toLowerCase()];
   }
 
   /**
@@ -153,9 +223,30 @@ export class ShippingService {
       // Try to get the specified provider or default
       const provider = await ShippingProviderFactory.getProvider(providerName);
       try {
-        const result = await provider.validateAddress(address);
+        // Convert ShippingAddress to Address format
+        const addressForValidation = {
+          street: address.addressLine1 || '',
+          addressLine2: address.addressLine2,
+          city: address.city,
+          state: address.state,
+          postalCode: address.postalCode,
+          countryCode: address.countryCode
+        };
+        const result = await provider.validateAddress(addressForValidation);
         return {
-          ...result,
+          isValid: result.valid,
+          suggestedAddress: result.suggestedAddress ? {
+            contactName: address.contactName || '',
+            companyName: address.companyName || '',
+            phone: address.phone || '',
+            email: address.email || '',
+            addressLine1: result.suggestedAddress.street,
+            addressLine2: result.suggestedAddress.addressLine2 || '',
+            city: result.suggestedAddress.city,
+            state: result.suggestedAddress.state || '',
+            postalCode: result.suggestedAddress.postalCode,
+            countryCode: result.suggestedAddress.countryCode
+          } : undefined,
           provider: provider.getProviderName()
         };
       } catch (validationError) {

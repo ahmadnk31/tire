@@ -31,7 +31,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { IconRoad } from "@tabler/icons-react";
 
 // Import our new TanStack Query hooks
-import { useVehicleMakes, useVehicleModels, useVehicleYears } from "@/hooks/use-vehicle-api";
+import { usePopularVehicles, useVehicleMakes, useVehicleModels, useVehicleYears } from "@/hooks/use-vehicle-api";
 
 // Width options for tire size (in mm)
 const widthOptions = [
@@ -91,16 +91,11 @@ export default function TireFinder() {
     data: years = [], 
     isLoading: loadingYears 
   } = useVehicleYears(vehicleTab.modelId);
-  
-  // State for popular vehicles
-  const [popularVehicles] = useState([
-    { make: "Toyota", model: "Camry", image: "/placeholder.jpg" },
-    { make: "Honda", model: "Accord", image: "/placeholder.jpg" },
-    { make: "Ford", model: "F-150", image: "/placeholder.jpg" },
-    { make: "Chevrolet", model: "Silverado", image: "/placeholder.jpg" },
-    { make: "Toyota", model: "RAV4", image: "/placeholder.jpg" },
-    { make: "Honda", model: "CR-V", image: "/placeholder.jpg" },
-  ]);
+    // Use TanStack Query hook for popular vehicles
+  const { 
+    data: popularVehicles = [], 
+    isLoading: loadingPopularVehicles
+  } = usePopularVehicles();
 
   // Function to handle make selection
   const handleMakeSelect = (makeId: string) => {

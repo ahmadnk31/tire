@@ -13,9 +13,11 @@ export function formatDate(date: Date): string {
   }).format(date)
 }
 
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-EU", {
+export const formatPrice = (price: number) => {
+  return Intl.NumberFormat("en-EU", {
     style: "currency",
     currency: "EUR",
-  }).format(price)
-}
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price);
+};

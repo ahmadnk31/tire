@@ -64,6 +64,75 @@ export async function POST(request: Request) {
   }
 }
 
+// Send confirmation email for successful payment
+import { getOrderConfirmationHtml, getOrderConfirmationText } from "@/lib/email/order-templates";
+import { sendEmail } from "@/lib/email/aws-ses";
+
+async function sendOrderConfirmationEmail(order: any, paymentIntent: Stripe.PaymentIntent) {  
+  try {
+    // Get customer details from payment intent or order metadata
+    let customerEmail = '';
+    let customerName = '';
+    
+    if (paymentIntent.receipt_email) {
+      customerEmail = paymentIntent.receipt_email;
+    } else if (order.shippingEmail) {
+      customerEmail = order.shippingEmail;
+    } else if (order.metadata && (order.metadata as any).customer) {
+      try {
+        const customerData = JSON.parse((order.metadata as any).customer);
+        customerEmail = customerData.email;
+        customerName = customerData.name;
+      } catch (e) {
+        console.error('Error parsing customer data from metadata:', e);
+      }
+    }
+    
+    if (!customerEmail) {
+      console.error('No customer email found for order:', order.orderNumber);
+      return;
+    }
+    
+    // Format order items for the email template
+    const items = order.orderItems?.map((item: any) => ({
+      name: item.name || item.productName || 'Product',
+      quantity: item.quantity || 1,
+      price: item.price || item.unitPrice || 0,
+      image: item.image || undefined
+    })) || [];
+    
+    // Prepare email content using our template
+    const templateParams = {
+      orderNumber: order.orderNumber,
+      orderDate: new Date().toLocaleDateString(),
+      customerName: customerName || 'Valued Customer',
+      orderTotal: (paymentIntent.amount / 100).toFixed(2),
+      currency: paymentIntent.currency.toUpperCase(),
+      items: items,
+      shippingAddress: order.shippingAddress || {},
+      trackingNumber: order.trackingNumber || 'Not yet available',
+      estimatedDelivery: order.estimatedDelivery || 'Processing'
+    };
+    
+    // Generate email content from our templates
+    const htmlBody = getOrderConfirmationHtml(templateParams);
+    const textBody = getOrderConfirmationText(templateParams);
+    
+    // Send email using our AWS SES integration
+    await sendEmail({
+      to: customerEmail,
+      subject: `Order Confirmation #${order.orderNumber}`,
+      htmlBody,
+      textBody
+    });
+    
+    console.log(`Order confirmation email sent to ${customerEmail} for order #${order.orderNumber}`);
+  } catch (error) {
+    console.error('Error sending order confirmation email:', error);
+    // Don't throw error - we don't want to fail the webhook if email fails
+  }
+}
+
 // Handle successful payment
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   console.log(`Payment succeeded for payment intent: ${paymentIntent.id}`);
@@ -76,13 +145,32 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
           path: ["paymentId"],
           equals: paymentIntent.id
         }
+      },
+      include: {
+        user: true, // Include user info if associated with the order
+       orderItems: true
       }
     });
 
     if (order) {
       // Update order status to PAID if it's still PENDING or PROCESSING
       if (order.status === "PENDING" || order.status === "PROCESSING") {
-        await prisma.order.update({
+        // Get user info from payment intent if available
+        let userInfo = {};
+        if (paymentIntent.shipping) {
+          userInfo = {
+            customerName: paymentIntent.shipping.name,
+            customerPhone: paymentIntent.shipping.phone,
+            shippingAddress: {
+              ...paymentIntent.shipping.address,
+              recipient: paymentIntent.shipping.name,
+              phone: paymentIntent.shipping.phone
+            }
+          };
+        }
+        
+        // Extract more customer details if available
+        const updatedOrder = await prisma.order.update({
           where: { id: order.id },
           data: {
             paymentStatus: "PAID",
@@ -94,12 +182,15 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
                 paymentMethod: paymentIntent.payment_method_types[0],
                 amount: paymentIntent.amount,
                 currency: paymentIntent.currency,
-                paidAt: new Date().toISOString()
+                paidAt: new Date().toISOString(),
+                receiptEmail: paymentIntent.receipt_email,
+                ...userInfo
               }
             }
           }
         });
       }
+      await sendOrderConfirmationEmail(order, paymentIntent);
     } else {
       console.warn(`No order found for payment intent: ${paymentIntent.id}`);
     }

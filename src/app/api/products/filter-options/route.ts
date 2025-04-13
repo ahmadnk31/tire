@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     const rimDiameters = rimDiametersResult.map(item => item.rimDiameter);
 
     // Get tire types from enum
-    const tireTypes = Object.values(TireType);
+    const tireType = Object.values(TireType);
     
     // Get speed ratings from enum
     const speedRatings = Object.values(SpeedRating);
@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
       widths,
       aspectRatios,
       rimDiameters,
-      tireTypes,
+      tireType,
       speedRatings
     });
   } catch (error) {

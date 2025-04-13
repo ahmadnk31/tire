@@ -47,6 +47,8 @@ export interface ShippingOption {
   price: number;
   estimatedDelivery: string;
   description?: string;
+  provider?: string;
+  serviceLevel?: string;
 }
 
 export interface CartSummary {
@@ -74,30 +76,11 @@ interface CartContextType {
   updateSummary: (newShipping?: number) => void;
 }
 
+// Import default shipping options from centralized configuration
+import { DEFAULT_SHIPPING_OPTIONS } from '@/lib/shipping/shipping-options';
+
 // Default shipping options
-const defaultShippingOptions: ShippingOption[] = [
-  {
-    id: "standard",
-    name: "Standard Shipping",
-    price: 9.99,
-    estimatedDelivery: "3-5 Business Days",
-    description: "Standard shipping with tracking"
-  },
-  {
-    id: "express",
-    name: "Express Shipping",
-    price: 19.99,
-    estimatedDelivery: "1-2 Business Days",
-    description: "Fast delivery with tracking"
-  },
-  {
-    id: "next_day",
-    name: "Next Day Delivery",
-    price: 29.99,
-    estimatedDelivery: "Next Business Day",
-    description: "Guaranteed next business day delivery"
-  }
-];
+export const defaultShippingOptions = DEFAULT_SHIPPING_OPTIONS;
 
 // Create context with default values
 const CartContext = createContext<CartContextType>({

@@ -3,21 +3,51 @@ import { Metadata } from "next";
 import { ProductFilters } from "./components/product-filters";
 import { ProductGrid } from "./components/product-grid";
 import { ProductsHeader } from "./components/products-header";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Browse Tires | Premium Tire Shop",
-  description: "Browse our collection of premium tires for every vehicle type and driving condition.",
-};
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+  const t = await getTranslations("Products");
+  
+  return {
+    title: `${t("title")} | Premium Tire Shop`,
+    description: t("description"),
+  };
+}
 
-export default function ProductsPage() {
+export default async function ProductsPage({ params }: { params: { locale: string } }) {
+  const t = await getTranslations("Products");
+  
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto px-4 py-6 md:py-10">
       <ProductsHeader />
       
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar filters */}
-        <div className="w-full lg:w-1/4">
-          <ProductFilters />
+      {/* Mobile filters toggle (visible only on small screens) */}
+      <div className="block lg:hidden mb-4">
+        <details className="overflow-hidden rounded-lg border mb-4">
+          <summary className="flex cursor-pointer items-center justify-between bg-gray-50 px-5 py-3 transition">
+            <span className="text-sm font-medium">
+              {t("filters.title")}
+            </span>
+            <span className="shrink-0 transition duration-300 group-open:-rotate-180">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </span>
+          </summary>
+
+          <div className="border-t px-5 py-4 display-none lg:block">
+            <ProductFilters />
+          </div>
+        </details>
+      </div>
+      
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        {/* Sidebar filters - only visible on desktop */}
+        <div className="hidden lg:block w-full lg:w-1/4 lg:sticky lg:top-8 lg:self-start">
+          <div className="bg-white rounded-lg shadow-sm border p-5">
+            <h2 className="font-medium text-lg mb-4">{t("filters.title")}</h2>
+            <ProductFilters />
+          </div>
         </div>
         
         {/* Products grid */}

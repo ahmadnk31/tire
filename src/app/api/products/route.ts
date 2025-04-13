@@ -30,8 +30,7 @@ export async function GET(request: NextRequest) {
     
     // Build filter object
     const where: any = {};
-    
-    if (brand) {
+      if (brand) {
       where.brand = {
         name: {
           equals: brand,
@@ -39,14 +38,44 @@ export async function GET(request: NextRequest) {
         }
       };
     }
-    
-    if (category) {
+      if (category) {
       where.category = {
         name: {
           equals: category,
           mode: 'insensitive'
         }
       };
+    }
+      // Special handling for tire type to ensure it matches enum values exactly
+    const tireType = searchParams.get('tireType');
+    if (tireType) {
+      console.log(`Raw tireType parameter received: "${tireType}"`);
+      
+      // Explicitly create the where condition comparing against the actual database enum values
+      // The key issue is ensuring we use the exact enum value formats from the schema
+      if (tireType === 'SUMMER') {
+        where.tireType = { equals: 'SUMMER' };
+      } else if (tireType === 'WINTER') {
+        where.tireType = { equals: 'WINTER' };
+      } else if (tireType === 'ALL_SEASON') {
+        where.tireType = { equals: 'ALL_SEASON' };
+      } else if (tireType === 'ALL_TERRAIN') {
+        where.tireType = { equals: 'ALL_TERRAIN' };
+      } else if (tireType === 'MUD_TERRAIN') {
+        where.tireType = { equals: 'MUD_TERRAIN' };
+      } else if (tireType === 'HIGH_PERFORMANCE') {
+        where.tireType = { equals: 'HIGH_PERFORMANCE' };
+      } else if (tireType === 'TOURING') {
+        where.tireType = { equals: 'TOURING' };
+      } else if (tireType === 'HIGHWAY') {
+        where.tireType = { equals: 'HIGHWAY' };
+      } else if (tireType === 'COMMERCIAL') {
+        where.tireType = { equals: 'COMMERCIAL' };
+      } else if (tireType === 'TRACK') {
+        where.tireType = { equals: 'TRACK' };
+      }
+      
+      console.log('Final where clause with tireType:', JSON.stringify(where));
     }
     
     if (minRetailPrice !== undefined) {

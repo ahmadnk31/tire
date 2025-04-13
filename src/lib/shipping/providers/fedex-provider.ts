@@ -8,39 +8,29 @@ import {
   TrackingResponse,
   ShippingAddress,
   ShippingServiceType,
-  TrackingStatus
+  TrackingStatus,
+  Address
 } from '../shipping-interfaces';
 
 /**
  * FedEx shipping provider implementation
  */
 export class FedExProvider implements ShippingProvider {
-  private readonly apiKey: string;
-  private readonly apiSecret: string;
-  private readonly accountNumber: string;
-  private readonly meterNumber: string;
-  private readonly apiBaseUrl: string;
-
+  private config: any;
+  
   constructor() {
-    // Load credentials from environment variables
-    this.apiKey = process.env.FEDEX_API_KEY || '';
-    this.apiSecret = process.env.FEDEX_API_SECRET || '';
-    this.accountNumber = process.env.FEDEX_ACCOUNT_NUMBER || '';
-    this.meterNumber = process.env.FEDEX_METER_NUMBER || '';
-    
-    // Set API URL based on environment
-    this.apiBaseUrl = process.env.NODE_ENV === 'production'
-      ? 'https://apis.fedex.com'
-      : 'https://apis-sandbox.fedex.com';
-
-    // Validate required credentials
-    if (!this.apiKey || !this.apiSecret || !this.accountNumber || !this.meterNumber) {
-      console.warn('FedEx credentials missing. FedEx shipping provider may not work properly.');
-    }
+    // Initialize with environment variables or default test credentials
+    this.config = {
+      apiKey: process.env.FEDEX_API_KEY || '',
+      apiSecret: process.env.FEDEX_API_SECRET || '',
+      accountNumber: process.env.FEDEX_ACCOUNT_NUMBER || '',
+      apiUrl: process.env.FEDEX_API_URL || 'https://api-test.fedex.com/v1'
+    };
   }
-
+  
   /**
    * Get the provider name
+   * @returns The name of this shipping provider
    */
   getProviderName(): string {
     return 'FedEx';
@@ -53,19 +43,19 @@ export class FedExProvider implements ShippingProvider {
   private async getAccessToken(): Promise<string> {
     try {
       // Skip API call if credentials are missing
-      if (!this.apiKey || !this.apiSecret || !this.accountNumber || !this.meterNumber) {
+      if (!this.config.apiKey || !this.config.apiSecret || !this.config.accountNumber) {
         throw new Error('FedEx credentials are missing or incomplete');
       }
 
-      const response = await fetch(`${this.apiBaseUrl}/oauth/token`, {
+      const response = await fetch(`${this.config.apiUrl}/oauth/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
           grant_type: 'client_credentials',
-          client_id: this.apiKey,
-          client_secret: this.apiSecret
+          client_id: this.config.apiKey,
+          client_secret: this.config.apiSecret
         })
       });
 
@@ -221,7 +211,7 @@ export class FedExProvider implements ShippingProvider {
       // Prepare the request payload for FedEx Rate API
       const payload = {
         accountNumber: {
-          value: this.accountNumber
+          value: this.config.accountNumber
         },
         requestedShipment: {
           shipper: this.formatAddress(request.shipperAddress),
@@ -235,7 +225,7 @@ export class FedExProvider implements ShippingProvider {
       };
 
       // Make the API call to FedEx Rate API
-      const response = await fetch(`${this.apiBaseUrl}/rate/v1/rates/quotes`, {
+      const response = await fetch(`${this.config.apiUrl}/rate/v1/rates/quotes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -326,7 +316,7 @@ export class FedExProvider implements ShippingProvider {
             payor: {
               responsibleParty: {
                 accountNumber: {
-                  value: this.accountNumber
+                  value: this.config.accountNumber
                 }
               }
             }
@@ -346,7 +336,7 @@ export class FedExProvider implements ShippingProvider {
       };
 
       // Make the API call to FedEx Ship API
-      const response = await fetch(`${this.apiBaseUrl}/ship/v1/shipments`, {
+      const response = await fetch(`${this.config.apiUrl}/ship/v1/shipments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -409,7 +399,7 @@ export class FedExProvider implements ShippingProvider {
       };
 
       // Make the API call to FedEx Track API
-      const response = await fetch(`${this.apiBaseUrl}/track/v1/trackingnumbers`, {
+      const response = await fetch(`${this.config.apiUrl}/track/v1/trackingnumbers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -456,13 +446,16 @@ export class FedExProvider implements ShippingProvider {
       throw error;
     }
   }
-
   /**
    * Validate a shipping address
    * @param address Address to validate
-   * @returns Validation result
+   * @returns Validation result with valid flag, messages, and optional suggested address
    */
-  async validateAddress(address: ShippingAddress): Promise<{ isValid: boolean; suggestedAddress?: ShippingAddress }> {
+  async validateAddress(address: Address): Promise<{
+    valid: boolean;
+    suggestedAddress?: Address;
+    messages: string[];
+  }> {
     try {
       const accessToken = await this.getAccessToken();
       
@@ -472,11 +465,11 @@ export class FedExProvider implements ShippingProvider {
           {
             address: {
               streetLines: [
-                address.addressLine1,
+                address.street,
                 address.addressLine2 || ''
               ].filter(Boolean),
               city: address.city,
-              stateOrProvinceCode: address.state,
+              stateOrProvinceCode: address.state || '',
               postalCode: address.postalCode,
               countryCode: address.countryCode,
               residential: true
@@ -486,7 +479,7 @@ export class FedExProvider implements ShippingProvider {
       };
 
       // Make the API call to FedEx Address Validation API
-      const response = await fetch(`${this.apiBaseUrl}/address/v1/addresses/resolve`, {
+      const response = await fetch(`${this.config.apiUrl}/address/v1/addresses/resolve`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -497,7 +490,10 @@ export class FedExProvider implements ShippingProvider {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Failed to validate address with FedEx: ${response.status} ${errorText}`);
+        return {
+          valid: false,
+          messages: [`Failed to validate address with FedEx: ${response.status} ${errorText}`]
+        };
       }
 
       const data = await response.json();
@@ -506,27 +502,66 @@ export class FedExProvider implements ShippingProvider {
       const result = data.output.resolvedAddresses[0];
       
       // Check if address is valid
-      const isValid = result.attributes.some((attr: any) => attr.name === 'DPV_CONFIRMATION_CODE' && ['Y', 'S', 'D'].includes(attr.value));
+      const valid = result.attributes.some((attr: any) => attr.name === 'DPV_CONFIRMATION_CODE' && ['Y', 'S', 'D'].includes(attr.value));
+      
+      // Collect messages
+      const messages: string[] = result.customerMessages.map((msg: any) => msg.message);
       
       // Get suggested address if available
       const suggestedAddress = result.customerMessages.some((msg: any) => msg.code === 'STANDARDIZATION.APPLIED')
         ? {
-            ...address,
-            addressLine1: result.resolvedAddress.streetLines[0],
-            addressLine2: result.resolvedAddress.streetLines[1] || '',
+            street: result.resolvedAddress.streetLines[0],
+            addressLine2: result.resolvedAddress.streetLines[1] || undefined,
             city: result.resolvedAddress.city,
-            state: result.resolvedAddress.stateOrProvinceCode,
-            postalCode: result.resolvedAddress.postalCode
+            state: result.resolvedAddress.stateOrProvinceCode || undefined,
+            postalCode: result.resolvedAddress.postalCode,
+            countryCode: result.resolvedAddress.countryCode
           }
         : undefined;
       
       return {
-        isValid,
-        suggestedAddress
+        valid,
+        suggestedAddress,
+        messages
       };
     } catch (error) {
       console.error('Error validating address with FedEx:', error);
-      throw error;
+      return {
+        valid: false,
+        messages: [`Error validating address: ${error instanceof Error ? error.message : 'Unknown error'}`]
+      };
+    }
+  }
+
+  /**
+   * Test authentication with FedEx API
+   * @returns Authentication status
+   */
+  async testAuthentication(): Promise<{ authenticated: boolean; message: string }> {
+    try {
+      // Try to get an access token as a test of authentication
+      await this.getAccessToken();
+      
+      // If we get here, authentication was successful
+      return {
+        authenticated: true,
+        message: 'Successfully authenticated with FedEx API'
+      };
+    } catch (error) {
+      console.error('Error testing FedEx authentication:', error);
+      
+      // Check if credentials are missing
+      if (!this.config.apiKey || !this.config.apiSecret || !this.config.accountNumber) {
+        return {
+          authenticated: false,
+          message: 'FedEx credentials are missing or incomplete. Check your environment variables.'
+        };
+      }
+      
+      return {
+        authenticated: false,
+        message: `Authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
     }
   }
 }

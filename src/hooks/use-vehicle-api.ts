@@ -71,3 +71,36 @@ export function useVehicleYears(modelId: string) {
     enabled: !!modelId, // Only run the query if modelId is provided
   });
 }
+
+// Type for popular vehicles
+export interface PopularVehicle {
+  id: string;
+  make: string;
+  model: string;
+  image: string;
+  productCount?: number;
+}
+
+// Fetch popular vehicles
+async function fetchPopularVehicles(): Promise<PopularVehicle[]> {
+  const response = await fetch('/api/models/popular');
+  if (!response.ok) throw new Error('Failed to fetch popular vehicles');
+  const data = await response.json();
+  
+  // Transform the data to match the expected format
+  return data.models.map((item: any) => ({
+    id: item.id,
+    make: item.make,
+    model: item.model,
+    image: item.brandLogo || "/placeholder.jpg",
+    productCount: item.productCount
+  }));
+}
+
+// Hook for fetching popular vehicles
+export function usePopularVehicles() {
+  return useQuery({
+    queryKey: ['popularVehicles'],
+    queryFn: fetchPopularVehicles,
+  });
+}

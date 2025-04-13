@@ -15,7 +15,8 @@ import {
   Trash2, 
   ShoppingCart, 
   ArrowRight, 
-  Info 
+  Info, 
+  ImageIcon
 } from "lucide-react";
 import {
   Tooltip,
@@ -24,6 +25,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import { useTranslations } from "next-intl";
+import { formatPrice } from "@/lib/utils";
 
 export default function CartPage() {
   const router = useRouter();
@@ -35,7 +38,7 @@ export default function CartPage() {
     itemCount 
   } = useCart();
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
-
+  const t=useTranslations('cart')
   // Handle quantity change
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -59,25 +62,23 @@ export default function CartPage() {
   };
 
   // Format price to display with 2 decimal places
-  const formatPrice = (price: number) => {
-    return price.toFixed(2);
-  };
+  
 
   if (items.length === 0) {
     return (
-      <div className="container max-w-4xl py-12">
+      <div className="container max-w-4xl py-12 px-2 md:px-4 lg:px-8">
         <div className="text-center py-12">
           <div className="flex justify-center mb-4">
             <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
               <ShoppingCart className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold mb-2">Your cart is empty</h1>
+          <h1 className="text-2xl font-bold mb-2">{t('empty')}</h1>
           <p className="text-muted-foreground mb-6">
-            Looks like you haven't added any tires to your cart yet.
+            {t('emptyMessage')}
           </p>
           <Button asChild size="lg">
-            <Link href="/products">Browse Tires</Link>
+            <Link href="/products">{t('browseTires')}</Link>
           </Button>
         </div>
       </div>
@@ -85,8 +86,8 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container max-w-7xl py-12">
-      <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
+    <div className="container max-w-7xl py-12 px-2 md:px-4 lg:px-8">
+      <h1 className="text-3xl font-bold mb-8">{t('title')}</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
@@ -107,7 +108,7 @@ export default function CartPage() {
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
-                          No image
+                          <ImageIcon className="h-12 w-12" />
                         </div>
                       )}
                     </div>
@@ -116,7 +117,7 @@ export default function CartPage() {
                       <div>
                         <div className="flex justify-between">
                           <div>
-                            <Link href={`/products/${item.productId}`}>
+                            <Link href={`/products/{item.productId}`}>
                               <h3 className="font-medium hover:text-primary transition-colors">
                                 {item.name}
                               </h3>
@@ -127,16 +128,16 @@ export default function CartPage() {
                           <div className="text-right">
                             {item.originalPrice && item.price < item.originalPrice ? (
                               <div>
-                                <span className="font-medium">${formatPrice(item.price)}</span>
+                                <span className="font-medium">{formatPrice(item.price)}</span>
                                 <span className="text-sm text-muted-foreground line-through ml-2">
-                                  ${formatPrice(item.originalPrice)}
+                                  {formatPrice(item.originalPrice)}
                                 </span>
                               </div>
                             ) : (
-                              <span className="font-medium">${formatPrice(item.price)}</span>
+                              <span className="font-medium">{formatPrice(item.price)}</span>
                             )}
                             <p className="text-sm text-muted-foreground mt-1">
-                              ${formatPrice(item.price)} each
+                              {formatPrice(item.price)} {t('eachUnit')}
                             </p>
                           </div>
                         </div>
@@ -184,7 +185,7 @@ export default function CartPage() {
                           disabled={isUpdating[item.id]}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
-                          Remove
+                          {t('removeItem')}
                         </Button>
                       </div>
                     </div>
@@ -195,10 +196,12 @@ export default function CartPage() {
             <CardFooter className="p-6 pt-0">
               <div className="w-full flex justify-between mt-4">
                 <Button variant="outline" asChild>
-                  <Link href="/products">Continue Shopping</Link>
+                  <Link href="/products">
+                    {t('continueShopping')}
+                  </Link>
                 </Button>
                 <Button variant="default" onClick={() => router.push("/checkout")}>
-                  Proceed to Checkout
+                  {t('checkout')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
@@ -209,24 +212,24 @@ export default function CartPage() {
         <div className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('orderSummary')}</h2>
               
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal ({itemCount} items)</span>
-                  <span>${formatPrice(summary.subtotal)}</span>
+                  <span className="text-muted-foreground">{t('subtotal')} ({itemCount} items)</span>
+                  <span>{formatPrice(summary.subtotal)}</span>
                 </div>
                 
                 {summary.discount > 0 && (
                   <div className="flex justify-between text-green-600">
-                    <span>Savings</span>
-                    <span>-${formatPrice(summary.discount)}</span>
+                    <span>{t('savings',{amount:formatPrice(summary.discount)})}</span>
+                    <span>-{formatPrice(summary.discount)}</span>
                   </div>
                 )}
                 
                 <div className="flex justify-between">
                   <div className="flex items-center">
-                    <span className="text-muted-foreground">Estimated Tax</span>
+                    <span className="text-muted-foreground">{t('estimatedTax')}</span>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -234,18 +237,18 @@ export default function CartPage() {
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="text-xs">
-                            Actual tax will be calculated at checkout based on your location
+                            {t('taxTooltip')}
                           </p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <span>${formatPrice(summary.tax)}</span>
+                  <span>{formatPrice(summary.tax)}</span>
                 </div>
                 
                 <div className="flex justify-between">
                   <div className="flex items-center">
-                    <span className="text-muted-foreground">Shipping</span>
+                    <span className="text-muted-foreground">{t('shipping')}</span>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -253,21 +256,21 @@ export default function CartPage() {
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="text-xs">
-                            Shipping costs will be calculated at checkout
+                            {t('shippingTooltip')}
                           </p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <span>Calculated at checkout</span>
+                  <span>{t('calculatedAtCheckout')}</span>
                 </div>
               </div>
               
               <Separator className="my-4" />
               
               <div className="flex justify-between text-lg font-semibold">
-                <span>Estimated Total</span>
-                <span>${formatPrice(summary.subtotal + summary.tax)}</span>
+                <span>{t('estimatedTotal')}</span>
+                <span>{formatPrice(summary.subtotal + summary.tax)}</span>
               </div>
               
               <Button 
@@ -275,11 +278,11 @@ export default function CartPage() {
                 size="lg"
                 onClick={() => router.push("/checkout")}
               >
-                Proceed to Checkout
+                {t('proceedToCheckout')}
               </Button>
               
               <div className="mt-6 text-sm text-muted-foreground">
-                <p className="mb-2">We accept:</p>
+                <p className="mb-2">{t('weAccept')}</p>
                 <div className="flex gap-2">
                   <Image 
                     src="/visa.svg" 

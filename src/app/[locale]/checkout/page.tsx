@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useCart, ShippingAddress } from "@/contexts/cart-context";
 import { validateShippingAddress, getShippingRates } from "@/lib/shipping/shipping-client";
+import { useTranslations } from 'next-intl';
+import AddressAutocomplete from "@/components/address-autocomplete"; // Assuming this component exists
 
 import {
   Form,
@@ -30,6 +32,7 @@ import {
   ShieldCheck 
 } from "lucide-react";
 import Link from "next/link";
+import { Label } from "@/components/ui/label";
 
 // Form validation schema
 const formSchema = z.object({
@@ -47,6 +50,7 @@ const formSchema = z.object({
 });
 
 export default function CheckoutPage() {
+  const t = useTranslations('Checkout');
   const router = useRouter();
   const { 
     items, 
@@ -83,7 +87,50 @@ export default function CheckoutPage() {
       shippingOption: "",
     },
   });
-
+  
+  // State for storing formatted address
+  const [formattedAddress, setFormattedAddress] = useState<string>("");
+  
+  // Define the interface for address data
+  interface AddressData {
+    addressLine1: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    formatted?: string;
+  }
+  const handleAddressSelected = (addressData: AddressData): void => {
+    // Update the form fields with the selected address data
+    form.setValue('addressLine1', addressData.addressLine1);
+    form.setValue('city', addressData.city);
+    form.setValue('state', addressData.state);
+    form.setValue('postalCode', addressData.postalCode);
+    form.setValue('country', addressData.country);
+    
+    // Make sure all required fields are present in the ShippingAddress object
+    setShippingAddress({
+      firstName: shippingAddress?.firstName || form.getValues('firstName'),
+      lastName: shippingAddress?.lastName || form.getValues('lastName'),
+      email: shippingAddress?.email || form.getValues('email'),
+      phone: shippingAddress?.phone || form.getValues('phone'),
+      addressLine1: addressData.addressLine1,
+      addressLine2: shippingAddress?.addressLine2 || form.getValues('addressLine2') || "",
+      city: addressData.city,
+      state: addressData.state,
+      postalCode: addressData.postalCode,
+      country: addressData.country
+    });
+    
+    // Set the formatted address if available
+    if (addressData.formatted) {
+      setFormattedAddress(addressData.formatted);
+    }
+    
+    // Trigger validation for the updated fields
+    form.trigger(['addressLine1', 'city', 'state', 'postalCode', 'country']);
+  };
+  
   // Redirect to cart if there are no items
   useEffect(() => {
     if (items.length === 0) {
@@ -227,7 +274,7 @@ export default function CheckoutPage() {
     } else {
       form.setError("shippingOption", {
         type: "manual",
-        message: "Please select a valid shipping option",
+        message: t("selectValidShippingOption"),
       });
       setIsSubmitting(false);
     }
@@ -241,9 +288,9 @@ export default function CheckoutPage() {
           className="flex items-center text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Cart
+          {t('backToCart')}
         </Link>
-        <h1 className="text-3xl font-bold mt-2">Checkout</h1>
+        <h1 className="text-3xl font-bold mt-2">{t('checkout')}</h1>
       </div>
       
       <div className="flex mb-8 border-b pb-4">
@@ -251,7 +298,7 @@ export default function CheckoutPage() {
           <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary bg-primary text-xs font-bold text-white">
             1
           </div>
-          <span className="ml-2 font-medium">Shipping</span>
+          <span className="ml-2 font-medium">{t('shipping')}</span>
         </div>
         <div className="mx-4 flex items-center">
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -260,7 +307,7 @@ export default function CheckoutPage() {
           <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-muted text-xs font-medium">
             2
           </div>
-          <span className="ml-2 font-medium">Payment</span>
+          <span className="ml-2 font-medium">{t('payment')}</span>
         </div>
         <div className="mx-4 flex items-center">
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -269,7 +316,7 @@ export default function CheckoutPage() {
           <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-muted text-xs font-medium">
             3
           </div>
-          <span className="ml-2 font-medium">Confirmation</span>
+          <span className="ml-2 font-medium">{t('confirmation')}</span>
         </div>
       </div>
       
@@ -280,7 +327,7 @@ export default function CheckoutPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center gap-2">
                   <Package className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-semibold">Shipping Information</h2>
+                  <h2 className="text-xl font-semibold">{t('shippingInformation')}</h2>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -289,9 +336,9 @@ export default function CheckoutPage() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>First Name</FormLabel>
+                          <FormLabel>{t('firstName')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="First name" {...field} />
+                            <Input placeholder={t('firstNamePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -302,9 +349,9 @@ export default function CheckoutPage() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Last Name</FormLabel>
+                          <FormLabel>{t('lastName')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="Last name" {...field} />
+                            <Input placeholder={t('lastNamePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -318,9 +365,9 @@ export default function CheckoutPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel>{t('email')}</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="Email address" {...field} />
+                            <Input type="email" placeholder={t('emailPlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -331,9 +378,9 @@ export default function CheckoutPage() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone</FormLabel>
+                          <FormLabel>{t('phone')}</FormLabel>
                           <FormControl>
-                            <Input type="tel" placeholder="Phone number" {...field} />
+                            <Input type="tel" placeholder={t('phonePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -346,9 +393,9 @@ export default function CheckoutPage() {
                     name="addressLine1"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Address Line 1</FormLabel>
+                        <FormLabel>{t('addressLine1')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Street address" {...field} />
+                          <Input placeholder={t('addressLine1Placeholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -360,9 +407,9 @@ export default function CheckoutPage() {
                     name="addressLine2"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Address Line 2 (Optional)</FormLabel>
+                        <FormLabel>{t('addressLine2')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Apartment, suite, unit, etc." {...field} />
+                          <Input placeholder={t('addressLine2Placeholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -375,9 +422,9 @@ export default function CheckoutPage() {
                       name="city"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>City</FormLabel>
+                          <FormLabel>{t('city')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="City" {...field} />
+                            <Input placeholder={t('cityPlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -388,9 +435,9 @@ export default function CheckoutPage() {
                       name="state"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>State/Province</FormLabel>
+                          <FormLabel>{t('state')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="State or province" {...field} />
+                            <Input placeholder={t('statePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -404,9 +451,9 @@ export default function CheckoutPage() {
                       name="postalCode"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>ZIP/Postal Code</FormLabel>
+                          <FormLabel>{t('postalCode')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="ZIP or postal code" {...field} />
+                            <Input placeholder={t('postalCodePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -417,22 +464,25 @@ export default function CheckoutPage() {
                       name="country"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Country</FormLabel>
+                          <FormLabel>{t('country')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="Country" {...field} />
+                            <Input placeholder={t('countryPlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
+                  <Separator className="my-4" />
+                  <Label className="text-sm font-medium">{t('fullAddress')}</Label>
+                  <AddressAutocomplete onAddressSelected={handleAddressSelected} placeholder={t('fullAddressPlaceholder')} />
                 </CardContent>
               </Card>
               
               <Card>
                 <CardHeader className="flex flex-row items-center gap-2">
                   <Truck className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-semibold">Shipping Method</h2>
+                  <h2 className="text-xl font-semibold">{t('shippingMethod')}</h2>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <FormField
@@ -487,7 +537,7 @@ export default function CheckoutPage() {
                     variant="outline"
                     onClick={() => router.push("/cart")}
                   >
-                    Back to Cart
+                    {t('backToCart')}
                   </Button>
                   <Button 
                     type="submit" 
@@ -497,12 +547,12 @@ export default function CheckoutPage() {
                     {isSubmitting ? (
                       <div className="flex items-center gap-2">
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        <span>Processing...</span>
+                        <span>{t('processing')}</span>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <CreditCard className="h-4 w-4" />
-                        <span>Continue to Payment</span>
+                        <span>{t('continueToPayment')}</span>
                       </div>
                     )}
                   </Button>
@@ -515,9 +565,9 @@ export default function CheckoutPage() {
         <div className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardContent className="pt-6">
-              <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('orderSummary')}</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                {items.length} {items.length === 1 ? "item" : "items"} in your cart
+                {items.length} {items.length === 1 ? t('item') : t('items')} {t('inYourCart')}
               </p>
               
               <div className="max-h-40 overflow-y-auto space-y-2 border rounded-md p-3 mb-4">
@@ -534,24 +584,24 @@ export default function CheckoutPage() {
               
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal</span>
+                  <span className="text-muted-foreground">{t('subtotal')}</span>
                   <span>${formatPrice(summary.subtotal)}</span>
                 </div>
                 
                 {summary.discount > 0 && (
                   <div className="flex justify-between text-green-600">
-                    <span>Discount</span>
+                    <span>{t('discount')}</span>
                     <span>-${formatPrice(summary.discount)}</span>
                   </div>
                 )}
                 
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Tax</span>
+                  <span className="text-muted-foreground">{t('tax')}</span>
                   <span>${formatPrice(summary.tax)}</span>
                 </div>
                 
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Shipping</span>
+                  <span className="text-muted-foreground">{t('shipping')}</span>
                   <span>${formatPrice(summary.shipping)}</span>
                 </div>
               </div>
@@ -559,14 +609,14 @@ export default function CheckoutPage() {
               <Separator className="my-4" />
               
               <div className="flex justify-between text-lg font-semibold">
-                <span>Total</span>
+                <span>{t('total')}</span>
                 <span>${formatPrice(summary.total)}</span>
               </div>
               
               <div className="mt-6 space-y-4">
                 <div className="flex items-center text-sm">
                   <ShieldCheck className="h-4 w-4 mr-2 text-green-600" />
-                  <span>Secure Checkout</span>
+                  <span>{t('secureCheckout')}</span>
                 </div>
               </div>
             </CardContent>

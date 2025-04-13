@@ -21,6 +21,7 @@ export async function POST(request: Request) {
       currency,
       automatic_payment_methods: {
         enabled: true,
+        
       },
       metadata,
     });

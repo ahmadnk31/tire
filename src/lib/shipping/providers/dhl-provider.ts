@@ -53,46 +53,26 @@ const TRACKING_STATUS_MAP: Record<string, TrackingStatus> = {
 /**
  * DHL implementation of the ShippingProvider interface
  */
-export class DHLShippingProvider implements ShippingProvider {  private config: DHLConfig;
-  private initialized = false;
-  private authToken: string | null = null;
-  private tokenExpiry: Date | null = null;
-  // Improved detection for browser environment
-  private isBrowser: boolean = typeof window !== 'undefined';
+export class DHLShippingProvider implements ShippingProvider {
+  private config: DHLConfig;
+  private isBrowser: boolean;
+  
   constructor() {
-    // Initialize config with empty values to avoid errors in client context
+    // Initialize with environment variables or default test credentials
     this.config = {
-      apiKey: '',
-      apiSecret: '',
-      accountNumber: '',
-      apiUrl: 'https://api-sandbox.dhl.com'
+      apiKey: process.env.DHL_API_KEY || '',
+      apiSecret: process.env.DHL_API_SECRET || '',
+      accountNumber: process.env.DHL_ACCOUNT_NUMBER || '',
+      apiUrl: process.env.DHL_API_URL || 'https://api-mock.dhl.com/mydhl/v1'
     };
     
-    // Only try to access environment variables in a server context
-    if (!this.isBrowser && typeof process !== 'undefined' && process.env) {
-      console.log('Initializing DHL config from environment variables');
-      this.config = {
-        apiKey: process.env.DHL_API_KEY || '',
-        apiSecret: process.env.DHL_API_SECRET || '',
-        accountNumber: process.env.DHL_ACCOUNT_NUMBER || '',
-        // Make sure the URL does not include the specific API path - just the base
-        apiUrl: process.env.DHL_API_URL || 'https://express.api.dhl.com'
-      };
-  
-      // Log the config but mask sensitive parts of credentials
-      const apiKeyMasked = this.config.apiKey ? 
-        `${this.config.apiKey.substring(0, 4)}...${this.config.apiKey.substring(this.config.apiKey.length - 4)}` : '';
-      const apiSecretMasked = this.config.apiSecret ? 
-        `${this.config.apiSecret.substring(0, 2)}...${this.config.apiSecret.substring(this.config.apiSecret.length - 2)}` : '';
-      
-      console.log('DHL API Key:', apiKeyMasked);
-      console.log('DHL API Secret:', apiSecretMasked);
-      console.log('DHL Account Number:', this.config.accountNumber);
-      console.log('DHL API URL:', this.config.apiUrl);
-    }
+    // Detect if we're running in a browser environment
+    this.isBrowser = typeof window !== 'undefined';
   }
+  
   /**
-   * Get the name of the provider
+   * Get the provider name
+   * @returns The name of this shipping provider
    */
   getProviderName(): string {
     return 'DHL';
@@ -102,15 +82,7 @@ export class DHLShippingProvider implements ShippingProvider {  private config: 
    * Get authentication token for DHL API
    * @returns Authentication token
    */
-  /**
- * Get authentication token for DHL API
- * @returns Authentication token
- */  async getAuthToken() {
-    // If we're in a browser context, we can't make auth requests
-    if (this.isBrowser) {
-      return 'client-side-placeholder';
-    }
-    
+  async getAuthToken() {
     // For DHL Express MyDHL API, we don't need to fetch a separate token
     // The API uses Basic Authentication directly on each request
     try {
@@ -122,11 +94,9 @@ export class DHLShippingProvider implements ShippingProvider {  private config: 
       
       // Create Basic Auth token to use directly with API requests
       const authString = Buffer.from(`${this.config.apiKey}:${this.config.apiSecret}`).toString('base64');
-      this.authToken = authString;
-      
       // Set a long expiry since Basic Auth tokens don't expire
-      this.tokenExpiry = new Date();
-      this.tokenExpiry.setFullYear(this.tokenExpiry.getFullYear() + 1);
+      const tokenExpiry = new Date();
+      tokenExpiry.setFullYear(tokenExpiry.getFullYear() + 1);
       
       console.log('Using DHL Basic Authentication');
       
