@@ -1,4 +1,43 @@
-{     "Checkout": {
+{      "StoreStatus": {
+        "open": "Nu Open",
+        "closed": "Gesloten",
+        "loading": "Openingstijden laden...",
+        "hours": "Vandaag",        
+        "error": "error",
+        "todayHours": "Openingstijden Vandaag",
+        "weeklyHours": "Wekelijkse Openingstijden",
+        "businessHours": "Openingstijden",
+        "willOpen": "Gaat open om",
+        "willClose": "Gaat sluiten om",
+        "today": "vandaag",
+        "opens": "Opent",
+        "closes": "Sluit",
+        "closedToday": "Vandaag Gesloten",
+        "currentlyOpen": "Momenteel Open",
+        "currentlyClosed": "Momenteel Gesloten",
+        "clickToToggle": "Klik op de statusindicator om de openingstijden van vandaag te bekijken",
+        "days": {
+          "monday": "Maandag",
+          "tuesday": "Dinsdag",
+          "wednesday": "Woensdag",
+          "thursday": "Donderdag",
+          "friday": "Vrijdag",
+          "saturday": "Zaterdag",
+          "sunday": "Zondag"
+        }
+      },
+      "Search": {
+        "placeholder": "Zoek producten...",
+        "searchButton": "Zoeken",
+        "clearSearch": "Zoekopdracht wissen",
+        "searching": "Zoeken...",
+        "noResults": "Geen resultaten gevonden voor \"{query}\"",
+        "tryDifferentKeywords": "Probeer andere zoekwoorden of filters",
+        "viewAllResults": "Bekijk alle resultaten",
+        "noImage": "Geen afbeelding",
+        "products": "Producten"
+      },
+      "Checkout": {
         "backToShipping": "Terug naar Verzending",
         "payment": "Betaling",
         "shipping": "Verzending",
@@ -118,6 +157,12 @@
         "specifications": "Specificaties",
         "sizes": "Bandenmaten"
       },
+      "search": {
+        "placeholder": "Zoek banden...",
+        "button": "Zoeken",
+        "noResults": "Geen resultaten gevonden voor '{query}'",
+        "searching": "Zoeken..."
+      },
       "sort": {
         "title": "Sorteren Op",
         "newest": "Nieuwste Eerst",
@@ -139,12 +184,146 @@
         "sale": "{discount}% KORTING",
         "freeShipping": "Gratis Verzending",
         "specifications": "Specificaties",
-        "noImage": "Geen afbeelding beschikbaar"
+        "noImage": "Geen afbeelding beschikbaar",
+        "wholesalePrice": "Groothandelsprijs"
       },
       "pagination": {
         "prev": "Vorige",
         "next": "Volgende",
         "page": "Pagina {page} van {total}"
+      }
+    },
+    
+    "Homepage": {
+      "hero": {
+        "title": "Vind de Perfecte Banden voor Elke Rit",
+        "subtitle": "Kwaliteitsbanden met Professionele Installatie",
+        "searchByVehicle": "Zoek op Voertuig",
+        "searchBySize": "Zoek op Bandenmaat",
+        "shopNow": "Nu Winkelen",
+        "findTires": "Vind Mijn Banden",
+        "ctaTitle": "Vind de Perfecte Banden voor Uw Voertuig",
+        "ctaSubtitle": "Verken ons brede assortiment banden en diensten"
+        
+      },
+      "vehicleSearch": {
+        "title": "Vind Banden voor Uw Voertuig",
+        "selectYear": "Selecteer Jaar",
+        "selectMake": "Selecteer Merk",
+        "selectModel": "Selecteer Model",
+        "selectTrim": "Selecteer Uitvoering",
+        "search": "Banden Zoeken",
+        "popularVehicles": "Populaire Voertuigen"
+      },
+      "tireSearch": {
+        "title": "Vind Banden op Maat",
+        "width": "Breedte",
+        "aspect": "Hoogte-breedteverhouding",
+        "diameter": "Diameter",
+        "widthPlaceholder": "Bijv. 205",
+        "aspectPlaceholder": "Bijv. 55",
+        "diameterPlaceholder": "Bijv. 16",
+        "search": "Zoeken",
+        "popularSizes": "Populaire Maten"
+      },
+      "categories": {
+        "title": "Shop per Categorie",
+        "allSeason": "Alle Seizoenen",
+        "summer": "Zomerbanden",
+        "winter": "Winterbanden",
+        "allTerrain": "All-Terrain",
+        "performance": "Performance",
+        "seeAll": "Alle Categorieën Bekijken"
+      },
+      "featured": {
+        "title": "Aanbevolen Producten",
+        "subtitle": "Onze Best Beoordeelde Banden",
+        "viewAll": "Alle Bekijken"
+      },
+      "brands": {
+        "title": "Topmerken",
+        "subtitle": "We werken samen met 's werelds beste bandenmerken",
+        "viewAll": "Alle Merken Bekijken"
+      },
+      "deals": {
+        "title": "Huidige Aanbiedingen",
+        "subtitle": "Bespaar op Kwaliteitsbanden",
+        "exclusiveOffer": "Exclusieve Aanbieding",
+        "limitedTime": "Tijdelijk Aanbod",
+        "save": "Bespaar",
+        "off": "korting",
+        "shopNow": "Nu Winkelen",
+        "expiresIn": "Verloopt in:"
+      },
+      "services": {
+        "title": "Onze Services",
+        "subtitle": "Wij zorgen voor al uw banden- en wielbehoeften",
+        "installation": {
+          "title": "Professionele Installatie",
+          "description": "Onze experts installeren uw nieuwe banden met de hoogste precisie en zorg"
+        },
+        "alignment": {
+          "title": "Wieluitlijning",
+          "description": "Zorg voor een soepele rit en verleng de levensduur van uw banden"
+        },
+        "repair": {
+          "title": "Bandenreparatie",
+          "description": "Snelle en betrouwbare reparaties voor lekke banden en beschadigingen"
+        },
+        "rotation": {
+          "title": "Bandenrotatie",
+          "description": "Regelmatige rotatie voor gelijkmatige slijtage en maximale levensduur"
+        },
+        "seeAll": "Alle Services Bekijken",
+        "schedule": "Afspraak Maken"
+      },
+      "testimonials": {
+        "title": "Wat Onze Klanten Zeggen",
+        "subtitle": "Duizenden tevreden klanten vertrouwen op ons voor hun bandenbehoeften"
+      },
+      "whyChooseUs": {
+        "title": "Waarom Voor Ons Kiezen",
+        "freeShipping": {
+          "title": "Gratis Verzending",
+          "description": "Gratis verzending op alle bestellingen boven €100"
+        },
+        "expertAdvice": {
+          "title": "Deskundig Advies",
+          "description": "Onze bandenspecialisten staan klaar om u te helpen"
+        },
+        "warranty": {
+          "title": "Garantie Inbegrepen",
+          "description": "Alle banden komen met fabrieksgarantie"
+        },
+        "easyReturns": {
+          "title": "Gemakkelijk Retourneren",
+          "description": "30 dagen retourbeleid zonder vragen"
+        }
+      },
+      "blog": {
+        "title": "Laatste Artikelen",
+        "subtitle": "Tips en advies over bandenzorg",
+        "readMore": "Meer Lezen"
+      },
+      "newsletter": {
+        "title": "Blijf op de Hoogte",
+        "subtitle": "Schrijf u in voor onze nieuwsbrief voor exclusieve aanbiedingen en bandentips",
+        "emailPlaceholder": "Uw e-mailadres",
+        "namePlaceholder": "Uw naam",
+        "subscribe": "Abonneren",
+        "subscribing":" Abonneren...",
+        "subscribed": "U bent succesvol geabonneerd op onze nieuwsbrief",
+        "privacyNote": "We respecteren uw privacy en delen uw gegevens nooit"
+      },
+      "promoBar": {
+        "freeShipping": "GRATIS VERZENDING OP BESTELLINGEN BOVEN €100",
+        "discount": "GEBRUIK CODE FIRST10 VOOR 10% KORTING OP UW EERSTE BESTELLING",
+        "guarantee": "30 DAGEN TEVREDENHEIDSGARANTIE"
+      },
+      "retailer": {
+        "title": "Word een Retailpartner",
+        "subtitle": "Verkoop uw producten in ons netwerk",
+        "learnMore": "Meer Informatie"
       }
     },
     
@@ -440,6 +619,15 @@
             "lowStock": "Bijna uitverkocht - nog maar {count} over",
             "inStock": "Op voorraad - {count} beschikbaar"
         },
+        "pricing":{
+          "wholesale": "Groothandelsprijs",
+          "retail": "Verkoopprijs",
+          "discount": "Korting",
+          "wholesaleDiscount": "Groothandelskorting",
+          "retailDiscount": "Verkoopkorting",
+          "wholesaleSalePrice":"Groothandelsverkoopprijs",
+          "wholesalePricing":"Groothandelsprijs"
+        },
         "performance": {
             "title": "Prestatie Beoordelingen",
             "wetGrip": "Natte Grip",
@@ -457,6 +645,10 @@
             "specifications": "Specificaties",
             "performance": "Prestaties",
             "details": "Extra Details"
+        },
+        "search": {
+            "placeholder": "Zoek banden...",
+            "button": "Zoeken"
         },
         "specifications": {
             "size": "Maat",
@@ -734,5 +926,199 @@
         "appointmentError": "Kon bestaande afspraken niet laden",
         "submissionError": "Er is een fout opgetreden bij het boeken van uw afspraak"
       }
+    },
+      "TireFinder": {
+        "title": "Vind de Perfecte Banden voor Uw Voertuig",
+        "subtitle": "Zoek op voertuig of bandenmaat om de juiste banden te vinden voor uw auto, vrachtwagen of SUV",
+        "tabs": {
+          "vehicle": "Zoeken op Voertuig",
+          "size": "Zoeken op Bandenmaat"
+        },
+        "vehicle": {
+          "make": "Merk",
+          "selectMake": "Selecteer Merk",
+          "model": "Model",
+          "selectModel": "Selecteer Model",
+          "selectMakeFirst": "Selecteer Eerst Merk",
+          "year": "Jaar",
+          "selectYear": "Selecteer Jaar",
+          "selectModelFirst": "Selecteer Eerst Model",
+          "findTiresButton": "Vind Banden voor Uw Voertuig"
+        },
+        "size": {
+          "width": "Breedte",
+          "selectWidth": "Selecteer Breedte",
+          "aspectRatio": "Hoogte/Breedte Verhouding",
+          "selectRatio": "Selecteer Verhouding",
+          "diameter": "Velgdiameter",
+          "selectDiameter": "Selecteer Diameter",
+          "tireSizePlaceholder": "Bijvoorbeeld: 225/45R17",
+          "findTiresSizeButton": "Vind Banden op Maat"
+        },
+        "tireTypes": {
+          "title": "Populaire Bandentypes",
+          "subtitle": "Bekijk ons assortiment kwaliteitsbanden voor elke rijomstandigheid",
+          "ALL_SEASON": {
+            "name": "All Season",
+            "description": "Geschikt voor gebruik gedurende het hele jaar in gematigde klimaten"
+          },
+          "WINTER": {
+            "name": "Winter",
+            "description": "Speciaal ontworpen voor sneeuw, ijs en koude temperaturen"
+          },
+          "SUMMER": {
+            "name": "Zomer",
+            "description": "Ontworpen voor optimale prestaties bij warm weer"
+          },
+          "ALL_TERRAIN": {
+            "name": "All Terrain",
+            "description": "Ideaal voor zowel op als naast de weg"
+          },
+          "HIGH_PERFORMANCE": {
+            "name": "High Performance",
+            "description": "Ontworpen voor snelheid en handling"
+          },
+          "TOURING": {
+            "name": "Touring",
+            "description": "Gebalanceerd comfort en prestaties voor dagelijks rijden"
+          },
+          "viewTires": "Bekijk {type} Banden"
+        },
+        "popularVehicles": {
+          "title": "Populaire Voertuigmodellen",
+          "subtitle": "Snelle toegang tot banden voor veelgezochte voertuigen"
+        },
+        "help": {
+          "title": "Hulp Nodig bij het Vinden van de Juiste Banden?",
+          "description": "Onze bandenexperts staan klaar om u te helpen met alle vragen over het vinden van de perfecte banden voor uw voertuig en rijbehoeften.",
+          "contactSupport": "Contact Ondersteuning",
+          "chatExpert": "Chat met een Expert"
+        }
+      },
+      "brandPage": {
+        "title": "{brandName} Banden | Premium Bandenwinkel",
+        "metaDescription": "Bekijk onze collectie {brandName} banden voor alle voertuigtypes.",
+        "breadcrumb": "Alle Merken",
+        "heading": "{brandName} Banden",
+        "tabs": {
+          "all": "Alle Producten"
+        },
+        "product": {
+          "noImage": "Geen afbeelding",
+          "discount": "{discount}% KORTING",
+          "viewDetails": "Details Bekijken"
+        },
+        "emptyState": {
+          "title": "Geen producten gevonden van dit merk",
+          "description": "We werken eraan om producten van dit merk toe te voegen. Kom binnenkort terug.",
+          "emptyModelTitle": "Geen producten gevonden in dit model",
+          "emptyModelDescription": "We werken eraan om producten van dit model toe te voegen. Kom binnenkort terug.",
+          "browseAll": "Alle Producten Bekijken"
+        }
+      },
+      "brandsPage": {
+        "title": "Band Merken",
+        "description": "Ontdek onze uitgebreide collectie hoogwaardige bandmerken. We werken samen met 's werelds toonaangevende fabrikanten om u de beste selectie te bieden.",
+        "products": "{count} Producten",
+        "viewProducts": "Producten Bekijken",
+        "error": {
+          "title": "Fout bij het laden van merken",
+          "description": "Er is een probleem opgetreden bij het laden van de merken. Probeer het later opnieuw.",
+          "retry": "Opnieuw proberen"
+        }
+      },
+      "retailer": {
+        "form": {
+          "title": "Word een Detailhandelaar",
+          "description": "Schrijf je in om deel te nemen aan ons netwerk van bandendetailhandelaren en krijg toegang tot groothandelsprijzen",
+          "fields": {
+            "name": {
+              "label": "Volledige Naam",
+              "placeholder": "Jan Jansen",
+              "error": "Naam moet minimaal 3 tekens bevatten"
+            },
+            "email": {
+              "label": "E-mail",
+              "placeholder": "voorbeeld@voorbeeld.com",
+              "error": "Voer een geldig e-mailadres in"
+            },
+            "companyName": {
+              "label": "Bedrijfsnaam",
+              "placeholder": "Uw Bandenwinkel",
+              "error": "Bedrijfsnaam moet minimaal 2 tekens bevatten"
+            },
+            "phone": {
+              "label": "Telefoonnummer",
+              "placeholder": "06-12345678",
+              "error": "Telefoonnummer moet minimaal 10 tekens bevatten"
+            },
+            "businessAddress": {
+              "label": "Bedrijfsadres",
+              "placeholder": "Hoofdstraat 123, Stad, Provincie, Postcode",
+              "error": "Bedrijfsadres moet minimaal 5 tekens bevatten"
+            },
+            "taxId": {
+              "label": "BTW-nummer (Optioneel)",
+              "placeholder": "BTW-nummer of KVK-nummer",
+              "description": "Alleen voor groothandelsverificatie"
+            },
+            "yearsInBusiness": {
+              "label": "Jaren actief",
+              "placeholder": "bijv. 5",
+              "error": "Geef aan hoeveel jaar u actief bent"
+            },
+            "additionalInfo": {
+              "label": "Aanvullende Informatie (Optioneel)",
+              "placeholder": "Vertel ons meer over uw bedrijf en waarom u een detailhandelaar wilt worden"
+            }
+          },
+          "submit": "Aanvraag Indienen",
+          "submitting": "Indienen..."
+        },
+        "success": {
+          "title": "Aanvraag Ingediend",
+          "description": "Bedankt voor uw interesse om detailhandelaar te worden",
+          "message1": "Uw aanvraag is ontvangen en wordt beoordeeld.",
+          "message2": "Ons team zal uw informatie bekijken en binnen 2-3 werkdagen per e-mail contact met u opnemen.",
+          "returnButton": "Terug naar Homepagina"
+        },
+        "notifications": {
+          "success": "Uw aanvraag als detailhandelaar is succesvol ingediend",
+          "error": "Er is iets misgegaan. Probeer het later opnieuw."
+        }
+      },
+      
+        "Category": {
+          "categoryNotFoundTitle": "Categorie Niet Gevonden",
+          "categoryNotFoundDesc": "De gevraagde categorie kon niet worden gevonden",
+          "categoryMetaTitle": "{name} Banden | Premium Bandenwinkel",
+          "categoryDefaultDesc": "Bekijk onze collectie {name} banden voor alle voertuigtypes",
+          "categoryErrorTitle": "Fout bij het Laden van Categorie",
+          "categoryErrorDesc": "Er is een probleem opgetreden bij het laden van de categorie-informatie",
+          "categoryTitle": "{name} Banden",
+          "allCategories": "Alle Categorieën",
+          "viewDetails": "Details Bekijken",
+          "noImage": "Geen afbeelding",
+          "off": "KORTING",
+          "noProductsFound": "Geen producten gevonden in deze categorie",
+          "noProductsFoundMessage": "We werken aan het toevoegen van producten aan deze categorie. Kom binnenkort terug.",
+          "browseAllProducts": "Bekijk Alle Producten"
+        },
+        "Categories": {
+      "title": "Bandencategorieën",
+      "description": "Bekijk ons uitgebreide assortiment bandencategorieën om de perfecte match voor uw voertuig en rijbehoeften te vinden.",
+      "loading": {
+        "placeholder": "Categorieën laden..."
+      },
+      "error": {
+        "title": "Fout bij het laden van categorieën",
+        "message": "We hebben een probleem ondervonden bij het laden van de categorieën. Probeer het later opnieuw.",
+        "retryButton": "Opnieuw proberen"
+      },
+      "card": {
+        "defaultDescription": "Bekijk onze selectie {categoryName} banden",
+        "browseButton": "Collectie bekijken"
+      }
     }
+      
   }

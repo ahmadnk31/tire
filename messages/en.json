@@ -1,4 +1,42 @@
-{      "Checkout": {
+{      "StoreStatus": {
+        "open": "Open Now",
+        "closed": "Closed",
+        "error": "Error loading store status",
+        "loading": "Loading hours...",
+        "hours": "Today",        "todayHours": "Today's Hours",
+        "weeklyHours": "Weekly Hours",
+        "businessHours": "Business Hours",
+        "willOpen": "Will open at",
+        "willClose": "Will close at",
+        "today": "today",
+        "opens": "Opens",
+        "closes": "Closes",
+        "closedToday": "Closed Today",
+        "currentlyOpen": "Currently Open",
+        "currentlyClosed": "Currently Closed",
+        "clickToToggle": "Click the status indicator to view today's hours",
+        "days": {
+          "monday": "Monday",
+          "tuesday": "Tuesday",
+          "wednesday": "Wednesday",
+          "thursday": "Thursday",
+          "friday": "Friday",
+          "saturday": "Saturday",
+          "sunday": "Sunday"
+        }
+      },
+      "Search": {
+        "placeholder": "Search products...",
+        "searchButton": "Search",
+        "clearSearch": "Clear search",
+        "searching": "Searching...",
+        "noResults": "No results found for \"{query}\"",
+        "tryDifferentKeywords": "Try using different keywords or filters",
+        "viewAllResults": "View all results",
+        "noImage": "No image",
+        "products": "Products"
+      },
+      "Checkout": {
         "backToShipping": "Back to Shipping",
         "backToCart": "Back to Cart",
         "payment": "Payment",
@@ -106,7 +144,7 @@
       },
       
       "Products": {
-      "title": "Tires Collection",
+      "title": "Tire Collection",
       "description": "Find the perfect tires for your vehicle",
       "filters": {
         "title": "Filters",
@@ -131,6 +169,14 @@
         "found": "{count} products found",
         "empty": "No products found"
       },
+      "search": {
+        "placeholder": "Search for tires...",
+        "button": "Search",
+        "noResults": {
+          "title": "No results found",
+          "description": "Try adjusting your search or filters"
+        }
+      },
       "product": {
         "addToCart": "Add to Cart",
         "viewDetails": "View Details",
@@ -140,12 +186,146 @@
         "sale": "{discount}% OFF",
         "freeShipping": "Free Shipping",
         "specifications": "Specifications",
-        "noImage": "No image available"
+        "noImage": "No image available",
+        "wholesalePrice":"wholesale price"
       },
+      
       "pagination": {
         "prev": "Previous",
         "next": "Next",
         "page": "Page {page} of {total}"
+      }
+    },
+    
+    "Homepage": {
+      "hero": {
+        "title": "Find the Perfect Tires for Every Ride",
+        "subtitle": "Quality Tires with Professional Installation",
+        "searchByVehicle": "Search by Vehicle",
+        "searchBySize": "Search by Tire Size",
+        "shopNow": "Shop Now",
+        "findTires": "Find My Tires",
+        "ctaTitle": "Get Started",
+        "ctaSubtitle": "Explore our wide range of tires and services"
+      },
+      "vehicleSearch": {
+        "title": "Find Tires for Your Vehicle",
+        "selectYear": "Select Year",
+        "selectMake": "Select Make",
+        "selectModel": "Select Model",
+        "selectTrim": "Select Trim",
+        "search": "Search Tires",
+        "popularVehicles": "Popular Vehicles"
+      },
+      "tireSearch": {
+        "title": "Find Tires by Size",
+        "width": "Width",
+        "aspect": "Aspect Ratio",
+        "diameter": "Diameter",
+        "widthPlaceholder": "e.g. 205",
+        "aspectPlaceholder": "e.g. 55",
+        "diameterPlaceholder": "e.g. 16",
+        "search": "Search",
+        "popularSizes": "Popular Sizes"
+      },
+      "categories": {
+        "title": "Shop by Category",
+        "allSeason": "All Season",
+        "summer": "Summer",
+        "winter": "Winter",
+        "allTerrain": "All Terrain",
+        "performance": "Performance",
+        "seeAll": "See All Categories"
+      },
+      "featured": {
+        "title": "Featured Products",
+        "subtitle": "Our Top Rated Tires",
+        "viewAll": "View All"
+      },
+      "brands": {
+        "title": "Top Brands",
+        "subtitle": "We partner with the world's best tire brands",
+        "viewAll": "View All Brands"
+      },
+      "deals": {
+        "title": "Current Deals",
+        "subtitle": "Save on Quality Tires",
+        "exclusiveOffer": "Exclusive Offer",
+        "limitedTime": "Limited Time Offer",
+        "save": "Save",
+        "off": "off",
+        "shopNow": "Shop Now",
+        "expiresIn": "Expires in:"
+      },
+      "services": {
+        "title": "Our Services",
+        "subtitle": "We handle all your tire and wheel needs",
+        "installation": {
+          "title": "Professional Installation",
+          "description": "Our experts install your new tires with the highest precision and care"
+        },
+        "alignment": {
+          "title": "Wheel Alignment",
+          "description": "Ensure a smooth ride and extend the life of your tires"
+        },
+        "repair": {
+          "title": "Tire Repair",
+          "description": "Fast and reliable repairs for flat tires and punctures"
+        },
+        "rotation": {
+          "title": "Tire Rotation",
+          "description": "Regular rotation for even wear and maximum tire life"
+        },
+        "seeAll": "See All Services",
+        "schedule": "Schedule Appointment"
+      },
+      "testimonials": {
+        "title": "What Our Customers Say",
+        "subtitle": "Thousands of satisfied customers trust us for their tire needs"
+      },
+      "whyChooseUs": {
+        "title": "Why Choose Us",
+        "freeShipping": {
+          "title": "Free Shipping",
+          "description": "Free shipping on all orders over $100"
+        },
+        "expertAdvice": {
+          "title": "Expert Advice",
+          "description": "Our tire specialists are ready to help you"
+        },
+        "warranty": {
+          "title": "Warranty Included",
+          "description": "All tires come with manufacturer warranty"
+        },
+        "easyReturns": {
+          "title": "Easy Returns",
+          "description": "30-day no-questions-asked return policy"
+        }
+      },
+      "blog": {
+        "title": "Latest Articles",
+        "subtitle": "Tips and advice on tire care",
+        "readMore": "Read More"
+      },
+      "newsletter": {
+        "title": "Stay Updated",
+        "subtitle": "Subscribe to our newsletter for exclusive offers and tire tips",
+        "emailPlaceholder": "Your email address",
+        "namePlaceholder": "Your name",
+        "subscribing": "Subscribing...",
+        "subsscribed": "Subscribed!",
+        "subscribe": "Subscribe",
+        "privacyNote": "We respect your privacy and never share your information"
+      },
+      "promoBar": {
+        "freeShipping": "FREE SHIPPING ON ORDERS OVER $100",
+        "discount": "USE CODE FIRST10 FOR 10% OFF YOUR FIRST ORDER",
+        "guarantee": "30-DAY SATISFACTION GUARANTEE"
+      },
+      "retailer": {
+        "title": "Become a Retail Partner",
+        "subtitle": "Sell your products on our network",
+        "learnMore": "Learn More"
       }
     },
     
@@ -462,6 +642,15 @@
             "lowStock": "Low stock - only {count} left",
             "inStock": "In stock - {count} available"
         },
+        "pricing":{
+        "wholesale":"wholesale price",
+        "retailPrice":"retail price",
+        "discount":"discount",
+        "retailDiscount":"retail discount",
+        "wholesaleDiscount":"wholesale discount",
+        "wholesaleSalePrice":"wholesale sale price",
+        "wholesalePricing":"wholesale pricing"
+      },
         "performance": {
             "title": "Performance Ratings",
             "wetGrip": "Wet Grip",
@@ -515,6 +704,10 @@
             "countryOrigin": "Country of Origin",
             "certifications": "Certifications",
             "na": "N/A"
+        },
+        "search": {
+            "placeholder": "Search for tires...",
+            "button": "Search"
         },
         "recommendations": {
             "title": "You May Also Like"
@@ -756,5 +949,198 @@
         "appointmentError": "Failed to load existing appointments",
         "submissionError": "An error occurred while booking your appointment"
       }
-    }
+    },
+      "TireFinder": {
+        "title": "Find the Perfect Tires for Your Vehicle",
+        "subtitle": "Search by vehicle or tire size to find the right tires for your car, truck, or SUV",
+        "tabs": {
+          "vehicle": "Search by Vehicle",
+          "size": "Search by Tire Size"
+        },
+        "vehicle": {
+          "make": "Make",
+          "selectMake": "Select Make",
+          "model": "Model",
+          "selectModel": "Select Model",
+          "selectMakeFirst": "Select Make First",
+          "year": "Year",
+          "selectYear": "Select Year",
+          "selectModelFirst": "Select Model First",
+          "findTiresButton": "Find Tires for Your Vehicle"
+        },
+        "size": {
+          "width": "Width",
+          "selectWidth": "Select Width",
+          "aspectRatio": "Aspect Ratio",
+          "selectRatio": "Select Ratio",
+          "diameter": "Rim Diameter",
+          "selectDiameter": "Select Diameter",
+          "tireSizePlaceholder": "Example: 225/45R17",
+          "findTiresSizeButton": "Find Tires by Size"
+        },
+        "tireTypes": {
+          "title": "Popular Tire Types",
+          "subtitle": "Browse our selection of quality tires for any driving condition",
+          "ALL_SEASON": {
+            "name": "All Season",
+            "description": "Best for year-round use in moderate climates"
+          },
+          "WINTER": {
+            "name": "Winter",
+            "description": "Specially designed for snow, ice, and cold temperatures"
+          },
+          "SUMMER": {
+            "name": "Summer",
+            "description": "Designed for optimal performance in warm weather"
+          },
+          "ALL_TERRAIN": {
+            "name": "All Terrain",
+            "description": "Great for on and off-road driving"
+          },
+          "HIGH_PERFORMANCE": {
+            "name": "High Performance",
+            "description": "Designed for speed and handling"
+          },
+          "TOURING": {
+            "name": "Touring",
+            "description": "Balanced comfort and performance for everyday driving"
+          },
+          "viewTires": "View {type} Tires"
+        },
+        "popularVehicles": {
+          "title": "Popular Vehicle Models",
+          "subtitle": "Quick access to tires for commonly searched vehicles"
+        },
+        "help": {
+          "title": "Need Help Finding the Right Tires?",
+          "description": "Our tire experts are ready to assist you with any questions about finding the perfect tires for your vehicle and driving needs.",
+          "contactSupport": "Contact Support",
+          "chatExpert": "Chat with an Expert"
+        }
+      },
+    "brandPage": {
+      "title": "{brandName} Tires | Premium Tire Shop",
+      "metaDescription": "Shop our collection of {brandName} tires for all vehicle types.",
+      "breadcrumb": "All Brands",
+      "heading": "{brandName} Tires",
+      "tabs": {
+        "all": "All Products"
+      },
+      "product": {
+        "noImage": "No image",
+        "discount": "{discount}% OFF",
+        "viewDetails": "View Details"
+      },
+      "emptyState": {
+        "title": "No products found from this brand",
+        "description": "We're working on adding products from this brand. Please check back soon.",
+        "emptyModelTitle": "No products found in this model",
+        "emptyModelDescription": "We're working on adding products from this model. Please check back soon.",
+        "browseAll": "Browse All Products"
+      }
+    },
+    "brandsPage": {
+      "title": "Tire Brands",
+      "description": "Explore our extensive collection of high-quality tire brands. We partner with the world's leading manufacturers to bring you the best selection.",
+      "products": "{count} Products",
+      "viewProducts": "View Products",
+      "error": {
+        "title": "Error loading brands",
+        "description": "We encountered an issue while loading the brands. Please try again later.",
+        "retry": "Retry"
+      }
+    },
+    "retailer": {
+      "form": {
+        "title": "Become a Retailer",
+        "description": "Apply to join our network of tire retailers and gain access to wholesale pricing",
+        "fields": {
+          "name": {
+            "label": "Full Name",
+            "placeholder": "John Doe",
+            "error": "Name must be at least 3 characters"
+          },
+          "email": {
+            "label": "Email",
+            "placeholder": "example@example.com",
+            "error": "Please enter a valid email address"
+          },
+          "companyName": {
+            "label": "Company Name",
+            "placeholder": "Your Tire Shop",
+            "error": "Company name must be at least 2 characters"
+          },
+          "phone": {
+            "label": "Phone Number",
+            "placeholder": "123-456-7890",
+            "error": "Phone number must be at least 10 characters"
+          },
+          "businessAddress": {
+            "label": "Business Address",
+            "placeholder": "123 Main St, City, State, Zip",
+            "error": "Business address must be at least 5 characters"
+          },
+          "taxId": {
+            "label": "Tax ID (Optional)",
+            "placeholder": "Tax ID or Business License #",
+            "description": "For wholesale verification purposes only"
+          },
+          "yearsInBusiness": {
+            "label": "Years in Business",
+            "placeholder": "e.g., 5",
+            "error": "Please specify years in business"
+          },
+          "additionalInfo": {
+            "label": "Additional Information (Optional)",
+            "placeholder": "Tell us more about your business and why you'd like to become a retailer"
+          }
+        },
+        "submit": "Submit Application",
+        "submitting": "Submitting..."
+      },
+      "success": {
+        "title": "Application Submitted",
+        "description": "Thank you for your interest in becoming a retailer",
+        "message1": "Your application has been received and is under review.",
+        "message2": "Our team will review your information and get back to you via email within 2-3 business days.",
+        "returnButton": "Return to Homepage"
+      },
+      "notifications": {
+        "success": "Your retailer application has been submitted successfully",
+        "error": "Something went wrong. Please try again later."
+      }
+    },
+    
+      "Category": {
+        "categoryNotFoundTitle": "Category Not Found",
+        "categoryNotFoundDesc": "The requested category could not be found",
+        "categoryMetaTitle": "{name} Tires | Premium Tire Shop",
+        "categoryDefaultDesc": "Shop our collection of {name} tires for all vehicle types",
+        "categoryErrorTitle": "Error Loading Category",
+        "categoryErrorDesc": "We encountered an issue while loading the category information",
+        "categoryTitle": "{name} Tires",
+        "allCategories": "All Categories",
+        "viewDetails": "View Details",
+        "noImage": "No image",
+        "off": "OFF",
+        "noProductsFound": "No products found in this category",
+        "noProductsFoundMessage": "We're working on adding products to this category. Please check back soon.",
+        "browseAllProducts": "Browse All Products"
+      },
+      "Categories": {
+        "title": "Tire Categories",
+        "description": "Browse our comprehensive selection of tire categories to find the perfect match for your vehicle and driving needs.",
+        "loading": {
+          "placeholder": "Loading categories..."
+        },
+        "error": {
+          "title": "Error loading categories",
+          "message": "We encountered an issue while loading the categories. Please try again later.",
+          "retryButton": "Retry"
+        },
+        "card": {
+          "defaultDescription": "Shop our selection of {categoryName} tires",
+          "browseButton": "Browse Collection"
+        }
+      }
   }

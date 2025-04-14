@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { 
   Tabs, 
   TabsContent, 
@@ -61,6 +62,7 @@ const popularTireTypes = [
 
 export default function TireFinder() {
   const router = useRouter();
+  const t = useTranslations('TireFinder');
   
   // State for vehicle tab
   const [vehicleTab, setVehicleTab] = useState({
@@ -91,7 +93,8 @@ export default function TireFinder() {
     data: years = [], 
     isLoading: loadingYears 
   } = useVehicleYears(vehicleTab.modelId);
-    // Use TanStack Query hook for popular vehicles
+  
+  // Use TanStack Query hook for popular vehicles
   const { 
     data: popularVehicles = [], 
     isLoading: loadingPopularVehicles
@@ -131,9 +134,9 @@ export default function TireFinder() {
   return (
     <div className="container mx-auto py-16 px-4">
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <h1 className="text-4xl font-bold mb-4">Find Your Perfect Tires</h1>
+        <h1 className="text-4xl font-bold mb-4">{t('title')}</h1>
         <p className="text-lg text-gray-600">
-          Search by your vehicle specifications or tire size to find the right tires for your needs
+          {t('subtitle')}
         </p>
       </div>
       
@@ -143,11 +146,11 @@ export default function TireFinder() {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="vehicle" className="flex items-center justify-center gap-2">
                 <Car className="h-4 w-4" />
-                <span>Search by Vehicle</span>
+                <span>{t('tabs.vehicle')}</span>
               </TabsTrigger>
               <TabsTrigger value="size" className="flex items-center justify-center gap-2">
                 <Ruler className="h-4 w-4" />
-                <span>Search by Tire Size</span>
+                <span>{t('tabs.size')}</span>
               </TabsTrigger>
             </TabsList>
           </div>
@@ -155,7 +158,7 @@ export default function TireFinder() {
           <TabsContent value="vehicle" className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Make</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('vehicle.make')}</label>
                 {loadingMakes ? (
                   <Skeleton className="h-9 w-full" />
                 ) : (
@@ -164,7 +167,7 @@ export default function TireFinder() {
                     onValueChange={handleMakeSelect}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select Make" />
+                      <SelectValue placeholder={t('vehicle.selectMake')} />
                     </SelectTrigger>
                     <SelectContent>
                       {makes.map((make) => (
@@ -178,7 +181,7 @@ export default function TireFinder() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Model</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('vehicle.model')}</label>
                 {loadingModels ? (
                   <Skeleton className="h-9 w-full" />
                 ) : (
@@ -188,7 +191,7 @@ export default function TireFinder() {
                     disabled={!vehicleTab.makeId}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={vehicleTab.makeId ? "Select Model" : "Select Make First"} />
+                      <SelectValue placeholder={vehicleTab.makeId ? t('vehicle.selectModel') : t('vehicle.selectMakeFirst')} />
                     </SelectTrigger>
                     <SelectContent>
                       {models.map((model) => (
@@ -202,7 +205,7 @@ export default function TireFinder() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('vehicle.year')}</label>
                 {loadingYears ? (
                   <Skeleton className="h-9 w-full" />
                 ) : (
@@ -212,7 +215,7 @@ export default function TireFinder() {
                     disabled={!vehicleTab.modelId}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={vehicleTab.modelId ? "Select Year" : "Select Model First"} />
+                      <SelectValue placeholder={vehicleTab.modelId ? t('vehicle.selectYear') : t('vehicle.selectModelFirst')} />
                     </SelectTrigger>
                     <SelectContent>
                       {years.map((year) => (
@@ -232,20 +235,20 @@ export default function TireFinder() {
               disabled={!vehicleTab.makeId || !vehicleTab.modelId || !vehicleTab.year || loadingMakes || loadingModels || loadingYears}
             >
               <Search className="mr-2 h-4 w-4" />
-              Find Tires For My Vehicle
+              {t('vehicle.findTiresButton')}
             </Button>
           </TabsContent>
           
           <TabsContent value="size" className="p-6">
             <div className="flex flex-col md:flex-row gap-4 items-end">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Width</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('size.width')}</label>
                 <Select
                   value={sizeTab.width}
                   onValueChange={(value) => setSizeTab({ ...sizeTab, width: value })}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Width" />
+                    <SelectValue placeholder={t('size.selectWidth')} />
                   </SelectTrigger>
                   <SelectContent>
                     {widthOptions.map((width) => (
@@ -260,13 +263,13 @@ export default function TireFinder() {
               <div className="text-center text-xl font-bold self-end mb-2 hidden md:block">/</div>
               
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Aspect Ratio</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('size.aspectRatio')}</label>
                 <Select
                   value={sizeTab.ratio}
                   onValueChange={(value) => setSizeTab({ ...sizeTab, ratio: value })}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Ratio" />
+                    <SelectValue placeholder={t('size.selectRatio')} />
                   </SelectTrigger>
                   <SelectContent>
                     {aspectRatioOptions.map((ratio) => (
@@ -281,13 +284,13 @@ export default function TireFinder() {
               <div className="text-center text-xl font-bold self-end mb-2 hidden md:block">R</div>
               
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Rim Diameter</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('size.diameter')}</label>
                 <Select
                   value={sizeTab.diameter}
                   onValueChange={(value) => setSizeTab({ ...sizeTab, diameter: value })}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Diameter" />
+                    <SelectValue placeholder={t('size.selectDiameter')} />
                   </SelectTrigger>
                   <SelectContent>
                     {rimDiameterOptions.map((diameter) => (
@@ -308,7 +311,7 @@ export default function TireFinder() {
                   </span>
                 ) : (
                   <span className="text-gray-500">
-                    Tire size will be displayed here
+                    {t('size.tireSizePlaceholder')}
                   </span>
                 )}
               </p>
@@ -320,7 +323,7 @@ export default function TireFinder() {
               disabled={!sizeTab.width || !sizeTab.ratio || !sizeTab.diameter}
             >
               <Search className="mr-2 h-4 w-4" />
-              Find Tires by Size
+              {t('size.findTiresSizeButton')}
             </Button>
           </TabsContent>
         </Tabs>
@@ -329,9 +332,9 @@ export default function TireFinder() {
       {/* Popular Tire Types Section */}
       <section className="mb-16">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">Shop by Tire Type</h2>
+          <h2 className="text-2xl font-bold">{t('tireTypes.title')}</h2>
           <p className="text-gray-600 mt-2">
-            Browse our selection of tires based on your driving needs
+            {t('tireTypes.subtitle')}
           </p>
         </div>
         
@@ -344,14 +347,14 @@ export default function TireFinder() {
                     <div className="text-blue-600">
                       {type.icon}
                     </div>
-                    <span>{type.name}</span>
+                    <span>{t(`tireTypes.${type.id}.name`)}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>{type.description}</CardDescription>
+                  <CardDescription>{t(`tireTypes.${type.id}.description`)}</CardDescription>
                 </CardContent>
                 <CardFooter className="text-blue-600 text-sm font-medium">
-                  View {type.name} Tires
+                  {t('tireTypes.viewTires', { type: t(`tireTypes.${type.id}.name`) })}
                 </CardFooter>
               </Card>
             </Link>
@@ -362,9 +365,9 @@ export default function TireFinder() {
       {/* Popular Vehicles Section */}
       <section className="mb-16">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">Popular Vehicles</h2>
+          <h2 className="text-2xl font-bold">{t('popularVehicles.title')}</h2>
           <p className="text-gray-600 mt-2">
-            Find tires for these commonly searched vehicles
+            {t('popularVehicles.subtitle')}
           </p>
         </div>
         
@@ -395,17 +398,16 @@ export default function TireFinder() {
       {/* Help Section */}
       <section className="bg-gray-50 rounded-xl p-8 border border-gray-200">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Need Help Finding the Right Tires?</h2>
+          <h2 className="text-2xl font-bold mb-4">{t('help.title')}</h2>
           <p className="text-gray-600 mb-6">
-            If you're not sure which tires are right for your vehicle, our tire experts are here to help.
-            Contact us for personalized recommendations based on your driving needs and vehicle specifications.
+            {t('help.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-              Contact Support
+              {t('help.contactSupport')}
             </Button>
             <Button className="bg-blue-600 hover:bg-blue-700">
-              Chat with an Expert
+              {t('help.chatExpert')}
             </Button>
           </div>
         </div>

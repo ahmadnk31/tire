@@ -5,22 +5,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { prisma } from "@/lib/db";
+import { getTranslations } from "next-intl/server";
 
 interface BrandPageProps {
   params: {
     id: string;
+    locale: string;
   };
 }
 
 export async function generateMetadata({ params }: BrandPageProps) {
-    const {id}=await params
+  const { id, locale } = params;
+  const t = await getTranslations({ locale, namespace: "brandPage" });
+  
   const brand = await prisma.brand.findUnique({
-    where: { id: id },
-    include:{
-        products:true
+    where: { id },
+    include: {
+      products: true
     }
   });
-  console.log(`brand`, brand)
+  
   if (!brand) {
     return {
       title: "Brand Not Found",
@@ -29,8 +33,8 @@ export async function generateMetadata({ params }: BrandPageProps) {
   }
   
   return {
-    title: `${brand.name} Tires | Premium Tire Shop`,
-    description: brand.description || `Shop our collection of ${brand.name} tires for all vehicle types.`,
+    title: t("title", { brandName: brand.name }),
+    description: brand.description || t("metaDescription", { brandName: brand.name }),
   };
 }
 
@@ -64,9 +68,10 @@ async function getBrandWithProductsAndModels(brandId: string) {
 }
 
 export default async function BrandDetailPage({ params }: BrandPageProps) {
-    const {id}=await params
+  const { id, locale } = params;
+  const t = await getTranslations({ locale, namespace: "brandPage" });
   const brand = await getBrandWithProductsAndModels(id);
-  console.log(`brand products with models `, brand)
+  
   if (!brand) {
     notFound();
   }
@@ -97,7 +102,9 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
               </div>
             )}
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">{brand.name} Tires</h1>
+              <h1 className="text-4xl font-bold text-gray-900">
+                {t("heading", { brandName: brand.name })}
+              </h1>
               {brand.description && (
                 <p className="text-gray-600 mt-2 max-w-3xl">
                   {brand.description}
@@ -105,9 +112,9 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
               )}
             </div>
           </div>
-          <Link href="/brands">
+          <Link href={`/${locale}/brands`}>
             <Button variant="outline" className="shrink-0">
-              All Brands
+              {t("breadcrumb")}
             </Button>
           </Link>
         </div>
@@ -116,7 +123,7 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
       {brand.models.length > 0 ? (
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="mb-8 flex flex-wrap h-auto">
-            <TabsTrigger value="all" className="mb-2">All Products</TabsTrigger>
+            <TabsTrigger value="all" className="mb-2">{t("tabs.all")}</TabsTrigger>
             {brand.models.map(model => (
               <TabsTrigger key={model.id} value={model.id} className="mb-2">
                 {model.name}
@@ -140,13 +147,13 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full w-full bg-gray-100">
-                          <p className="text-gray-400">No image</p>
+                          <p className="text-gray-400">{t("product.noImage")}</p>
                         </div>
                       )}
                       
                       {product.discount > 0 && (
                         <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
-                          {Math.round(product.discount)}% OFF
+                          {t("product.discount", { discount: Math.round(product.discount) })}
                         </div>
                       )}
                     </div>
@@ -172,8 +179,10 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                             <span className="text-lg font-bold text-blue-700">${product.retailPrice.toFixed(2)}</span>
                           )}
                         </div>
-                        <Link href={`/products/${product.id}`}>
-                          <Button size="sm" className="bg-gray-900 hover:bg-blue-600 text-white">View Details</Button>
+                        <Link href={`/${locale}/products/${product.id}`}>
+                          <Button size="sm" className="bg-gray-900 hover:bg-blue-600 text-white">
+                            {t("product.viewDetails")}
+                          </Button>
                         </Link>
                       </div>
                     </CardContent>
@@ -182,10 +191,12 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
               </div>
             ) : (
               <div className="text-center py-12">
-                <h3 className="text-2xl font-medium text-gray-700 mb-4">No products found from this brand</h3>
-                <p className="text-gray-500 mb-8">We're working on adding products from this brand. Please check back soon.</p>
-                <Link href="/products">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">Browse All Products</Button>
+                <h3 className="text-2xl font-medium text-gray-700 mb-4">{t("emptyState.title")}</h3>
+                <p className="text-gray-500 mb-8">{t("emptyState.description")}</p>
+                <Link href={`/${locale}/products`}>
+                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+                    {t("emptyState.browseAll")}
+                  </Button>
                 </Link>
               </div>
             )}
@@ -208,13 +219,13 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                           />
                         ) : (
                           <div className="flex items-center justify-center h-full w-full bg-gray-100">
-                            <p className="text-gray-400">No image</p>
+                            <p className="text-gray-400">{t("product.noImage")}</p>
                           </div>
                         )}
                         
                         {product.discount > 0 && (
                           <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
-                            {Math.round(product.discount)}% OFF
+                            {t("product.discount", { discount: Math.round(product.discount) })}
                           </div>
                         )}
                       </div>
@@ -239,8 +250,10 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                               <span className="text-lg font-bold text-blue-700">${product.retailPrice.toFixed(2)}</span>
                             )}
                           </div>
-                          <Link href={`/products/${product.id}`}>
-                            <Button size="sm" className="bg-gray-900 hover:bg-blue-600 text-white">View Details</Button>
+                          <Link href={`/${locale}/products/${product.id}`}>
+                            <Button size="sm" className="bg-gray-900 hover:bg-blue-600 text-white">
+                              {t("product.viewDetails")}
+                            </Button>
                           </Link>
                         </div>
                       </CardContent>
@@ -249,8 +262,8 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <h3 className="text-2xl font-medium text-gray-700 mb-4">No products found in this model</h3>
-                  <p className="text-gray-500 mb-8">We're working on adding products from this model. Please check back soon.</p>
+                  <h3 className="text-2xl font-medium text-gray-700 mb-4">{t("emptyState.emptyModelTitle")}</h3>
+                  <p className="text-gray-500 mb-8">{t("emptyState.emptyModelDescription")}</p>
                 </div>
               )}
             </TabsContent>
@@ -258,10 +271,12 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
         </Tabs>
       ) : (
         <div className="text-center py-12">
-          <h3 className="text-2xl font-medium text-gray-700 mb-4">No products found from this brand</h3>
-          <p className="text-gray-500 mb-8">We're working on adding products from this brand. Please check back soon.</p>
-          <Link href="/products">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">Browse All Products</Button>
+          <h3 className="text-2xl font-medium text-gray-700 mb-4">{t("emptyState.title")}</h3>
+          <p className="text-gray-500 mb-8">{t("emptyState.description")}</p>
+          <Link href={`/${locale}/products`}>
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+              {t("emptyState.browseAll")}
+            </Button>
           </Link>
         </div>
       )}

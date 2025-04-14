@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { prisma } from "@/lib/db";
 import { BadgePercent, Check, Star, Truck } from "lucide-react";
 import NewsletterSubscription from "@/components/newsletter-subscription";
+import { getTranslations } from "next-intl/server";
+import { ProductPriceDisplay } from "@/components/product/product-price-display";
 
 async function getFeaturedProducts() {
   // First try to get featured products
@@ -122,7 +124,8 @@ async function getTestimonials() {
   return testimonials;
 }
 
-export default async function Home() {
+export default async function Home({ params }: { params: { locale: string } }) {
+  const t = await getTranslations('Homepage');
   const featuredProducts = await getFeaturedProducts();
   const popularBrands = await getPopularBrands();
   const categories = await getCategories();
@@ -137,10 +140,10 @@ export default async function Home() {
         <div className="relative z-10 container mx-auto flex flex-col items-center justify-center h-full text-center p-4">
           <div className="w-full max-w-4xl">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-              Premium Tires for <span className="text-blue-400">Every</span> Journey
+              {t('hero.title')}
             </h1>
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Find the perfect tires for your car, truck, or SUV with our vast selection of premium tires from top brands.
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-10">
               <div className="bg-white/15 backdrop-blur-sm px-4 py-3 rounded-lg flex items-center">
@@ -159,12 +162,12 @@ export default async function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/products">
                 <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 px-8 shadow-lg shadow-blue-500/30">
-                  Browse Tires
+                  {t('hero.shopNow')}
                 </Button>
               </Link>
               <Link href="/tire-finder">
                 <Button size="lg" variant="outline" className=" border-white hover:bg-white/20 px-8">
-                  Find By Vehicle
+                  {t('hero.searchByVehicle')}
                 </Button>
               </Link>
             </div>
@@ -176,9 +179,9 @@ export default async function Home() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Featured Tires</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('featured.title')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Discover our selection of premium tires chosen for their exceptional performance, durability, and value.
+              {t('featured.subtitle')}
             </p>
           </div>
           
@@ -217,14 +220,14 @@ export default async function Home() {
                     <p className="text-gray-500 text-sm mb-2">{product.brand.name} {product.model.name}</p>
                     <div className="flex justify-between items-center mt-4">
                       <div className="flex flex-col">
-                        {product.salePrice ? (
-                          <>
-                            <span className="text-lg font-bold text-blue-700">${product.salePrice.toFixed(2)}</span>
-                            <span className="text-gray-400 text-sm line-through">${product.retailPrice.toFixed(2)}</span>
-                          </>
-                        ) : (
-                          <span className="text-lg font-bold text-blue-700">${product.retailPrice.toFixed(2)}</span>
-                        )}
+                        <ProductPriceDisplay
+                          wholesalePrice={product.wholesalePrice}
+                          retailPrice={product.retailPrice}
+                          salePrice={product.salePrice}
+                          discount={product.discount}
+                          retailerDiscount={product.retailerDiscount}
+                          wholesaleSalePrice={product.wholesaleSalePrice}
+                        />
                       </div>
                       <Link href={`/products/${product.id}`}>
                         <Button size="sm" className="bg-gray-900 hover:bg-blue-600 text-white">View Details</Button>
@@ -259,7 +262,7 @@ export default async function Home() {
           <div className="text-center mt-10">
             <Link href="/products">
               <Button size="lg" className="bg-gray-900 text-white hover:bg-blue-600 px-8 shadow-md transition-all duration-300 hover:shadow-lg">
-                View All Tires
+                {t('featured.viewAll')}
               </Button>
             </Link>
           </div>
@@ -270,9 +273,9 @@ export default async function Home() {
       <section className="py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Top Tire Brands</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('brands.title')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We partner with the world's leading tire manufacturers to bring you quality and performance.
+              {t('brands.subtitle')}
             </p>
           </div>
           
@@ -309,7 +312,7 @@ export default async function Home() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Shop By Category</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('categories.title')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Find the perfect tires for your specific needs and driving conditions.
             </p>
@@ -354,7 +357,7 @@ export default async function Home() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Why Choose Our Tires?</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('whyChooseUs.title')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We are committed to providing the best tire shopping experience with these key advantages.
             </p>
@@ -366,8 +369,8 @@ export default async function Home() {
                 <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-6">
                   <Check className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Premium Quality</h3>
-                <p className="text-gray-600">We offer only the highest quality tires from trusted manufacturers, ensuring safety and performance for every vehicle.</p>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{t('whyChooseUs.warranty.title')}</h3>
+                <p className="text-gray-600">{t('whyChooseUs.warranty.description')}</p>
               </CardContent>
             </Card>
             <Card className="border border-gray-200 hover:border-green-200 hover:shadow-md transition-all duration-300">
@@ -375,8 +378,8 @@ export default async function Home() {
                 <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-6">
                   <BadgePercent className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Competitive Pricing</h3>
-                <p className="text-gray-600">Get the best value with our competitive pricing, special discounts, and regular promotions for both retail and wholesale customers.</p>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{t('whyChooseUs.freeShipping.title')}</h3>
+                <p className="text-gray-600">{t('whyChooseUs.freeShipping.description')}</p>
               </CardContent>
             </Card>
             <Card className="border border-gray-200 hover:border-purple-200 hover:shadow-md transition-all duration-300">
@@ -384,8 +387,8 @@ export default async function Home() {
                 <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mb-6">
                   <Star className="h-8 w-8 text-purple-600" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Expert Support</h3>
-                <p className="text-gray-600">Our tire experts are always available to help you make the right choice based on your vehicle and driving needs.</p>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{t('whyChooseUs.expertAdvice.title')}</h3>
+                <p className="text-gray-600">{t('whyChooseUs.expertAdvice.description')}</p>
               </CardContent>
             </Card>
           </div>
@@ -397,15 +400,15 @@ export default async function Home() {
         <div className="absolute inset-0 bg-pattern opacity-10"></div>
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
           <div className="mb-6 md:mb-0 md:w-2/3">
-            <h2 className="text-3xl font-bold mb-4">Are You a Tire Retailer?</h2>
+            <h2 className="text-3xl font-bold mb-4">{t('retailer.title')}</h2>
             <p className="text-lg mb-0 max-w-xl text-blue-100">
-              Join our wholesale program and get access to special pricing, bulk inventory, and dedicated support.
+              {t('retailer.subtitle')}
             </p>
           </div>
           <div>
             <Link href="/become-retailer">
               <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100 shadow-lg">
-                Become a Retailer
+                {t('retailer.learnMore')}
               </Button>
             </Link>
           </div>
@@ -416,9 +419,9 @@ export default async function Home() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">What Our Customers Say</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('testimonials.title')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Don't just take our word for it - hear from our satisfied customers.
+              {t('testimonials.subtitle')}
             </p>
           </div>
           
@@ -480,19 +483,21 @@ export default async function Home() {
       <section className="py-20 bg-gradient-to-br from-gray-900 to-blue-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-pattern opacity-10"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-6">Ready to Upgrade Your Tires?</h2>
+          <h2 className="text-4xl font-bold mb-6">
+            {t('hero.ctaTitle')}
+          </h2>
           <p className="text-xl mb-10 max-w-2xl mx-auto text-blue-100">
-            Find the perfect tires for your vehicle today and enjoy a smoother, safer ride with our premium selection.
+            {t('hero.ctaSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/products">
               <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 px-8 py-6 text-lg shadow-lg shadow-blue-500/20">
-                Shop Now
+                {t('hero.shopNow')}
               </Button>
             </Link>
             <Link href="/tire-finder">
               <Button size="lg" variant="outline" className="border-white text-black  hover:bg-white/10 px-8 py-6 text-lg">
-                Find Your Perfect Tire
+                {t('hero.findTires')}
               </Button>
             </Link>
           </div>

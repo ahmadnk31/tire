@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useTranslations } from 'next-intl'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,23 +22,24 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
-const retailerFormSchema = z.object({
-  name: z.string().min(3, { message: "Name must be at least 3 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  companyName: z.string().min(2, { message: "Company name must be at least 2 characters" }),
-  phone: z.string().min(10, { message: "Phone number must be at least 10 characters" }),
-  businessAddress: z.string().min(5, { message: "Business address must be at least 5 characters" }),
-  taxId: z.string().optional(),
-  yearsInBusiness: z.string().min(1, { message: "Please specify years in business" }),
-  additionalInfo: z.string().optional(),
-})
-
-type RetailerFormValues = z.infer<typeof retailerFormSchema>
-
 export default function BecomeRetailerPage() {
+  const t = useTranslations('retailer');
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
+
+  const retailerFormSchema = z.object({
+    name: z.string().min(3, { message: t('form.fields.name.error') }),
+    email: z.string().email({ message: t('form.fields.email.error') }),
+    companyName: z.string().min(2, { message: t('form.fields.companyName.error') }),
+    phone: z.string().min(10, { message: t('form.fields.phone.error') }),
+    businessAddress: z.string().min(5, { message: t('form.fields.businessAddress.error') }),
+    taxId: z.string().optional(),
+    yearsInBusiness: z.string().min(1, { message: t('form.fields.yearsInBusiness.error') }),
+    additionalInfo: z.string().optional(),
+  })
+
+  type RetailerFormValues = z.infer<typeof retailerFormSchema>
 
   const form = useForm<RetailerFormValues>({
     resolver: zodResolver(retailerFormSchema),
@@ -68,15 +70,15 @@ export default function BecomeRetailerPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        toast.error(data.error || "Failed to submit application")
+        toast.error(data.error || t('notifications.error'))
         return
       }
 
       setIsSubmitted(true)
-      toast.success("Your retailer application has been submitted successfully")
+      toast.success(t('notifications.success'))
     } catch (error) {
       console.error("Error submitting retailer application:", error)
-      toast.error("Something went wrong. Please try again later.")
+      toast.error(t('notifications.error'))
     } finally {
       setIsSubmitting(false)
     }
@@ -84,20 +86,20 @@ export default function BecomeRetailerPage() {
 
   if (isSubmitted) {
     return (
-      <div className=" max-w-4xl py-12 container mx-auto">
+      <div className="max-w-4xl py-12 container mx-auto">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Application Submitted</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">{t('success.title')}</CardTitle>
             <CardDescription className="text-center">
-              Thank you for your interest in becoming a retailer
+              {t('success.description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 text-center">
-            <p>Your application has been received and is under review.</p>
-            <p>Our team will review your information and get back to you via email within 2-3 business days.</p>
+            <p>{t('success.message1')}</p>
+            <p>{t('success.message2')}</p>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Button onClick={() => router.push("/")}>Return to Homepage</Button>
+            <Button onClick={() => router.push("/")}>{t('success.returnButton')}</Button>
           </CardFooter>
         </Card>
       </div>
@@ -108,9 +110,9 @@ export default function BecomeRetailerPage() {
     <div className="max-w-4xl py-12 container mx-auto">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Become a Retailer</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t('form.title')}</CardTitle>
           <CardDescription className="text-center">
-            Apply to join our network of tire retailers and gain access to wholesale pricing
+            {t('form.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -122,9 +124,9 @@ export default function BecomeRetailerPage() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>{t('form.fields.name.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.name.placeholder')} disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -135,9 +137,9 @@ export default function BecomeRetailerPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t('form.fields.email.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="example@example.com" type="email" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.email.placeholder')} type="email" disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -148,9 +150,9 @@ export default function BecomeRetailerPage() {
                   name="companyName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name</FormLabel>
+                      <FormLabel>{t('form.fields.companyName.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your Tire Shop" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.companyName.placeholder')} disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -161,9 +163,9 @@ export default function BecomeRetailerPage() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>{t('form.fields.phone.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="123-456-7890" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.phone.placeholder')} disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -174,9 +176,9 @@ export default function BecomeRetailerPage() {
                   name="businessAddress"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
-                      <FormLabel>Business Address</FormLabel>
+                      <FormLabel>{t('form.fields.businessAddress.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="123 Main St, City, State, Zip" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.businessAddress.placeholder')} disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -187,12 +189,12 @@ export default function BecomeRetailerPage() {
                   name="taxId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tax ID (Optional)</FormLabel>
+                      <FormLabel>{t('form.fields.taxId.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Tax ID or Business License #" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.taxId.placeholder')} disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormDescription>
-                        For wholesale verification purposes only
+                        {t('form.fields.taxId.description')}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -203,9 +205,9 @@ export default function BecomeRetailerPage() {
                   name="yearsInBusiness"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Years in Business</FormLabel>
+                      <FormLabel>{t('form.fields.yearsInBusiness.label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., 5" disabled={isSubmitting} {...field} />
+                        <Input placeholder={t('form.fields.yearsInBusiness.placeholder')} disabled={isSubmitting} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -216,10 +218,10 @@ export default function BecomeRetailerPage() {
                   name="additionalInfo"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
-                      <FormLabel>Additional Information (Optional)</FormLabel>
+                      <FormLabel>{t('form.fields.additionalInfo.label')}</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Tell us more about your business and why you'd like to become a retailer"
+                          placeholder={t('form.fields.additionalInfo.placeholder')}
                           className="min-h-[120px]"
                           disabled={isSubmitting}
                           {...field}
@@ -232,7 +234,7 @@ export default function BecomeRetailerPage() {
               </div>
               <div className="flex justify-center">
                 <Button type="submit" size="lg" disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "Submit Application"}
+                  {isSubmitting ? t('form.submitting') : t('form.submit')}
                 </Button>
               </div>
             </form>

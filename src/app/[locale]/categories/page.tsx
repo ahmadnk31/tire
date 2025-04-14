@@ -2,19 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import { useCategories } from "@/hooks/use-category-queries";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CategoriesPage() {
+  const t = useTranslations('Categories');
   const { data, isLoading, error } = useCategories();
 
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900">Tire Categories</h1>
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">{t('title')}</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Browse our comprehensive selection of tire categories to find the perfect match for your vehicle and driving needs.
+          {t('description')}
         </p>
       </div>
 
@@ -28,13 +30,13 @@ export default function CategoriesPage() {
         </div>
       ) : error ? (
         <div className="text-center py-12 bg-red-50 rounded-lg">
-          <h3 className="text-xl font-medium text-red-700 mb-4">Error loading categories</h3>
-          <p className="text-red-600 mb-4">We encountered an issue while loading the categories. Please try again later.</p>
+          <h3 className="text-xl font-medium text-red-700 mb-4">{t('error.title')}</h3>
+          <p className="text-red-600 mb-4">{t('error.message')}</p>
           <Button 
             onClick={() => window.location.reload()}
             className="bg-red-600 hover:bg-red-700 text-white"
           >
-            Retry
+            {t('error.retryButton')}
           </Button>
         </div>
       ) : (
@@ -61,10 +63,10 @@ export default function CategoriesPage() {
               <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                 <h2 className="text-xl font-bold text-white mb-2">{category.name}</h2>
                 <p className="text-white/80 text-sm mb-3 line-clamp-2">
-                  {category.description || `Shop our selection of ${category.name} tires`}
+                  {category.description || t('card.defaultDescription', { categoryName: category.name })}
                 </p>
                 <span className="inline-flex items-center text-sm text-white group-hover:underline">
-                  Browse Collection
+                  {t('card.browseButton')}
                   <svg className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>

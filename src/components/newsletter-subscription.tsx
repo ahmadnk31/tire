@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CheckCircle, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 export default function NewsletterSubscription() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const t=useTranslations('Homepage.newsletter')
   const [error, setError] = useState('');
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,9 +50,11 @@ export default function NewsletterSubscription() {
   return (
     <div className="w-full max-w-3xl mx-auto">
       <div className="text-center mb-6">
-        <h3 className="text-2xl font-bold mb-2">Subscribe to Our Newsletter</h3>
+        <h3 className="text-2xl font-bold mb-2">
+          {t('title')}
+        </h3>
         <p className="text-white/80">
-          Get the latest updates on new products, seasonal specials and exclusive offers!
+          {t('subtitle')}
         </p>
       </div>
 
@@ -58,14 +62,14 @@ export default function NewsletterSubscription() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
-            placeholder="Your name (optional)"
+            placeholder={t('namePlaceholder')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-blue-400"
           />
           <Input
             type="email"
-            placeholder="Your email address"
+            placeholder={t('emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -80,11 +84,11 @@ export default function NewsletterSubscription() {
             className="bg-white text-blue-800 hover:bg-blue-100 px-8 font-medium"
           >
             {loading ? (
-              <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Subscribing...</>
+              <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t('subscribing')}</>
             ) : success ? (
-              <><CheckCircle className="mr-2 h-4 w-4" /> Subscribed!</>
+              <><CheckCircle className="mr-2 h-4 w-4" /> {t('subscribed')}</>
             ) : (
-              <>Subscribe <ArrowRight className="ml-2 h-4 w-4" /></>
+              <>{t('subscribe')} <ArrowRight className="ml-2 h-4 w-4" /></>
             )}
           </Button>
         </div>
@@ -97,7 +101,7 @@ export default function NewsletterSubscription() {
         )}
         
         <p className="text-xs text-center text-white/60 mt-4">
-          By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+          {t('privacyNote')}
         </p>
       </form>
     </div>

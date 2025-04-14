@@ -25,6 +25,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ProductRecommendations } from "@/components/product/product-recommendations";
 import { WriteReviewButton } from "@/components/review/write-review-button";
+import { ProductPriceDisplay } from "@/components/product/product-price-display";
 
 // Define interface for product data based on your Prisma schema
 interface ProductData {
@@ -299,31 +300,27 @@ export default async function ProductPage({ params }: { params: { productId: str
               {product._count.reviews} {product._count.reviews === 1 ? t('reviews.review') : t('reviews.reviews')}
             </span>
           </div>          {/* Price information */}
-          <div className="mb-6">
-            <div className="flex items-baseline">
-              {hasDiscount ? (
-                <>
-                  <span className="text-3xl font-bold">${finalPrice.toFixed(2)}</span>
-                  <span className="text-lg text-gray-500 line-through ml-2">
-                    ${product.retailPrice.toFixed(2)}
-                  </span>
-                </>
-              ) : (
-                <span className="text-3xl font-bold">${product.retailPrice.toFixed(2)}</span>
-              )}
-            </div>
+          <div>
+            <ProductPriceDisplay
+              retailPrice={product.retailPrice}
+              wholesalePrice={product.wholesalePrice}
+              discount={product.discount}
+              retailerDiscount={product.retailerDiscount}
+              salePrice={product.salePrice}
+              wholesaleSalePrice={product.wholesaleSalePrice}
+            />
 
             {/* Stock information */}
             <div className="mt-2">
               {isOutOfStock ? (
                 <span className="text-red-500 font-medium">{t('price.outOfStock')}</span>
-              ) : isLowStock ? (
+              ) : isLowStock && product.stock <= 3 ? (
                 <span className="text-amber-500 font-medium">{t('price.lowStock', { count: product.stock })}</span>
               ) : (
-                <span className="text-green-500 font-medium">{t('price.inStock', { count: product.stock })}</span>
+                <span className="text-green-500 font-medium">{t('price.inStock')}</span>
               )}
             </div>
-          </div>          {/* Performance ratings */}
+          </div>{/* Performance ratings */}
           <div className="mb-6">
             <h3 className="text-lg font-medium mb-2">{t('performance.title')}</h3>
             <div className="flex space-x-6">

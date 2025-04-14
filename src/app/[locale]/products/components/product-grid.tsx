@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { AddToCartButton } from "@/components/add-to-cart-button";
+import { formatPrice } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 // Product interface based on your Prisma schema
 interface Product {
@@ -304,14 +306,28 @@ export function ProductGrid() {
 function ProductCard({ product }: { product: Product }) {
   const t = useTranslations("Products.product");
   const { locale } = useParams();
+  const user=useSession()
+  // Fetch the current user's role
+
+  // Determine if user is a retailer
+  const isRetailer = user.data?.user?.role === "RETAILER"
   
-  // Calculate the discounted price if there's a discount
-  const hasDiscount = product.discount > 0;
+  // Calculate the appropriate price based on role
+  const hasDiscount = isRetailer 
+    ? product.retailerDiscount > 0 
+    : product.discount > 0;
+  
+  // For retailers, use wholesale pricing
+  const basePrice = isRetailer ? product.wholesalePrice : product.retailPrice;
+  const discountPercentage = isRetailer ? product.retailerDiscount : product.discount;
+  const discountedPrice = isRetailer ? product.wholesaleSalePrice : product.salePrice;
+  
+  // Calculate final price
   const finalPrice = hasDiscount
-    ? product.salePrice !== null
-      ? product.salePrice
-      : product.retailPrice - (product.retailPrice * product.discount / 100)
-    : product.retailPrice;
+    ? discountedPrice !== null
+      ? discountedPrice
+      : basePrice - (basePrice * discountPercentage / 100)
+    : basePrice;
   
   // Formatted tire size (e.g., 225/65R17)
   const tireSize = `${product.width}/${product.aspectRatio}R${product.rimDiameter}`;
@@ -319,8 +335,8 @@ function ProductCard({ product }: { product: Product }) {
   // Format the specification string (e.g., 95H)
   const loadSpeedSpec = `${product.loadIndex}${product.speedRating}`;
   
-  // Stock status
-  const isLowStock = product.stock > 0 && product.stock <= 5;
+  // Stock status - only show low stock when 3 or less
+  const isLowStock = product.stock > 0 && product.stock <= 3;
   const isOutOfStock = product.stock === 0;
   
   return (
@@ -373,18 +389,29 @@ function ProductCard({ product }: { product: Product }) {
             {loadSpeedSpec}
           </Badge>
         </div>
-        
-        <div className="flex items-end justify-between">
+          <div className="flex items-end justify-between">
           <div>
             {hasDiscount ? (
               <div>
-                <span className="font-medium text-lg">${finalPrice.toFixed(2)}</span>
+                <span className="font-medium text-lg">{formatPrice(finalPrice)}</span>
                 <span className="text-sm text-muted-foreground line-through ml-2">
-                  ${product.retailPrice.toFixed(2)}
+                  {formatPrice(basePrice)}
                 </span>
+                {isRetailer && (
+                  <Badge variant="secondary" className="ml-2 text-xs bg-blue-100">
+                    {t("wholesalePrice")}
+                  </Badge>
+                )}
               </div>
             ) : (
-              <span className="font-medium text-lg">${product.retailPrice.toFixed(2)}</span>
+              <div>
+                <span className="font-medium text-lg">{formatPrice(basePrice)}</span>
+                {isRetailer && (
+                  <Badge variant="secondary" className="ml-2 text-xs bg-blue-100">
+                    {t("wholesalePrice")}
+                  </Badge>
+                )}
+              </div>
             )}
           </div>
           
@@ -395,7 +422,7 @@ function ProductCard({ product }: { product: Product }) {
               </Badge>
             ) : isLowStock ? (
               <Badge variant="outline" className="text-amber-500 border-amber-200 bg-amber-50">
-                {t("lowStock")}
+                {t("lowStock", { count: product.stock })}
               </Badge>
             ) : (
               <Badge variant="outline" className="text-green-500 border-green-200 bg-green-50">

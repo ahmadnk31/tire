@@ -1,8 +1,20 @@
 'use client'
 
-import { ShoppingCart, User, Menu, LogOut, X } from "lucide-react"
+import { ShoppingCart, User, Menu, LogOut, X, Clock } from "lucide-react"
 import Link from "next/link"
 import { useTranslations, useLocale } from 'next-intl'
+import dynamic from 'next/dynamic'
+
+// Use dynamic import with no SSR to avoid hydration issues with date/time
+const StoreStatus = dynamic(() => import('./store-status').then(mod => mod.StoreStatus), { 
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center gap-2">
+      <Clock className="h-4 w-4 animate-pulse" />
+      <span className="text-sm">Loading...</span>
+    </div>
+  )
+})
 import { Button } from "./ui/button"
 import {
   Sheet,
@@ -128,7 +140,7 @@ export function Navbar() {
     <header
       className={`sticky top-0 z-50 w-full ${bgColor} transition-all duration-200`}
     >
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className=" mx-auto px-4 lg:px-8">
         {/* Top Nav - Logo, Nav Links, and Actions */}
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Mobile Menu */}
@@ -281,7 +293,10 @@ export function Navbar() {
               ) : (
                 <Moon className="h-5 w-5" />
               )}
-            </Button>
+            </Button>            {/* Store Status Indicator - Visible on all devices */}
+            <div className="block">
+              <StoreStatus />
+            </div>
 
             {/* Language Switcher */}
             <div className="hidden md:block">

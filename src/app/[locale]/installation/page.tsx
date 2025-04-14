@@ -429,7 +429,7 @@ export default function InstallationPage() {
           <p className="text-xl mb-10 max-w-2xl mx-auto text-blue-100">
             Our expert technicians are ready to help you with all your tire installation and maintenance needs.
           </p>
-          <Link href="/appointment">
+          <Link href="/appointments">
             <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 px-8 py-6 text-lg shadow-lg shadow-blue-500/20">
               Book An Appointment
             </Button>

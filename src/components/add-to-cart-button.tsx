@@ -137,9 +137,9 @@ export function AddToCartButton({
   }
 
   return (
-    <div className={`flex flex-col ${showQuantity ? 'space-y-2' : ''}`}>
+    <div className={`flex flex-col w-full ${showQuantity ? 'space-y-2' : ''}`}>
       {showQuantity && (
-        <div className="flex items-center">
+        <div className="flex items-center w-full">
           <Button
             type="button"
             variant="outline"

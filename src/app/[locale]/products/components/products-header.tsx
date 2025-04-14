@@ -87,81 +87,89 @@ export function ProductsHeader() {
     setSearchQuery('');
     setSortOption('featured');
   };
-  
-  return (
-    <div className="mb-6 md:mb-8 space-y-4 md:space-y-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t("title")}</h1>
-        <p className="text-muted-foreground text-sm md:text-base mt-1">
+    return (
+    <div className="mb-8 space-y-6">
+      {/* Header with animated gradient background */}
+      <div className="bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 p-6 md:p-8 rounded-xl shadow-sm transition-all duration-300 border border-slate-200 dark:border-slate-800">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400">
+          {t("title")}
+        </h1>
+        <p className="text-muted-foreground text-sm md:text-base mt-2 max-w-2xl">
           {t("description")}
         </p>
       </div>
       
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        {/* Mobile filters button - only shown on small screens */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2" size="sm">
-                <SlidersHorizontal className="h-4 w-4" />
-                <span>{t("filters.title")}</span>
-                {activeFiltersCount > 0 && (
-                  <Badge variant="secondary" className="ml-1 text-xs">
-                    {activeFiltersCount}
-                  </Badge>
-                )}
+      {/* Filter and search controls in responsive container */}
+      <div className="bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start lg:items-center">
+          {/* Mobile filters - left side on mobile, hidden on large screens */}
+          <div className="flex items-center gap-2 lg:col-span-3 lg:order-2">
+            {/* Mobile filter sheet */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2 lg:hidden">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  <span>{t("filters.title")}</span>
+                  {activeFiltersCount > 0 && (
+                    <Badge variant="secondary" className="ml-1 text-xs rounded-full h-5 min-w-5 flex items-center justify-center">
+                      {activeFiltersCount}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+                <div className="py-6">
+                  <h2 className="text-lg font-semibold mb-4">{t("filters.title")}</h2>
+                  <ProductFilters />
+                </div>
+              </SheetContent>
+            </Sheet>
+            
+            {/* Clear filters button - shown when filters are active */}
+            {activeFiltersCount > 0 && (
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={clearAll}
+                className="text-xs hover:bg-red-50 hover:text-red-600 transition-colors dark:hover:bg-red-950"
+              >
+                {t("filters.clear")}
               </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
-              <div className="py-6">
-                <h2 className="text-lg font-semibold mb-4">{t("filters.title")}</h2>
-                <ProductFilters />
-              </div>
-            </SheetContent>
-          </Sheet>
+            )}
+          </div>
           
-          {activeFiltersCount > 0 && (
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={clearAll}
-              className="text-xs"
-            >
-              {t("filters.clear")}
-            </Button>
-          )}
-        </div>
-        
-        {/* Search and sort controls */}
-        <div className="flex flex-1 flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
-          <form onSubmit={handleSearch} className="relative flex-1 max-w-md">
-            <Input
-              type="search"
-              placeholder="Search tires..."
-              className="pr-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button 
-              type="submit"
-              size="icon"
-              variant="ghost"
-              className="absolute right-0 top-0 h-full"
-            >
-              <Search className="h-4 w-4" />
-              <span className="sr-only">Search</span>
-            </Button>
-          </form>
+          {/* Search bar - takes up most of the space */}
+          <div className="lg:col-span-5 lg:order-1 w-full">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <Input
+                type="search"
+                placeholder={`${t("search.placeholder", { fallback: "Search tires..." })}`}
+                className="pr-10 w-full transition-all duration-300 focus-within:shadow-md"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button 
+                type="submit"
+                size="icon"
+                variant="ghost"
+                className="absolute right-0 top-0 h-full"
+              >
+                <Search className="h-4 w-4" />
+                <span className="sr-only">Search</span>
+              </Button>
+            </form>
+          </div>
           
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground hidden sm:inline">
+          {/* Sort options - right side */}
+          <div className="flex items-center gap-2 justify-end lg:justify-end lg:col-span-4 lg:order-3">
+            <span className="text-sm text-muted-foreground hidden md:inline whitespace-nowrap">
               {t("sort.title")}:
             </span>
             <Select
               value={sortOption}
               onValueChange={handleSortChange}
             >
-              <SelectTrigger className="w-[180px] h-9">
+              <SelectTrigger className="w-full sm:w-[180px] h-10 transition-all duration-300 hover:border-slate-400 dark:hover:border-slate-500">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -174,6 +182,23 @@ export function ProductsHeader() {
             </Select>
           </div>
         </div>
+        
+        {/* Active filters count indicator - desktop only */}
+        {activeFiltersCount > 0 && (
+          <div className="hidden lg:flex items-center mt-4 text-sm text-muted-foreground">
+            <Badge variant="secondary" className="mr-2">
+              {activeFiltersCount} {activeFiltersCount === 1 ? t("filters.activeFilter") : t("filters.activeFilters")}
+            </Badge>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={clearAll}
+              className="text-xs hover:text-red-600"
+            >
+              {t("filters.clearAll")}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
