@@ -4,8 +4,18 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CalendarIcon, Loader2, Terminal } from "lucide-react";
+import { CalendarIcon, Loader2, Terminal, Check } from "lucide-react";
 import { format } from "date-fns";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  MultiSelector,
+  MultiSelectorContent,
+  MultiSelectorInput,
+  MultiSelectorItem,
+  MultiSelectorList,
+  MultiSelectorTrigger,
+} from "@/components/ui/multi-select";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +25,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -35,6 +46,16 @@ import { Switch } from "@/components/ui/switch";
 import { FileUpload } from "@/components/file-upload";
 import { useCreatePromotion } from "@/hooks/use-promotion-actions";
 import { PromotionType, PromotionTarget } from "@prisma/client";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -59,8 +80,43 @@ const formSchema = z.object({
   subscriberGroups: z.array(z.string()).optional(),
   termsAndConditions: z.string().optional().nullable(),
   howToRedeem: z.string().optional().nullable(),
-  promoCode: z.string().optional().nullable()
+  promoCode: z.string().optional().nullable(),
+  models: z.array(z.string()).optional()
 });
+
+// Types for products, brands, and categories
+interface Product {
+  id: string;
+  name: string;
+  brand?: {
+    name: string;
+  };
+  model?: {
+    name: string;
+  };
+  retailPrice: number;
+}
+
+interface Brand {
+  id: string;
+  name: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface SubscriberGroup {
+  id: string;
+  name: string;
+}
+
+interface Model {
+  id: string;
+  name: string;
+}
+
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -68,10 +124,93 @@ interface AddPromotionFormProps {
   onSuccess: () => void;
 }
 
-export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
-  const t = useTranslations("Dashboard.Promotions");
+export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {  const t = useTranslations("Dashboard.Promotions");
   const { mutate: createPromotion, isPending } = useCreatePromotion();
-  
+
+  // Fetch brands with React Query
+  const { 
+    data: brandsData,
+    isLoading: loadingBrands,
+    error: brandsError
+  } = useQuery({
+    queryKey: ['brands'],
+    queryFn: async () => {
+      const response = await fetch('/api/brands');
+      if (!response.ok) throw new Error('Failed to fetch brands');
+      const data = await response.json();
+      return data.brands || [];
+    }
+  });
+
+  // Fetch categories with React Query
+  const { 
+    data: categoriesData,
+    isLoading: loadingCategories,
+    error: categoriesError
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response = await fetch('/api/categories');
+      if (!response.ok) throw new Error('Failed to fetch categories');
+      const data = await response.json();
+      return data.categories || [];
+    }
+  });
+
+  // Fetch products with React Query
+  const { 
+    data: productsData,
+    isLoading: loadingProducts,
+    error: productsError
+  } = useQuery({
+    queryKey: ['products', 'promotion-form'],
+    queryFn: async () => {
+      const response = await fetch('/api/products?limit=100');
+      if (!response.ok) throw new Error('Failed to fetch products');
+      const data = await response.json();
+      return data.products || [];
+    }
+  });
+
+  const {
+    data: modelsData,
+    isLoading: loadingModels,
+    error: modelsError
+  } = useQuery({
+    queryKey: ['models'],
+    queryFn: async () => {
+      const response = await fetch('/api/models');
+      if (!response.ok) throw new Error('Failed to fetch models');
+      const data = await response.json();
+      return data || [];
+    }
+  });
+
+  const {
+    data: subscriberGroupsData,
+    isLoading: loadingSubscriberGroups,
+    error: subscriberGroupsError
+  } = useQuery({
+    queryKey: ['subscriber-groups'],
+    queryFn: async () => {
+      const response = await fetch('/api/newsletters/groups');
+      if (!response.ok) throw new Error('Failed to fetch subscriber groups');
+      const data = await response.json();
+      return data || [];
+    }
+  });
+
+  // Extract data from query results
+  const brands = brandsData || [];
+  const categories = categoriesData || [];
+  const products = productsData || [];
+  console.log("Products:", products);
+  console.log("Brands:", brands);
+  console.log("Categories:", categories);
+  const models = modelsData || [];
+  const subscriberGroups = subscriberGroupsData || [];
+  console.log("Subscriber Groups:", subscriberGroups);
+  console.log("Models:", models);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),    defaultValues: {
       title: "",
@@ -94,6 +233,7 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
       products: [],
       brands: [],
       categories: [],
+      models: [],
       subscriberGroups: [],
       termsAndConditions: null,
       howToRedeem: null,
@@ -360,7 +500,8 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
             name="startDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{t("form.startDate")}</FormLabel>                <Popover>
+                <FormLabel>{t("form.startDate")}</FormLabel>                
+                <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -396,7 +537,8 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
             name="endDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{t("form.endDate")} ({t("form.optional")})</FormLabel>                <Popover>
+                <FormLabel>{t("form.endDate")} ({t("form.optional")})</FormLabel>                
+                <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -506,7 +648,149 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
               </FormItem>
             )}
           />
-        </div>          {/* Terms and Conditions & How to Redeem */}
+        </div>
+
+        {/* Products, Brands, and Categories Targeting */}        <div className="grid grid-cols-1 gap-6 mt-4">
+          <div>
+            <h3 className="text-lg font-medium mb-3">Target Specific Products, Brands, or Categories</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Select which products, brands, or categories this promotion applies to.
+              Leave all unselected to apply to all products.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">            
+            <FormField
+              control={form.control}
+              name="products"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>{t("form.products")}</FormLabel>
+                  <MultiSelector
+                     values={field.value || []}
+                     onValuesChange={field.onChange}
+                  >
+                    <MultiSelectorTrigger className={loadingProducts ? "opacity-50" : ""}>
+                      <MultiSelectorInput placeholder={t("form.selectProducts")} />
+                    </MultiSelectorTrigger>
+                    <MultiSelectorContent>
+                      {products.map((product: Product) => (
+                        <MultiSelectorItem key={product.id} value={product.id}>
+                          {product.name} {product.brand && `(${product.brand.name})`}
+                        </MultiSelectorItem>
+                      ))}
+                    </MultiSelectorContent>
+                  </MultiSelector>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="brands"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>{t("form.brands")}</FormLabel>
+                  <MultiSelector
+                    values={field.value || []}
+                    onValuesChange={field.onChange}
+                  >
+                    <MultiSelectorTrigger className={loadingBrands ? "opacity-50" : ""}>
+                      <MultiSelectorInput placeholder={t("form.selectBrands")} />
+                    </MultiSelectorTrigger>
+                    <MultiSelectorContent>
+                      {brands?.map((brand: Brand) => (
+                        <MultiSelectorItem key={brand.id} value={brand.id}>
+                          {brand.name}
+                        </MultiSelectorItem>
+                      ))}
+                    </MultiSelectorContent>
+                  </MultiSelector>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="models"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>{t("form.models")}</FormLabel>
+                  <MultiSelector
+                    values={field.value || []}
+                    onValuesChange={field.onChange}
+                  >
+                    <MultiSelectorTrigger className={loadingModels ? "opacity-50" : ""}>
+                      <MultiSelectorInput placeholder={t("form.selectModels")} />
+                    </MultiSelectorTrigger>
+                    <MultiSelectorContent>
+                      {modelsData?.map((model: Model) => (
+                        <MultiSelectorItem key={model.id} value={model.id}>
+                          {model.name}
+                        </MultiSelectorItem>
+                      ))}
+                    </MultiSelectorContent>
+                  </MultiSelector>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="categories"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>{t("form.categories")}</FormLabel>
+                  <MultiSelector
+                    values={field.value || []}
+                    onValuesChange={field.onChange}
+                  >
+                    <MultiSelectorTrigger className={loadingCategories ? "opacity-50" : ""}>
+                      <MultiSelectorInput placeholder={t("form.selectCategories")} />
+                    </MultiSelectorTrigger>
+                    <MultiSelectorContent>
+                      {categories?.map((category: Category) => (
+                        <MultiSelectorItem key={category.id} value={category.id}>
+                          {category.name}
+                        </MultiSelectorItem>
+                      ))}
+                    </MultiSelectorContent>
+                  </MultiSelector>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          </div>
+        <div className="grid grid-cols-1 gap-4">
+          <FormField
+            control={form.control}
+            name="subscriberGroups"
+            render={({ field }) => (
+              <FormItem className="col-span-1">
+                <FormLabel>{t("form.subscriberGroups")}</FormLabel>
+                <MultiSelector
+                  values={field.value || []}
+                  onValuesChange={field.onChange}
+                >
+                  <MultiSelectorTrigger className={loadingSubscriberGroups ? "opacity-50" : ""}>
+                    <MultiSelectorInput placeholder={t("form.selectSubscriberGroups")} />
+                  </MultiSelectorTrigger>
+                  <MultiSelectorContent>
+                    {subscriberGroupsData?.map((group: SubscriberGroup) => (
+                      <MultiSelectorItem key={group.id} value={group.id}>
+                        {group.name}
+                      </MultiSelectorItem>
+                    ))}
+                  </MultiSelectorContent>
+                </MultiSelector>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        {/* Terms & Conditions and How to Redeem */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -517,9 +801,8 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
                 <FormControl>
                   <Textarea 
                     {...field} 
-                    className="min-h-[100px]" 
-                    value={field.value || ""}
-                    placeholder="Rules, limitations, and conditions for using this promotion."
+                    value={field.value || ""} 
+                    className="min-h-[100px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -536,9 +819,8 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
                 <FormControl>
                   <Textarea 
                     {...field} 
-                    className="min-h-[100px]" 
-                    value={field.value || ""}
-                    placeholder="Instructions for customers on how to use this promotion."
+                    value={field.value || ""} 
+                    className="min-h-[100px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -547,41 +829,42 @@ export function AddPromotionForm({ onSuccess }: AddPromotionFormProps) {
           />
         </div>
         
-          {/* Status */}
-        <div>
+        {/* Active Status */}
+        <div className="flex items-center space-x-2">
           <FormField
             control={form.control}
             name="isActive"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <FormLabel className="text-base">
-                    {t("form.isActive")}
-                  </FormLabel>
-                  <div className="text-sm text-muted-foreground">
-                    {t("form.isActiveDescription")}
-                  </div>
-                </div>
+              <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4">
                 <FormControl>
                   <Switch
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    {field.value ? t("form.active") : t("form.inactive")}
+                  </FormLabel>
+                  <FormDescription>
+                    {t("form.activeDescription")}
+                  </FormDescription>
+                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        
+
         {/* Submit Button */}
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="w-full md:w-auto">
           {isPending ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              {t("creating")}
+              {t("form.creating")}
             </>
           ) : (
-            t("createPromotion")
+            t("form.create")
           )}
         </Button>
       </form>

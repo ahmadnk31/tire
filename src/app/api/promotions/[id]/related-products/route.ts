@@ -25,33 +25,37 @@ export async function GET(
         { error: "Promotion not found" },
         { status: 404 }
       );
-    }    // Get products directly related to this promotion
-    const relatedProducts = await prisma.product.findMany({
-      where: {
-        promotionId: promotionId
-      },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        retailPrice: true,
-        wholesalePrice: true,
-        discount: true,
-        salePrice: true,
-        images: true,
-        brand: {
+    }    // Get products directly related to this promotion through the many-to-many relationship
+    const promotionWithProducts = await prisma.promotion.findUnique({
+      where: { id: promotionId },
+      include: {
+        products: {
           select: {
-            name: true
-          }
-        },
-        model: {
-          select: {
-            name: true
-          }
+            id: true,
+            name: true,
+            description: true,
+            retailPrice: true,
+            wholesalePrice: true,
+            discount: true,
+            salePrice: true,
+            images: true,
+            brand: {
+              select: {
+                name: true
+              }
+            },
+            model: {
+              select: {
+                name: true
+              }
+            }
+          },
+          take: 6 // Limit to avoid loading too many products
         }
-      },
-      take: 6 // Limit to avoid loading too many products
+      }
     });
+
+    const relatedProducts = promotionWithProducts?.products || [];
 
     // If no direct products, try to get products from the same brands or categories that are in the promotion
     if (relatedProducts.length === 0) {

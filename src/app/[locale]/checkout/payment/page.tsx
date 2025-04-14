@@ -600,8 +600,7 @@ export default function PaymentPage() {
               return prev + 10;
             });
           }, 300);
-          
-          const response = await fetch('/api/payments/create-intent', {
+            const response = await fetch('/api/payments/create-intent', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -617,6 +616,14 @@ export default function PaymentPage() {
                   quantity: item.quantity,
                   price: item.price
                 }))),
+                promotions: JSON.stringify(appliedPromotions.map(promo => ({
+                  id: promo.id,
+                  code: promo.promoCode || promo.code,
+                  title: promo.title,
+                  type: promo.type,
+                  value: promo.value,
+                }))),
+                promotionsDiscount: summary.promotionsDiscount,
                 customer: JSON.stringify({
                   name: `${shippingAddress.firstName} ${shippingAddress.lastName}`,
                   email: shippingAddress.email,

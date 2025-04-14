@@ -5,10 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/cart-context";
+import { usePromotion } from "@/contexts/promotion-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 import { 
   Minus, 
   Plus, 
@@ -16,7 +18,9 @@ import {
   ShoppingCart, 
   ArrowRight, 
   Info, 
-  ImageIcon
+  ImageIcon,
+  Tag,
+  X
 } from "lucide-react";
 import {
   Tooltip,
@@ -35,10 +39,16 @@ export default function CartPage() {
     updateItemQuantity, 
     removeItem, 
     summary, 
-    itemCount 
+    itemCount,
+    applyPromoCode,
+    appliedPromotions,
+    removePromotion
   } = useCart();
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
-  const t=useTranslations('cart')
+  const [promoCode, setPromoCode] = useState("");
+  const [isApplying, setIsApplying] = useState(false);
+  const t = useTranslations('cart')
+  const tDeals = useTranslations('Deals')
   // Handle quantity change
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -50,7 +60,6 @@ export default function CartPage() {
       setIsUpdating({ ...isUpdating, [id]: false });
     }, 300);
   };
-
   // Handle item removal
   const handleRemoveItem = (id: string) => {
     setIsUpdating({ ...isUpdating, [id]: true });
@@ -61,9 +70,25 @@ export default function CartPage() {
     }, 300);
   };
 
+  // Handle applying promotion code
+  const handleApplyPromoCode = async () => {
+    if (!promoCode.trim()) return;
+    
+    setIsApplying(true);
+    const success = await applyPromoCode(promoCode.trim());
+    
+    if (success) {
+      toast.success(tDeals("codeCopied"));
+      setPromoCode("");
+    } else {
+      toast.error(t("invalidPromoCode"));
+    }
+    
+    setIsApplying(false);
+  };
+
   // Format price to display with 2 decimal places
   
-
   if (items.length === 0) {
     return (
       <div className="container max-w-4xl py-12 px-2 md:px-4 lg:px-8">
@@ -265,15 +290,71 @@ export default function CartPage() {
                   <span>{t('calculatedAtCheckout')}</span>
                 </div>
               </div>
-              
+                {/* Promotion Code Input */}
+              <div className="mt-6">
+                <h3 className="font-medium mb-2">{tDeals("promoCode")}</h3>
+                <div className="flex space-x-2">
+                  <Input
+                    placeholder={t("enterPromoCode")}
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    disabled={isApplying}
+                  />
+                  <Button 
+                    onClick={handleApplyPromoCode} 
+                    disabled={!promoCode.trim() || isApplying}
+                    size="sm"
+                  >
+                    {isApplying ? t("applying") : t("apply")}
+                  </Button>
+                </div>
+                
+                {/* Applied Promotions */}
+                {appliedPromotions.length > 0 && (
+                  <div className="space-y-2 mt-4">
+                    <h3 className="font-medium text-sm">{t("appliedPromotions")}</h3>
+                    {appliedPromotions.map(promo => (
+                      <div key={promo.id} className="flex items-center justify-between bg-primary/5 p-2 rounded-md">
+                        <div className="flex items-center space-x-2">
+                          <Tag className="h-4 w-4 text-primary" />
+                          <div>
+                            <p className="text-sm font-medium">{promo.title}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {promo.type === 'percentage' ? `${promo.value}% ${t("discount")}` : 
+                               promo.type === 'fixed' ? `${formatPrice(promo.value)} ${t("off")}` : 
+                               promo.type === 'free_shipping' ? t("freeShipping") : t("specialOffer")}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 rounded-full"
+                          onClick={() => removePromotion(promo.id)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {summary.promotionsDiscount > 0 && (
+                  <div className="flex justify-between mt-4 text-green-600">
+                    <span>{t("promoDiscount")}</span>
+                    <span>-{formatPrice(summary.promotionsDiscount)}</span>
+                  </div>
+                )}
+              </div>
+
               <Separator className="my-4" />
               
               <div className="flex justify-between text-lg font-semibold">
                 <span>{t('estimatedTotal')}</span>
-                <span>{formatPrice(summary.subtotal + summary.tax)}</span>
+                <span>{formatPrice(summary.total)}</span>
               </div>
               
-              <Button 
+              <Button
                 className="w-full mt-6" 
                 size="lg"
                 onClick={() => router.push("/checkout")}

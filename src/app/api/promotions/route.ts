@@ -15,6 +15,7 @@ export async function GET() {
         brands: { select: { id: true } },
         categories: { select: { id: true } },
         subscriberGroups: { select: { id: true } },
+        models: { select: { id: true } },
       },
     });
     
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
     }
 
     // Extract relationship fields to handle them separately
-    const { products, brands, categories, subscriberGroups, ...data } = body;
+    const { products, brands, categories, subscriberGroups, models, ...data } = body;
     
     // Create new promotion
     const promotion = await prisma.promotion.create({
@@ -61,17 +62,20 @@ export async function POST(request: Request) {
         startDate: new Date(data.startDate),
         endDate: data.endDate ? new Date(data.endDate) : null,
         // Handle relationships with connect
-        products: products ? {
+        products: products && products.length > 0 ? {
           connect: products.map((id: string) => ({ id }))
         } : undefined,
-        brands: brands ? {
+        brands: brands && brands.length > 0 ? {
           connect: brands.map((id: string) => ({ id }))
         } : undefined,
-        categories: categories ? {
+        categories: categories && categories.length > 0 ? {
           connect: categories.map((id: string) => ({ id }))
         } : undefined,
-        subscriberGroups: subscriberGroups ? {
+        subscriberGroups: subscriberGroups && subscriberGroups.length > 0 ? {
           connect: subscriberGroups.map((id: string) => ({ id }))
+        } : undefined,
+        models: models && models.length > 0 ? {
+          connect: models.map((id: string) => ({ id }))
         } : undefined,
       },
       include: {
@@ -79,6 +83,7 @@ export async function POST(request: Request) {
         brands: { select: { id: true, name: true } },
         categories: { select: { id: true, name: true } },
         subscriberGroups: { select: { id: true, name: true } },
+        models: { select: { id: true, name: true } },
       }
     });
     
@@ -91,6 +96,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
-// Export config for dynamic API route
-export const dynamic = 'force-dynamic';

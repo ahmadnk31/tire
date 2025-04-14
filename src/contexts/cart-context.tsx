@@ -7,6 +7,8 @@ import {
   useEffect, 
   ReactNode 
 } from "react";
+import { usePromotion, calculateTotalDiscount } from "./promotion-context";
+import { Promotion } from "@/hooks/use-promotions";
 
 // Types
 export interface CartItem {
@@ -56,6 +58,7 @@ export interface CartSummary {
   tax: number;
   shipping: number;
   discount: number;
+  promotionsDiscount: number;
   total: number;
 }
 
@@ -74,6 +77,9 @@ interface CartContextType {
   selectedShippingOption: ShippingOption | null;
   setSelectedShippingOption: (option: ShippingOption) => void;
   updateSummary: (newShipping?: number) => void;
+  applyPromoCode: (code: string) => Promise<boolean>;
+  removePromotion: (id: string) => void;
+  appliedPromotions: Promotion[];
 }
 
 // Import default shipping options from centralized configuration
@@ -95,10 +101,14 @@ const CartContext = createContext<CartContextType>({
     tax: 0,
     shipping: 0,
     discount: 0,
+    promotionsDiscount: 0,
     total: 0,
   },
   shippingAddress: null,
   setShippingAddress: () => {},
+  applyPromoCode: async () => false,
+  removePromotion: () => {},
+  appliedPromotions: [],
   shippingOptions: defaultShippingOptions,
   setShippingOptions: () => {},
   selectedShippingOption: null,
@@ -112,6 +122,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>(defaultShippingOptions);
   const [selectedShippingOption, setSelectedShippingOption] = useState<ShippingOption | null>(null);
+  const { activePromotions, appliedPromotions, applyPromoCode, removePromotion } = usePromotion();
   
   // Load cart from localStorage on initial render
   useEffect(() => {
@@ -212,12 +223,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setShippingAddress(null);
     setSelectedShippingOption(null);
   };
-  
-  // Calculate cart summary (subtotal, tax, shipping, total)
+    // Calculate cart summary (subtotal, tax, shipping, total)
   const calculateSummary = (): CartSummary => {
     const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
     
-    // Calculate discount total
+    // Calculate product discount total (from original price vs. sale price)
     const discount = items.reduce((total, item) => {
       if (item.originalPrice && item.price < item.originalPrice) {
         return total + ((item.originalPrice - item.price) * item.quantity);
@@ -225,21 +235,34 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return total;
     }, 0);
     
-    // Calculate tax (e.g., 8.25%)
+    // Calculate promotions discount
+    const promotionsDiscount = calculateTotalDiscount(items, appliedPromotions);
+    
+    // Check for free shipping promotion
+    let shippingDiscount = 0;
+    const hasFreeShipping = appliedPromotions.some(promo => promo.type === 'free_shipping');
+    
+    // Calculate tax (e.g., 8.25%) - Apply after promotions discount
     const taxRate = 0.0825;
-    const tax = subtotal * taxRate;
+    const taxableAmount = subtotal - promotionsDiscount;
+    const tax = taxableAmount > 0 ? taxableAmount * taxRate : 0;
     
     // Get shipping cost from selected option, or default to 0
-    const shipping = selectedShippingOption ? selectedShippingOption.price : 0;
+    let shipping = selectedShippingOption ? selectedShippingOption.price : 0;
+    if (hasFreeShipping) {
+      shippingDiscount = shipping;
+      shipping = 0;
+    }
     
-    // Calculate total
-    const total = subtotal + tax + shipping;
+    // Calculate total (with all discounts applied)
+    const total = subtotal - promotionsDiscount - shippingDiscount + tax + shipping;
     
     return {
       subtotal,
       tax,
       shipping,
       discount,
+      promotionsDiscount: promotionsDiscount + shippingDiscount,
       total
     };
   };
@@ -254,8 +277,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const summary = calculateSummary();
-  
-  const value = {
+    const value = {
     items,
     addItem,
     updateItemQuantity,
@@ -269,7 +291,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setShippingOptions,
     selectedShippingOption,
     setSelectedShippingOption,
-    updateSummary
+    updateSummary,
+    applyPromoCode,
+    removePromotion,
+    appliedPromotions
   };
   
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

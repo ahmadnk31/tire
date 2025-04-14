@@ -35,11 +35,19 @@ export default async function PromotionDetailPage({ params, searchParams }: {
   // Pagination parameters
   const page = Number(searchParams?.page || 1);
   const pageSize = 3; // Number of products per page
-  
-  const promotion = await prisma.promotion.findUnique({
+    const promotion = await prisma.promotion.findUnique({
     where: { id: promotionId },
     include: {
-      products: true,
+      products: {
+        select: {
+          id: true,
+          name: true,
+          salePrice: true,
+          retailPrice: true,
+          discount: true,
+          images: true,
+        }
+      },
       brands: true,
       categories: true
     }
@@ -49,41 +57,59 @@ export default async function PromotionDetailPage({ params, searchParams }: {
     notFound();
   }
 
-  // Get total count for pagination
-  const totalRelatedProducts = await prisma.product.count({
-    where: {
-      promotionId: promotionId,
-      OR: [
-        { brandId: { in: promotion.brands.map(brand => brand.id) } },
-        { categoryId: { in: promotion.categories.map(category => category.id) } }
-      ]
+  // Use directly related products from the many-to-many relationship
+  let allRelatedProducts = [...promotion.products];  // Get total count for pagination
+  const totalRelatedProducts = allRelatedProducts.length;
+  
+  // If no products directly related to promotion, try to get products from related brands/categories
+  if (totalRelatedProducts === 0) {
+    const brandIds = promotion.brands.map(brand => brand.id);
+    const categoryIds = promotion.categories.map(category => category.id);
+    
+    if (brandIds.length > 0 || categoryIds.length > 0) {
+      // Build the OR conditions only for non-empty arrays
+      const orConditions = [];
+      if (brandIds.length > 0) {
+        orConditions.push({ brandId: { in: brandIds } });
+      }
+      if (categoryIds.length > 0) {
+        orConditions.push({ categoryId: { in: categoryIds } });
+      }
+      
+      // Only query if we have valid conditions
+      if (orConditions.length > 0) {
+        const indirectProducts = await prisma.product.findMany({
+          where: {
+            OR: orConditions
+          },
+          select: {
+            id: true,
+            name: true,
+            salePrice: true,
+            retailPrice: true,
+            discount: true,
+            images: true,
+          },
+          take: 12, // Fetch more than needed for pagination
+          orderBy: { name: 'asc' }
+        });
+        
+        allRelatedProducts = indirectProducts;
+      }
     }
-  });
+  }
   
   const totalPages = Math.ceil(totalRelatedProducts / pageSize);
-
-  // Get paginated products
-  const relatedProducts = await prisma.product.findMany({
-    where: {
-      promotionId: promotionId,
-      OR: [
-        { brandId: { in: promotion.brands.map(brand => brand.id) } },
-        { categoryId: { in: promotion.categories.map(category => category.id) } }
-      ]
-    },
-    select: {
-      id: true,
-      name: true,
-      salePrice: true,
-      retailPrice: true,
-      discount: true,
-      images: true,
-    },
-    skip: (page - 1) * pageSize,
-    take: pageSize,
-    orderBy: { name: 'asc' }
-  }) || [];
-
+  
+  // Sort products by name for consistency
+  allRelatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+  
+  // Apply pagination manually
+  const relatedProducts = allRelatedProducts.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+  console.log("Related products:", relatedProducts); // Debugging line
   const formatDate = (date: string | number | Date) => {
     return date ? format(new Date(date), 'PPP') : '';
   };

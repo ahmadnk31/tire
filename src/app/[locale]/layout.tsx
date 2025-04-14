@@ -7,6 +7,7 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/contexts/cart-context";
 import { FavoritesProvider } from "@/contexts/favorites-context";
+import { PromotionProvider } from "@/contexts/promotion-context";
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
@@ -41,15 +42,17 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
           <QueryProvider>
-            <CartProvider>
-              <FavoritesProvider>
-                <NextIntlClientProvider>
-                <Navbar />
-                {children}
-                <Toaster />
-                </NextIntlClientProvider>
-              </FavoritesProvider>
-            </CartProvider>
+            <PromotionProvider>
+              <CartProvider>
+                <FavoritesProvider>
+                  <NextIntlClientProvider>
+                  <Navbar />
+                  {children}
+                  <Toaster />
+                  </NextIntlClientProvider>
+                </FavoritesProvider>
+              </CartProvider>
+            </PromotionProvider>
           </QueryProvider>
         </AuthProvider>
       </body>
