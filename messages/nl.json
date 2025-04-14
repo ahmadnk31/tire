@@ -731,6 +731,34 @@
         "empty": "Je winkelwagen is leeg"
       }
     },
+    "Deals": {
+  "title": "Huidige Aanbiedingen",
+  "description": "Ontdek onze nieuwste promoties en speciale aanbiedingen op premium banden en diensten",
+  "shopNow": "Nu Winkelen",
+  "validUntil": "Geldig tot {date}",
+  "endingSoon": "Loopt Binnenkort Af",
+  "noEndDate": "Geen vervaldatum",
+  "errorLoading": "Fout bij het laden van promoties",
+  "tryAgainLater": "Probeer het later opnieuw",
+  "viewDetails": "Bekijk Details",
+  "emptyState": "Momenteel geen actieve promoties",
+  "filters": {
+    "all": "Alle Aanbiedingen",
+    "ending": "Binnenkort Aflopend",
+    "newest": "Nieuwste"
+  },
+  "detail": {
+    "title": "Promotie Details",
+    "back": "Terug naar alle aanbiedingen",
+    "validPeriod": "Geldig van {startDate} tot {endDate}",
+    "permanentOffer": "Permanente aanbieding",
+    "termsAndConditions": "Voorwaarden",
+    "howToRedeem": "Hoe In Te Wisselen",
+    "relatedProducts": "Gerelateerde Producten",
+    "copyCode": "Code Kopiëren",
+    "codeCopied": "Code gekopieerd naar klembord!"
+  }
+},
     "productsHeader": {
       "title": "Banden",
       "description": "Bekijk onze selectie premium banden voor elk type voertuig",
@@ -1119,6 +1147,123 @@
         "defaultDescription": "Bekijk onze selectie {categoryName} banden",
         "browseButton": "Collectie bekijken"
       }
+    },
+    "Dashboard": {
+  "Promotions": {
+    "title": "Promoties",
+    "description": "Beheer promotionele aanbiedingen en kortingen",
+    "addPromotion": "Promotie Toevoegen",
+    "addNewPromotion": "Nieuwe Promotie Toevoegen",
+    "editPromotion": "Promotie Bewerken",
+    "createPromotion": "Promotie Aanmaken",
+    "updatePromotion": "Promotie Bijwerken",
+    "searchPlaceholder": "Zoek promoties...",
+    "noPromotions": "Geen promoties gevonden",
+    "creating": "Aanmaken...",
+    "updating": "Bijwerken...",
+    "deletedSuccess": "Promotie succesvol verwijderd",
+    "deletedError": "Fout bij het verwijderen van promotie",
+    "activatedSuccess": "Promotie succesvol geactiveerd",
+    "deactivatedSuccess": "Promotie succesvol gedeactiveerd",
+    "toggleError": "Fout bij het bijwerken van promotie status",
+    "createdSuccess": "Promotie succesvol aangemaakt",
+    "createdError": "Fout bij het aanmaken van promotie",
+    "updatedSuccess": "Promotie succesvol bijgewerkt",
+    "updatedError": "Fout bij het bijwerken van promotie",
+    "deleteConfirm": "Weet je zeker dat je deze promotie wilt verwijderen?",
+    "deleteDescription": "Deze actie kan niet ongedaan worden gemaakt.",
+    "confirm": "Bevestigen",
+    "cancel": "Annuleren",
+    "delete":"Verwijderen",
+    "edit":"Bewerken",
+    "activate":"Activeren",
+    "deactivate":"Deactiveren",
+    "actions":"Acties",
+    "status": {
+      "active": "Actief",
+      "inactive": "Inactief",
+      "scheduled": "Gepland",
+      "expired": "Verlopen"
+    },
+    "table": {
+      "title": "Titel",
+      "type": "Type",
+      "value": "Waarde",
+      "badgeType": "Badge Type",
+      "startDate": "Startdatum",
+      "endDate": "Einddatum",
+      "status": "Status",
+      "actions": "Acties",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "activate": "Activeren",
+      "deactivate": "Deactiveren",
+      "noPromotions": "Geen promoties gevonden",
+      "searchPromotions": "Promoties zoeken...",
+      "itemsPerPage": "Items per pagina",
+      "of": "van",
+      "next": "Volgende",
+      "previous": "Vorige"
+    },
+    "form": {
+      "title": "Promotie Titel",
+      "description": "Promotie Omschrijving",
+      "type": "Promotie Type",
+      "value": "Waarde",
+      "percentageValue": "Percentage (%)",
+      "fixedValue": "Bedrag (€)",
+      "minPurchaseAmount": "Minimaal Aankoopbedrag (€)",
+      "buyQuantity": "Koop Aantal",
+      "getQuantity": "Krijg Aantal",
+      "image": "Promotie Afbeelding",
+      "imageUrl": "Afbeelding URL",
+      "badgeType": "Badge Type",
+      "howToRedeem": "Hoe In Te Wisselen",
+      "termAndConditions": "Voorwaarden en Condities",
+      "colorScheme": "Kleurenschema",
+      "startDate": "Startdatum",
+      "endDate": "Einddatum",
+      "promoCode": "Promotie Code",
+      "usageLimit": "Gebruikslimiet",
+      "target": "Doelgroep",
+      "isActive": "Actieve Status",
+      "isActiveDescription": "Wanneer actief, is deze promotie zichtbaar voor klanten indien binnen de datumperiode",
+      "selectType": "Selecteer een promotie type",
+      "selectBadgeType": "Selecteer een badge type",
+      "selectColor": "Selecteer een kleur",
+      "selectTarget": "Selecteer doelgroep",
+      "noEndDate": "Geen einddatum",
+      "optional": "optioneel"
+    },
+    "types": {
+      "percentage": "Percentage Korting",
+      "fixedAmount": "Vast Bedrag Korting",
+      "buyXGetY": "Koop X Krijg Y Gratis",
+      "freeShipping": "Gratis Verzending",
+      "gift": "Gratis Cadeau"
+    },
+    "badgeTypes": {
+      "discount": "Korting",
+      "tag": "Label",
+      "gift": "Cadeau",
+      "new": "Nieuw",
+      "sale": "Uitverkoop"
+    },
+    "colors": {
+      "blue": "Blauw",
+      "green": "Groen",
+      "red": "Rood",
+      "purple": "Paars",
+      "orange": "Oranje"
+    },
+    "targets": {
+      "all": "Alle Klanten",
+      "registeredUsers": "Geregistreerde Gebruikers",
+      "firstTimeCustomers": "Nieuwe Klanten",
+      "returningCustomers": "Terugkerende Klanten",
+      "specificGroup": "Specifieke Groep"
     }
+  }
+}
       
   }

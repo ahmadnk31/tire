@@ -11,7 +11,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Box, Layers, Tag, PackageOpen, Users, ShoppingCart, MapPin, Settings, Bell, User, Car, Calendar, Truck, MailboxIcon } from "lucide-react";
+import { Box, Layers, Tag, PackageOpen, Users, ShoppingCart, MapPin, Settings, Bell, User, Car, Calendar, Truck, MailboxIcon, Percent, BadgePercent } from "lucide-react";
 import { IconBoxModel } from "@tabler/icons-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DashboardIcon } from "@radix-ui/react-icons";
@@ -184,6 +184,23 @@ export default function DashboardClient({
                     <Link href="/dashboard/newsletters">
                       <MailboxIcon className="mr-2" />
                       Newsletters
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                {/* Marketing Section */}
+                <SidebarMenuItem className="mt-6">
+                  <div className="px-3 py-2">
+                    <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      Marketing
+                    </h3>
+                  </div>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/dashboard/promotions">
+                      <BadgePercent className="mr-2" />
+                      Deals & Promotions
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

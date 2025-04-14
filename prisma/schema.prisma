@@ -10,6 +10,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PromotionType {
+  percentage
+  fixed
+  bogo
+  free_shipping
+  gift
+}
+
+enum PromotionTarget {
+  ALL
+  REGISTERED_USERS
+  FIRST_TIME_CUSTOMERS
+  RETURNING_CUSTOMERS
+  SPECIFIC_GROUP
+}
+
+model Promotion {
+  id                String          @id @default(cuid())
+  title             String
+  description       String
+  type              PromotionType   @default(percentage)
+  value             Float           // Percentage or fixed amount discount
+  minPurchaseAmount Float?          // Minimum purchase amount to qualify
+  buyQuantity       Int?            // For Buy X Get Y promotions
+  getQuantity       Int?            // For Buy X Get Y promotions
+  imageUrl          String?         // Optional image for the promotion
+  badgeType         String          @default("discount") // discount, tag, gift, etc.
+  colorScheme       String          @default("#4CAF50") // Color code for UI styling
+  startDate         DateTime?
+  endDate           DateTime?
+  isActive          Boolean         @default(true)
+  code              String?         @unique // Optional promotion code (for backward compatibility)
+  promoCode         String?         // Optional promotion code (matches interface naming)
+  termsAndConditions String?        @db.Text // Terms and conditions text
+  howToRedeem       String?         @db.Text // Instructions on how to redeem
+  usageLimit        Int?            // Maximum number of times this promotion can be used
+  usageCount        Int             @default(0) // Current usage count
+  target            PromotionTarget @default(ALL)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  
+  // Relationships
+  products          Product[]
+  brands            Brand[]
+  categories        Category[]
+  Model             Model[]
+  subscriberGroups  SubscriberGroup[] // For targeting specific groups
+  usageHistory      PromotionUsage[]
+  emailCampaigns    PromotionEmailCampaign[]
+}
+
 model Subscriber {
   id              String    @id @default(cuid())
   email           String    @unique
@@ -25,6 +76,36 @@ model Subscriber {
   groups          SubscriberGroup[]
 }
 
+model PromotionUsage {
+  id          String    @id @default(cuid())
+  promotionId String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  userId      String?   // Optional - can be anonymous usage
+  orderId     String?   // Related order if applicable
+  usedAt      DateTime  @default(now())
+  discountAmount Float    // Amount saved by this promotion use
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model PromotionEmailCampaign {
+  id          String    @id @default(cuid())
+  promotionId String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  name        String
+  subject     String
+  htmlTemplate String    @db.Text
+  textTemplate String?   @db.Text
+  sentCount   Int       @default(0)
+  openCount   Int       @default(0)
+  clickCount  Int       @default(0)
+  scheduledFor DateTime?
+  sentAt      DateTime?
+  status      String    @default("draft") // draft, scheduled, sending, completed, cancelled
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model SubscriberGroup {
   id          String       @id @default(cuid())
   name        String       @unique
@@ -34,6 +115,8 @@ model SubscriberGroup {
   
   subscribers Subscriber[]
   newsletters Newsletter[]
+
+  Promotion Promotion[]
 }
 
 model Newsletter {
@@ -185,6 +268,8 @@ model Category {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   products    Product[]
+  promotionId String?
+  promotion   Promotion? @relation(fields: [promotionId], references: [id])
 }
 
 model Brand {
@@ -199,6 +284,8 @@ model Brand {
   updatedAt   DateTime  @default(now())
   models      Model[]
   products    Product[]
+  promotionId String?
+  promotion   Promotion? @relation(fields: [promotionId], references: [id])
 }
 
 model Model {
@@ -207,9 +294,12 @@ model Model {
   description String?
   brandId     String
   brand       Brand     @relation(fields: [brandId], references: [id])
+  promotionId String?
+  promotion   Promotion? @relation(fields: [promotionId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now())
   products    Product[]
+
 
   @@unique([name, brandId])
 }
@@ -226,6 +316,8 @@ model Product {
   model                 Model      @relation(fields: [modelId], references: [id])
   categoryId            String
   category              Category   @relation(fields: [categoryId], references: [id])
+  promotionId          String?
+  promotion            Promotion? @relation(fields: [promotionId], references: [id])
   
   // Tire specifications
   width                 Int        // in millimeters

@@ -743,7 +743,7 @@
         "retailerApplications": "Retailer Applications",
         "myAppointments": "My Appointments",
         "signOut": "Sign Out"
-      },
+      },      
       "cart": {
         "aria": "Shopping Cart",
         "ariaCount":"Shopping Cart with {count} items",
@@ -752,6 +752,34 @@
           "other": "{count} items"
         },
         "empty":"Your cart is empty"
+      }
+    },
+    "Deals": {
+      "title": "Current Deals",
+      "description": "Explore our latest promotions and special offers on premium tires and services",
+      "shopNow": "Shop Now",
+      "validUntil": "Valid until {date}",
+      "endingSoon": "Ending Soon",
+      "noEndDate": "No expiration date",
+      "errorLoading": "Error loading promotions",
+      "tryAgainLater": "Please try again later",
+      "viewDetails": "View Details",
+      "emptyState": "No active promotions at the moment",
+      "filters": {
+        "all": "All Deals",
+        "ending": "Ending Soon",
+        "newest": "Newest"
+      },
+      "detail": {
+        "title": "Promotion Details",
+        "back": "Back to all deals",
+        "validPeriod": "Valid from {startDate} to {endDate}",
+        "permanentOffer": "Permanent offer",
+        "termsAndConditions": "Terms and Conditions",
+        "howToRedeem": "How to Redeem",
+        "relatedProducts": "Related Products",
+        "copyCode": "Copy Code",
+        "codeCopied": "Code copied to clipboard!"
       }
     },
     "productsHeader": {
@@ -1142,5 +1170,121 @@
           "defaultDescription": "Shop our selection of {categoryName} tires",
           "browseButton": "Browse Collection"
         }
-      }
+      },
+      "Dashboard": {
+  "Promotions": {
+    "title": "Promotions",
+    "description": "Manage promotional offers and discounts",
+    "addPromotion": "Add Promotion",
+    "addNewPromotion": "Add New Promotion",
+    "editPromotion": "Edit Promotion",
+    "createPromotion": "Create Promotion",
+    "updatePromotion": "Update Promotion",
+    "searchPlaceholder": "Search promotions...",
+    "noPromotions": "No promotions found",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "deletedSuccess": "Promotion deleted successfully",
+    "deletedError": "Failed to delete promotion",
+    "activatedSuccess": "Promotion activated successfully",
+    "deactivatedSuccess": "Promotion deactivated successfully",
+    "toggleError": "Failed to update promotion status",
+    "createdSuccess": "Promotion created successfully",
+    "createdError": "Failed to create promotion",
+    "updatedSuccess": "Promotion updated successfully",
+    "updatedError": "Failed to update promotion",
+    "deleteConfirm": "Are you sure you want to delete this promotion?",
+    "deleteDescription": "This action cannot be undone.",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "scheduled": "Scheduled",
+      "expired": "Expired"
+    },
+    "actions":"Actions",
+    "edit":"Edit",
+    "deactivate":"Deactivate",
+    "table": {
+      "title": "Title",
+      "type": "Type",
+      "value": "Value",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "badgeType":"Badge Type",
+      "status": "Status",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "noPromotions": "No promotions found",
+      "searchPromotions": "Search promotions...",
+      "itemsPerPage": "Items per page",
+      "of": "of",
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "form": {
+      "title": "Promotion Title",
+      "description": "Promotion Description",
+      "type": "Promotion Type",
+      "value": "Value",
+      "percentageValue": "Percentage (%)",
+      "fixedValue": "Amount ($)",
+      "howToRedeem": "How to Redeem",
+      "termsAndConditions": "Terms and Conditions",
+      "minPurchaseAmount": "Minimum Purchase Amount ($)",
+      "buyQuantity": "Buy Quantity",
+      "getQuantity": "Get Quantity",
+      "image": "Promotion Image",
+      "imageUrl": "Image URL",
+      "badgeType": "Badge Type",
+      "colorScheme": "Color Scheme",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "promoCode": "Promotion Code",
+      "usageLimit": "Usage Limit",
+      "target": "Target Audience",
+      "isActive": "Active Status",
+      "isActiveDescription": "When active, this promotion will be visible to customers if within the date range",
+      "selectType": "Select a promotion type",
+      "selectBadgeType": "Select a badge type",
+      "selectColor": "Select a color",
+      "selectTarget": "Select target audience",
+      "noEndDate": "No end date",
+      "optional": "optional"
+    },
+    "types": {
+      "percentage": "Percentage Discount",
+      "fixedAmount": "Fixed Amount Discount",
+      "buyXGetY": "Buy X Get Y Free",
+      "freeShipping": "Free Shipping",
+      "gift": "Free Gift"
+    },
+    "badgeTypes": {
+      "discount": "Discount",
+      "tag": "Tag",
+      "gift": "Gift",
+      "new": "New",
+      "sale": "Sale"
+    },
+    "colors": {
+      "blue": "Blue",
+      "green": "Green",
+      "red": "Red",
+      "purple": "Purple",
+      "orange": "Orange"
+    },
+    "targets": {
+      "all": "All Customers",
+      "registeredUsers": "Registered Users",
+      "firstTimeCustomers": "First-Time Customers",
+      "returningCustomers": "Returning Customers",
+      "specificGroup": "Specific Group"
+    }
+  }
+}
   }

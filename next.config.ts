@@ -57,7 +57,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "tire-files.s3.us-east-1.amazonaws.com",
         port: "",
-        pathname: "/new-path/**"
+        pathname: "/promotions/**"
       },
       {
         protocol: "https",

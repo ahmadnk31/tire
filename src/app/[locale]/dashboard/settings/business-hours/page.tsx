@@ -46,7 +46,7 @@ export default function BusinessHoursPage() {
         throw new Error('Failed to fetch business hours');
       }
       const data = await response.json();
-      setBusinessHours(data.businessHours);
+      setBusinessHours(data);
     } catch (error) {
       console.error('Error fetching business hours:', error);
       toast.error('Failed to load business hours');
