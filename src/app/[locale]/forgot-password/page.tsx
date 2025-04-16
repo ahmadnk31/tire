@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -23,6 +24,7 @@ export default function ForgotPasswordPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [isEmailSent, setIsEmailSent] = React.useState<boolean>(false)
+  const t = useTranslations('Auth.forgotPassword')
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -62,41 +64,38 @@ export default function ForgotPasswordPage() {
       setIsLoading(false)
     }
   }
-
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Forgot Password</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t('title')}</CardTitle>
           <CardDescription className="text-center">
-            Enter your email address and we'll send you a link to reset your password
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          {isEmailSent ? (
+        <CardContent>          {isEmailSent ? (
             <div className="space-y-4 text-center">
               <p className="text-sm text-muted-foreground">
-                We've sent you an email with a link to reset your password. Please check your inbox.
+                {t('emailSentMessage')}
               </p>
               <Button 
                 onClick={() => router.push("/login")}
                 className="w-full"
               >
-                Back to login
+                {t('backToLogin')}
               </Button>
             </div>
           ) : (
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">                <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t('emailLabel')}</FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="example@example.com" 
+                          placeholder={t('emailPlaceholder')} 
                           type="email" 
                           autoComplete="email"
                           disabled={isLoading} 
@@ -112,17 +111,16 @@ export default function ForgotPasswordPage() {
                   className="w-full" 
                   disabled={isLoading}
                 >
-                  {isLoading ? "Sending..." : "Send reset link"}
+                  {isLoading ? t('sendingReset') : t('resetButton')}
                 </Button>
               </form>
             </Form>
           )}
-        </CardContent>
-        <CardFooter className="flex justify-center">
+        </CardContent>        <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
-            Remember your password?{" "}
+            {t('rememberPassword')}{" "}
             <Link href="/login" className="underline text-primary hover:text-primary/90">
-              Back to login
+              {t('backToLogin')}
             </Link>
           </p>
         </CardFooter>

@@ -1,0 +1,13 @@
+{{t "verification.title"}}
+
+{{t "verification.greeting" userName=userName}}
+
+{{t "verification.message"}}
+
+{{t "verification.buttonText"}}: {{verificationUrl}}
+
+{{t "verification.alternativeText"}} {{verificationUrl}}
+
+{{t "verification.expiryMessage" hours=expiresInHours}}
+
+{{t "verification.footer"}}

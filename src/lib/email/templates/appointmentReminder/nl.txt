@@ -1,0 +1,25 @@
+{{t "appointment.reminder.title"}}
+
+{{t "appointment.reminder.greeting" userName=userName}}
+
+{{t "appointment.reminder.message"}}
+
+{{t "appointment.reminder.detailsTitle"}}
+{{t "appointment.reminder.serviceType"}}: {{formatServiceType serviceType}}
+{{t "appointment.reminder.appointmentDate"}}: {{formatDate appointmentDate}}
+{{t "appointment.reminder.appointmentTime"}}: {{appointmentTime}}
+{{t "appointment.reminder.duration"}}: {{duration}} {{t "appointment.reminder.minutes"}}
+{{#if vehicleInfo}}
+{{t "appointment.reminder.vehicleInfo"}}: {{vehicleInfo}}
+{{/if}}
+
+{{t "appointment.reminder.arrivalMessage"}}
+
+{{t "appointment.reminder.rescheduleMessage"}}
+
+{{t "appointment.reminder.viewButtonText"}}: {{appointmentUrl}}
+
+{{t "appointment.reminder.signature"}}
+
+------------------
+{{t "appointment.reminder.footer"}}

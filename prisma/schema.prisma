@@ -26,6 +26,19 @@ enum PromotionTarget {
   SPECIFIC_GROUP
 }
 
+enum ChatMessageType {
+  CUSTOMER
+  AGENT
+  SYSTEM
+}
+
+enum ChatSessionStatus {
+  ACTIVE
+  PENDING
+  RESOLVED
+  CLOSED
+}
+
 model Promotion {
   id                String          @id @default(cuid())
   title             String
@@ -184,6 +197,8 @@ model User {
   Favorite Favorite[]
 
   orderHistory orderHistory[]
+
+  Installation Installation[]
 }
 
 model RetailerProfile {
@@ -836,10 +851,84 @@ model ReviewLike {
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
+}
 
-  @@unique([reviewId, userId])
-  @@index([reviewId])
+enum InstallationStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+  RESCHEDULED
+}
+
+enum InstallationServiceType {
+  STANDARD
+  PREMIUM
+  SPECIALTY
+}
+
+enum PurchaseLocation {
+  OUR_STORE
+  ELSEWHERE
+}
+
+model Installation {
+  id            String               @id @default(cuid())
+  userId        String?              // Optional link to user account
+  user          User?                @relation(fields: [userId], references: [id])
+  status        InstallationStatus   @default(SCHEDULED)
+  serviceType   InstallationServiceType
+  
+  // Vehicle Information
+  vehicleMake   String
+  vehicleModel  String
+  vehicleYear   String
+  
+  // Tire Information
+  tireSize      String
+  tireQuantity  Int
+  purchasedFrom PurchaseLocation
+  
+  // Appointment Details
+  appointmentDate DateTime
+  appointmentTime String
+  completedDate   DateTime?
+  technician      String?             // Assigned technician
+  bay             String?             // Service bay assigned
+  
+  // Customer Information
+  customerName  String
+  customerEmail String
+  customerPhone String
+  comments      String?              @db.Text
+  
+  // Pricing
+  basePrice     Float
+  additionalServices InstallationAdditionalService[]
+  totalPrice    Float
+  
+  // Timestamps
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
   @@index([userId])
+  @@index([appointmentDate])
+  @@index([status])
+}
+
+model InstallationAdditionalService {
+  id              String     @id @default(cuid())
+  installationId  String
+  installation    Installation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  serviceName     String
+  price           Float
+  description     String?
+  createdAt       DateTime   @default(now())
+
+  @@index([installationId])
+  @@index([serviceName])
+  @@unique([installationId, serviceName])
 }
 
 model ReviewComment {
@@ -908,5 +997,62 @@ model ApiUsage {
 
   @@index([provider, eventType])
   @@index([timestamp])
+}
+
+// Chat models for customer support
+model ChatSession {
+  id              String           @id @default(cuid())
+  sessionId       String           @unique // External identifier for the session (e.g., for Pusher)
+  customerId      String?          // Optional - can be linked to a User if they're logged in
+  customerName    String           // Display name for the customer
+  customerEmail   String?          // Optional email for follow-ups
+  status          ChatSessionStatus @default(ACTIVE)
+  subject         String?          // Optional subject/topic of the chat
+  priority        Int              @default(0) // Higher number = higher priority
+  tags            String[]         // For categorization and filtering
+  agentId         String?          // ID of the assigned support agent, if any
+  agentName       String?          // Name of the assigned support agent
+  lastMessageAt   DateTime         @default(now())
+  startedAt       DateTime         @default(now())
+  endedAt         DateTime?        // When the chat was resolved/closed
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  // Relationships
+  messages        ChatMessage[]
+  ratings         ChatRating[]
+  
+  @@index([customerId])
+  @@index([status])
+  @@index([lastMessageAt])
+}
+
+model ChatMessage {
+  id              String           @id @default(cuid())
+  sessionId       String
+  session         ChatSession      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  content         String           @db.Text
+  type            ChatMessageType  
+  senderId        String?          // User ID or agent ID
+  senderName      String           // Display name of the sender
+  senderType      String           // "customer" or "agent" or "system"
+  attachmentUrls  String[]         // URLs to any attached files
+  metadata        Json?            // Any additional metadata
+  isRead          Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+model ChatRating {
+  id              String           @id @default(cuid())
+  sessionId       String
+  session         ChatSession      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  rating          Int              // 1-5 star rating
+  feedback        String?          @db.Text // Optional feedback text
+  createdAt       DateTime         @default(now())
+  
+  @@unique([sessionId]) // One rating per chat session
 }
 

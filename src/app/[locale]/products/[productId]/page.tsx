@@ -3,15 +3,10 @@ import { Suspense } from "react";
 // Import product-related components
 import { ProductCarousel } from "@/components/product/product-carousel";
 import { FavoriteButton } from "@/components/product/favorite-button";
-import { ProductActions } from "@/components/product/product-actions";
-import { QuantitySection } from "@/components/product/quantity-section";
 
 // Import review-related components
 import { RatingDisplay } from "@/components/review/rating-display";
-import { ReviewCard } from "@/components/review/review-card";
 import { ReviewsList } from "@/components/review/reviews-list";
-import { ReviewForm } from "@/components/review/review-form";
-import { ClientReviewCardActions } from "@/components/review/client-review-card-actions";
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
@@ -19,12 +14,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Star, ShoppingCart, Heart, Trash2, Edit } from "lucide-react";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ProductRecommendations } from "@/components/product/product-recommendations";
-import { WriteReviewButton } from "@/components/review/write-review-button";
 import { ProductPriceDisplay } from "@/components/product/product-price-display";
 
 // Define interface for product data based on your Prisma schema
@@ -317,7 +310,7 @@ export default async function ProductPage({ params }: { params: { productId: str
               ) : isLowStock && product.stock <= 3 ? (
                 <span className="text-amber-500 font-medium">{t('price.lowStock', { count: product.stock })}</span>
               ) : (
-                <span className="text-green-500 font-medium">{t('price.inStock')}</span>
+                <span className="text-green-500 font-medium">{t('price.inStock',{count:product.stock})}</span>
               )}
             </div>
           </div>{/* Performance ratings */}
@@ -353,8 +346,10 @@ export default async function ProductPage({ params }: { params: { productId: str
               <AddToCartButton
                 product={product}
                 quantity={product.stock}
-              />
-              <FavoriteButton productId={product.id} variant="default" size="default" />
+              >
+                {t('addToCart')}
+              </AddToCartButton>
+              <FavoriteButton productId={product.id} variant="default" size="default" addToFavoritesText={t('addToFavorites')} removeFromFavoritesText={t('removeFromFavorites')} />
             </div>
           )}
 
@@ -494,28 +489,17 @@ export default async function ProductPage({ params }: { params: { productId: str
 
       <Separator className="my-10" />      {/* Reviews section */}      
       <div className="mt-10">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex gap-3">
-            <Link href={`/products/${product.id}/reviews`}>
-              <Button variant="outline">See all reviews</Button>
-            </Link>        
-          </div>
-        </div>        
+       
         
-        {product._count.reviews > 0 ? (
-          <div>            {/* Display a few featured reviews directly */}            <div className="mb-6 space-y-4">
-              
+          <div>            {/* Display a few featured reviews directly */}            
+          <div className="mb-6 space-y-4">
             </div>
-            
             {/* Full reviews list in a collapsible section */}
             <div className="mt-4">
               <ReviewsList productId={product.id} />
             </div>
-          </div>        ) : (          <div className="text-center py-8 bg-gray-50 rounded-lg">
-            <p className="text-gray-500">No reviews yet. Be the first to review this product!</p>
-          </div>
-        )}
-
+          </div>       
+      
         {/* Write Review button will use a client component */}
     
       </div>
@@ -523,7 +507,9 @@ export default async function ProductPage({ params }: { params: { productId: str
       <Separator className="my-10" />
 
       {/* Product recommendations */}      <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
+        <h2 className="text-2xl font-bold mb-6">
+          {t('recommendations.title')}
+        </h2>
         <Suspense fallback={
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {Array(4).fill(0).map((_, i) => (

@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+
 import { useTranslations } from "next-intl";
+import CustomerSupportChat from "@/components/CustomerSupportChat";
 import { 
   Tabs, 
   TabsContent, 
@@ -33,6 +34,7 @@ import { IconRoad } from "@tabler/icons-react";
 
 // Import our new TanStack Query hooks
 import { usePopularVehicles, useVehicleMakes, useVehicleModels, useVehicleYears } from "@/hooks/use-vehicle-api";
+import { Link } from "@/i18n/navigation";
 
 // Width options for tire size (in mm)
 const widthOptions = [
@@ -139,18 +141,17 @@ export default function TireFinder() {
           {t('subtitle')}
         </p>
       </div>
-      
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-16">
+        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-16">
         <Tabs defaultValue="vehicle" className="w-full">
           <div className="px-6 pt-6">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="vehicle" className="flex items-center justify-center gap-2">
-                <Car className="h-4 w-4" />
-                <span>{t('tabs.vehicle')}</span>
+            <TabsList className="w-full flex">
+              <TabsTrigger value="vehicle" className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2">
+                <Car className="h-4 w-4 flex-shrink-0" />
+                <span className="text-xs sm:text-sm whitespace-nowrap">{t('tabs.vehicle')}</span>
               </TabsTrigger>
-              <TabsTrigger value="size" className="flex items-center justify-center gap-2">
-                <Ruler className="h-4 w-4" />
-                <span>{t('tabs.size')}</span>
+              <TabsTrigger value="size" className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2">
+                <Ruler className="h-4 w-4 flex-shrink-0" />
+                <span className="text-xs sm:text-sm whitespace-nowrap">{t('tabs.size')}</span>
               </TabsTrigger>
             </TabsList>
           </div>
@@ -238,10 +239,9 @@ export default function TireFinder() {
               {t('vehicle.findTiresButton')}
             </Button>
           </TabsContent>
-          
-          <TabsContent value="size" className="p-6">
-            <div className="flex flex-col md:flex-row gap-4 items-end">
-              <div className="flex-1">
+            <TabsContent value="size" className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('size.width')}</label>
                 <Select
                   value={sizeTab.width}
@@ -258,11 +258,12 @@ export default function TireFinder() {
                     ))}
                   </SelectContent>
                 </Select>
+                <div className="text-center text-xl font-bold md:hidden mt-1">/</div>
               </div>
               
-              <div className="text-center text-xl font-bold self-end mb-2 hidden md:block">/</div>
+              <div className="text-center text-xl font-bold self-end mb-2 hidden md:flex justify-center items-center">/</div>
               
-              <div className="flex-1">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('size.aspectRatio')}</label>
                 <Select
                   value={sizeTab.ratio}
@@ -279,11 +280,12 @@ export default function TireFinder() {
                     ))}
                   </SelectContent>
                 </Select>
+                <div className="text-center text-xl font-bold md:hidden mt-1">R</div>
               </div>
               
-              <div className="text-center text-xl font-bold self-end mb-2 hidden md:block">R</div>
+              <div className="text-center text-xl font-bold self-end mb-2 hidden md:flex justify-center items-center">R</div>
               
-              <div className="flex-1">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('size.diameter')}</label>
                 <Select
                   value={sizeTab.diameter}
@@ -394,8 +396,7 @@ export default function TireFinder() {
           ))}
         </div>
       </section>
-      
-      {/* Help Section */}
+        {/* Help Section */}
       <section className="bg-gray-50 rounded-xl p-8 border border-gray-200">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">{t('help.title')}</h2>
@@ -406,12 +407,15 @@ export default function TireFinder() {
             <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
               {t('help.contactSupport')}
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => (window as any).openChatSupport?.()}>
               {t('help.chatExpert')}
             </Button>
           </div>
         </div>
       </section>
+      
+      {/* Customer Support Chat powered by Pusher */}
+      <CustomerSupportChat />
     </div>
   );
 }

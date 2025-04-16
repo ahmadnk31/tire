@@ -253,16 +253,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
       shippingDiscount = shipping;
       shipping = 0;
     }
+      // Calculate total (with all discounts applied)
+    // First add shipping discount to promotionsDiscount
+    const totalPromotionsDiscount = promotionsDiscount + shippingDiscount;
     
-    // Calculate total (with all discounts applied)
-    const total = subtotal - promotionsDiscount - shippingDiscount + tax + shipping;
+    // Then calculate total with all discounts properly applied
+    const total = subtotal - totalPromotionsDiscount + tax + shipping;
     
     return {
       subtotal,
       tax,
       shipping,
       discount,
-      promotionsDiscount: promotionsDiscount + shippingDiscount,
+      promotionsDiscount: totalPromotionsDiscount,
       total
     };
   };

@@ -1,0 +1,33 @@
+{{t "orderConfirmation.title"}}
+
+{{t "orderConfirmation.greeting" userName=shippingAddress.name}}
+
+{{t "orderConfirmation.thankYouMessage"}}
+
+=== {{t "orderConfirmation.orderDetailsTitle"}} ===
+{{t "orderConfirmation.orderNumber"}}: {{orderNumber}}
+{{t "orderConfirmation.orderDate"}}: {{orderDate}}
+
+=== {{t "orderConfirmation.orderSummaryTitle"}} ===
+{{t "orderConfirmation.productColumn"}} | {{t "orderConfirmation.quantityColumn"}} | {{t "orderConfirmation.priceColumn"}}
+{{#each orderItems}}
+{{name}} | {{quantity}} | {{price}}
+{{/each}}
+-------------------
+{{t "orderConfirmation.totalLabel"}}: {{orderTotal}}
+
+=== {{t "orderConfirmation.shippingInfoTitle"}} ===
+{{shippingAddress.name}}
+{{shippingAddress.address}}
+{{shippingAddress.city}}, {{shippingAddress.state}} {{shippingAddress.postalCode}}
+{{shippingAddress.country}}
+
+=== {{t "orderConfirmation.paymentInfoTitle"}} ===
+{{t "orderConfirmation.paymentMethod"}}: {{paymentMethod}}
+
+{{t "orderConfirmation.trackOrderButton"}}: {{trackingUrl}}
+
+{{t "orderConfirmation.questionsMessage"}}
+
+---
+{{t "orderConfirmation.footer"}}

@@ -14,13 +14,17 @@ interface FavoriteButtonProps {
   variant?: "icon" | "default"
   size?: "default" | "sm" | "lg" | "icon"
   className?: string
+  addToFavoritesText?: string
+  removeFromFavoritesText?: string
 }
 
 export function FavoriteButton({ 
   productId, 
   variant = "icon", 
   size = "icon", 
-  className 
+  className, 
+  addToFavoritesText,
+  removeFromFavoritesText
 }: FavoriteButtonProps) {
   const { isFavorite, addToFavorites, removeFromFavorites, isLoading } = useFavorites()
   const { data: session } = useSession()
@@ -56,16 +60,16 @@ export function FavoriteButton({
           )}
           onClick={handleClick}
           disabled={isLoading}
-          aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+          aria-label={isFav ? removeFromFavoritesText : addToFavoritesText}
         >
           <Heart className={cn("w-6 h-6", isFav && "fill-current")} />
-          <span className="sr-only">{isFav ? "Remove from favorites" : "Add to favorites"}</span>
+          <span className="sr-only">{isFav ? removeFromFavoritesText : addToFavoritesText}</span>
         </Button>
         
         <LoginDialog 
           open={isLoginDialogOpen} 
           onOpenChange={setIsLoginDialogOpen} 
-          onLogin={() => router.push('/auth/login?callbackUrl=' + encodeURIComponent(window.location.href))}
+          onLogin={() => router.push('/login?callbackUrl=' + encodeURIComponent(window.location.href))}
           onCancel={() => setIsLoginDialogOpen(false)}
         />
       </>

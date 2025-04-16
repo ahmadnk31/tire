@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .logo {
+            max-width: 150px;
+            margin: 0 auto 20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0070f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .appointment-details {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .appointment-details table {
+            width: 100%;
+        }
+        .appointment-details td {
+            padding: 8px 0;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .social {
+            margin: 15px 0;
+        }
+        .social a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .service-type {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{baseUrl}}/logo.png" alt="Company Logo" class="logo" />
+        <h1>{{t "appointment.confirmation.title"}}</h1>
+    </div>
+    
+    <div class="content">
+        <p>{{t "appointment.confirmation.greeting" userName=userName}}</p>
+        
+        <p>{{t "appointment.confirmation.message"}}</p>
+        
+        <div class="appointment-details">
+            <h3>{{t "appointment.confirmation.detailsTitle"}}</h3>
+            <table>
+                <tr>
+                    <td><strong>{{t "appointment.confirmation.serviceType"}}:</strong></td>
+                    <td class="service-type">{{formatServiceType serviceType}}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{t "appointment.confirmation.appointmentDate"}}:</strong></td>
+                    <td>{{formatDate appointmentDate}}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{t "appointment.confirmation.appointmentTime"}}:</strong></td>
+                    <td>{{appointmentTime}}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{t "appointment.confirmation.duration"}}:</strong></td>
+                    <td>{{duration}} {{t "appointment.confirmation.minutes"}}</td>
+                </tr>
+                {{#if vehicleInfo}}
+                <tr>
+                    <td><strong>{{t "appointment.confirmation.vehicleInfo"}}:</strong></td>
+                    <td>{{vehicleInfo}}</td>
+                </tr>
+                {{/if}}
+            </table>
+        </div>
+        
+        <p style="text-align: center;">
+            <a href="{{appointmentUrl}}" class="button">{{t "appointment.confirmation.viewButton"}}</a>
+        </p>
+        
+        <p>{{t "appointment.confirmation.arrivalMessage"}}</p>
+        
+        <p>{{t "appointment.confirmation.rescheduleMessage"}}</p>
+        
+        <p>{{t "appointment.confirmation.signature"}}</p>
+    </div>
+    
+    <div class="footer">
+        <div class="social">
+            <a href="https://facebook.com/yourcompany">Facebook</a> | 
+            <a href="https://instagram.com/yourcompany">Instagram</a> | 
+            <a href="https://twitter.com/yourcompany">Twitter</a>
+        </div>
+        <p>{{t "appointment.confirmation.footer"}}</p>
+    </div>
+</body>
+</html>

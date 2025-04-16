@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Your Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0070f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{t "passwordReset.title"}}</h1>
+    </div>
+    
+    <div class="content">
+        <p>{{t "passwordReset.greeting" userName=userName}}</p>
+        
+        <p>{{t "passwordReset.message"}}</p>
+        
+        <p style="text-align: center;">
+            <a href="{{resetUrl}}" class="button">{{t "passwordReset.buttonText"}}</a>
+        </p>
+        
+        <p>{{t "passwordReset.alternativeText"}} <a href="{{resetUrl}}">{{resetUrl}}</a></p>
+        
+        <p>{{t "passwordReset.expiryMessage" hours=expiresInHours}}</p>
+        
+        <p><strong>{{t "passwordReset.securityNote"}}</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>{{t "passwordReset.footer"}}</p>
+    </div>
+</body>
+</html>

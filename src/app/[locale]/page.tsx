@@ -134,39 +134,39 @@ export default async function Home({ params }: { params: { locale: string } }) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[80vh] w-full bg-gradient-to-br from-blue-800 via-blue-900 to-slate-900 overflow-hidden">
+      <section className="relative h-[90vh] sm:h-[80vh] w-full bg-gradient-to-br from-blue-800 via-blue-900 to-slate-900 overflow-hidden">
         <div className="absolute inset-0 bg-pattern opacity-10"></div>
         <div className="absolute inset-0 bg-black/30" />
-        <div className="relative z-10 container mx-auto flex flex-col items-center justify-center h-full text-center p-4">
+        <div className="relative z-10 container mx-auto flex flex-col items-center justify-center h-full text-center px-4 py-8">
           <div className="w-full max-w-4xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 tracking-tight leading-tight">
               {t('hero.title')}
             </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
               {t('hero.subtitle')}
             </p>
-            <div className="flex flex-wrap justify-center gap-3 mb-10">
-              <div className="bg-white/15 backdrop-blur-sm px-4 py-3 rounded-lg flex items-center">
-                <Check className="h-5 w-5 text-blue-400 mr-2" />
-                <span className="text-white text-sm">Premium Quality</span>
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10">
+              <div className="bg-white/15 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-3 rounded-lg flex items-center">
+                <Check className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 mr-1 sm:mr-2" />
+                <span className="text-white text-xs sm:text-sm">Premium Quality</span>
               </div>
-              <div className="bg-white/15 backdrop-blur-sm px-4 py-3 rounded-lg flex items-center">
-                <Truck className="h-5 w-5 text-blue-400 mr-2" />
-                <span className="text-white text-sm">Fast Delivery</span>
+              <div className="bg-white/15 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-3 rounded-lg flex items-center">
+                <Truck className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 mr-1 sm:mr-2" />
+                <span className="text-white text-xs sm:text-sm">Fast Delivery</span>
               </div>
-              <div className="bg-white/15 backdrop-blur-sm px-4 py-3 rounded-lg flex items-center">
-                <BadgePercent className="h-5 w-5 text-blue-400 mr-2" />
-                <span className="text-white text-sm">Special Discounts</span>
+              <div className="bg-white/15 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-3 rounded-lg flex items-center">
+                <BadgePercent className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 mr-1 sm:mr-2" />
+                <span className="text-white text-xs sm:text-sm">Special Discounts</span>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/products">
-                <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 px-8 shadow-lg shadow-blue-500/30">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Link href="/products" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-blue-500 text-white hover:bg-blue-600 px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base shadow-lg shadow-blue-500/30">
                   {t('hero.shopNow')}
                 </Button>
               </Link>
-              <Link href="/tire-finder">
-                <Button size="lg" variant="outline" className=" border-white hover:bg-white/20 px-8">
+              <Link href="/tire-finder" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white hover:bg-white/20 px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base">
                   {t('hero.searchByVehicle')}
                 </Button>
               </Link>

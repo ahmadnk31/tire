@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -27,6 +28,7 @@ export default function LoginPage() {
   const locale = searchParams.get("locale") || "en"
   const callbackUrl = searchParams.get("callbackUrl") || `/${locale}/dashboard`
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const t = useTranslations('Auth.login')
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -61,28 +63,26 @@ export default function LoginPage() {
       setIsLoading(false)
     }
   }
-
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t('title')}</CardTitle>
           <CardDescription className="text-center">
-            Enter your email and password to sign in to your account
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">              <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t('emailLabel')}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="example@example.com" 
+                        placeholder={t('emailPlaceholder')} 
                         type="email" 
                         autoComplete="email"
                         disabled={isLoading} 
@@ -98,7 +98,7 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('passwordLabel')}</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="********" 
@@ -111,27 +111,25 @@ export default function LoginPage() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-              <Button 
+              />              <Button 
                 type="submit" 
                 className="w-full" 
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? t('loggingIn') : t('loginButton')}
               </Button>
             </form>
-          </Form>
-          <div className="mt-4 text-center text-sm">
+          </Form>          <div className="mt-4 text-center text-sm">
             <Link href="/forgot-password" className="underline text-primary hover:text-primary/90">
-              Forgot password?
+              {t('forgotPassword')}
             </Link>
           </div>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            {t('noAccount')}{" "}
             <Link href="/register" className="underline text-primary hover:text-primary/90">
-              Sign up
+              {t('signUpLink')}
             </Link>
           </p>
         </CardFooter>

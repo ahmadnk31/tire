@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
@@ -34,6 +35,10 @@ interface ReviewsListProps {
 }
 
 export function ReviewsList({ productId }: ReviewsListProps) {
+  const t = useTranslations('Account.Reviews.list');
+  const tReviews = useTranslations('Account.Reviews');
+  console.log(t)
+  console.log(tReviews)
   const { data: session } = useSession();
   const [page, setPage] = useState(1);
   const [rating, setRating] = useState<string>('all');
@@ -121,21 +126,20 @@ export function ReviewsList({ productId }: ReviewsListProps) {
     : '0.0';
 
   return (
-    <div className="mt-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
+    <div className="mt-6">      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
         <div>
-          <h3 className="text-2xl font-semibold">Customer Reviews</h3>
+          <h3 className="text-2xl font-semibold">{t('title')}</h3>
           {data?.meta.totalCount === 0 ? (
-            <p className="text-muted-foreground">No reviews yet. Be the first to review this product.</p>
+            <p className="text-muted-foreground">{t('noReviewsYet')}</p>
           ) : (
             <div className="flex items-center gap-2 mt-1">
               <div className="flex items-center">
                 <span className="text-lg font-medium">{averageRating}</span>
-                <span className="text-muted-foreground ml-1">out of 5</span>
+                <span className="text-muted-foreground ml-1">{t('averageRating')}</span>
               </div>
               <span className="text-muted-foreground">•</span>
               <span className="text-muted-foreground">
-                {data?.meta.totalCount} {data?.meta.totalCount === 1 ? 'review' : 'reviews'}
+                {data?.meta.totalCount} {data?.meta.totalCount === 1 ? t('review') : t('reviews')}
               </span>
             </div>
           )}
@@ -145,17 +149,17 @@ export function ReviewsList({ productId }: ReviewsListProps) {
           <Dialog open={showReviewForm} onOpenChange={setShowReviewForm}>
             <DialogTrigger asChild>
               <Button>
-                {editingReview ? 'Edit Review' : 'Write a Review'}
+                {editingReview ? tReviews('editReview') : tReviews('writeReview')}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-xl">
               <DialogHeader>
-                <DialogTitle>{editingReview ? 'Edit Your Review' : 'Write a Review'}</DialogTitle>
+                <DialogTitle>{editingReview ? tReviews('editReview') : tReviews('writeReview')}</DialogTitle>
               </DialogHeader>
               {!session ? (
                 <div className="py-6 text-center">
-                  <p className="mb-4">Please sign in to write a review</p>
-                  <Button>Sign In</Button>
+                  <p className="mb-4">{t('signIn')}</p>
+                  <Button>{t('signInButton')}</Button>
                 </div>
               ) : (
                 <ReviewForm 
@@ -171,29 +175,27 @@ export function ReviewsList({ productId }: ReviewsListProps) {
             </DialogContent>
           </Dialog>
         </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-between mb-6 gap-4">
+      </div>      <div className="flex flex-col sm:flex-row justify-between mb-6 gap-4">
         <div className="flex gap-4">
           <div>
             <label htmlFor="rating-filter" className="block text-sm font-medium mb-1">
-              Filter by
+              {t('filters.filterBy')}
             </label>
             <Select
               value={rating}
               onValueChange={handleFilterChange}
             >
               <SelectTrigger id="rating-filter" className="w-[140px]">
-                <SelectValue placeholder="All ratings" />
+                <SelectValue placeholder={t('filters.allRatings')} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="all">All ratings</SelectItem>
-                  <SelectItem value="5">5 stars</SelectItem>
-                  <SelectItem value="4">4 stars</SelectItem>
-                  <SelectItem value="3">3 stars</SelectItem>
-                  <SelectItem value="2">2 stars</SelectItem>
-                  <SelectItem value="1">1 star</SelectItem>
+                  <SelectItem value="all">{t('filters.allRatings')}</SelectItem>
+                  <SelectItem value="5">5 {t('filters.stars')}</SelectItem>
+                  <SelectItem value="4">4 {t('filters.stars')}</SelectItem>
+                  <SelectItem value="3">3 {t('filters.stars')}</SelectItem>
+                  <SelectItem value="2">2 {t('filters.stars')}</SelectItem>
+                  <SelectItem value="1">1 {t('filters.star')}</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -201,20 +203,20 @@ export function ReviewsList({ productId }: ReviewsListProps) {
 
           <div>
             <label htmlFor="sort-reviews" className="block text-sm font-medium mb-1">
-              Sort by
+              {t('sort.sortBy')}
             </label>
             <Select
               value={sortBy}
               onValueChange={handleSortChange}
             >
               <SelectTrigger id="sort-reviews" className="w-[180px]">
-                <SelectValue placeholder="Sort by" />
+                <SelectValue placeholder={t('sort.sortBy')} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="newest">Newest first</SelectItem>
-                  <SelectItem value="oldest">Oldest first</SelectItem>
-                  <SelectItem value="helpful">Most helpful</SelectItem>
+                  <SelectItem value="newest">{t('sort.newestFirst')}</SelectItem>
+                  <SelectItem value="oldest">{t('sort.oldestFirst')}</SelectItem>
+                  <SelectItem value="helpful">{t('sort.mostHelpful')}</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -228,24 +230,22 @@ export function ReviewsList({ productId }: ReviewsListProps) {
             onValueChange={handleFilterChange}
           >
             <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="5">5 ★</TabsTrigger>
-              <TabsTrigger value="4">4 ★</TabsTrigger>
+              <TabsTrigger value="all">{t('tabs.all')}</TabsTrigger>
+              <TabsTrigger value="5">{t('tabs.fiveStar')}</TabsTrigger>
+              <TabsTrigger value="4">{t('tabs.fourStar')}</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
-      </div>
-
-      {isLoading ? (
+      </div>      {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary" aria-label={t('loading')} />
         </div>
       ) : data?.reviews.length === 0 ? (
         <div className="border rounded-lg p-6 text-center">
-          <p className="text-muted-foreground mb-4">No reviews match your filter criteria.</p>
+          <p className="text-muted-foreground mb-4">{t('noReviewsFound')}</p>
           {rating !== 'all' && (
             <Button variant="outline" onClick={() => handleFilterChange('all')}>
-              Show all reviews
+              {t('showAllReviews')}
             </Button>
           )}
         </div>

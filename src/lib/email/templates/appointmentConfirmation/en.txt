@@ -1,0 +1,25 @@
+{{t "appointment.confirmation.title"}}
+
+{{t "appointment.confirmation.greeting" userName=userName}}
+
+{{t "appointment.confirmation.message"}}
+
+{{t "appointment.confirmation.detailsTitle"}}
+{{t "appointment.confirmation.serviceType"}}: {{formatServiceType serviceType}}
+{{t "appointment.confirmation.appointmentDate"}}: {{formatDate appointmentDate}}
+{{t "appointment.confirmation.appointmentTime"}}: {{appointmentTime}}
+{{t "appointment.confirmation.duration"}}: {{duration}} {{t "appointment.confirmation.minutes"}}
+{{#if vehicleInfo}}
+{{t "appointment.confirmation.vehicleInfo"}}: {{vehicleInfo}}
+{{/if}}
+
+{{t "appointment.confirmation.arrivalMessage"}}
+
+{{t "appointment.confirmation.rescheduleMessage"}}
+
+{{t "appointment.confirmation.viewButtonText"}}: {{appointmentUrl}}
+
+{{t "appointment.confirmation.signature"}}
+
+------------------
+{{t "appointment.confirmation.footer"}}

@@ -8,6 +8,17 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 
+interface Promotion {
+  id: string;
+  type: string;
+  value: number | string;
+  colorScheme: string;
+  products?: Array<{ id: string }>;
+  brands?: Array<{ id: string }>;
+  categories?: Array<{ id: string }>;
+  models?: Array<{ id: string }>;
+}
+
 interface ProductCardProps {
   product: {
     id: string;
@@ -18,30 +29,37 @@ interface ProductCardProps {
     price: number;
     originalPrice?: number;
     images?: string[];
-    slug?: string;
   };
-  onAddToCart?: () => void;
+  onAddToCart: (productId: string) => void;
 }
 
+/**
+ * Product card component that displays product information with applicable promotions
+ */
 export function ProductCardWithPromotion({ product, onAddToCart }: ProductCardProps) {
   const { activePromotions } = usePromotion();
   
   // Find applicable promotions for this product
-  const applicablePromotions = activePromotions.filter(promotion => {
+  const applicablePromotions = activePromotions.filter((promotion: Promotion) => {
     // Check if this product is eligible for the promotion
-    const productMatches = promotion.products?.some(p => p.id === product.id);
-    const brandMatches = promotion.brands?.some(b => b.id === product.brandId);
-    const categoryMatches = promotion.categories?.some(c => c.id === product.categoryId);
-    const modelMatches = promotion.models?.some(m => m.id === product.modelId);
+    const productMatches = promotion.products?.some(p => p.id === product.id) || false;
+    const brandMatches = promotion.brands?.some(b => b.id === product.brandId) || false;
+    const categoryMatches = promotion.categories?.some(c => c.id === product.categoryId) || false;
+    const modelMatches = product.modelId ? promotion.models?.some(m => m.id === product.modelId) || false : false;
     
     return productMatches || brandMatches || categoryMatches || modelMatches;
   });
+
+  // Handle add to cart with product id
+  const handleAddToCart = () => {
+    onAddToCart(product.id);
+  };
 
   return (
     <div className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-all hover:shadow-md">
       {/* Product image */}
       <Link href={`/products/${product.id}`} className="relative block aspect-square overflow-hidden rounded-md">
-        {product.images && product.images[0] ? (
+        {product.images && product.images.length > 0 ? (
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -56,17 +74,23 @@ export function ProductCardWithPromotion({ product, onAddToCart }: ProductCardPr
         )}
       </Link>
 
-      {/* Promotion badges */}
+      {/* Promotion badges - limit to max 2 badges for cleaner UI */}
       {applicablePromotions.length > 0 && (
         <div className="absolute top-3 right-3 space-y-1 z-10">
-          {applicablePromotions.map(promotion => (
+          {applicablePromotions.slice(0, 2).map(promotion => (
             <Badge 
               key={promotion.id} 
+              variant="outline"
               className={`${getBadgeVariant(promotion.colorScheme)} font-medium px-2 py-0.5`}
             >
               {formatPromotionValue(promotion.type, promotion.value)}
             </Badge>
           ))}
+          {applicablePromotions.length > 2 && (
+            <Badge variant="outline" className="bg-gray-100 text-gray-800 font-medium px-2 py-0.5">
+              +{applicablePromotions.length - 2} more
+            </Badge>
+          )}
         </div>
       )}
 
@@ -98,7 +122,8 @@ export function ProductCardWithPromotion({ product, onAddToCart }: ProductCardPr
             variant="outline" 
             size="sm"
             className="h-8 rounded-full px-3"
-            onClick={onAddToCart}
+            onClick={handleAddToCart}
+            aria-label={`Add ${product.name} to cart`}
           >
             <ShoppingCart className="h-4 w-4 mr-1" />
             <span className="hidden sm:inline">Add</span>

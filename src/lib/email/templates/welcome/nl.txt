@@ -1,0 +1,21 @@
+{{t "welcome.title"}}
+
+{{t "welcome.greeting" userName=userName}}
+
+{{t "welcome.message"}}
+
+{{t "welcome.benefitsTitle"}}
+* {{t "welcome.benefit1"}}
+* {{t "welcome.benefit2"}}
+* {{t "welcome.benefit3"}}
+* {{t "welcome.benefit4"}}
+
+{{t "welcome.buttonText"}}: {{loginUrl}}
+
+{{t "welcome.closingMessage"}}
+
+{{t "welcome.signature"}}
+
+---
+{{t "welcome.footer"}}
+Volg ons: Facebook: https://facebook.com/yourcompany | Instagram: https://instagram.com/yourcompany | Twitter: https://twitter.com/yourcompany

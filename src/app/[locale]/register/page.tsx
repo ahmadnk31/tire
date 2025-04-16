@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -29,6 +30,7 @@ export default function RegisterPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
+  const t = useTranslations('Auth.signup')
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -56,15 +58,14 @@ export default function RegisterPage() {
         }),
       })
 
-      const responseData = await response.json()
-
+      const responseData = await response.json()      
       if (!response.ok) {
-        toast.error(responseData.message || "Something went wrong")
+        toast.error(responseData.message || t('error'))
         return
       }
 
       setIsSubmitted(true)
-      toast.success("Account created successfully. Please check your email to verify your account.")
+      toast.success(t('success'))
     } catch (error) {
       toast.error("Something went wrong")
       console.error(error)
@@ -72,53 +73,50 @@ export default function RegisterPage() {
       setIsLoading(false)
     }
   }
-
   if (isSubmitted) {
     return (
       <div className="container flex items-center justify-center min-h-screen py-12">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Check Your Email</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">{t('checkEmail')}</CardTitle>
             <CardDescription className="text-center">
-              We've sent you a verification link. Please check your email to verify your account.
+              {t('verificationLinkSent')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 text-center">
             <p className="text-sm text-muted-foreground">
-              Once you verify your email, you can sign in to your account.
+              {t('verifyToSignIn')}
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
             <Button variant="outline" onClick={() => router.push("/login")}>
-              Go to Login
+              {t('goToLogin')}
             </Button>
           </CardFooter>
         </Card>
       </div>
     )
   }
-
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t('title')}</CardTitle>
           <CardDescription className="text-center">
-            Enter your details to create your account
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">              <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>{t('nameLabel')}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="John Doe" 
+                        placeholder={t('namePlaceholder')} 
                         disabled={isLoading} 
                         {...field} 
                       />
@@ -132,10 +130,10 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t('emailLabel')}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="example@example.com" 
+                        placeholder={t('emailPlaceholder')} 
                         type="email" 
                         autoComplete="email"
                         disabled={isLoading} 
@@ -145,16 +143,15 @@ export default function RegisterPage() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-              <FormField
+              />              <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('passwordLabel')}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="********" 
+                        placeholder={t('passwordPlaceholder')} 
                         type="password" 
                         autoComplete="new-password"
                         disabled={isLoading} 
@@ -170,10 +167,10 @@ export default function RegisterPage() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>{t('confirmPasswordLabel')}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="********" 
+                        placeholder={t('confirmPasswordPlaceholder')} 
                         type="password" 
                         autoComplete="new-password"
                         disabled={isLoading} 
@@ -183,22 +180,21 @@ export default function RegisterPage() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-              <Button 
+              />              <Button 
                 type="submit" 
                 className="w-full" 
                 disabled={isLoading}
               >
-                {isLoading ? "Creating account..." : "Create account"}
+                {isLoading ? t('signingUp') : t('signupButton')}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
-            Already have an account?{" "}
+            {t('alreadyAccount')}{" "}
             <Link href="/login" className="underline text-primary hover:text-primary/90">
-              Sign in
+              {t('loginLink')}
             </Link>
           </p>
         </CardFooter>

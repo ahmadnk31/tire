@@ -1,0 +1,15 @@
+{{t "passwordReset.title"}}
+
+{{t "passwordReset.greeting" userName=userName}}
+
+{{t "passwordReset.message"}}
+
+{{t "passwordReset.buttonText"}}: {{resetUrl}}
+
+{{t "passwordReset.alternativeText"}} {{resetUrl}}
+
+{{t "passwordReset.expiryMessage" hours=expiresInHours}}
+
+{{t "passwordReset.securityNote"}}
+
+{{t "passwordReset.footer"}}

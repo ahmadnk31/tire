@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -39,14 +39,16 @@ export default function CartPage() {
     updateItemQuantity, 
     removeItem, 
     summary, 
-    itemCount,
+    itemCount
+  } = useCart();  const {
     applyPromoCode,
     appliedPromotions,
     removePromotion
-  } = useCart();
+  } = usePromotion();
   const [isUpdating, setIsUpdating] = useState<Record<string, boolean>>({});
   const [promoCode, setPromoCode] = useState("");
   const [isApplying, setIsApplying] = useState(false);
+  const [forceRefresh, setForceRefresh] = useState(0); // Add state to force refresh
   const t = useTranslations('cart')
   const tDeals = useTranslations('Deals')
   // Handle quantity change
@@ -68,9 +70,7 @@ export default function CartPage() {
     setTimeout(() => {
       removeItem(id);
     }, 300);
-  };
-
-  // Handle applying promotion code
+  };  // Handle applying promotion code
   const handleApplyPromoCode = async () => {
     if (!promoCode.trim()) return;
     
@@ -78,13 +78,18 @@ export default function CartPage() {
     const success = await applyPromoCode(promoCode.trim());
     
     if (success) {
-      toast.success(tDeals("codeCopied"));
+      toast.success(tDeals("promoApplied") || "Promo code applied successfully");
       setPromoCode("");
+      
+      // Force a refresh of the component and cart context
+      setTimeout(() => {
+        setForceRefresh(prev => prev + 1); // Increment to force a re-render
+        setIsApplying(false);
+      }, 300);
     } else {
       toast.error(t("invalidPromoCode"));
+      setIsApplying(false);
     }
-    
-    setIsApplying(false);
   };
 
   // Format price to display with 2 decimal places
@@ -305,7 +310,7 @@ export default function CartPage() {
                     disabled={!promoCode.trim() || isApplying}
                     size="sm"
                   >
-                    {isApplying ? t("applying") : t("apply")}
+                    {isApplying ? t("applying") : t("applyCode")}
                   </Button>
                 </div>
                 
@@ -325,12 +330,17 @@ export default function CartPage() {
                                promo.type === 'free_shipping' ? t("freeShipping") : t("specialOffer")}
                             </p>
                           </div>
-                        </div>
-                        <Button
+                        </div>                        <Button
                           variant="ghost"
                           size="sm"
                           className="h-8 w-8 p-0 rounded-full"
-                          onClick={() => removePromotion(promo.id)}
+                          onClick={() => {
+                            removePromotion(promo.id);
+                            // Force a refresh when removing a promotion as well
+                            setTimeout(() => {
+                              setForceRefresh(prev => prev + 1);
+                            }, 100);
+                          }}
                         >
                           <X className="h-4 w-4" />
                         </Button>

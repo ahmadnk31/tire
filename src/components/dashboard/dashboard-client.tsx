@@ -11,10 +11,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Box, Layers, Tag, PackageOpen, Users, ShoppingCart, MapPin, Settings, Bell, User, Car, Calendar, Truck, MailboxIcon, Percent, BadgePercent } from "lucide-react";
+import { Box, Layers, Tag, PackageOpen, Users, ShoppingCart, MapPin, Settings, Bell, User, Car, Calendar, Truck, MailboxIcon, Percent, BadgePercent, PenToolIcon } from "lucide-react";
 import { IconBoxModel } from "@tabler/icons-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { DashboardIcon } from "@radix-ui/react-icons";
+import { ChatBubbleIcon, DashboardIcon } from "@radix-ui/react-icons";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 
@@ -162,6 +162,14 @@ export default function DashboardClient({
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/dashboard/installations">
+                      <PenToolIcon className="mr-2" />
+                      Tire Installations
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
                 
                 {/* Admin Section */}
                 <SidebarMenuItem className="mt-6">
@@ -179,6 +187,15 @@ export default function DashboardClient({
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/dashboard/chat-support">
+                      <ChatBubbleIcon className="mr-2" />
+                      Chat Support
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link href="/dashboard/newsletters">
@@ -201,6 +218,14 @@ export default function DashboardClient({
                     <Link href="/dashboard/promotions">
                       <BadgePercent className="mr-2" />
                       Deals & Promotions
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/dashboard/campaigns">
+                      <MailboxIcon className="mr-2" />
+                      Email Campaigns
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

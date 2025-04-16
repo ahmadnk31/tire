@@ -1,4 +1,163 @@
-{      "StoreStatus": {
+{
+      "Email": {
+        "subjects": {
+          "verification": "Verifieer Uw E-mailadres",
+          "passwordReset": "Reset Uw Wachtwoord",
+          "welcome": "Welkom bij Onze Winkel",
+          "orderConfirmation": "Orderbevestiging",
+          "appointmentConfirmation": "Afspraakbevestiging",
+          "appointmentReminder": "Herinnering: Uw Aankomende Afspraak"
+        },
+        "verification": {
+          "title": "Verifieer Uw E-mailadres",
+          "greeting": "Hallo {{userName}},",
+          "message": "Bedankt voor het aanmelden! Verifieer uw e-mailadres door op de onderstaande knop te klikken.",
+          "buttonText": "E-mail Verifiëren",
+          "alternativeText": "Of kopieer en plak deze URL in uw browser:",
+          "expiryMessage": "Deze verificatielink vervalt over {{hours}} uur.",
+          "footer": "Als u geen account heeft aangemaakt, is geen verdere actie nodig."
+        },        "passwordReset": {
+          "title": "Reset Uw Wachtwoord",
+          "greeting": "Hallo {{userName}},",
+          "message": "U heeft onlangs verzocht om uw wachtwoord opnieuw in te stellen. Klik op de onderstaande knop om verder te gaan.",
+          "buttonText": "Wachtwoord Resetten",
+          "alternativeText": "Of kopieer en plak deze URL in uw browser:",
+          "expiryMessage": "Deze link voor het opnieuw instellen van het wachtwoord vervalt over {{hours}} uur.",
+          "securityNote": "Als u geen wachtwoordreset heeft aangevraagd, beveilig dan uw account door uw wachtwoord te wijzigen.",
+          "footer": "Als u niet heeft verzocht om een wachtwoord reset, kunt u deze e-mail negeren."
+        },
+        "welcome": {
+          "title": "Welkom bij Onze Winkel",
+          "greeting": "Hallo {{userName}},",
+          "message": "Bedankt voor het aanmaken van een account bij ons. We zijn verheugd dat je deel uitmaakt van onze gemeenschap van bandenliefhebbers!",
+          "benefitsTitle": "Voordelen van je Account:",
+          "benefit1": "Volg je bestellingen in realtime",
+          "benefit2": "Bewaar je favoriete banden voor toekomstig gebruik",
+          "benefit3": "Ontvang exclusieve aanbiedingen en kortingen",
+          "benefit4": "Snelle checkout voor sneller winkelen",
+          "buttonText": "Ga naar Mijn Account",
+          "closingMessage": "Als je vragen hebt over je account of hulp nodig hebt bij het vinden van de perfecte banden, staat ons team voor je klaar.",
+          "signature": "Met vriendelijke groet,\nHet Bandenwinkel Team",
+          "footer": "© 2025 Bandenwinkel. Alle rechten voorbehouden."
+        },
+        "orderConfirmation": {
+          "title": "Orderbevestiging",
+          "greeting": "Hallo {{userName}},",
+          "thankYouMessage": "Bedankt voor je bestelling! We hebben je aankoop ontvangen en zijn er nu mee bezig.",
+          "orderDetailsTitle": "Bestelgegevens",
+          "orderNumber": "Bestelnummer",
+          "orderDate": "Besteldatum",
+          "orderSummaryTitle": "Besteloverzicht",
+          "productColumn": "Product",
+          "quantityColumn": "Aantal",
+          "priceColumn": "Prijs",
+          "totalLabel": "Totaal",
+          "shippingInfoTitle": "Verzendgegevens",
+          "paymentInfoTitle": "Betalingsgegevens",
+          "paymentMethod": "Betaalmethode",          "trackOrderButton": "Volg je Bestelling",
+          "questionsMessage": "Als je vragen hebt over je bestelling, neem dan contact op met ons klantenserviceteam.",
+          "footer": "Bedankt voor je aankoop bij ons!"
+        },
+        "appointment": {
+          "confirmation": {
+            "title": "Afspraakbevestiging",
+            "greeting": "Hallo {{userName}},",
+            "message": "Uw afspraak is bevestigd. We kijken ernaar uit u te ontmoeten!",
+            "detailsTitle": "Afspraakgegevens",
+            "serviceType": "Soort Service",
+            "appointmentDate": "Datum",
+            "appointmentTime": "Tijd",
+            "duration": "Duur",
+            "minutes": "minuten",
+            "vehicleInfo": "Voertuig",
+            "viewButton": "Bekijk Afspraakdetails",
+            "viewButtonText": "Bekijk hier uw afspraakdetails",
+            "arrivalMessage": "Gelieve 10 minuten voor uw geplande tijd aanwezig te zijn om eventuele benodigde papierwerk te voltooien.",
+            "rescheduleMessage": "Als u uw afspraak wilt verzetten of annuleren, doe dit dan minstens 24 uur van tevoren door op de bovenstaande knop te klikken of direct contact met ons op te nemen.",
+            "signature": "Met vriendelijke groet,\nHet Serviceteam",
+            "footer": "© 2025 Bandenwinkel. Alle rechten voorbehouden."
+          },
+          "reminder": {
+            "title": "Herinnering: Uw Aankomende Afspraak",
+            "greeting": "Hallo {{userName}},",
+            "message": "Dit is een vriendelijke herinnering aan uw aankomende afspraak bij ons.",
+            "detailsTitle": "Afspraakgegevens",
+            "serviceType": "Soort Service",
+            "appointmentDate": "Datum",
+            "appointmentTime": "Tijd",
+            "duration": "Duur",
+            "minutes": "minuten",
+            "vehicleInfo": "Voertuig",
+            "viewButton": "Beheer Uw Afspraak",
+            "viewButtonText": "Beheer hier uw afspraak",
+            "arrivalMessage": "Gelieve 10 minuten voor uw geplande tijd aanwezig te zijn om eventuele benodigde papierwerk te voltooien.",
+            "rescheduleMessage": "Als u wilt verzetten of annuleren, doe dit dan zo snel mogelijk door op de bovenstaande knop te klikken of direct contact met ons op te nemen.",
+            "signature": "Met vriendelijke groet,\nHet Serviceteam",
+            "footer": "© 2025 Bandenwinkel. Alle rechten voorbehouden."
+          }
+        }
+      },
+      "Auth": {
+        "login": {
+          "title": "Inloggen op je account",
+          "subtitle": "Voer je e-mailadres in om in te loggen op je account",
+          "emailLabel": "E-mailadres",
+          "emailPlaceholder": "m@voorbeeld.com",
+          "passwordLabel": "Wachtwoord",
+          "forgotPassword": "Wachtwoord vergeten?",
+          "loginButton": "Inloggen",
+          "loggingIn": "Bezig met inloggen...",
+          "orContinueWith": "Of ga verder met",
+          "loginWithGithub": "Inloggen met GitHub",
+          "noAccount": "Heb je nog geen account?",
+          "signUpLink": "Registreren",
+          "error": "Inloggen mislukt. Probeer het opnieuw."
+        },
+        "signup": {
+          "title": "Registreer je account",
+          "subtitle": "Voer je e-mailadres in om je account aan te maken",
+          "nameLabel": "Naam",
+          "namePlaceholder": "Voer je naam in",
+          "emailLabel": "E-mailadres",
+          "emailPlaceholder": "m@voorbeeld.com",
+          "passwordLabel": "Wachtwoord",
+          "passwordPlaceholder": "Maak een wachtwoord aan",
+          "signupButton": "Registreren",
+          "signingUp": "Bezig met registreren...",
+          "orContinueWith": "Of ga verder met",
+          "signupWithGithub": "Registreren met GitHub",
+          "alreadyAccount": "Heb je al een account?",
+          "loginLink": "Inloggen",
+          "error": "Registratie mislukt. Probeer het opnieuw."
+        },        "forgotPassword": {
+          "title": "Wachtwoord vergeten?",
+          "subtitle": "Voer je e-mailadres in om een link voor het resetten van je wachtwoord te ontvangen",
+          "emailLabel": "E-mailadres",
+          "emailPlaceholder": "m@voorbeeld.com",
+          "resetButton": "Reset link versturen",
+          "sendingReset": "Reset link wordt verstuurd...",
+          "backToLogin": "Terug naar inloggen",
+          "rememberPassword": "Wachtwoord herinnerd?",
+          "emailSentMessage": "We hebben je een e-mail gestuurd met een link om je wachtwoord te resetten. Controleer je inbox.",
+          "success": "Wachtwoord reset link is naar je e-mail verstuurd",
+          "error": "Versturen van reset link is mislukt. Probeer het opnieuw."
+        },
+        "resetPassword": {
+          "title": "Reset je wachtwoord",
+          "subtitle": "Voer je nieuwe wachtwoord in",
+          "passwordLabel": "Nieuw wachtwoord",
+          "passwordPlaceholder": "Voer je nieuwe wachtwoord in",
+          "confirmPasswordLabel": "Bevestig nieuw wachtwoord",
+          "confirmPasswordPlaceholder": "Bevestig je nieuwe wachtwoord",
+          "resetButton": "Wachtwoord resetten",
+          "resetting": "Wachtwoord wordt gereset...",
+          "backToLogin": "Terug naar inloggen",
+          "success": "Wachtwoord is succesvol gereset",
+          "error": "Reset van wachtwoord is mislukt. Probeer het opnieuw.",
+          "mismatchError": "Wachtwoorden komen niet overeen"
+        }
+      },
+      "StoreStatus": {
         "open": "Nu Open",
         "closed": "Gesloten",
         "loading": "Openingstijden laden...",
@@ -100,8 +259,19 @@
         "total": "Totaal",
         "secureCheckout": "Veilig Afrekenen",
         "item": "Artikel",
-        "inYourCart": "In Uw Winkelwagen"
+        "inYourCart": "In Uw Winkelwagen"      },
+        "Chat": {
+        "customerSupport": "Klantenservice",
+        "openChat": "Chat openen",
+        "closeChat": "Chat sluiten",
+        "connecting": "Verbinding maken...",
+        "typeMessage": "Typ een bericht...",
+        "sendMessage": "Bericht versturen",
+        "welcomeMessage": "Hallo! Hoe kan ik u vandaag helpen met uw bandenkeuze?",
+        "autoResponse": "Bedankt voor uw bericht. Een bandenspecialist zal binnenkort reageren. Heeft u in de tussentijd specifieke vragen over onze banden?"
       },
+      
+      
       
      "cart": {
         "title": "Uw Winkelwagen",
@@ -264,10 +434,182 @@
       },
       "services": {
         "title": "Onze Services",
-        "subtitle": "Wij zorgen voor al uw banden- en wielbehoeften",
-        "installation": {
+        "subtitle": "Wij zorgen voor al uw banden- en wielbehoeften",        "installation": {
           "title": "Professionele Installatie",
           "description": "Onze experts installeren uw nieuwe banden met de hoogste precisie en zorg"
+        },
+        
+        "installationPage": {
+          "hero": {
+            "title": "Professionele Bandeninstallatie",
+            "subtitle": "Deskundige Service voor Uw Nieuwe Banden",
+            "cta": "Installatie Inplannen"
+          },
+          "benefits": {
+            "title": "Waarom Kiezen voor Onze Installatieservice",
+            "quality": {
+              "title": "Kwaliteitsvakmanschap",
+              "description": "Onze gecertificeerde technici zijn opgeleid om alle soorten banden met precisie te behandelen"
+            },
+            "equipment": {
+              "title": "Geavanceerde Apparatuur",
+              "description": "We gebruiken moderne gereedschappen en technologie voor nauwkeurige installatie"
+            },
+            "warranty": {
+              "title": "Servicegarantie",
+              "description": "Alle installatiediensten worden geleverd met onze tevredenheidsgarantie"
+            },
+            "convenience": {
+              "title": "Snel & Gemakkelijk",
+              "description": "Snelle doorlooptijden om u snel weer op weg te helpen"
+            }
+          },
+          "process": {
+            "title": "Ons Installatieproces",
+            "steps": {
+              "inspection": {
+                "title": "Eerste Inspectie",
+                "description": "We controleren grondig de wielen en ophanging van uw voertuig"
+              },
+              "removal": {
+                "title": "Bandenverwijdering",
+                "description": "Veilige verwijdering van uw bestaande banden"
+              },
+              "mounting": {
+                "title": "Montage",
+                "description": "Nauwkeurige montage van uw nieuwe banden op de velgen"
+              },
+              "balancing": {
+                "title": "Balanceren",
+                "description": "Computergestuurd balanceren voor een soepele rit"
+              },
+              "installation": {
+                "title": "Installatie",
+                "description": "Veilige installatie van wielen op uw voertuig"
+              },
+              "inspection2": {
+                "title": "Eindcontrole",
+                "description": "Kwaliteitscontrole om te verzekeren dat alles aan onze normen voldoet"
+              }
+            }
+          },
+          "pricing": {
+            "title": "Installatie Prijzen",
+            "subtitle": "Transparante prijzen zonder verborgen kosten",
+            "standard": {
+              "title": "Standaard Installatie",
+              "price": "Vanaf €20 per band",
+              "includes": "Montage, Balanceren, Ventielen, Gewichten"
+            },
+            "premium": {
+              "title": "Premium Installatie",
+              "price": "Vanaf €30 per band",
+              "includes": "Standaard + Bandenbeschermingspakket & Levenslange Rotaties"
+            },
+            "specialty": {
+              "title": "Speciale Installatie",
+              "price": "Vanaf €40 per band",
+              "includes": "Voor Run-Flat, Lage-Profiel en Aangepaste Velgen"
+            },
+            "note": "Prijzen kunnen variëren op basis van voertuigtype en bandenspecificaties"
+          },
+          "faq": {
+            "title": "Veelgestelde Vragen",
+            "questions": {
+              "time": {
+                "question": "Hoelang duurt een installatie?",
+                "answer": "Standaardinstallatie duurt meestal 45-60 minuten voor een volledige set van vier banden."
+              },
+              "appointment": {
+                "question": "Heb ik een afspraak nodig?",
+                "answer": "Hoewel we klanten zonder afspraak accepteren, raden we aan om een afspraak te maken om wachttijd te minimaliseren."
+              },
+              "bring": {
+                "question": "Wat moet ik meenemen voor installatie?",
+                "answer": "Alleen uw voertuig en sleutels. Als u banden elders heeft gekocht en wilt dat we deze installeren, neem deze dan ook mee."
+              },
+              "wait": {
+                "question": "Kan ik wachten terwijl mijn banden worden geïnstalleerd?",
+                "answer": "Ja, onze comfortabele wachtruimte heeft gratis Wi-Fi, verfrissingen en TV."
+              },
+              "warranty": {
+                "question": "Wordt de installatieservice gegarandeerd?",
+                "answer": "Ja, alle bandeninstallaties komen met onze servicegarantie om uw tevredenheid te waarborgen."
+              }
+            }
+          },
+          "cta": {
+            "title": "Klaar voor Professionele Installatie?",
+            "subtitle": "Laat uw banden installeren door gecertificeerde professionals",
+            "button": "Installatieservice Boeken",
+            "or": "of",
+            "contact": "Neem Contact Op voor Speciale Vereisten"
+          },          "additionalServices": {
+            "title": "Aanvullende Diensten",
+            "subtitle": "Verbeter uw bandeninstallatie met deze professionele diensten",
+            "serviceColumn": "Dienst",
+            "descriptionColumn": "Beschrijving",
+            "priceColumn": "Prijs",
+            "empty": "Er zijn momenteel geen aanvullende diensten beschikbaar.",
+            "error": "Kan aanvullende diensten momenteel niet laden."
+          },
+          "form": {
+            "title": "Plan Uw Installatie",
+            "vehicle": "Voertuiginformatie",
+            "make": "Merk",
+            "model": "Model",
+            "year": "Jaar",
+            "makePlaceholder": "Toyota",
+            "modelPlaceholder": "RAV4",
+            "yearPlaceholder": "2022",
+            "tires": "Bandeninformatie",
+            "size": "Bandenmaat",
+            "sizePlaceholder": "225/65R17",
+            "quantity": "Aantal Banden",
+            "selectQuantity": "Selecteer aantal",
+            "purchased": "Waar Gekocht",
+            "wherePurchased": "Waar gekocht?",
+            "purchasedOptions": {
+              "us": "Bij ons gekocht",
+              "elsewhere": "Elders gekocht"
+            },
+            "serviceType": "Service Type",
+            "serviceTypeLabel": "Installatie Type",
+            "selectServiceType": "Selecteer service type",
+            "serviceTypes": {
+              "standard": "Standaard Installatie",
+              "premium": "Premium Installatie",
+              "specialty": "Speciale Installatie"
+            },
+            "appointment": "Gewenste Afspraak",
+            "date": "Gewenste Datum",
+            "pickDate": "Kies een datum",
+            "time": "Gewenste Tijd",
+            "selectTime": "Selecteer tijd",
+            "timeSlots": {
+              "9am": "9:00 uur",
+              "10am": "10:00 uur",
+              "11am": "11:00 uur",
+              "12pm": "12:00 uur",
+              "1pm": "13:00 uur",
+              "2pm": "14:00 uur",
+              "3pm": "15:00 uur",
+              "4pm": "16:00 uur"
+            },
+            "contact": "Contactgegevens",
+            "name": "Volledige Naam",
+            "namePlaceholder": "Jan Jansen",
+            "email": "E-mail",
+            "emailPlaceholder": "jan.jansen@voorbeeld.nl",
+            "phone": "Telefoonnummer",
+            "phonePlaceholder": "+31 6 12345678",
+            "comments": "Aanvullende Opmerkingen",
+            "commentsPlaceholder": "Eventuele speciale vereisten of aanvullende informatie...",
+            "submit": "Installatie Inplannen",
+            "consent": "Ik ga ermee akkoord dat er contact met mij wordt opgenomen over mijn installatieafspraak",
+            "success": "Bedankt! Uw installatie is gepland. We nemen binnenkort contact met u op voor bevestiging.",
+            "error": "Er is een fout opgetreden bij het plannen van uw installatie. Probeer het opnieuw of neem rechtstreeks contact met ons op."
+          }
         },
         "alignment": {
           "title": "Wieluitlijning",
@@ -333,10 +675,70 @@
         "learnMore": "Meer Informatie"
       }
     },
-    
-    "Account": {
+      "Account": {
       "testimonials": {
-            "title": "Mijn Testimonials",
+            "title": "Mijn Testimonials"
+      },
+        
+      "Reviews": {
+      "writeReview": "Schrijf een Review",
+      "writeYourReview": "Schrijf Uw Review",
+      "reviewTitle": "Review Titel",
+      "reviewTitlePlaceholder": "Vat uw ervaring samen in een paar woorden",
+      "reviewContent": "Review Inhoud",
+      "reviewContentPlaceholder": "Vertel ons over uw ervaring met dit product",
+      "rating": "Beoordeling",
+      "reviewImages": "Afbeeldingen (optioneel)",
+      "uploadImages": "Upload Afbeeldingen",
+      "deleteImage": "Afbeelding verwijderen",
+      "submit": "Review Versturen",
+      "cancel": "Annuleren",
+      "updating": "Bijwerken...",
+      "submitting": "Versturen...",
+      "reviewSuccessful": "Review succesvol ingediend",
+      "updateSuccessful": "Review succesvol bijgewerkt",
+      "editReview": "Review Bewerken",
+      "deleteReview": "Review Verwijderen",
+      "deleteConfirmation": "Weet u zeker dat u deze review wilt verwijderen?",
+      "productReviews": "Product Reviews",
+      "noReviews": "Nog geen reviews. Wees de eerste die dit product beoordeelt!",
+      "customerReviews": "Klantbeoordelingen",
+      "verified": "Geverifieerde Aankoop",
+      "helpful": "Nuttig",
+      "reviewProcessing": "Uw review wordt verwerkt...",
+      "imagePreview": "Voorbeeld Afbeelding",
+      "errorSubmitting": "Fout bij het indienen van review. Probeer het opnieuw.",
+      
+      "list": {
+        "title": "Klantbeoordelingen",
+        "averageRating": "van 5",
+        "noReviewsYet": "Nog geen beoordelingen. Wees de eerste die dit product beoordeelt.",
+        "review": "beoordeling",
+        "reviews": "beoordelingen",
+        "filters": {
+          "filterBy": "Filteren op",
+          "allRatings": "Alle beoordelingen",
+          "stars": "sterren",
+          "star": "ster"
+        },
+        "sort": {
+          "sortBy": "Sorteren op",
+          "newestFirst": "Nieuwste eerst",
+          "oldestFirst": "Oudste eerst",
+          "mostHelpful": "Meest nuttig"
+        },
+        "tabs": {
+          "all": "Alle",
+          "fiveStar": "5 ★",
+          "fourStar": "4 ★"
+        },
+        "loading": "Beoordelingen laden...",
+        "noReviewsFound": "Geen beoordelingen komen overeen met uw filtercriteria.",
+        "showAllReviews": "Alle beoordelingen weergeven",
+        "signIn": "Log in om een beoordeling te schrijven",
+        "signInButton": "Inloggen"
+      }
+    },
             "description": "Bekijk en beheer je testimonials",
             "loading": "Testimonials laden...",
             "empty": {
@@ -534,8 +936,7 @@
                 "ratingSuccess": "Bedankt voor je beoordeling!",
                 "ratingError": "Beoordeling indienen mislukt: {error}"
             }
-            }
-        },
+            },
         "settings": {
             "title": "Account Instellingen",
             "description": "Beheer je accountvoorkeuren en informatie",
@@ -683,6 +1084,9 @@
             "mileageWarranty": "Kilometergarantie",
             "miles": "mijlen"
         },
+        "addToFavorites": "Voeg toe aan favorieten",
+        "removeFromFavorites": "Verwijder uit favorieten",
+        "addToCart": "Voeg toe aan winkelwagen",
         "detailsTab": {
             "sku": "Artikelnummer",
             "manufacturerPart": "Fabrikantcode",
@@ -698,8 +1102,8 @@
         }
     },
     "navbar": {
-      "logo": "Banden E-Commerce",
-      "logoShort": "BE",
+      "logo": "Ariana Bandencentrale b.v.",
+      "logoShort": "ABC b.v.",
       "navigation": "Navigatie",
       "account": "Account",
       "navLinks": {
@@ -1166,6 +1570,128 @@
       }
     },
     "Dashboard": {
+      "chatSupport": {
+          "title": "Klantenservice Chat",
+          "chatDashboard": "Chat Dashboard",
+          "connected": "Verbonden met chatdienst",
+          "disconnected": "Verbinding met chatdienst verbroken",
+          "activeChats": "Actieve Chats",
+          "closedChats": "Gesloten Chats",
+          "customers": "Klanten",
+          "typeMessage": "Typ uw bericht...",
+          "send": "Versturen",
+          "noActiveChat": "Geen actieve chat geselecteerd",
+          "selectCustomer": "Selecteer een klant uit de lijst om te beginnen met chatten",
+          "online": "Online",
+          "offline": "Offline",
+          "away": "Afwezig",
+          "resolveChat": "Chat Oplossen",
+          "chatResolved": "Deze chat is gemarkeerd als opgelost",
+          "noClosedChats": "Geen gesloten chats om weer te geven",
+          "today": "Vandaag",
+          "yesterday": "Gisteren"
+        },
+        "installations": {
+            "title": "Installaties",
+            "subtitle": "Beheer bandeninstallaties en serviceafspraken",
+            "actions": {
+                "create": "Installatie Aanmaken",
+                "edit": "Installatie Bewerken",
+                "delete": "Installatie Verwijderen",
+                "view": "Details Bekijken",
+                "schedule": "Installatie Inplannen",
+                "cancel": "Installatie Annuleren",
+                "reschedule": "Opnieuw Inplannen",
+                "complete": "Als Voltooid Markeren",
+                "export": "Gegevens Exporteren",
+                "filter": "Installaties Filteren"
+            },
+            "filters":{
+              "searchPlaceholder": "Zoek Installaties...",
+              "status": "Status",
+              "allStatuses": "Alle Statussen",
+              "search":"Zoeken",
+              "dateRange": "Datum Bereik"
+            },
+            "tabs": {
+                "all": "Alle Installaties",
+                "scheduled": "Ingepland",
+                "confirmed": "Bevestigd",
+                "inProgress": "In Uitvoering",
+                "completed": "Voltooid",
+                "canceled": "Geannuleerd",
+                "today": "Vandaag",
+                "thisWeek": "Deze Week",
+                "thisMonth": "Deze Maand",
+                "custom": "Aangepast Bereik",
+                "reschueled":"Opnieuw Ingepland"
+            },
+            "table": {
+                "id": "ID",
+                "customerName": "Klant",
+                "vehicleInfo": "Voertuig",
+                "serviceType": "Service Type",
+                "date": "Datum",
+                "time": "Tijd",
+                "status": "Status",
+                "technician": "Monteur",
+                "bay": "Werkplaats",
+                "price": "Prijs",
+                "actions": "Acties"
+            },
+            "details": {
+                "customerDetails": "Klantgegevens",
+                "name": "Naam",
+                "email": "E-mail",
+                "phone": "Telefoonnummer",
+                "vehicleDetails": "Voertuiggegevens",
+                "make": "Merk",
+                "model": "Model",
+                "year": "Jaar",
+                "tireDetails": "Bandengegevens",
+                "size": "Bandenmaat",
+                "quantity": "Aantal",
+                "purchasedFrom": "Gekocht Bij",
+                "serviceDetails": "Service Details",
+                "serviceType": "Service Type",
+                "appointmentDate": "Afspraakdatum",
+                "appointmentTime": "Afspraaktijd",
+                "status": "Status",
+                "technician": "Toegewezen Monteur",
+                "bay": "Service Werkplaats",
+                "price": "Service Prijs",
+                "additionalInfo": "Aanvullende Informatie",
+                "comments": "Opmerkingen"
+            },
+            "form": {
+                "createTitle": "Nieuwe Installatie Aanmaken",
+                "editTitle": "Installatie Bewerken",
+                "customerInfo": "Klantinformatie",
+                "vehicleInfo": "Voertuiginformatie",
+                "serviceInfo": "Service Informatie",
+                "additionalInfo": "Aanvullende Informatie",
+                "selectStatus": "Selecteer Status",
+                "selectTechnician": "Selecteer Monteur",
+                "selectBay": "Selecteer Werkplaats",
+                "submit": "Indienen",
+                "update": "Bijwerken",
+                "cancel": "Annuleren"
+            },
+            "notifications": {
+                "created": "Installatie succesvol aangemaakt",
+                "updated": "Installatie succesvol bijgewerkt",
+                "deleted": "Installatie succesvol verwijderd",
+                "completed": "Installatie als voltooid gemarkeerd",
+                "rescheduled": "Installatie succesvol opnieuw ingepland",
+                "canceled": "Installatie succesvol geannuleerd",
+                "error": "Er is een fout opgetreden. Probeer het opnieuw."
+            },
+            "empty": {
+                "title": "Geen Installaties Gevonden",
+                "description": "Er zijn geen installaties die aan je filters voldoen.",
+                "action": "Filters Wissen"
+            }
+        },
   "Promotions": {
     "title": "Promoties",
     "description": "Beheer promotionele aanbiedingen en kortingen",

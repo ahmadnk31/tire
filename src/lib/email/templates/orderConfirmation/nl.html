@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orderbevestiging</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .logo {
+            max-width: 150px;
+            margin: 0 auto 20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .order-details {
+            margin-bottom: 20px;
+        }
+        .order-summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .shipping-info {
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0070f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{baseUrl}}/logo.png" alt="Bedrijfslogo" class="logo" />
+        <h1>{{t "orderConfirmation.title"}}</h1>
+    </div>
+    
+    <div class="content">
+        <p>{{t "orderConfirmation.greeting" userName=shippingAddress.name}}</p>
+        
+        <p>{{t "orderConfirmation.thankYouMessage"}}</p>
+        
+        <div class="order-details">
+            <h3>{{t "orderConfirmation.orderDetailsTitle"}}</h3>
+            <p><strong>{{t "orderConfirmation.orderNumber"}}:</strong> {{orderNumber}}</p>
+            <p><strong>{{t "orderConfirmation.orderDate"}}:</strong> {{orderDate}}</p>
+        </div>
+        
+        <div class="order-summary">
+            <h3>{{t "orderConfirmation.orderSummaryTitle"}}</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{t "orderConfirmation.productColumn"}}</th>
+                        <th>{{t "orderConfirmation.quantityColumn"}}</th>
+                        <th>{{t "orderConfirmation.priceColumn"}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each orderItems}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{quantity}}</td>
+                        <td>{{price}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><strong>{{t "orderConfirmation.totalLabel"}}</strong></td>
+                        <td><strong>{{orderTotal}}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="shipping-info">
+            <h3>{{t "orderConfirmation.shippingInfoTitle"}}</h3>
+            <p>{{shippingAddress.name}}</p>
+            <p>{{shippingAddress.address}}</p>
+            <p>{{shippingAddress.city}}, {{shippingAddress.state}} {{shippingAddress.postalCode}}</p>
+            <p>{{shippingAddress.country}}</p>
+        </div>
+        
+        <div class="payment-info">
+            <h3>{{t "orderConfirmation.paymentInfoTitle"}}</h3>
+            <p>{{t "orderConfirmation.paymentMethod"}}: {{paymentMethod}}</p>
+        </div>
+        
+        <p style="text-align: center;">
+            <a href="{{trackingUrl}}" class="button">{{t "orderConfirmation.trackOrderButton"}}</a>
+        </p>
+        
+        <p>{{t "orderConfirmation.questionsMessage"}}</p>
+    </div>
+    
+    <div class="footer">
+        <p>{{t "orderConfirmation.footer"}}</p>
+    </div>
+</body>
+</html>

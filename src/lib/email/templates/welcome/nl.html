@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welkom bij onze winkel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .logo {
+            max-width: 150px;
+            margin: 0 auto 20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0070f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .benefits {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .benefits ul {
+            padding-left: 20px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .social {
+            margin: 15px 0;
+        }
+        .social a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{baseUrl}}/logo.png" alt="Bedrijfslogo" class="logo" />
+        <h1>{{t "welcome.title"}}</h1>
+    </div>
+    
+    <div class="content">
+        <p>{{t "welcome.greeting" userName=userName}}</p>
+        
+        <p>{{t "welcome.message"}}</p>
+        
+        <div class="benefits">
+            <h3>{{t "welcome.benefitsTitle"}}</h3>
+            <ul>
+                <li>{{t "welcome.benefit1"}}</li>
+                <li>{{t "welcome.benefit2"}}</li>
+                <li>{{t "welcome.benefit3"}}</li>
+                <li>{{t "welcome.benefit4"}}</li>
+            </ul>
+        </div>
+        
+        <p style="text-align: center;">
+            <a href="{{loginUrl}}" class="button">{{t "welcome.buttonText"}}</a>
+        </p>
+        
+        <p>{{t "welcome.closingMessage"}}</p>
+        
+        <p>{{t "welcome.signature"}}</p>
+    </div>
+    
+    <div class="footer">
+        <div class="social">
+            <a href="https://facebook.com/yourcompany">Facebook</a> | 
+            <a href="https://instagram.com/yourcompany">Instagram</a> | 
+            <a href="https://twitter.com/yourcompany">Twitter</a>
+        </div>
+        <p>{{t "welcome.footer"}}</p>
+    </div>
+</body>
+</html>

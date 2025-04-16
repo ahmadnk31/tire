@@ -102,12 +102,12 @@ export function isItemEligibleForPromotion(item: any, promotion: ExtendedPromoti
   
   // If promotion targets specific categories
   if ((promotion.categories?.length ?? 0) > 0) {
-    return promotion?.categories.some(category => category.id === item.categoryId);
+    return promotion.categories?.some(category => category.id === item.categoryId) ?? false;
   }
   
   // If promotion targets specific models
   if ((promotion.models?.length ?? 0) > 0) {
-    return promotion.models.some(model => model.id === item.modelId);
+    return promotion.models?.some(model => model.id === item.modelId) ?? false;
   }
   
   // If no specific targets, promotion applies to all items
@@ -158,9 +158,11 @@ export function calculateTotalDiscount(items: any[], promotions: Promotion[]): n
           totalDiscount += promotion.value;
         }
         break;
-        
-      case 'free_shipping':
-        // This would be handled in the shipping calculation
+          case 'free_shipping':
+        // Mark that we have a free shipping promotion
+        // The actual shipping discount will be applied in the cart context
+        // We just need to indicate that this promotion exists
+        totalDiscount += 0; // The actual discount is handled elsewhere
         break;
         
       // Handle other promotion types
