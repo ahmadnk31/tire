@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { Metadata } from "next";
 import { ProductFilters } from "./components/product-filters";
 import { ProductGrid } from "./components/product-grid";
 import { ProductsHeader } from "./components/products-header";

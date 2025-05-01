@@ -102,7 +102,7 @@ export function Navbar() {
 
     const items = [
       { name: t('userMenu.myOrders'), href: `/${locale}/account/orders` },
-      { name: t('userMenu.profileSettings'), href: `/${locale}/account/profile` },
+      { name: t('userMenu.profileSettings'), href: `/${locale}/account/settings` },
       { name: t('userMenu.appointments'), href: `/${locale}/appointments` },
     ]
 

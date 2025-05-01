@@ -11,6 +11,7 @@ import { InstallationForm } from "./InstallationForm";
 import { AdditionalServicesList } from "./AdditionalServicesList";
 import { IconStar } from "@tabler/icons-react";
 import { ClockIcon, SettingsIcon, ShieldIcon, WrenchIcon } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 
 export default function InstallationPage() {
@@ -23,7 +24,9 @@ export default function InstallationPage() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">{t("hero.title")}</h1>
           <p className="text-base sm:text-lg text-muted-foreground">{t("hero.subtitle")}</p>
           <div className="flex justify-center md:justify-start">
-            <Button size="lg" className="px-8 py-6 text-lg">{t("hero.cta")}</Button>
+            <Button size="lg" className="px-8 py-6 text-lg">
+              <Link href="/appointments" className="w-full">{t("hero.cta")}</Link>
+            </Button>
           </div>
         </div>
         <div className="w-full md:w-1/2 h-48 sm:h-64 md:h-80 lg:h-96 relative mt-8 md:mt-0">
@@ -157,7 +160,9 @@ export default function InstallationPage() {
                 <div className="mt-2 text-2xl font-bold text-primary">{t("pricing.standard.price")}</div>
                 <div className="text-sm text-muted-foreground">{t("pricing.standard.includes")}</div>
               </div>
-              <Button className="w-full">{t("hero.cta")}</Button>
+              <Button className="w-full">
+                <Link href="/appointments" className="w-full">{t("hero.cta")}</Link>
+              </Button>
             </CardContent>
           </Card>
 
@@ -170,7 +175,9 @@ export default function InstallationPage() {
                 <div className="mt-2 text-2xl font-bold text-primary">{t("pricing.premium.price")}</div>
                 <div className="text-sm text-muted-foreground">{t("pricing.premium.includes")}</div>
               </div>
-              <Button className="w-full">{t("hero.cta")}</Button>
+              <Button className="w-full">
+                <Link href="/appointments" className="w-full">{t("hero.cta")}</Link>
+              </Button>
             </CardContent>
           </Card>
 
@@ -182,7 +189,9 @@ export default function InstallationPage() {
                 <div className="mt-2 text-2xl font-bold text-primary">{t("pricing.specialty.price")}</div>
                 <div className="text-sm text-muted-foreground">{t("pricing.specialty.includes")}</div>
               </div>
-              <Button className="w-full">{t("hero.cta")}</Button>
+              <Button className="w-full">
+                <Link href="/appointments" className="w-full">{t("hero.cta")}</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>

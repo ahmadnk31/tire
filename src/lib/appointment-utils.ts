@@ -42,7 +42,7 @@ export async function fetchBusinessHours(): Promise<BusinessHour[]> {
     }
     
     const data = await response.json();
-    return data.businessHours;
+    return data
   } catch (error) {
     console.error('Error fetching business hours:', error);
     return []; // Return empty array if there's an error

@@ -527,7 +527,8 @@ export default function PaymentPage() {
     selectedShippingOption,
     setSelectedShippingOption,
     clearCart,
-    updateSummary
+    updateSummary,
+    appliedPromotions = [] // Extract appliedPromotions with empty array fallback
   } = useCart();
   
   // Current step in the payment process

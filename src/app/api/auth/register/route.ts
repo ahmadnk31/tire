@@ -3,7 +3,7 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { randomUUID } from "crypto";
-import { sendVerificationEmail } from "@/lib/aws/ses-utils";
+import { sendVerificationEmail } from "@/lib/email/auth-emails";
 
 // Validation schema for registration
 const registerSchema = z.object({
@@ -58,7 +58,11 @@ export async function POST(request: Request) {
 
     // Send verification email
     try {
-      await sendVerificationEmail(email, name, token);
+      await sendVerificationEmail({
+        email,
+        name,
+        verificationToken: token
+      });
       console.log(`Verification email sent to ${email}`);
     } catch (emailError) {
       console.error("Failed to send verification email:", emailError);

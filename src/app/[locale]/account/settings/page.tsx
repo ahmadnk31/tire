@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -76,7 +77,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
 
 // Stripe Card Input Component
 const StripeCardInput = ({ onChange, onBlur, error }: any) => {
- 
   const [cardError, setCardError] = useState<string | null>(null);
 
   const handleChange = (event: any) => {
@@ -117,9 +117,10 @@ const StripeCardInput = ({ onChange, onBlur, error }: any) => {
 };
 
 // Payment Method Form Component wrapping Stripe Elements
-function PaymentMethodForm({ onSubmit, isSubmitting }: {
+function PaymentMethodForm({ onSubmit, isSubmitting, t }: {
   onSubmit: (data: any) => void;
   isSubmitting: boolean;
+  t: any;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -193,7 +194,7 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <div>
-          <FormLabel>Card Information</FormLabel>
+          <FormLabel>{t('payment.cardInfo')}</FormLabel>
           <StripeCardInput 
             onChange={(e: any) => {
               setCardComplete(!e.empty && e.complete);
@@ -201,22 +202,22 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
             error={form.formState.errors["card"]?.message}
           />
           <p className="text-xs text-muted-foreground mt-2">
-            Your card information is securely processed by Stripe.
+            {t('payment.secureProcessing')}
           </p>
         </div>
         
         <Separator className="my-4" />
         
-        <h4 className="text-sm font-medium mb-3">Billing Information</h4>
+        <h4 className="text-sm font-medium mb-3">{t('payment.billingInfo')}</h4>
         
         <FormField
           control={form.control}
           name="billingName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name on Card</FormLabel>
+              <FormLabel>{t('payment.nameOnCard')}</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input placeholder={t('payment.namePlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -228,9 +229,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
           name="billingEmail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('payment.email')}</FormLabel>
               <FormControl>
-                <Input placeholder="john@example.com" {...field} />
+                <Input placeholder={t('payment.emailPlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -242,9 +243,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
           name="billingAddress"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Billing Address</FormLabel>
+              <FormLabel>{t('payment.billingAddress')}</FormLabel>
               <FormControl>
-                <Input placeholder="123 Main St" {...field} />
+                <Input placeholder={t('payment.addressPlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -257,9 +258,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
             name="billingCity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel>{t('payment.city')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="New York" {...field} />
+                  <Input placeholder={t('payment.cityPlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -271,9 +272,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
             name="billingState"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>State</FormLabel>
+                <FormLabel>{t('payment.state')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="NY" {...field} />
+                  <Input placeholder={t('payment.statePlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -287,9 +288,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
             name="billingPostalCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Postal Code</FormLabel>
+                <FormLabel>{t('payment.postalCode')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="10001" {...field} />
+                  <Input placeholder={t('payment.postalCodePlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -301,9 +302,9 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
             name="billingCountry"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Country</FormLabel>
+                <FormLabel>{t('payment.country')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="United States" {...field} />
+                  <Input placeholder={t('payment.countryPlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -324,10 +325,10 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
-                  Set as default payment method
+                  {t('payment.setAsDefault')}
                 </FormLabel>
                 <FormDescription>
-                  This card will be used by default for future payments
+                  {t('payment.defaultDescription')}
                 </FormDescription>
               </div>
             </FormItem>
@@ -340,13 +341,13 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
             type="button"
             onClick={() => form.reset()}
           >
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button 
             type="submit"
             disabled={isSubmitting || processing || !stripe || !cardComplete}
           >
-            {isSubmitting || processing ? "Adding..." : "Add Payment Method"}
+            {isSubmitting || processing ? t('payment.adding') : t('payment.addMethod')}
           </Button>
         </div>
       </form>
@@ -355,9 +356,10 @@ function PaymentMethodForm({ onSubmit, isSubmitting }: {
 }
 
 export default function SettingsPage() {
+  const t = useTranslations('Account.settings');
+  const commonT = useTranslations('Account.common');
   
   const [activeTab, setActiveTab] = useState("profile");
-  
   const [showAddPaymentForm, setShowAddPaymentForm] = useState(false);
 
   // Fetch user data with React Query
@@ -584,12 +586,12 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-medium">Error</h3>
+          <h3 className="text-lg font-medium">{t('error.title')}</h3>
           <p className="text-sm text-red-500">
-            Failed to load user data. Please try again later.
+            {t('error.message')}
           </p>
         </div>
-        <Button onClick={() => window.location.reload()}>Retry</Button>
+        <Button onClick={() => window.location.reload()}>{t('error.retry')}</Button>
       </div>
     );
   }
@@ -597,20 +599,20 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Account Settings</h3>
+        <h3 className="text-lg font-medium">{t('title')}</h3>
         <p className="text-sm text-muted-foreground">
-          Manage your account settings and preferences
+          {t('description')}
         </p>
       </div>
       <Separator />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="payment">Payment Methods</TabsTrigger>
+          <TabsTrigger value="profile">{t('tabs.profile')}</TabsTrigger>
+          <TabsTrigger value="notifications">{t('tabs.notifications')}</TabsTrigger>
+          <TabsTrigger value="security">{t('tabs.security')}</TabsTrigger>
+          <TabsTrigger value="payment">{t('tabs.payment')}</TabsTrigger>
           {userData?.role === "RETAILER" && (
-            <TabsTrigger value="retailer">Business Profile</TabsTrigger>
+            <TabsTrigger value="retailer">{t('tabs.retailer')}</TabsTrigger>
           )}
         </TabsList>
         
@@ -618,9 +620,9 @@ export default function SettingsPage() {
         <TabsContent value="profile" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
+              <CardTitle>{t('profile.title')}</CardTitle>
               <CardDescription>
-                Update your personal information and address
+                {t('profile.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -637,7 +639,7 @@ export default function SettingsPage() {
                   </Avatar>
                   <div className="grid w-full max-w-sm items-center gap-1.5">
                     <label className="text-sm font-medium">
-                      Profile Picture
+                      {t('profile.avatar')}
                     </label>
                     <div className="w-full max-w-sm">
                       <FileUpload 
@@ -649,7 +651,7 @@ export default function SettingsPage() {
                       />
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      JPG, PNG, GIF or WebP. Max size 5MB.
+                      {t('profile.avatarRequirements')}
                     </p>
                   </div>
                 </div>
@@ -662,9 +664,9 @@ export default function SettingsPage() {
                         name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Full Name</FormLabel>
+                            <FormLabel>{t('profile.fields.name')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter your full name" {...field} />
+                              <Input placeholder={t('profile.namePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -676,9 +678,9 @@ export default function SettingsPage() {
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>{t('profile.fields.email')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter your email" {...field} />
+                              <Input placeholder={t('profile.emailPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -690,9 +692,9 @@ export default function SettingsPage() {
                         name="phoneNumber"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel>{t('profile.fields.phone')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter your phone number" {...field} />
+                              <Input placeholder={t('profile.phonePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -704,9 +706,9 @@ export default function SettingsPage() {
                         name="address"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>{t('profile.fields.address')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter your address" {...field} />
+                              <Input placeholder={t('profile.addressPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -717,7 +719,7 @@ export default function SettingsPage() {
                         type="submit" 
                         disabled={isUpdatingProfile || isUpdatingAvatar}
                       >
-                        {isUpdatingProfile || isUpdatingAvatar ? "Saving..." : "Save Changes"}
+                        {isUpdatingProfile || isUpdatingAvatar ? t('profile.saving') : t('profile.saveChanges')}
                       </Button>
                     </form>
                   </Form>
@@ -731,9 +733,9 @@ export default function SettingsPage() {
         <TabsContent value="notifications" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Notification Preferences</CardTitle>
+              <CardTitle>{t('notifications.title')}</CardTitle>
               <CardDescription>
-                Choose how you want to receive notifications
+                {t('notifications.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -741,7 +743,7 @@ export default function SettingsPage() {
                 <form onSubmit={notificationsForm.handleSubmit(onNotificationsSubmit)} className="space-y-8">
                   <div className="space-y-4">
                     <div>
-                      <h4 className="text-sm font-medium mb-3">Notification Methods</h4>
+                      <h4 className="text-sm font-medium mb-3">{t('notifications.methodsTitle')}</h4>
                       <div className="space-y-4">
                         <FormField
                           control={notificationsForm.control}
@@ -749,9 +751,9 @@ export default function SettingsPage() {
                           render={({ field }) => (
                             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                               <div className="space-y-0.5">
-                                <FormLabel>Email Notifications</FormLabel>
+                                <FormLabel>{t('notifications.emailNotifications')}</FormLabel>
                                 <FormDescription>
-                                  Receive notifications via email
+                                  {t('notifications.emailDescription')}
                                 </FormDescription>
                               </div>
                               <FormControl>
@@ -769,7 +771,7 @@ export default function SettingsPage() {
                     <Separator />
                     
                     <div>
-                      <h4 className="text-sm font-medium mb-3">Notification Types</h4>
+                      <h4 className="text-sm font-medium mb-3">{t('notifications.typesTitle')}</h4>
                       <div className="space-y-4">
                         <FormField
                           control={notificationsForm.control}
@@ -777,9 +779,9 @@ export default function SettingsPage() {
                           render={({ field }) => (
                             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                               <div className="space-y-0.5">
-                                <FormLabel>Order Updates</FormLabel>
+                                <FormLabel>{t('notifications.orderUpdates')}</FormLabel>
                                 <FormDescription>
-                                  Get notified about your order status
+                                  {t('notifications.orderDescription')}
                                 </FormDescription>
                               </div>
                               <FormControl>
@@ -798,9 +800,9 @@ export default function SettingsPage() {
                           render={({ field }) => (
                             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                               <div className="space-y-0.5">
-                                <FormLabel>Promotions & Deals</FormLabel>
+                                <FormLabel>{t('notifications.promotionalEmails')}</FormLabel>
                                 <FormDescription>
-                                  Receive notifications about sales and special offers
+                                  {t('notifications.promotionalDescription')}
                                 </FormDescription>
                               </div>
                               <FormControl>
@@ -819,9 +821,9 @@ export default function SettingsPage() {
                           render={({ field }) => (
                             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                               <div className="space-y-0.5">
-                                <FormLabel>Inventory Alerts</FormLabel>
+                                <FormLabel>{t('notifications.inventoryAlerts')}</FormLabel>
                                 <FormDescription>
-                                  Get notified about inventory changes
+                                  {t('notifications.inventoryDescription')}
                                 </FormDescription>
                               </div>
                               <FormControl>
@@ -840,9 +842,9 @@ export default function SettingsPage() {
                           render={({ field }) => (
                             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                               <div className="space-y-0.5">
-                                <FormLabel>Price Changes</FormLabel>
+                                <FormLabel>{t('notifications.priceChanges')}</FormLabel>
                                 <FormDescription>
-                                  Get notified about price changes
+                                  {t('notifications.priceDescription')}
                                 </FormDescription>
                               </div>
                               <FormControl>
@@ -862,7 +864,7 @@ export default function SettingsPage() {
                     type="submit"
                     disabled={isUpdatingNotifications}
                   >
-                    {isUpdatingNotifications ? "Saving..." : "Save Preferences"}
+                    {isUpdatingNotifications ? t('notifications.saving') : t('notifications.savePreferences')}
                   </Button>
                 </form>
               </Form>
@@ -874,9 +876,9 @@ export default function SettingsPage() {
         <TabsContent value="security" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Change Password</CardTitle>
+              <CardTitle>{t('password.title')}</CardTitle>
               <CardDescription>
-                Update your password to keep your account secure
+                {t('password.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -887,11 +889,11 @@ export default function SettingsPage() {
                     name="currentPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Current Password</FormLabel>
+                        <FormLabel>{t('password.fields.current')}</FormLabel>
                         <FormControl>
                           <Input 
                             type="password" 
-                            placeholder="Enter your current password" 
+                            placeholder={t('password.currentPlaceholder')}
                             {...field} 
                           />
                         </FormControl>
@@ -905,16 +907,16 @@ export default function SettingsPage() {
                     name="newPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>New Password</FormLabel>
+                        <FormLabel>{t('password.fields.new')}</FormLabel>
                         <FormControl>
                           <Input 
                             type="password" 
-                            placeholder="Enter your new password" 
+                            placeholder={t('password.newPlaceholder')}
                             {...field} 
                           />
                         </FormControl>
                         <FormDescription>
-                          Password must be at least 8 characters long
+                          {t('password.requirements')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -926,11 +928,11 @@ export default function SettingsPage() {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Confirm New Password</FormLabel>
+                        <FormLabel>{t('password.fields.confirm')}</FormLabel>
                         <FormControl>
                           <Input 
                             type="password" 
-                            placeholder="Confirm your new password" 
+                            placeholder={t('password.confirmPlaceholder')}
                             {...field} 
                           />
                         </FormControl>
@@ -943,7 +945,7 @@ export default function SettingsPage() {
                     type="submit"
                     disabled={isUpdatingPassword}
                   >
-                    {isUpdatingPassword ? "Updating..." : "Update Password"}
+                    {isUpdatingPassword ? t('password.updating') : t('password.update')}
                   </Button>
                 </form>
               </Form>
@@ -955,9 +957,9 @@ export default function SettingsPage() {
         <TabsContent value="payment" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Payment Methods</CardTitle>
+              <CardTitle>{t('payment.title')}</CardTitle>
               <CardDescription>
-                Manage your saved payment methods
+                {t('payment.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -987,10 +989,10 @@ export default function SettingsPage() {
                             {method.brand.charAt(0).toUpperCase() + method.brand.slice(1)} •••• {method.last4}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            Expires {method.expiryMonth}/{method.expiryYear}
+                            {t('payment.expires')} {method.expiryMonth}/{method.expiryYear}
                             {method.isDefault && (
                               <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                                Default
+                                {t('payment.default')}
                               </span>
                             )}
                           </p>
@@ -1004,7 +1006,7 @@ export default function SettingsPage() {
                             onClick={() => handleSetDefaultPaymentMethod(method.id)}
                             disabled={isSettingDefaultPayment}
                           >
-                            Set as Default
+                            {t('payment.setDefault')}
                           </Button>
                         )}
                         <Button 
@@ -1013,13 +1015,13 @@ export default function SettingsPage() {
                           onClick={() => handleDeletePaymentMethod(method.id)}
                           disabled={isDeletingPayment}
                         >
-                          Remove
+                          {t('payment.remove')}
                         </Button>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-muted-foreground py-4">No payment methods found</p>
+                  <p className="text-center text-muted-foreground py-4">{t('payment.noMethods')}</p>
                 )}
                 
                 {!showAddPaymentForm ? (
@@ -1028,14 +1030,14 @@ export default function SettingsPage() {
                     className="w-full mt-4"
                     onClick={() => setShowAddPaymentForm(true)}
                   >
-                    + Add Payment Method
+                    {t('payment.addMethod')}
                   </Button>
                 ) : (
                   <Card className="mt-6">
                     <CardHeader>
-                      <CardTitle>Add Payment Method</CardTitle>
+                      <CardTitle>{t('payment.addTitle')}</CardTitle>
                       <CardDescription>
-                        Enter your card details to add a new payment method
+                        {t('payment.addDescription')}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -1043,6 +1045,7 @@ export default function SettingsPage() {
                         <PaymentMethodForm 
                           onSubmit={onPaymentMethodSubmit}
                           isSubmitting={isAddingPaymentMethod}
+                          t={t}
                         />
                       </Elements>
                     </CardContent>
@@ -1058,9 +1061,9 @@ export default function SettingsPage() {
           <TabsContent value="retailer" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Business Profile</CardTitle>
+                <CardTitle>{t('retailer.title')}</CardTitle>
                 <CardDescription>
-                  Manage your retailer business information
+                  {t('retailer.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -1079,9 +1082,9 @@ export default function SettingsPage() {
                         name="companyName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Company Name</FormLabel>
+                            <FormLabel>{t('retailer.fields.company')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Your Business Name" {...field} />
+                              <Input placeholder={t('retailer.companyPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1093,9 +1096,9 @@ export default function SettingsPage() {
                         name="phone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Business Phone</FormLabel>
+                            <FormLabel>{t('retailer.fields.phone')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Business Phone Number" {...field} />
+                              <Input placeholder={t('retailer.phonePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1107,9 +1110,9 @@ export default function SettingsPage() {
                         name="businessAddress"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Business Address</FormLabel>
+                            <FormLabel>{t('retailer.fields.address')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Business Street Address" {...field} />
+                              <Input placeholder={t('retailer.addressPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1121,9 +1124,9 @@ export default function SettingsPage() {
                         name="taxId"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Tax ID (Optional)</FormLabel>
+                            <FormLabel>{t('retailer.fields.taxId')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="Tax/Business ID" {...field} />
+                              <Input placeholder={t('retailer.taxIdPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1135,9 +1138,9 @@ export default function SettingsPage() {
                         name="yearsInBusiness"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Years in Business</FormLabel>
+                            <FormLabel>{t('retailer.fields.yearsInBusiness')}</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. 5" {...field} />
+                              <Input placeholder={t('retailer.yearsPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1148,7 +1151,7 @@ export default function SettingsPage() {
                         type="submit"
                         disabled={isUpdatingRetailerProfile}
                       >
-                        {isUpdatingRetailerProfile ? "Saving..." : "Save Business Profile"}
+                        {isUpdatingRetailerProfile ? t('retailer.saving') : t('retailer.save')}
                       </Button>
                     </form>
                   </Form>

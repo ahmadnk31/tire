@@ -679,67 +679,7 @@
     },
       "Account": {
       "testimonials": {
-            "title": "My Testimonials"
-      },
-      "Reviews": {
-      "writeReview": "Write a Review",
-      "writeYourReview": "Write Your Review",
-      "reviewTitle": "Review Title",
-      "reviewTitlePlaceholder": "Summarize your experience in a few words",
-      "reviewContent": "Review Content",
-      "reviewContentPlaceholder": "Tell us about your experience with this product",
-      "rating": "Rating",
-      "reviewImages": "Images (optional)",
-      "uploadImages": "Upload Images",
-      "deleteImage": "Delete image",
-      "submit": "Submit Review",
-      "cancel": "Cancel",
-      "updating": "Updating...",
-      "submitting": "Submitting...",
-      "reviewSuccessful": "Review submitted successfully",
-      "updateSuccessful": "Review updated successfully",
-      "editReview": "Edit Review",
-      "deleteReview": "Delete Review",
-      "deleteConfirmation": "Are you sure you want to delete this review?",
-      "productReviews": "Product Reviews",
-      "noReviews": "No reviews yet. Be the first to review this product!",
-      "customerReviews": "Customer Reviews",
-      "verified": "Verified Purchase",
-      "helpful": "Helpful",
-      "reviewProcessing": "Your review is being processed...",
-      "imagePreview": "Image Preview",
-      "errorSubmitting": "Error submitting review. Please try again.",
-      
-      "list": {
-        "title": "Customer Reviews",
-        "averageRating": "out of 5",
-        "noReviewsYet": "No reviews yet. Be the first to review this product.",
-        "review": "review",
-        "reviews": "reviews",
-        "filters": {
-          "filterBy": "Filter by",
-          "allRatings": "All ratings",
-          "stars": "stars",
-          "star": "star"
-        },
-        "sort": {
-          "sortBy": "Sort by",
-          "newestFirst": "Newest first",
-          "oldestFirst": "Oldest first",
-          "mostHelpful": "Most helpful"
-        },
-        "tabs": {
-          "all": "All",
-          "fiveStar": "5 ★",
-          "fourStar": "4 ★"
-        },
-        "loading": "Loading reviews...",
-        "noReviewsFound": "No reviews match your filter criteria.",
-        "showAllReviews": "Show all reviews",
-        "signIn": "Please sign in to write a review",
-        "signInButton": "Sign In"
-      }
-    },
+            "title": "My Testimonials",
             "description": "View and manage your testimonials",
             "loading": "Loading testimonials...",
             "empty": {
@@ -792,7 +732,139 @@
             "remove": "Remove",
             "confirm": "Confirm",
             "success": "Success",
-            "close": "Close"
+            "close": "Close",
+            "retry":"Retry",
+            "error": "Error"
+        },
+        "settings": {
+            "title": "Account Settings",
+            "description": "Manage your account settings and preferences",
+            "error": {
+                "title": "Error",
+                "message": "Failed to load user data. Please try again later.",
+                "retry": "Retry"
+            },
+            "tabs": {
+                "profile": "Profile",
+                "notifications": "Notifications",
+                "security": "Security",
+                "payment": "Payment Methods",
+                "retailer": "Business Profile"
+            },
+            "profile": {
+                "title": "Profile Information",
+                "description": "Update your personal information and address",
+                "avatar": "Profile Picture",
+                "avatarRequirements": "JPG, PNG, GIF or WebP. Max size 5MB.",
+                "fields": {
+                    "name": "Full Name",
+                    "email": "Email Address",
+                    "phone": "Phone Number",
+                    "address": "Address",
+                    "company": "Company (Optional)",
+                    "website": "Website (Optional)",
+                    "bio": "Bio (Optional)"
+                },
+                "namePlaceholder": "Enter your full name",
+                "emailPlaceholder": "Enter your email",
+                "phonePlaceholder": "Enter your phone number",
+                "addressPlaceholder": "Enter your address",
+                "saving": "Saving...",
+                "saveChanges": "Save Changes",
+                "success": "Profile updated successfully",
+                "error": "Failed to update profile"
+            },
+            "notifications": {
+                "title": "Notification Preferences",
+                "description": "Choose how you want to receive notifications",
+                "methodsTitle": "Notification Methods",
+                "typesTitle": "Notification Types",
+                "emailNotifications": "Email Notifications",
+                "emailDescription": "Receive notifications via email",
+                "orderUpdates": "Order Updates",
+                "orderDescription": "Get notified about your order status",
+                "promotionalEmails": "Promotions & Deals",
+                "promotionalDescription": "Receive notifications about sales and special offers",
+                "inventoryAlerts": "Inventory Alerts",
+                "inventoryDescription": "Get notified about inventory changes",
+                "priceChanges": "Price Changes",
+                "priceDescription": "Get notified about price changes",
+                "saving": "Saving...",
+                "savePreferences": "Save Preferences",
+                "success": "Notification preferences updated successfully",
+                "error": "Failed to update notification preferences"
+            },
+            "password": {
+                "title": "Change Password",
+                "description": "Update your password to keep your account secure",
+                "fields": {
+                    "current": "Current Password",
+                    "new": "New Password",
+                    "confirm": "Confirm New Password"
+                },
+                "currentPlaceholder": "Enter your current password",
+                "newPlaceholder": "Enter your new password",
+                "confirmPlaceholder": "Confirm your new password",
+                "requirements": "Password must be at least 8 characters long",
+                "updating": "Updating...",
+                "update": "Update Password",
+                "success": "Password changed successfully",
+                "error": "Failed to change password"
+            },
+            "payment": {
+                "title": "Payment Methods",
+                "description": "Manage your saved payment methods",
+                "expires": "Expires",
+                "default": "Default",
+                "setDefault": "Set as Default",
+                "remove": "Remove",
+                "noMethods": "No payment methods found",
+                "addMethod": "+ Add Payment Method",
+                "addTitle": "Add Payment Method",
+                "addDescription": "Enter your card details to add a new payment method",
+                "cardInfo": "Card Information",
+                "secureProcessing": "Your card information is securely processed by Stripe.",
+                "billingInfo": "Billing Information",
+                "nameOnCard": "Name on Card",
+                "namePlaceholder": "John Doe",
+                "email": "Email",
+                "emailPlaceholder": "john@example.com",
+                "billingAddress": "Billing Address",
+                "addressPlaceholder": "123 Main St",
+                "city": "City",
+                "cityPlaceholder": "New York",
+                "state": "State",
+                "statePlaceholder": "NY",
+                "postalCode": "Postal Code",
+                "postalCodePlaceholder": "10001",
+                "country": "Country",
+                "countryPlaceholder": "United States",
+                "setAsDefault": "Set as default payment method",
+                "defaultDescription": "This card will be used by default for future payments",
+                "adding": "Adding...",
+                "success": "Payment method added successfully",
+                "error": "Failed to add payment method"
+            },
+            "retailer": {
+                "title": "Business Profile",
+                "description": "Manage your retailer business information",
+                "fields": {
+                    "company": "Company Name",
+                    "phone": "Business Phone",
+                    "address": "Business Address",
+                    "taxId": "Tax ID (Optional)",
+                    "yearsInBusiness": "Years in Business"
+                },
+                "companyPlaceholder": "Your Business Name",
+                "phonePlaceholder": "Business Phone Number",
+                "addressPlaceholder": "Business Street Address",
+                "taxIdPlaceholder": "Tax/Business ID",
+                "yearsPlaceholder": "e.g. 5",
+                "saving": "Saving...",
+                "save": "Save Business Profile",
+                "success": "Business profile updated successfully",
+                "error": "Failed to update business profile"
+            }
         },
         "favorites": {
             "title": "My Favorites",
@@ -930,75 +1002,68 @@
             }
             }
         ,
-        "settings": {
-            "title": "Account Settings",
-            "description": "Manage your account preferences and information",
-            "tabs": {
-                "profile": "Profile",
-                "password": "Password",
-                "notifications": "Notifications",
-                "payment": "Payment Methods",
-                "addresses": "Addresses",
-                "retailer": "Retailer Account"
-            },
-            
-            "profile": {
-                "title": "Profile Information",
-                "description": "Update your personal information",
-                "avatar": {
-                    "change": "Change Avatar",
-                    "remove": "Remove Avatar",
-                    "dropzone": "Drag and drop an image or click to browse"
-                },
-                "fields": {
-                    "name": "Full Name",
-                    "email": "Email Address",
-                    "phone": "Phone Number",
-                    "company": "Company (Optional)",
-                    "website": "Website (Optional)",
-                    "bio": "Bio (Optional)"
-                },
-                "success": "Profile updated successfully",
-                "error": "Failed to update profile"
-            },
-            "password": {
-                "title": "Change Password",
-                "description": "Update your password to maintain account security",
-                "fields": {
-                    "current": "Current Password",
-                    "new": "New Password",
-                    "confirm": "Confirm New Password"
-                },
-                "success": "Password changed successfully",
-                "error": "Failed to change password"
-            },
-            "notifications": {
-                "title": "Notification Preferences",
-                "description": "Manage how you receive notifications",
-                "categories": {
-                    "orders": "Orders & Shipments",
-                    "marketing": "Marketing & Promotions",
-                    "account": "Account Updates",
-                    "reviews": "Reviews & Feedback",
-                    "reminders": "Appointment Reminders"
-                },
-                "channels": {
-                    "email": "Email",
-                    "sms": "SMS",
-                    "push": "Push Notifications"
-                },
-                "frequency": {
-                    "title": "Email Frequency",
-                    "instant": "Instant",
-                    "daily": "Daily Digest",
-                    "weekly": "Weekly Digest"
-                },
-                "success": "Notification preferences updated successfully",
-                "error": "Failed to update notification preferences"
-            }
+        "Reviews": {
+      "writeReview": "Write a Review",
+      "writeYourReview": "Write Your Review",
+      "reviewTitle": "Review Title",
+      "reviewTitlePlaceholder": "Summarize your experience in a few words",
+      "reviewContent": "Review Content",
+      "reviewContentPlaceholder": "Tell us about your experience with this product",
+      "rating": "Rating",
+      "reviewImages": "Images (optional)",
+      "uploadImages": "Upload Images",
+      "deleteImage": "Delete image",
+      "submit": "Submit Review",
+      "cancel": "Cancel",
+      "updating": "Updating...",
+      "submitting": "Submitting...",
+      "reviewSuccessful": "Review submitted successfully",
+      "updateSuccessful": "Review updated successfully",
+      "editReview": "Edit Review",
+      "deleteReview": "Delete Review",
+      "deleteConfirmation": "Are you sure you want to delete this review?",
+      "productReviews": "Product Reviews",
+      "noReviews": "No reviews yet. Be the first to review this product!",
+      "customerReviews": "Customer Reviews",
+      "verified": "Verified Purchase",
+      "helpful": "Helpful",
+      "reviewProcessing": "Your review is being processed...",
+      "imagePreview": "Image Preview",
+      "errorSubmitting": "Error submitting review. Please try again.",
+      
+      "list": {
+        "title": "Customer Reviews",
+        "averageRating": "out of 5",
+        "noReviewsYet": "No reviews yet. Be the first to review this product.",
+        "review": "review",
+        "reviews": "reviews",
+        "filters": {
+          "filterBy": "Filter by",
+          "allRatings": "All ratings",
+          "stars": "stars",
+          "star": "star"
         },
-         
-    "Home": {
+        "sort": {
+          "sortBy": "Sort by",
+          "newestFirst": "Newest first",
+          "oldestFirst": "Oldest first",
+          "mostHelpful": "Most helpful"
+        },
+        "tabs": {
+          "all": "All",
+          "fiveStar": "5 ★",
+          "fourStar": "4 ★"
+        },
+        "loading": "Loading reviews...",
+        "noReviewsFound": "No reviews match your filter criteria.",
+        "showAllReviews": "Show all reviews",
+        "signIn": "Please sign in to write a review",
+        "signInButton": "Sign In"
+      }
+    }
+      },
+      
+      "Home": {
         "hero": {
             "title": "Find Your Perfect Tires",
             "description": "Explore our wide range of tires for every vehicle type",

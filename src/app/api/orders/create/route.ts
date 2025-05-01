@@ -184,14 +184,24 @@ export async function POST(request: Request) {
         reference: `Order-${orderNumber}`,
         // Use specified provider or default
         provider: shippingMethod.provider || defaultProvider
-      };
-
-      // Try to create shipment but don't fail if it doesn't work
+      };      // Try to create shipment but don't fail if it doesn't work
       const actualProvider = shipmentRequest.provider || defaultProvider;
-      const shipmentResult = await ShippingService.createShipment(
-        shipmentRequest, 
-        actualProvider
-      ).catch(error => {
+      const shipmentResult = await ShippingService.createShipment({
+        provider: actualProvider,
+        serviceLevel: shipmentRequest.serviceType,
+        toAddress: shipmentRequest.recipientAddress,
+        fromAddress: shipmentRequest.shipperAddress,
+        items: shipmentRequest.packages.map((pkg: { description: string; weight: number; length: number; width: number; height: number }) => ({
+          id: pkg.description,
+          weight: pkg.weight,
+          dimensions: {
+            length: pkg.length,
+            width: pkg.width,
+            height: pkg.height
+          },
+          quantity: 1
+        }))
+      }).catch(error => {
         console.warn("Failed to create shipment, will need to do this manually:", error);
         return null;
       });
