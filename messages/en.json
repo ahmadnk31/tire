@@ -262,7 +262,8 @@
     "total": "Total",
     "secureCheckout": "Secure Checkout",
     "item": "Item",
-    "inYourCart": "In Your Cart"
+    "inYourCart": "In Your Cart",
+    "processing":"Processing"
   },
   "Chat": {
     "customerSupport": "Customer Support",

@@ -262,7 +262,8 @@
     "total": "Totaal",
     "secureCheckout": "Veilig Afrekenen",
     "item": "Artikel",
-    "inYourCart": "In Uw Winkelwagen"
+    "inYourCart": "In Uw Winkelwagen",
+    "processing":"In Behandeling"
   },
   "Chat": {
     "customerSupport": "Klantenservice",
