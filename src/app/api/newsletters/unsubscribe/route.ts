@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sendEmail } from '@/lib/email/aws-ses';
 import { 
@@ -6,76 +6,95 @@ import {
   getUnsubscribeConfirmationText 
 } from '@/lib/email/newsletter-templates';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
-    // Get token from query params
-    const searchParams = request.nextUrl.searchParams;
-    const token = searchParams.get('token');
+    // Get unsubscribe token from URL
+    const url = new URL(request.url);
+    const token = url.searchParams.get('token');
     
+    // Validate token
     if (!token) {
-      return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/newsletter/unsubscribe?error=missing-token`
+      return NextResponse.json(
+        { error: 'Unsubscribe token is required' },
+        { status: 400 }
       );
     }
     
-    // Decode token to get subscriber ID and email
-    let subscriberId: string;
-    let email: string;
-    
+    // Decode the token to get subscriber info
     try {
-      const decoded = Buffer.from(token, 'base64').toString();
-      [subscriberId, email] = decoded.split(':');
+      const decodedData = Buffer.from(token, 'base64').toString();
+      const [subscriberId, subscriberEmail] = decodedData.split(':');
+      
+      if (!subscriberId || !subscriberEmail) {
+        return NextResponse.json(
+          { error: 'Invalid unsubscribe token' },
+          { status: 400 }
+        );
+      }
+      
+      // Find the subscriber
+      const subscriber = await prisma.subscriber.findFirst({
+        where: { 
+          id: subscriberId,
+          email: subscriberEmail
+        }
+      });
+      
+      if (!subscriber) {
+        return NextResponse.json(
+          { error: 'Subscriber not found' },
+          { status: 404 }
+        );
+      }
+      
+      // Update subscriber to unsubscribed status
+      const updatedSubscriber = await prisma.subscriber.update({
+        where: { id: subscriber.id },
+        data: {
+          subscribed: false,
+          unsubscribedAt: new Date(),
+          lastActive: new Date()
+        }
+      });
+      
+      // Send unsubscribe confirmation email
+      await sendEmail({
+        to: updatedSubscriber.email,
+        subject: 'You have been unsubscribed',
+        htmlBody: getUnsubscribeConfirmationHtml({
+          name: updatedSubscriber.name || '',
+          siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+          siteName: process.env.SITE_NAME || 'Tire Shop',
+        }),
+        textBody: getUnsubscribeConfirmationText({
+          name: updatedSubscriber.name || '',
+          siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+          siteName: process.env.SITE_NAME || 'Tire Shop',
+        }),
+      });
+      
+      // Redirect to success page
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: `/newsletter/unsubscribe-success`,
+        },
+      });
+      
     } catch (error) {
-      return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/newsletter/unsubscribe?error=invalid-token`
+      console.error('Error decoding unsubscribe token:', error);
+      return NextResponse.json(
+        { error: 'Invalid unsubscribe token format' },
+        { status: 400 }
       );
     }
-    
-    // Find subscriber in database
-    const subscriber = await prisma.subscriber.findUnique({
-      where: { id: subscriberId },
-    });
-    
-    if (!subscriber || subscriber.email !== email) {
-      return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/newsletter/unsubscribe?error=subscriber-not-found`
-      );
-    }
-    
-    // Update subscriber status
-    await prisma.subscriber.update({
-      where: { id: subscriberId },
-      data: {
-        subscribed: false,
-        unsubscribedAt: new Date(),
-      },
-    });
-    
-    // Send confirmation email
-    await sendEmail({
-      to: email,
-      subject: 'Unsubscribe Confirmation',
-      htmlBody: getUnsubscribeConfirmationHtml({
-        name: subscriber.name || '',
-        siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-        siteName: process.env.SITE_NAME || 'Tire Shop',
-      }),
-      textBody: getUnsubscribeConfirmationText({
-        name: subscriber.name || '',
-        siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-        siteName: process.env.SITE_NAME || 'Tire Shop',
-      }),
-    });
-    
-    // Redirect to success page
-    return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/newsletter/unsubscribe?success=true`
-    );
     
   } catch (error) {
     console.error('Newsletter unsubscribe error:', error);
-    return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/newsletter/unsubscribe?error=server-error`
+    
+    return NextResponse.json(
+      { error: 'Failed to process unsubscribe request' },
+      { status: 500 }
     );
   }
 }

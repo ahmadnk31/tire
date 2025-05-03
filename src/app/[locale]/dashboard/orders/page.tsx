@@ -141,11 +141,12 @@ function PaymentStatusBadge({ status }: { status: string }) {
   );
 }
 
-export default function OrdersPage() {
+export default function OrdersPage({params}: { params: { locale: string; }; }) {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
+  const {locale} = params;
   
   // React Query hook for fetching orders with proper configuration
   const { data, isLoading, isError, error, refetch } = useQuery({
@@ -404,7 +405,7 @@ export default function OrdersPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => window.location.href = `/dashboard/orders/${order.id}`}>
+                          <DropdownMenuItem onClick={() => window.location.href = `/${locale}/dashboard/orders/${order.id}`}>
                             <EyeIcon className="mr-2 h-4 w-4" />
                             View Details
                           </DropdownMenuItem>
@@ -444,69 +445,8 @@ export default function OrdersPage() {
                   </TableRow>
                 ))}
 
-                {/* Manual shipping row example */}
-                <TableRow>
-                  <TableCell>Manual Shipping</TableCell>
-                  <TableCell>John Doe</TableCell>
-                  <TableCell>Jan 1, 2023</TableCell>
-                  <TableCell>
-                    <ManualShippingBadge />
-                  </TableCell>
-                  <TableCell>
-                    <PaymentStatusBadge status="PAID" />
-                  </TableCell>
-                  <TableCell>2</TableCell>
-                  <TableCell className="text-right">
-                    $50.00
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <MoreHorizontalIcon className="h-4 w-4" />
-                          <span className="sr-only">Open menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => window.location.href = `/dashboard/orders/1`}>
-                          <EyeIcon className="mr-2 h-4 w-4" />
-                          View Details
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuLabel>Update Status</DropdownMenuLabel>
-                        <DropdownMenuItem
-                          onClick={() => handleStatusUpdate(1, "PROCESSING")}
-                          disabled={true}
-                        >
-                          <PackageIcon className="mr-2 h-4 w-4" />
-                          Mark as Processing
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleStatusUpdate(1, "SHIPPED")}
-                          disabled={true}
-                        >
-                          <TruckIcon className="mr-2 h-4 w-4" />
-                          Mark as Shipped
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleStatusUpdate(1, "DELIVERED")}
-                          disabled={true}
-                        >
-                          <CheckIcon className="mr-2 h-4 w-4" />
-                          Mark as Delivered
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleStatusUpdate(1, "CANCELLED")}
-                          disabled={true}
-                        >
-                          <XIcon className="mr-2 h-4 w-4" />
-                          Cancel Order
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
+                
+                
               </TableBody>
             </Table>
           )}

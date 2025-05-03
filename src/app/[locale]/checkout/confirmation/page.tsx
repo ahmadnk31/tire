@@ -13,9 +13,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, ArrowRight, PackageOpen, TruckIcon, Calendar } from "lucide-react";
+import { CheckCircle2, ArrowRight, PackageOpen, TruckIcon, Calendar, Printer } from "lucide-react";
 import { toast } from "sonner";
-
 
 export default function ConfirmationPage() {
   const router = useRouter();
@@ -117,20 +116,24 @@ export default function ConfirmationPage() {
   return (
     <div className="container max-w-2xl py-12 md:py-20">
       <div className="text-center mb-12">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 mb-6">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 mb-6 animate-bounce">
           <CheckCircle2 className="h-10 w-10 text-green-600" />
         </div>
         <h1 className="text-3xl font-bold mb-2">Thank You For Your Order!</h1>
-        <p className="text-muted-foreground">
+        <div className="text-muted-foreground">
           {orderDetails ? (
             <>
-              Your order #{orderDetails.orderNumber} has been confirmed and will be shipped soon.
-              A confirmation email has been sent to your email address.
+              <p className="mb-2">
+                Your order <span className="font-medium">#{orderDetails.orderNumber}</span> has been confirmed and will be shipped soon.
+              </p>
+              <p>
+                A confirmation email has been sent to <span className="font-medium">{orderDetails.shippingAddress.email}</span>.
+              </p>
             </>
           ) : (
             "Your order has been confirmed and will be shipped soon."
           )}
-        </p>
+        </div>
       </div>
 
       {orderDetails && (
@@ -155,7 +158,7 @@ export default function ConfirmationPage() {
                       <span className="text-muted-foreground"> × {item.quantity}</span>
                       <p className="text-sm text-muted-foreground">{item.size}</p>
                     </div>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>€{(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
@@ -195,26 +198,26 @@ export default function ConfirmationPage() {
             <div className="space-y-1">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>${orderDetails.subtotal.toFixed(2)}</span>
+                <span>€{orderDetails.subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Shipping</span>
-                <span>${orderDetails.shippingCost.toFixed(2)}</span>
+                <span>€{orderDetails.shippingCost.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Tax</span>
-                <span>${orderDetails.tax.toFixed(2)}</span>
+                <span>€{orderDetails.tax.toFixed(2)}</span>
               </div>
               {orderDetails.discount > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount</span>
-                  <span>-${orderDetails.discount.toFixed(2)}</span>
+                  <span>-€{orderDetails.discount.toFixed(2)}</span>
                 </div>
               )}
               <Separator className="my-2" />
               <div className="flex justify-between font-medium text-lg">
                 <span>Total</span>
-                <span>${orderDetails.total.toFixed(2)}</span>
+                <span>€{orderDetails.total.toFixed(2)}</span>
               </div>
             </div>
           </CardContent>
@@ -227,6 +230,118 @@ export default function ConfirmationPage() {
       )}
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button 
+          variant="outline" 
+          size="lg" 
+          className="flex-1"
+          onClick={() => {
+            // Create a print-friendly version with just the order details
+            const printWindow = window.open('', '_blank');
+            if (printWindow) {
+              printWindow.document.write(`
+                <html>
+                  <head>
+                    <title>Order Receipt #${orderDetails?.orderNumber}</title>
+                    <style>
+                      body { font-family: Arial, sans-serif; padding: 20px; }
+                      .header { text-align: center; margin-bottom: 20px; }
+                      h1 { margin: 0; }
+                      .order-info { margin-bottom: 30px; }
+                      table { width: 100%; border-collapse: collapse; }
+                      th { text-align: left; border-bottom: 1px solid #ddd; padding: 8px; }
+                      td { padding: 8px; border-bottom: 1px solid #eee; }
+                      .total { font-weight: bold; }
+                      .footer { margin-top: 30px; text-align: center; font-size: 12px; }
+                      .section { margin: 20px 0; }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="header">
+                      <h1>Order Receipt</h1>
+                      <p>Order #${orderDetails?.orderNumber} - ${new Date(orderDetails?.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    
+                    <div class="order-info">
+                      <div class="section">
+                        <h3>Shipping Information</h3>
+                        <p>${orderDetails?.shippingAddress.firstName} ${orderDetails?.shippingAddress.lastName}</p>
+                        <p>${orderDetails?.shippingAddress.addressLine1}</p>
+                        ${orderDetails?.shippingAddress.addressLine2 ? `<p>${orderDetails.shippingAddress.addressLine2}</p>` : ''}
+                        <p>${orderDetails?.shippingAddress.city}, ${orderDetails?.shippingAddress.state} ${orderDetails?.shippingAddress.postalCode}</p>
+                        <p>${orderDetails?.shippingAddress.country}</p>
+                        <p>Email: ${orderDetails?.shippingAddress.email}</p>
+                        ${orderDetails?.shippingAddress.phone ? `<p>Phone: ${orderDetails.shippingAddress.phone}</p>` : ''}
+                      </div>
+                      
+                      <div class="section">
+                        <h3>Delivery Information</h3>
+                        <p><strong>Method:</strong> ${orderDetails?.shipping.name}</p>
+                        <p><strong>Estimated Delivery:</strong> ${formattedDeliveryDate}</p>
+                      </div>
+                    </div>
+                    
+                    <h3>Order Items</h3>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${orderDetails?.items.map((item: any) => `
+                          <tr>
+                            <td>${item.name} ${item.size ? `<br><span style="font-size: 12px;">${item.size}</span>` : ''}</td>
+                            <td>${item.quantity}</td>
+                            <td>€${item.price.toFixed(2)}</td>
+                            <td>€${(item.price * item.quantity).toFixed(2)}</td>
+                          </tr>
+                        `).join('')}
+                        <tr>
+                          <td colspan="3" style="text-align: right;">Subtotal</td>
+                          <td>€${orderDetails?.subtotal.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="text-align: right;">Shipping</td>
+                          <td>€${orderDetails?.shippingCost.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="text-align: right;">Tax</td>
+                          <td>€${orderDetails?.tax.toFixed(2)}</td>
+                        </tr>
+                        ${orderDetails?.discount > 0 ? `
+                          <tr>
+                            <td colspan="3" style="text-align: right; color: green;">Discount</td>
+                            <td style="color: green;">-€${orderDetails.discount.toFixed(2)}</td>
+                          </tr>
+                        ` : ''}
+                        <tr class="total">
+                          <td colspan="3" style="text-align: right;">Total</td>
+                          <td>€${orderDetails?.total.toFixed(2)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                    <div class="footer">
+                      <p>Thank you for your order!</p>
+                      <p>Payment method: ${orderDetails?.paymentMethod === "STRIPE" ? "Credit Card" : "PayPal"}</p>
+                      <p>If you have any questions, please contact our customer service.</p>
+                    </div>
+                  </body>
+                </html>
+              `);
+              printWindow.document.close();
+              printWindow.focus();
+              // Slight delay to ensure content is loaded
+              setTimeout(() => printWindow.print(), 500);
+            }
+          }}
+        >
+          <Printer className="mr-2 h-4 w-4" />
+          Print Receipt
+        </Button>
         <Button asChild variant="outline" size="lg" className="flex-1">
           <Link href="/dashboard/orders">
             Track Order

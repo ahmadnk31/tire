@@ -1,8 +1,8 @@
-import { SendEmailCommand } from '@aws-sdk/client-ses';
-import { sesClient } from './ses-client';
-import { format } from 'date-fns';
+import { SendEmailCommand } from "@aws-sdk/client-ses";
+import { sesClient } from "./ses-client";
+import { format } from "date-fns";
 
-const fromEmail = process.env.SES_FROM_EMAIL || 'no-reply@yourtirestore.com';
+const fromEmail = process.env.SES_FROM_EMAIL || "no-reply@yourtirestore.com";
 
 /**
  * Send an email using AWS SES
@@ -27,16 +27,16 @@ export async function sendEmail(
     Message: {
       Subject: {
         Data: subject,
-        Charset: 'UTF-8',
+        Charset: "UTF-8",
       },
       Body: {
         Html: {
           Data: htmlBody,
-          Charset: 'UTF-8',
+          Charset: "UTF-8",
         },
         Text: {
           Data: textBody,
-          Charset: 'UTF-8',
+          Charset: "UTF-8",
         },
       },
     },
@@ -50,8 +50,11 @@ export async function sendEmail(
  * @param to Recipient email address
  * @param name User's name
  */
-export async function sendWelcomeEmail(to: string, name: string): Promise<void> {
-  const subject = 'Welcome to Tire Shop';
+export async function sendWelcomeEmail(
+  to: string,
+  name: string
+): Promise<void> {
+  const subject = "Welcome to Tire Shop";
   const htmlBody = `
     <html>
       <body>
@@ -70,7 +73,7 @@ export async function sendWelcomeEmail(to: string, name: string): Promise<void> 
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Welcome to Tire Shop!
     
@@ -119,7 +122,7 @@ export async function sendOrderConfirmationEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Your Order is Confirmed
     
@@ -150,7 +153,7 @@ export async function sendPasswordResetEmail(
   resetToken: string
 ): Promise<void> {
   const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${resetToken}`;
-  const subject = 'Password Reset Request';
+  const subject = "Password Reset Request";
   const htmlBody = `
     <html>
       <body>
@@ -164,7 +167,7 @@ export async function sendPasswordResetEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Password Reset Request
     
@@ -195,7 +198,7 @@ export async function sendVerificationEmail(
   verificationToken: string
 ): Promise<void> {
   const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email?token=${verificationToken}`;
-  const subject = 'Verify Your Email Address';
+  const subject = "Verify Your Email Address";
   const htmlBody = `
     <html>
       <body>
@@ -209,7 +212,7 @@ export async function sendVerificationEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Verify Your Email Address
     
@@ -245,7 +248,7 @@ export async function sendInvoiceEmail(
   invoiceHtml: string
 ): Promise<void> {
   const subject = `Invoice for Order #${orderNumber}`;
-  
+
   // Email wrapper HTML
   const htmlBody = `
     <html>
@@ -261,7 +264,7 @@ export async function sendInvoiceEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Your Invoice for Order #${orderNumber}
     
@@ -299,18 +302,18 @@ export async function sendAppointmentConfirmationEmail(
   serviceType: string,
   duration: number
 ): Promise<void> {
-  const formattedDate = format(new Date(appointmentDate), 'MMMM d, yyyy');
+  const formattedDate = format(new Date(appointmentDate), "MMMM d, yyyy");
   const appointmentUrl = `${process.env.NEXTAUTH_URL}/appointments/${appointmentId}`;
-  
+
   // Format service type to be more readable
   const readableServiceType = serviceType
-    .replace(/_/g, ' ')
+    .replace(/_/g, " ")
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-  
-  const subject = 'Your Appointment Confirmation';
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const subject = "Your Appointment Confirmation";
   const htmlBody = `
     <html>
       <body>
@@ -328,7 +331,7 @@ export async function sendAppointmentConfirmationEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Appointment Confirmed
     
@@ -373,18 +376,18 @@ export async function sendAppointmentReminderEmail(
   appointmentTime: string,
   serviceType: string
 ): Promise<void> {
-  const formattedDate = format(new Date(appointmentDate), 'MMMM d, yyyy');
+  const formattedDate = format(new Date(appointmentDate), "MMMM d, yyyy");
   const appointmentUrl = `${process.env.NEXTAUTH_URL}/appointments/${appointmentId}`;
-  
+
   // Format service type to be more readable
   const readableServiceType = serviceType
-    .replace(/_/g, ' ')
+    .replace(/_/g, " ")
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-  
-  const subject = 'Appointment Reminder - Tomorrow';
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const subject = "Appointment Reminder - Tomorrow";
   const htmlBody = `
     <html>
       <body>
@@ -402,7 +405,7 @@ export async function sendAppointmentReminderEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Appointment Reminder
     
@@ -439,6 +442,7 @@ export async function sendAppointmentReminderEmail(
  * @param appointmentTime Time of the appointment
  * @param serviceType Type of service
  * @param status New status of the appointment
+ * @param language The language for the email (default: 'en')
  */
 export async function sendAppointmentStatusChangeEmail(
   to: string,
@@ -447,81 +451,140 @@ export async function sendAppointmentStatusChangeEmail(
   appointmentDate: Date,
   appointmentTime: string,
   serviceType: string,
-  status: string
+  status: string,
+  language: string = "en"
 ): Promise<void> {
-  const formattedDate = format(new Date(appointmentDate), 'MMMM d, yyyy');
+  const formattedDate = format(new Date(appointmentDate), "MMMM d, yyyy");
   const appointmentUrl = `${process.env.NEXTAUTH_URL}/appointments/${appointmentId}`;
-  
+
   // Format service type to be more readable
   const readableServiceType = serviceType
-    .replace(/_/g, ' ')
+    .replace(/_/g, " ")
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-  
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
   // Format status to be more readable
-  const readableStatus = status.charAt(0) + status.slice(1).toLowerCase().replace('_', ' ');
-  
-  const subject = `Appointment Update - Status: ${readableStatus}`;
-  
-  let statusMessage = '';
+  const readableStatus =
+    status.charAt(0) + status.slice(1).toLowerCase().replace("_", " ");
+
+  // Define translations
+  const translations = {
+    en: {
+      subject: `Appointment Update - Status: ${readableStatus}`,
+      title: "Appointment Status Update",
+      greeting: `Hello ${name},`,
+      statusMessages: {
+        CONFIRMED:
+          "Your appointment has been confirmed. We look forward to seeing you on the scheduled date and time.",
+        CANCELLED:
+          "Your appointment has been cancelled. If this was not requested by you, please contact us.",
+        COMPLETED:
+          "Thank you for visiting us. Your appointment has been marked as completed. We hope you were satisfied with our service.",
+        NO_SHOW:
+          "Our records show that you did not arrive for your scheduled appointment. If this is an error or if you would like to reschedule, please contact us.",
+        default: `Your appointment status has been updated to: ${readableStatus}.`,
+      },
+      service: "Service",
+      date: "Date",
+      time: "Time",
+      newStatus: "New Status",
+      viewDetails: "You can view your appointment details by",
+      clickHere: "clicking here",
+      questions:
+        "If you have any questions, please contact our customer service.",
+      regards: "Best regards,",
+      team: "The Tire Shop Team",
+    },
+    nl: {
+      subject: `Afspraak update - Status: ${readableStatus}`,
+      title: "Afspraakstatus bijgewerkt",
+      greeting: `Hallo ${name},`,
+      statusMessages: {
+        CONFIRMED:
+          "Uw afspraak is bevestigd. We kijken ernaar uit u te zien op de geplande datum en tijd.",
+        CANCELLED:
+          "Uw afspraak is geannuleerd. Als u dit niet heeft aangevraagd, neem dan contact met ons op.",
+        COMPLETED:
+          "Bedankt voor uw bezoek. Uw afspraak is gemarkeerd als voltooid. We hopen dat u tevreden was met onze service.",
+        NO_SHOW:
+          "Onze administratie toont dat u niet bent komen opdagen voor uw geplande afspraak. Als dit een fout is of als u een nieuwe afspraak wilt maken, neem dan contact met ons op.",
+        default: `De status van uw afspraak is bijgewerkt naar: ${readableStatus}.`,
+      },
+      service: "Service",
+      date: "Datum",
+      time: "Tijd",
+      newStatus: "Nieuwe Status",
+      viewDetails: "U kunt uw afspraakdetails bekijken door",
+      clickHere: "hier te klikken",
+      questions:
+        "Als u vragen heeft, neem dan contact op met onze klantenservice.",
+      regards: "Met vriendelijke groet,",
+      team: "Het Tire Shop Team",
+    },
+  };
+
+  // Use the requested language or fallback to English
+  const lang = language.toLowerCase() === "nl" ? "nl" : "en";
+  const t = translations[lang];
+
+  let statusMessage = "";
   switch (status) {
-    case 'CONFIRMED':
-      statusMessage = 'Your appointment has been confirmed. We look forward to seeing you on the scheduled date and time.';
+    case "CONFIRMED":
+      statusMessage = t.statusMessages.CONFIRMED;
       break;
-    case 'CANCELLED':
-      statusMessage = 'Your appointment has been cancelled. If this was not requested by you, please contact us.';
+    case "CANCELLED":
+      statusMessage = t.statusMessages.CANCELLED;
       break;
-    case 'COMPLETED':
-      statusMessage = 'Thank you for visiting us. Your appointment has been marked as completed. We hope you were satisfied with our service.';
+    case "COMPLETED":
+      statusMessage = t.statusMessages.COMPLETED;
       break;
-    case 'NO_SHOW':
-      statusMessage = 'Our records show that you did not arrive for your scheduled appointment. If this is an error or if you would like to reschedule, please contact us.';
+    case "NO_SHOW":
+      statusMessage = t.statusMessages.NO_SHOW;
       break;
     default:
-      statusMessage = `Your appointment status has been updated to: ${readableStatus}.`;
+      statusMessage = t.statusMessages.default;
   }
-  
+
   const htmlBody = `
     <html>
       <body>
-        <h1>Appointment Status Update</h1>
-        <p>Hello ${name},</p>
+        <h1>${t.title}</h1>
+        <p>${t.greeting}</p>
         <p>${statusMessage}</p>
-        <p><strong>Service:</strong> ${readableServiceType}<br>
-        <strong>Date:</strong> ${formattedDate}<br>
-        <strong>Time:</strong> ${appointmentTime}<br>
-        <strong>New Status:</strong> ${readableStatus}</p>
-        <p>You can view your appointment details by <a href="${appointmentUrl}">clicking here</a>.</p>
-        <p>If you have any questions, please contact our customer service.</p>
-        <p>Best regards,<br>The Tire Shop Team</p>
+        <p><strong>${t.service}:</strong> ${readableServiceType}<br>
+        <strong>${t.date}:</strong> ${formattedDate}<br>
+        <strong>${t.time}:</strong> ${appointmentTime}<br>
+        <strong>${t.newStatus}:</strong> ${readableStatus}</p>
+        <p>${t.viewDetails} <a href="${appointmentUrl}">${t.clickHere}</a>.</p>
+        <p>${t.questions}</p>
+        <p>${t.regards}<br>${t.team}</p>
       </body>
     </html>
   `;
-  
+
   const textBody = `
-    Appointment Status Update
+    ${t.title}
     
-    Hello ${name},
+    ${t.greeting}
     
     ${statusMessage}
     
-    Service: ${readableServiceType}
-    Date: ${formattedDate}
-    Time: ${appointmentTime}
-    New Status: ${readableStatus}
+    ${t.service}: ${readableServiceType}
+    ${t.date}: ${formattedDate}
+    ${t.time}: ${appointmentTime}
+    ${t.newStatus}: ${readableStatus}
     
-    You can view your appointment details by visiting:
-    ${appointmentUrl}
+    ${t.viewDetails} ${t.clickHere}: ${appointmentUrl}
     
-    If you have any questions, please contact our customer service.
+    ${t.questions}
     
-    Best regards,
-    The Tire Shop Team
+    ${t.regards}
+    ${t.team}
   `;
 
-  await sendEmail(to, subject, htmlBody, textBody);
+  await sendEmail(to, t.subject, htmlBody, textBody);
 }
 
 /**
@@ -539,9 +602,9 @@ export async function sendOrderCancellationEmail(
   cancellationReason?: string,
   cancellationDate: Date = new Date()
 ): Promise<void> {
-  const formattedDate = format(cancellationDate, 'MMMM d, yyyy');
-  const formattedTime = format(cancellationDate, 'h:mm a');
-  
+  const formattedDate = format(cancellationDate, "MMMM d, yyyy");
+  const formattedTime = format(cancellationDate, "h:mm a");
+
   const subject = `Order #${orderNumber} Cancellation Confirmation`;
   const htmlBody = `
     <html>
@@ -549,7 +612,11 @@ export async function sendOrderCancellationEmail(
         <h1>Your Order Has Been Cancelled</h1>
         <p>Hello ${name},</p>
         <p>This email confirms that your order #${orderNumber} has been cancelled as requested on ${formattedDate} at ${formattedTime}.</p>
-        ${cancellationReason ? `<p><strong>Reason:</strong> ${cancellationReason}</p>` : ''}
+        ${
+          cancellationReason
+            ? `<p><strong>Reason:</strong> ${cancellationReason}</p>`
+            : ""
+        }
         <p>If this cancellation was made in error or you did not request it, please contact our customer support immediately.</p>
         <p>Any payment made for this order will be refunded according to our refund policy, typically within 5-7 business days.</p>
         <p>Have questions about your cancellation?</p>
@@ -563,14 +630,14 @@ export async function sendOrderCancellationEmail(
       </body>
     </html>
   `;
-  
+
   const textBody = `
     Your Order Has Been Cancelled
     
     Hello ${name},
     
     This email confirms that your order #${orderNumber} has been cancelled as requested on ${formattedDate} at ${formattedTime}.
-    ${cancellationReason ? `\nReason: ${cancellationReason}` : ''}
+    ${cancellationReason ? `\nReason: ${cancellationReason}` : ""}
     
     If this cancellation was made in error or you did not request it, please contact our customer support immediately.
     

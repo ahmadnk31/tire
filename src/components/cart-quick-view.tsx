@@ -11,7 +11,6 @@ import { Skeleton } from './ui/skeleton'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { formatPrice } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
 
 export function CartQuickView() {  const { items, removeItem, updateItemQuantity, summary } = useCart()
   const t = useTranslations('cart')

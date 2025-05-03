@@ -38,7 +38,7 @@ interface Product {
   category: {
     name: string;
   };
-  
+
   // Tire specifications
   width: number;
   aspectRatio: number;
@@ -51,7 +51,7 @@ interface Product {
   tireType: string;
   runFlat: boolean;
   reinforced: boolean;
-  
+
   // Performance characteristics
   treadPattern: string;
   wetGrip: string;
@@ -61,13 +61,13 @@ interface Product {
   treadwear: number;
   traction: string;
   temperature: string;
-  
+
   // Additional specifications
   mileageWarranty: number | null;
   plyRating: number;
   maxInflationPressure: number | null;
   maxLoad: number | null;
-  
+
   // Business information
   retailPrice: number;
   wholesalePrice: number;
@@ -79,10 +79,10 @@ interface Product {
   manufacturerPartNumber: string;
   certifications: string;
   countryOfOrigin: string;
-  
+
   // Media
-  images: string[]; 
-  
+  images: string[];
+
   // Metadata
   isVisible: boolean;
   isFeatured: boolean;
@@ -107,31 +107,31 @@ export function ProductGrid() {
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         // Create a URLSearchParams object with the current search params
         const params = new URLSearchParams(searchParams);
         // Add pagination parameters
-        params.set('page', currentPage.toString());
-        params.set('perPage', perPage.toString());
-        
+        params.set("page", currentPage.toString());
+        params.set("perPage", perPage.toString());
+
         const response = await fetch(`/api/products?${params}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch products');
+          throw new Error("Failed to fetch products");
         }
-        
+
         const data = await response.json();
         setProducts(data.products);
         setTotalCount(data.totalCount);
         setTotalPages(data.totalPages);
       } catch (error) {
-        console.error('Error fetching products:', error);
-        setError('Failed to load products. Please try again.');
+        console.error("Error fetching products:", error);
+        setError("Failed to load products. Please try again.");
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, [searchParams, currentPage]);
 
@@ -140,7 +140,7 @@ export function ProductGrid() {
     // Scroll to top on page change
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -150,12 +150,9 @@ export function ProductGrid() {
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-500 mb-4">{error}</p>
-        <Button 
-          onClick={() => window.location.reload()} 
-          variant="outline"
-        >
+      <div className='text-center py-12'>
+        <p className='text-red-500 mb-4'>{error}</p>
+        <Button onClick={() => window.location.reload()} variant='outline'>
           Try Again
         </Button>
       </div>
@@ -164,14 +161,14 @@ export function ProductGrid() {
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-12 px-4">
-        <h3 className="text-xl font-semibold mb-2">{t("results.empty")}</h3>
-        <p className="text-muted-foreground mb-6">
+      <div className='text-center py-12 px-4'>
+        <h3 className='text-xl font-semibold mb-2'>{t("results.empty")}</h3>
+        <p className='text-muted-foreground mb-6'>
           Try changing your filters or search criteria
         </p>
-        <Button 
-          onClick={() => window.location.href = '/products'} 
-          variant="outline"
+        <Button
+          onClick={() => (window.location.href = "/products")}
+          variant='outline'
         >
           {t("filters.clear")}
         </Button>
@@ -180,119 +177,125 @@ export function ProductGrid() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Results count */}
-      <div className="flex items-center justify-between mb-4">
-        <p className="text-sm text-muted-foreground">
+      <div className='flex items-center justify-between mb-4'>
+        <p className='text-sm text-muted-foreground'>
           {t("results.found", { count: totalCount })}
         </p>
       </div>
-      
+
       {/* Products grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6'>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      
+
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-8">
-          <nav className="flex items-center gap-1">
+        <div className='flex justify-center mt-8'>
+          <nav className='flex items-center gap-1'>
             <Button
-              variant="outline"
-              size="icon"
+              variant='outline'
+              size='icon'
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="hidden sm:flex"
+              className='hidden sm:flex'
             >
-              <span className="sr-only">{t("pagination.prev")}</span>
+              <span className='sr-only'>{t("pagination.prev")}</span>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-4 w-4'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
+                  d='M15 19l-7-7 7-7'
                 />
               </svg>
             </Button>
-            
+
             <Button
-              variant="outline"
-              size="sm"
+              variant='outline'
+              size='sm'
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="sm:hidden px-2"
+              className='sm:hidden px-2'
             >
               {t("pagination.prev")}
             </Button>
 
-            <div className="flex items-center gap-x-1.5 mx-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                // Show nearby pages and first/last pages
-                const showPage = 
-                  page === 1 || 
-                  page === totalPages || 
-                  Math.abs(page - currentPage) <= 1;
-                
-                if (!showPage) {
-                  // Show ellipsis for skipped pages
-                  if (page === 2 || page === totalPages - 1) {
-                    return <span key={`ellipsis-${page}`} className="px-2">...</span>;
+            <div className='flex items-center gap-x-1.5 mx-2'>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => {
+                  // Show nearby pages and first/last pages
+                  const showPage =
+                    page === 1 ||
+                    page === totalPages ||
+                    Math.abs(page - currentPage) <= 1;
+
+                  if (!showPage) {
+                    // Show ellipsis for skipped pages
+                    if (page === 2 || page === totalPages - 1) {
+                      return (
+                        <span key={`ellipsis-${page}`} className='px-2'>
+                          ...
+                        </span>
+                      );
+                    }
+                    return null;
                   }
-                  return null;
+
+                  return (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? "default" : "outline"}
+                      size='icon'
+                      className='h-8 w-8'
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </Button>
+                  );
                 }
-                
-                return (
-                  <Button
-                    key={page}
-                    variant={currentPage === page ? "default" : "outline"}
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => handlePageChange(page)}
-                  >
-                    {page}
-                  </Button>
-                );
-              })}
+              )}
             </div>
 
             <Button
-              variant="outline"
-              size="icon"
+              variant='outline'
+              size='icon'
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="hidden sm:flex"
+              className='hidden sm:flex'
             >
-              <span className="sr-only">{t("pagination.next")}</span>
+              <span className='sr-only'>{t("pagination.next")}</span>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-4 w-4'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   strokeWidth={2}
-                  d="M9 5l7 7-7 7"
+                  d='M9 5l7 7-7 7'
                 />
               </svg>
             </Button>
-            
+
             <Button
-              variant="outline"
-              size="sm"
+              variant='outline'
+              size='sm'
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="sm:hidden px-2"
+              className='sm:hidden px-2'
             >
               {t("pagination.next")}
             </Button>
@@ -306,151 +309,192 @@ export function ProductGrid() {
 function ProductCard({ product }: { product: Product }) {
   const t = useTranslations("Products.product");
   const { locale } = useParams();
-  const user=useSession()
+  const user = useSession();
   // Fetch the current user's role
 
   // Determine if user is a retailer
-  const isRetailer = user.data?.user?.role === "RETAILER"
-  
+  const isRetailer = user.data?.user?.role === "RETAILER";
+
   // Calculate the appropriate price based on role
-  const hasDiscount = isRetailer 
-    ? product.retailerDiscount > 0 
+  const hasDiscount = isRetailer
+    ? product.retailerDiscount > 0
     : product.discount > 0;
-  
+
   // For retailers, use wholesale pricing
   const basePrice = isRetailer ? product.wholesalePrice : product.retailPrice;
-  const discountPercentage = isRetailer ? product.retailerDiscount : product.discount;
-  const discountedPrice = isRetailer ? product.wholesaleSalePrice : product.salePrice;
-  
+  const discountPercentage = isRetailer
+    ? product.retailerDiscount
+    : product.discount;
+  const discountedPrice = isRetailer
+    ? product.wholesaleSalePrice
+    : product.salePrice;
+
   // Calculate final price
   const finalPrice = hasDiscount
     ? discountedPrice !== null
       ? discountedPrice
-      : basePrice - (basePrice * discountPercentage / 100)
+      : basePrice - (basePrice * discountPercentage) / 100
     : basePrice;
-  
+
   // Formatted tire size (e.g., 225/65R17)
   const tireSize = `${product.width}/${product.aspectRatio}R${product.rimDiameter}`;
-  
+
   // Format the specification string (e.g., 95H)
   const loadSpeedSpec = `${product.loadIndex}${product.speedRating}`;
-  
+
   // Stock status - only show low stock when 3 or less
   const isLowStock = product.stock > 0 && product.stock <= 3;
   const isOutOfStock = product.stock === 0;
-  
+
   return (
-    <Card className="overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow">
-      <div className="relative">
+    <Card className='overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow'>
+      <div className='relative'>
         <Link href={`/${locale}/products/${product.id}`}>
-          <div className="h-48 bg-gray-100 relative cursor-pointer">
+          <div className='h-40 sm:h-48 bg-gray-100 relative cursor-pointer'>
             {product.images && product.images.length > 0 ? (
-              <Image 
-                src={product.images[0]} 
+              <Image
+                src={product.images[0]}
                 alt={product.name}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes='(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw'
                 style={{ objectFit: "contain" }}
-                className="p-4"
+                className='p-3'
                 priority={false}
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+              <div className='flex h-full w-full items-center justify-center bg-gray-100 text-gray-400 text-xs sm:text-sm'>
                 {t("noImage")}
               </div>
             )}
             {hasDiscount && (
-              <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
-                {t("sale", { discount: product.discount })}
+              <div className='absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded'>
+                {t("sale", { discount: Math.floor(discountPercentage) })}
               </div>
             )}
             {product.runFlat && (
-              <div className="absolute bottom-2 left-2">
-                <Badge variant="secondary" className="text-xs bg-blue-100">Run Flat</Badge>
+              <div className='absolute bottom-2 left-2'>
+                <Badge variant='secondary' className='text-xs bg-blue-100'>
+                  Run Flat
+                </Badge>
               </div>
             )}
           </div>
         </Link>
       </div>
-      
-      <CardContent className="flex-grow space-y-3 p-4">
+
+      <CardContent className='flex-grow space-y-3 p-3 sm:p-4'>
         <div>
-          <Link href={`/${locale}/products/${product.id}`} className="hover:underline">
-            <h3 className="font-medium line-clamp-2 text-sm sm:text-base">{product.name}</h3>
+          <Link
+            href={`/${locale}/products/${product.id}`}
+            className='hover:underline'
+          >
+            <h3 className='font-medium line-clamp-2 text-sm sm:text-base'>
+              {product.name}
+            </h3>
           </Link>
-          <p className="text-xs text-muted-foreground mt-1">{product.brand.name} • {tireSize}</p>
+          <p className='text-xs text-muted-foreground mt-1'>
+            {product.brand.name} • {tireSize}
+          </p>
         </div>
-        
-        <div className="text-sm flex items-center gap-2 flex-wrap">
-          <Badge variant="outline" className="bg-gray-50">
-            {product.tireType.replace(/_/g, ' ')}
+
+        <div className='text-xs sm:text-sm flex items-center gap-1 sm:gap-2 flex-wrap'>
+          <Badge
+            variant='outline'
+            className='bg-gray-50 text-xs px-1 py-0 sm:px-2 sm:py-0.5'
+          >
+            {product.tireType.replace(/_/g, " ")}
           </Badge>
-          <Badge variant="outline" className="bg-gray-50">
+          <Badge
+            variant='outline'
+            className='bg-gray-50 text-xs px-1 py-0 sm:px-2 sm:py-0.5'
+          >
             {loadSpeedSpec}
           </Badge>
         </div>
-          <div className="flex items-end justify-between">
+        <div className='flex items-end justify-between'>
           <div>
             {hasDiscount ? (
               <div>
-                <span className="font-medium text-lg">{formatPrice(finalPrice)}</span>
-                <span className="text-sm text-muted-foreground line-through ml-2">
+                <span className='font-medium text-base sm:text-lg'>
+                  {formatPrice(finalPrice)}
+                </span>
+                <span className='text-xs sm:text-sm text-muted-foreground line-through ml-1 sm:ml-2'>
                   {formatPrice(basePrice)}
                 </span>
                 {isRetailer && (
-                  <Badge variant="secondary" className="ml-2 text-xs bg-blue-100">
+                  <Badge
+                    variant='secondary'
+                    className='ml-1 text-xs bg-blue-100'
+                  >
                     {t("wholesalePrice")}
                   </Badge>
                 )}
               </div>
             ) : (
               <div>
-                <span className="font-medium text-lg">{formatPrice(basePrice)}</span>
+                <span className='font-medium text-base sm:text-lg'>
+                  {formatPrice(basePrice)}
+                </span>
                 {isRetailer && (
-                  <Badge variant="secondary" className="ml-2 text-xs bg-blue-100">
+                  <Badge
+                    variant='secondary'
+                    className='ml-1 text-xs bg-blue-100'
+                  >
                     {t("wholesalePrice")}
                   </Badge>
                 )}
               </div>
             )}
           </div>
-          
+
           <div>
             {isOutOfStock ? (
-              <Badge variant="outline" className="text-red-500 border-red-200 bg-red-50">
+              <Badge
+                variant='outline'
+                className='text-red-500 border-red-200 bg-red-50 text-xs'
+              >
                 {t("outOfStock")}
               </Badge>
             ) : isLowStock ? (
-              <Badge variant="outline" className="text-amber-500 border-amber-200 bg-amber-50">
+              <Badge
+                variant='outline'
+                className='text-amber-500 border-amber-200 bg-amber-50 text-xs'
+              >
                 {t("lowStock", { count: product.stock })}
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-green-500 border-green-200 bg-green-50">
+              <Badge
+                variant='outline'
+                className='text-green-500 border-green-200 bg-green-50 text-xs'
+              >
                 {t("inStock")}
               </Badge>
             )}
           </div>
         </div>
       </CardContent>
-      
-      <CardFooter className="pt-0 pb-4 px-4">
-        <div className="grid grid-cols-2 gap-2 w-full">
-          <Link href={`/${locale}/products/${product.id}`} className="w-full">
-            <Button variant="outline" size="sm" className="w-full text-xs h-9">
+
+      <CardFooter className='pt-0 pb-3 sm:pb-4 px-3 sm:px-4'>
+        <div className='grid grid-cols-2 gap-1 sm:gap-2 w-full'>
+          <Link href={`/${locale}/products/${product.id}`} className='w-full'>
+            <Button
+              variant='outline'
+              size='sm'
+              className='w-full text-xs h-8 sm:h-9'
+            >
               {t("viewDetails")}
             </Button>
           </Link>
-          
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>
-                  <AddToCartButton 
-                    product={product} 
-                   quantity={product.stock}
-                   showQuantity={true}
-                    className="w-full text-xs h-9"
-                    size="sm"
+                  <AddToCartButton
+                    product={product}
+                    quantity={1}
+                    className='w-full text-xs h-8 sm:h-9'
+                    size='sm'
                   >
                     {t("addToCart")}
                   </AddToCartButton>
@@ -471,24 +515,24 @@ function ProductCard({ product }: { product: Product }) {
 
 function ProductsLoadingSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6'>
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="border rounded-lg overflow-hidden h-full">
-          <div className="h-48 bg-gray-200 animate-pulse" />
-          <div className="p-4 space-y-3">
-            <div className="h-5 bg-gray-200 rounded animate-pulse" />
-            <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse" />
-            <div className="flex gap-2">
-              <div className="h-6 bg-gray-200 rounded w-20 animate-pulse" />
-              <div className="h-6 bg-gray-200 rounded w-16 animate-pulse" />
+        <div key={i} className='border rounded-lg overflow-hidden h-full'>
+          <div className='h-48 bg-gray-200 animate-pulse' />
+          <div className='p-4 space-y-3'>
+            <div className='h-5 bg-gray-200 rounded animate-pulse' />
+            <div className='h-4 bg-gray-200 rounded w-3/4 animate-pulse' />
+            <div className='flex gap-2'>
+              <div className='h-6 bg-gray-200 rounded w-20 animate-pulse' />
+              <div className='h-6 bg-gray-200 rounded w-16 animate-pulse' />
             </div>
-            <div className="flex items-center justify-between pt-2">
-              <div className="h-6 bg-gray-200 rounded w-24 animate-pulse" />
-              <div className="h-5 bg-gray-200 rounded w-16 animate-pulse" />
+            <div className='flex items-center justify-between pt-2'>
+              <div className='h-6 bg-gray-200 rounded w-24 animate-pulse' />
+              <div className='h-5 bg-gray-200 rounded w-16 animate-pulse' />
             </div>
-            <div className="grid grid-cols-2 gap-2 pt-2">
-              <div className="h-9 bg-gray-200 rounded animate-pulse" />
-              <div className="h-9 bg-gray-200 rounded animate-pulse" />
+            <div className='grid grid-cols-2 gap-2 pt-2'>
+              <div className='h-9 bg-gray-200 rounded animate-pulse' />
+              <div className='h-9 bg-gray-200 rounded animate-pulse' />
             </div>
           </div>
         </div>

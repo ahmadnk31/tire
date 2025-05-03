@@ -26,7 +26,7 @@ export async function sendEmail({
   subject,
   htmlBody,
   textBody,
-  from = process.env.EMAIL_FROM || "noreply@yourdomain.com",
+  from = process.env.SES_FROM_EMAIL!,
   replyTo = process.env.EMAIL_REPLY_TO || from,
 }: SendEmailParams) {
   const recipients = Array.isArray(to) ? to : [to];

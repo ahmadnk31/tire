@@ -49,7 +49,7 @@ import {
   useRateOrderItem,
   useOrderHistory
 } from "@/hooks/use-order-queries";
-import { useUserProfile } from "@/hooks/use-user-queries";
+
 import { StarIcon, ExternalLink } from "lucide-react";
 
 export default function OrdersPage() {

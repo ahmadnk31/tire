@@ -274,7 +274,6 @@
     "welcomeMessage": "Hallo! Hoe kan ik u vandaag helpen met uw bandenkeuze?",
     "autoResponse": "Bedankt voor uw bericht. Een bandenspecialist zal binnenkort reageren. Heeft u in de tussentijd specifieke vragen over onze banden?"
   },
-
   "cart": {
     "title": "Uw Winkelwagen",
     "empty": "Uw winkelwagen is leeg",
@@ -322,7 +321,6 @@
     "estimatedTotal": "Geschat Totaal",
     "calculatedAtCheckout": "Berekend bij het afrekenen"
   },
-
   "Products": {
     "title": "Banden Collectie",
     "description": "Vind de perfecte banden voor uw voertuig",
@@ -373,7 +371,6 @@
       "page": "Pagina {page} van {total}"
     }
   },
-
   "Homepage": {
     "hero": {
       "title": "Vind de Perfecte Banden voor Elke Rit",
@@ -441,7 +438,6 @@
         "title": "Professionele Installatie",
         "description": "Onze experts installeren uw nieuwe banden met de hoogste precisie en zorg"
       },
-
       "installationPage": {
         "hero": {
           "title": "Professionele Bandeninstallatie",
@@ -1061,7 +1057,6 @@
       "reviewProcessing": "Uw review wordt verwerkt...",
       "imagePreview": "Voorbeeld Afbeelding",
       "errorSubmitting": "Fout bij het indienen van review. Probeer het opnieuw.",
-
       "list": {
         "title": "Klantbeoordelingen",
         "averageRating": "van 5",
@@ -1093,7 +1088,6 @@
       }
     }
   },
-
   "navbar": {
     "logo": "Ariana Bandencentrale b.v.",
     "logoShort": "ABC b.v.",
@@ -1276,7 +1270,8 @@
       "duration": "{duration} minuten",
       "viewButton": "Details Bekijken",
       "cancelButton": "Annuleren",
-      "cancelConfirm": "Weet je zeker dat je deze afspraak wilt annuleren?"
+      "cancelConfirm": "Weet je zeker dat je deze afspraak wilt annuleren?",
+      "expired": "Deze afspraak is verlopen"
     },
     "status": {
       "scheduled": "Gepland",
@@ -1529,7 +1524,6 @@
       "error": "Er is iets misgegaan. Probeer het later opnieuw."
     }
   },
-
   "Category": {
     "categoryNotFoundTitle": "Categorie Niet Gevonden",
     "categoryNotFoundDesc": "De gevraagde categorie kon niet worden gevonden",
@@ -1756,7 +1750,6 @@
         "selectBrandFirst": "Selecteer Eerst Merken",
         "selectModelFirst": "Selecteer Eerst Modellen",
         "description": "Promotie Omschrijving",
-
         "type": "Promotie Type",
         "value": "Waarde",
         "percentageValue": "Percentage (%)",
@@ -1821,6 +1814,102 @@
         "returningCustomers": "Terugkerende Klanten",
         "specificGroup": "Specifieke Groep"
       }
+    }
+  },
+  "ProductDetail": {
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Producten"
+    },
+    "badge": {
+      "featured": "Uitgelicht",
+      "runFlat": "Run Flat",
+      "reinforced": "Versterkt"
+    },
+    "reviews": {
+      "review": "review",
+      "reviews": "reviews",
+      "writeReview": "Schrijf een Review",
+      "seeAllReviews": "Bekijk alle reviews",
+      "noReviews": "Nog geen reviews. Wees de eerste om dit product te beoordelen!"
+    },
+    "price": {
+      "outOfStock": "Niet op voorraad",
+      "lowStock": "Beperkte voorraad - nog {count} beschikbaar",
+      "inStock": "Op voorraad - {count} beschikbaar"
+    },
+    "pricing": {
+      "wholesale": "Groothandelsprijs",
+      "retailPrice": "Retailprijs",
+      "discount": "{percent}% Korting",
+      "retailDiscount": "Retailkorting: {percent}%",
+      "wholesaleDiscount": "Groothandelskorting: {percent}%",
+      "wholesaleSalePrice": "Groothandels Actieprijs",
+      "wholesalePricing": "Groothandelsprijzen beschikbaar voor retailers"
+    },
+    "performance": {
+      "title": "Prestatiebeoordelingen",
+      "wetGrip": "Grip op nat wegdek",
+      "fuelEfficiency": "Brandstofefficiëntie",
+      "noise": "Geluid (dB)",
+      "ratings": {
+        "A": "Uitstekend",
+        "B": "Goed",
+        "C": "Redelijk",
+        "D": "Matig",
+        "E": "Zeer matig"
+      }
+    },
+    "tabs": {
+      "specifications": "Specificaties",
+      "performance": "Prestaties",
+      "details": "Aanvullende Details"
+    },
+    "addToCart": "In Winkelwagen",
+    "addToFavorites": "Toevoegen aan Favorieten",
+    "removeFromFavorites": "Verwijderen uit Favorieten",
+    "specifications": {
+      "size": "Maat",
+      "loadSpeed": "Belasting & Snelheidsrating",
+      "type": "Type",
+      "construction": "Constructie",
+      "treadDepth": "Profieldiepte",
+      "sidewall": "Zijwand",
+      "runFlat": "Run Flat",
+      "reinforced": "Versterkt",
+      "plyRating": "Ply Rating",
+      "maxPressure": "Maximale Druk",
+      "maxLoad": "Maximale Belasting",
+      "standard": "Standaard",
+      "yes": "Ja",
+      "no": "Nee"
+    },
+    "performanceTab": {
+      "treadPattern": "Profielpatroon",
+      "wetGrip": "Grip op nat wegdek",
+      "fuelEfficiency": "Brandstofefficiëntie",
+      "noiseLevel": "Geluidsniveau",
+      "snowRating": "Sneeuwclassificatie",
+      "utqgRating": "UTQG Rating",
+      "mileageWarranty": "Kilometergarantie",
+      "miles": "mijlen"
+    },
+    "detailsTab": {
+      "sku": "Artikelnummer",
+      "manufacturerPart": "Onderdeelnr. fabrikant",
+      "brand": "Merk",
+      "model": "Model",
+      "category": "Categorie",
+      "countryOrigin": "Land van herkomst",
+      "certifications": "Certificeringen",
+      "na": "N.v.t."
+    },
+    "search": {
+      "placeholder": "Zoek naar banden...",
+      "button": "Zoeken"
+    },
+    "recommendations": {
+      "title": "Wellicht ook interessant"
     }
   }
 }

@@ -1,1008 +1,1014 @@
 {
-      "Email": {
-        "subjects": {
-          "verification": "Verify Your Email Address",
-          "passwordReset": "Reset Your Password",
-          "welcome": "Welcome to Our Store",
-          "orderConfirmation": "Order Confirmation",
-          "appointmentConfirmation": "Appointment Confirmation",
-          "appointmentReminder": "Reminder: Your Upcoming Appointment"
-        },
-        "verification": {
-          "title": "Verify Your Email Address",
-          "greeting": "Hello {{userName}},",
-          "message": "Thank you for signing up! Please verify your email address by clicking the button below.",
-          "buttonText": "Verify Email",
-          "alternativeText": "Or copy and paste this URL into your browser:",
-          "expiryMessage": "This verification link will expire in {{hours}} hours.",
-          "footer": "If you did not create an account, no further action is required."
-        },        "passwordReset": {
-          "title": "Reset Your Password",
-          "greeting": "Hello {{userName}},",
-          "message": "You recently requested to reset your password. Click the button below to proceed.",
-          "buttonText": "Reset Password",
-          "alternativeText": "Or copy and paste this URL into your browser:",
-          "expiryMessage": "This password reset link will expire in {{hours}} hours.",
-          "securityNote": "If you did not request a password reset, please secure your account by changing your password.",
-          "footer": "If you did not request a password reset, please ignore this email."
-        },
-        "welcome": {
-          "title": "Welcome to Our Store",
-          "greeting": "Hello {{userName}},",
-          "message": "Thank you for creating an account with us. We're excited to have you join our community of tire enthusiasts!",
-          "benefitsTitle": "Benefits of Your Account:",
-          "benefit1": "Track your orders in real-time",
-          "benefit2": "Save your favorite tires for future reference",
-          "benefit3": "Receive exclusive offers and discounts",
-          "benefit4": "Quick checkout for faster shopping",
-          "buttonText": "Go to My Account",
-          "closingMessage": "If you have any questions about your account or need help finding the perfect tires, our team is here to help.",
-          "signature": "Best regards,\nThe Tire Store Team",
-          "footer": "© 2025 Tire Store. All rights reserved."
-        },
-        "orderConfirmation": {
-          "title": "Order Confirmation",
-          "greeting": "Hello {{userName}},",
-          "thankYouMessage": "Thank you for your order! We've received your purchase and are working on it now.",
-          "orderDetailsTitle": "Order Details",
-          "orderNumber": "Order Number",
-          "orderDate": "Order Date",
-          "orderSummaryTitle": "Order Summary",
-          "productColumn": "Product",
-          "quantityColumn": "Quantity",
-          "priceColumn": "Price",
-          "totalLabel": "Total",
-          "shippingInfoTitle": "Shipping Information",
-          "paymentInfoTitle": "Payment Information",
-          "paymentMethod": "Payment Method",          "trackOrderButton": "Track Your Order",
-          "questionsMessage": "If you have any questions about your order, please contact our customer service team.",
-          "footer": "Thank you for shopping with us!"
-        },
-        "appointment": {
-          "confirmation": {
-            "title": "Appointment Confirmation",
-            "greeting": "Hello {{userName}},",
-            "message": "Your appointment has been confirmed. We're looking forward to seeing you!",
-            "detailsTitle": "Appointment Details",
-            "serviceType": "Service Type",
-            "appointmentDate": "Date",
-            "appointmentTime": "Time",
-            "duration": "Duration",
-            "minutes": "minutes",
-            "vehicleInfo": "Vehicle",
-            "viewButton": "View Appointment Details",
-            "viewButtonText": "View your appointment details here",
-            "arrivalMessage": "Please arrive 10 minutes before your scheduled time to complete any necessary paperwork.",
-            "rescheduleMessage": "If you need to reschedule or cancel your appointment, please do so at least 24 hours in advance by clicking the button above or contacting us directly.",
-            "signature": "Best regards,\nThe Service Team",
-            "footer": "© 2025 Tire Store. All rights reserved."
-          },
-          "reminder": {
-            "title": "Reminder: Your Upcoming Appointment",
-            "greeting": "Hello {{userName}},",
-            "message": "This is a friendly reminder about your upcoming appointment with us.",
-            "detailsTitle": "Appointment Details",
-            "serviceType": "Service Type",
-            "appointmentDate": "Date",
-            "appointmentTime": "Time",
-            "duration": "Duration",
-            "minutes": "minutes",
-            "vehicleInfo": "Vehicle",
-            "viewButton": "Manage Your Appointment",
-            "viewButtonText": "Manage your appointment here",
-            "arrivalMessage": "Please arrive 10 minutes before your scheduled time to complete any necessary paperwork.",
-            "rescheduleMessage": "If you need to reschedule or cancel, please do so as soon as possible by clicking the button above or contacting us directly.",
-            "signature": "Best regards,\nThe Service Team",
-            "footer": "© 2025 Tire Store. All rights reserved."
-          }
-        }
+  "Email": {
+    "subjects": {
+      "verification": "Verify Your Email Address",
+      "passwordReset": "Reset Your Password",
+      "welcome": "Welcome to Our Store",
+      "orderConfirmation": "Order Confirmation",
+      "appointmentConfirmation": "Appointment Confirmation",
+      "appointmentReminder": "Reminder: Your Upcoming Appointment"
+    },
+    "verification": {
+      "title": "Verify Your Email Address",
+      "greeting": "Hello {{userName}},",
+      "message": "Thank you for signing up! Please verify your email address by clicking the button below.",
+      "buttonText": "Verify Email",
+      "alternativeText": "Or copy and paste this URL into your browser:",
+      "expiryMessage": "This verification link will expire in {{hours}} hours.",
+      "footer": "If you did not create an account, no further action is required."
+    },
+    "passwordReset": {
+      "title": "Reset Your Password",
+      "greeting": "Hello {{userName}},",
+      "message": "You recently requested to reset your password. Click the button below to proceed.",
+      "buttonText": "Reset Password",
+      "alternativeText": "Or copy and paste this URL into your browser:",
+      "expiryMessage": "This password reset link will expire in {{hours}} hours.",
+      "securityNote": "If you did not request a password reset, please secure your account by changing your password.",
+      "footer": "If you did not request a password reset, please ignore this email."
+    },
+    "welcome": {
+      "title": "Welcome to Our Store",
+      "greeting": "Hello {{userName}},",
+      "message": "Thank you for creating an account with us. We're excited to have you join our community of tire enthusiasts!",
+      "benefitsTitle": "Benefits of Your Account:",
+      "benefit1": "Track your orders in real-time",
+      "benefit2": "Save your favorite tires for future reference",
+      "benefit3": "Receive exclusive offers and discounts",
+      "benefit4": "Quick checkout for faster shopping",
+      "buttonText": "Go to My Account",
+      "closingMessage": "If you have any questions about your account or need help finding the perfect tires, our team is here to help.",
+      "signature": "Best regards,\nThe Tire Store Team",
+      "footer": "© 2025 Tire Store. All rights reserved."
+    },
+    "orderConfirmation": {
+      "title": "Order Confirmation",
+      "greeting": "Hello {{userName}},",
+      "thankYouMessage": "Thank you for your order! We've received your purchase and are working on it now.",
+      "orderDetailsTitle": "Order Details",
+      "orderNumber": "Order Number",
+      "orderDate": "Order Date",
+      "orderSummaryTitle": "Order Summary",
+      "productColumn": "Product",
+      "quantityColumn": "Quantity",
+      "priceColumn": "Price",
+      "totalLabel": "Total",
+      "shippingInfoTitle": "Shipping Information",
+      "paymentInfoTitle": "Payment Information",
+      "paymentMethod": "Payment Method",
+      "trackOrderButton": "Track Your Order",
+      "questionsMessage": "If you have any questions about your order, please contact our customer service team.",
+      "footer": "Thank you for shopping with us!"
+    },
+    "appointment": {
+      "confirmation": {
+        "title": "Appointment Confirmation",
+        "greeting": "Hello {{userName}},",
+        "message": "Your appointment has been confirmed. We're looking forward to seeing you!",
+        "detailsTitle": "Appointment Details",
+        "serviceType": "Service Type",
+        "appointmentDate": "Date",
+        "appointmentTime": "Time",
+        "duration": "Duration",
+        "minutes": "minutes",
+        "vehicleInfo": "Vehicle",
+        "viewButton": "View Appointment Details",
+        "viewButtonText": "View your appointment details here",
+        "arrivalMessage": "Please arrive 10 minutes before your scheduled time to complete any necessary paperwork.",
+        "rescheduleMessage": "If you need to reschedule or cancel your appointment, please do so at least 24 hours in advance by clicking the button above or contacting us directly.",
+        "signature": "Best regards,\nThe Service Team",
+        "footer": "© 2025 Tire Store. All rights reserved."
       },
-      "Auth": {
-        "login": {
-          "title": "Login to your account",
-          "subtitle": "Enter your email below to login to your account",
-          "emailLabel": "Email",
-          "emailPlaceholder": "m@example.com",
-          "passwordLabel": "Password",
-          "forgotPassword": "Forgot your password?",
-          "loginButton": "Login",
-          "loggingIn": "Logging in...",
-          "orContinueWith": "Or continue with",
-          "loginWithGithub": "Login with GitHub",
-          "noAccount": "Don't have an account?",
-          "signUpLink": "Sign up",
-          "error": "Login failed. Please try again."
-        },
-        "signup": {
-          "title": "Sign up for your account",
-          "subtitle": "Enter your email below to create your account",
-          "nameLabel": "Name",
-          "namePlaceholder": "Enter your name",
-          "emailLabel": "Email",
-          "emailPlaceholder": "m@example.com",
-          "passwordLabel": "Password",
-          "passwordPlaceholder": "Create a password",
-          "signupButton": "Sign up",
-          "signingUp": "Signing up...",
-          "orContinueWith": "Or continue with",
-          "signupWithGithub": "Sign up with GitHub",
-          "alreadyAccount": "Already have an account?",
-          "loginLink": "Login",
-          "error": "Registration failed. Please try again."
-        },        "forgotPassword": {
-          "title": "Forgot your password?",
-          "subtitle": "Enter your email below to receive a password reset link",
-          "emailLabel": "Email",
-          "emailPlaceholder": "m@example.com",
-          "resetButton": "Send reset link",
-          "sendingReset": "Sending reset link...",
-          "backToLogin": "Back to login",
-          "rememberPassword": "Remember your password?",
-          "emailSentMessage": "We've sent you an email with a link to reset your password. Please check your inbox.",
-          "success": "Password reset link sent to your email",
-          "error": "Failed to send reset link. Please try again."
-        },
-        "resetPassword": {
-          "title": "Reset your password",
-          "subtitle": "Enter your new password below",
-          "passwordLabel": "New Password",
-          "passwordPlaceholder": "Enter your new password",
-          "confirmPasswordLabel": "Confirm New Password",
-          "confirmPasswordPlaceholder": "Confirm your new password",
-          "resetButton": "Reset password",
-          "resetting": "Resetting password...",
-          "backToLogin": "Back to login",
-          "success": "Password reset successfully",
-          "error": "Failed to reset password. Please try again.",
-          "mismatchError": "Passwords don't match"
-        }
-      },
-      "StoreStatus": {
-        "open": "Open Now",
-        "closed": "Closed",
-        "error": "Error loading store status",
-        "loading": "Loading hours...",
-        "hours": "Today",        "todayHours": "Today's Hours",
-        "weeklyHours": "Weekly Hours",
-        "businessHours": "Business Hours",
-        "willOpen": "Will open at",
-        "willClose": "Will close at",
-        "today": "today",
-        "opens": "Opens",
-        "closes": "Closes",
-        "closedToday": "Closed Today",
-        "currentlyOpen": "Currently Open",
-        "currentlyClosed": "Currently Closed",
-        "clickToToggle": "Click the status indicator to view today's hours",
-        "days": {
-          "monday": "Monday",
-          "tuesday": "Tuesday",
-          "wednesday": "Wednesday",
-          "thursday": "Thursday",
-          "friday": "Friday",
-          "saturday": "Saturday",
-          "sunday": "Sunday"
-        }
-      },
-      "Search": {
-        "placeholder": "Search products...",
-        "searchButton": "Search",
-        "clearSearch": "Clear search",
-        "searching": "Searching...",
-        "noResults": "No results found for \"{query}\"",
-        "tryDifferentKeywords": "Try using different keywords or filters",
-        "viewAllResults": "View all results",
-        "noImage": "No image",
-        "products": "Products"
-      },
-      "Checkout": {
-        "backToShipping": "Back to Shipping",
-        "backToCart": "Back to Cart",
-        "payment": "Payment",
-        "shipping": "Shipping",
-        "shippingInformation": "Shipping Information",
-        "checkout": "Checkout",
-        "firstName": "First Name",
-        "firstNamePlaceholder": "Enter your first name",
-        "lastName": "Last Name",
-        "lastNamePlaceholder": "Enter your last name",
-        "email": "Email",
-        "emailPlaceholder": "Enter your email address",
-        "phone": "Phone",
-        "phonePlaceholder": "Enter your phone number",
-        "addressLine1": "Address Line 1",
-        "addressLine1Placeholder": "Enter your address",
-        "addressLine2": "Address Line 2 (Optional)",
-        "addressLine2Placeholder": "Enter your apartment, suite, or unit number",
-        "city": "City",
-        "cityPlaceholder": "Enter your city",
-        "state": "State/Province",
-        "statePlaceholder": "Select your state or province",
-        "postalCode": "Postal Code",
-        "postalCodePlaceholder": "Enter your postal code",
-        "country": "Country", 
-        "countryPlaceholder": "Select your country",
-        "fullAddress": "Full Address",
-        "fullAddressPlaceholder": "Enter your full address",
-        "review": "Review",
-        "confirmation": "Confirmation",
-        "reviewOrder": "Review Your Order",
-        "orderItems": "Order Items",
-        "quantity": "Quantity",
-        "shippingAddress": "Shipping Address",
-        "shippingMethod": "Shipping Method",
-        "receiveMarketingEmails": "Receive marketing emails with promotions and updates",
-        "orderNotes": "Order Notes",
-        "orderNotesPlaceholder": "Add any special instructions or notes about your order...",
-        "continueToPayment": "Continue to Payment",
-        "securePayment": "Secure Payment",
-        "initializingPayment": "Initializing payment...",
-        "creditCard": "Credit Card",
-        "payWithPayPal": "Pay with PayPal",
-        "payPalDescription": "Complete your purchase securely using your PayPal account",
-        "paymentError": "Payment Error",
-        "technicalDetails": "Technical Details",
-        "errorCode": "Error Code",
-        "type": "Type",
-        "paymentMethodsAccepted": "Payment Methods Accepted",
-        "securePaymentNote": "All payment options are securely processed through Stripe",
-        "backToReview": "Back to Review",
-        "orderConfirmation": "Order Confirmation",
-        "thankYouForOrder": "Thank You for Your Order!",
-        "orderConfirmationMessage": "Your order has been placed successfully. A confirmation email has been sent to your email address.",
-        "viewOrderDetails": "View Order Details",
-        "orderSummary": "Order Summary",
-        "subtotal": "Subtotal",
-        "discount": "Discount",
-        "tax": "Tax",
-        "total": "Total",
-        "secureCheckout": "Secure Checkout",
-        "item": "Item",
-        "inYourCart": "In Your Cart"
-      },      "Chat": {
-        "customerSupport": "Customer Support",
-        "openChat": "Open chat",
-        "closeChat": "Close chat",
-        "connecting": "Connecting...",
-        "typeMessage": "Type a message...",
-        "sendMessage": "Send message",
-        "welcomeMessage": "Hello! How can I help you with your tire needs today?",
-        "autoResponse": "Thanks for your message. A tire specialist will respond shortly. In the meantime, is there anything specific about our tires you'd like to know?"
-      },
-      
-      
-      "cart": {
-        "title": "Your Cart",
-        "empty": "Your cart is empty",
-        "emptyMessage": "Looks like you haven't added any tires to your cart yet.",
-        "browseTires": "Browse Tires",
-        "subtotal": "Subtotal",
-        "tax": "Estimated Tax",
-        "shipping": "Shipping",
-        "discount": "Discount",
-        "total": "Total",
-        "shippingNote": "Shipping and taxes will be calculated at checkout",
-        "viewCart": "View Cart",
-        "checkout": "Checkout",
-        "proceedToCheckout": "Proceed to Checkout",
-        "continueShopping": "Continue Shopping",
-        "remove": "Remove",
-        "increase": "Increase quantity",
-        "decrease": "Decrease quantity",
-        "quantity": "Quantity",
-        "eachUnit": "each",        "savings": "You save {amount}",
-        "promoCode": "Promo Code",
-        "enterPromoCode": "Enter promo code",
-        "applyCode": "Apply",
-        "applying": "Applying...",
-        "invalidPromoCode": "Invalid promo code",
-        "codeCopied": "Promo code copied to clipboard",
-        "promoDiscount": "Promotion Discount",
-        "appliedPromotions": "Applied Promotions",
-        "freeShipping": "Free Shipping",
-        "off": "Off",
-        "specialOffer": "Special Offer",
-        "orderSummary": "Order Summary",
-        "itemsInCart": "{count, plural, =1 {# item in cart} other {# items in cart}}",
-        "emptyCartMessage": "Add some products to your cart and they will appear here",
-        "shippingTooltip": "Shipping costs will be calculated at checkout",
-        "taxTooltip": "Tax is calculated based on your shipping address",
-        "updateCart": "Update Cart",
-        "removeItem": "Remove item",
-        "productDetails": "Product Details",
-        "price": "Price",
-        "actions": "Actions",
-        "weAccept": "We accept",
-        "estimatedTax": "Estimated Tax",
-        "estimatedShipping": "Estimated Shipping",
-        "estimatedTotal": "Estimated Total",
-        "discountCode": "Discount Code",
-        "calculatedAtCheckout": "Calculated at Checkout"
-      },
-      
-      "Products": {
-      "title": "Tire Collection",
-      "description": "Find the perfect tires for your vehicle",
-      "filters": {
-        "title": "Filters",
-        "clear": "Clear All",
-        "apply": "Apply Filters",
-        "brands": "Brands",
-        "categories": "Categories",
-        "tireTypes": "Tire Types",
-        "priceRange": "Price Range",
-        "specifications": "Specifications",
-        "sizes": "Tire Sizes"
-      },
-      "sort": {
-        "title": "Sort By",
-        "newest": "Newest First",
-        "priceAsc": "Price: Low to High",
-        "priceDesc": "Price: High to Low",
-        "popular": "Most Popular",
-        "featured": "Featured"
-      },
-      "results": {
-        "found": "{count} products found",
-        "empty": "No products found"
-      },
-      "search": {
-        "placeholder": "Search for tires...",
-        "button": "Search",
-        "noResults": {
-          "title": "No results found",
-          "description": "Try adjusting your search or filters"
-        }
-      },
-      "product": {
-        "addToCart": "Add to Cart",
-        "viewDetails": "View Details",
-        "inStock": "In Stock",
-        "lowStock": "Low Stock",
-        "outOfStock": "Out of Stock",
-        "sale": "{discount}% OFF",
-        "freeShipping": "Free Shipping",
-        "specifications": "Specifications",
-        "noImage": "No image available",
-        "wholesalePrice":"wholesale price"
-      },
-      
-      "pagination": {
-        "prev": "Previous",
-        "next": "Next",
-        "page": "Page {page} of {total}"
+      "reminder": {
+        "title": "Reminder: Your Upcoming Appointment",
+        "greeting": "Hello {{userName}},",
+        "message": "This is a friendly reminder about your upcoming appointment with us.",
+        "detailsTitle": "Appointment Details",
+        "serviceType": "Service Type",
+        "appointmentDate": "Date",
+        "appointmentTime": "Time",
+        "duration": "Duration",
+        "minutes": "minutes",
+        "vehicleInfo": "Vehicle",
+        "viewButton": "Manage Your Appointment",
+        "viewButtonText": "Manage your appointment here",
+        "arrivalMessage": "Please arrive 10 minutes before your scheduled time to complete any necessary paperwork.",
+        "rescheduleMessage": "If you need to reschedule or cancel, please do so as soon as possible by clicking the button above or contacting us directly.",
+        "signature": "Best regards,\nThe Service Team",
+        "footer": "© 2025 Tire Store. All rights reserved."
+      }
+    }
+  },
+  "Auth": {
+    "login": {
+      "title": "Login to your account",
+      "subtitle": "Enter your email below to login to your account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "m@example.com",
+      "passwordLabel": "Password",
+      "forgotPassword": "Forgot your password?",
+      "loginButton": "Login",
+      "loggingIn": "Logging in...",
+      "orContinueWith": "Or continue with",
+      "loginWithGithub": "Login with GitHub",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "error": "Login failed. Please try again."
+    },
+    "signup": {
+      "title": "Sign up for your account",
+      "subtitle": "Enter your email below to create your account",
+      "nameLabel": "Name",
+      "namePlaceholder": "Enter your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "m@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "signupButton": "Sign up",
+      "signingUp": "Signing up...",
+      "orContinueWith": "Or continue with",
+      "signupWithGithub": "Sign up with GitHub",
+      "alreadyAccount": "Already have an account?",
+      "loginLink": "Login",
+      "error": "Registration failed. Please try again."
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email below to receive a password reset link",
+      "emailLabel": "Email",
+      "emailPlaceholder": "m@example.com",
+      "resetButton": "Send reset link",
+      "sendingReset": "Sending reset link...",
+      "backToLogin": "Back to login",
+      "rememberPassword": "Remember your password?",
+      "emailSentMessage": "We've sent you an email with a link to reset your password. Please check your inbox.",
+      "success": "Password reset link sent to your email",
+      "error": "Failed to send reset link. Please try again."
+    },
+    "resetPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your new password below",
+      "passwordLabel": "New Password",
+      "passwordPlaceholder": "Enter your new password",
+      "confirmPasswordLabel": "Confirm New Password",
+      "confirmPasswordPlaceholder": "Confirm your new password",
+      "resetButton": "Reset password",
+      "resetting": "Resetting password...",
+      "backToLogin": "Back to login",
+      "success": "Password reset successfully",
+      "error": "Failed to reset password. Please try again.",
+      "mismatchError": "Passwords don't match"
+    }
+  },
+  "StoreStatus": {
+    "open": "Open Now",
+    "closed": "Closed",
+    "error": "Error loading store status",
+    "loading": "Loading hours...",
+    "hours": "Today",
+    "todayHours": "Today's Hours",
+    "weeklyHours": "Weekly Hours",
+    "businessHours": "Business Hours",
+    "willOpen": "Will open at",
+    "willClose": "Will close at",
+    "today": "today",
+    "opens": "Opens",
+    "closes": "Closes",
+    "closedToday": "Closed Today",
+    "currentlyOpen": "Currently Open",
+    "currentlyClosed": "Currently Closed",
+    "clickToToggle": "Click the status indicator to view today's hours",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
+  },
+  "Search": {
+    "placeholder": "Search products...",
+    "searchButton": "Search",
+    "clearSearch": "Clear search",
+    "searching": "Searching...",
+    "noResults": "No results found for \"{query}\"",
+    "tryDifferentKeywords": "Try using different keywords or filters",
+    "viewAllResults": "View all results",
+    "noImage": "No image",
+    "products": "Products"
+  },
+  "Checkout": {
+    "backToShipping": "Back to Shipping",
+    "backToCart": "Back to Cart",
+    "payment": "Payment",
+    "shipping": "Shipping",
+    "shippingInformation": "Shipping Information",
+    "checkout": "Checkout",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter your last name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "phone": "Phone",
+    "phonePlaceholder": "Enter your phone number",
+    "addressLine1": "Address Line 1",
+    "addressLine1Placeholder": "Enter your address",
+    "addressLine2": "Address Line 2 (Optional)",
+    "addressLine2Placeholder": "Enter your apartment, suite, or unit number",
+    "city": "City",
+    "cityPlaceholder": "Enter your city",
+    "state": "State/Province",
+    "statePlaceholder": "Select your state or province",
+    "postalCode": "Postal Code",
+    "postalCodePlaceholder": "Enter your postal code",
+    "country": "Country",
+    "countryPlaceholder": "Select your country",
+    "fullAddress": "Full Address",
+    "fullAddressPlaceholder": "Enter your full address",
+    "review": "Review",
+    "confirmation": "Confirmation",
+    "reviewOrder": "Review Your Order",
+    "orderItems": "Order Items",
+    "quantity": "Quantity",
+    "shippingAddress": "Shipping Address",
+    "shippingMethod": "Shipping Method",
+    "receiveMarketingEmails": "Receive marketing emails with promotions and updates",
+    "orderNotes": "Order Notes",
+    "orderNotesPlaceholder": "Add any special instructions or notes about your order...",
+    "continueToPayment": "Continue to Payment",
+    "securePayment": "Secure Payment",
+    "initializingPayment": "Initializing payment...",
+    "creditCard": "Credit Card",
+    "payWithPayPal": "Pay with PayPal",
+    "payPalDescription": "Complete your purchase securely using your PayPal account",
+    "paymentError": "Payment Error",
+    "technicalDetails": "Technical Details",
+    "errorCode": "Error Code",
+    "type": "Type",
+    "paymentMethodsAccepted": "Payment Methods Accepted",
+    "securePaymentNote": "All payment options are securely processed through Stripe",
+    "backToReview": "Back to Review",
+    "orderConfirmation": "Order Confirmation",
+    "thankYouForOrder": "Thank You for Your Order!",
+    "orderConfirmationMessage": "Your order has been placed successfully. A confirmation email has been sent to your email address.",
+    "viewOrderDetails": "View Order Details",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "tax": "Tax",
+    "total": "Total",
+    "secureCheckout": "Secure Checkout",
+    "item": "Item",
+    "inYourCart": "In Your Cart"
+  },
+  "Chat": {
+    "customerSupport": "Customer Support",
+    "openChat": "Open chat",
+    "closeChat": "Close chat",
+    "connecting": "Connecting...",
+    "typeMessage": "Type a message...",
+    "sendMessage": "Send message",
+    "welcomeMessage": "Hello! How can I help you with your tire needs today?",
+    "autoResponse": "Thanks for your message. A tire specialist will respond shortly. In the meantime, is there anything specific about our tires you'd like to know?"
+  },
+
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "emptyMessage": "Looks like you haven't added any tires to your cart yet.",
+    "browseTires": "Browse Tires",
+    "subtotal": "Subtotal",
+    "tax": "Estimated Tax",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "total": "Total",
+    "shippingNote": "Shipping and taxes will be calculated at checkout",
+    "viewCart": "View Cart",
+    "checkout": "Checkout",
+    "proceedToCheckout": "Proceed to Checkout",
+    "continueShopping": "Continue Shopping",
+    "remove": "Remove",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity",
+    "quantity": "Quantity",
+    "eachUnit": "each",
+    "savings": "You save {amount}",
+    "promoCode": "Promo Code",
+    "enterPromoCode": "Enter promo code",
+    "applyCode": "Apply",
+    "applying": "Applying...",
+    "invalidPromoCode": "Invalid promo code",
+    "codeCopied": "Promo code copied to clipboard",
+    "promoDiscount": "Promotion Discount",
+    "appliedPromotions": "Applied Promotions",
+    "freeShipping": "Free Shipping",
+    "off": "Off",
+    "specialOffer": "Special Offer",
+    "orderSummary": "Order Summary",
+    "itemsInCart": "{count, plural, =1 {# item in cart} other {# items in cart}}",
+    "emptyCartMessage": "Add some products to your cart and they will appear here",
+    "shippingTooltip": "Shipping costs will be calculated at checkout",
+    "taxTooltip": "Tax is calculated based on your shipping address",
+    "updateCart": "Update Cart",
+    "removeItem": "Remove item",
+    "productDetails": "Product Details",
+    "price": "Price",
+    "actions": "Actions",
+    "weAccept": "We accept",
+    "estimatedTax": "Estimated Tax",
+    "estimatedShipping": "Estimated Shipping",
+    "estimatedTotal": "Estimated Total",
+    "discountCode": "Discount Code",
+    "calculatedAtCheckout": "Calculated at Checkout"
+  },
+
+  "Products": {
+    "title": "Tire Collection",
+    "description": "Find the perfect tires for your vehicle",
+    "filters": {
+      "title": "Filters",
+      "clear": "Clear All",
+      "apply": "Apply Filters",
+      "brands": "Brands",
+      "categories": "Categories",
+      "tireTypes": "Tire Types",
+      "priceRange": "Price Range",
+      "specifications": "Specifications",
+      "sizes": "Tire Sizes"
+    },
+    "sort": {
+      "title": "Sort By",
+      "newest": "Newest First",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "popular": "Most Popular",
+      "featured": "Featured"
+    },
+    "results": {
+      "found": "{count} products found",
+      "empty": "No products found"
+    },
+    "search": {
+      "placeholder": "Search for tires...",
+      "button": "Search",
+      "noResults": {
+        "title": "No results found",
+        "description": "Try adjusting your search or filters"
       }
     },
-    
-    "Homepage": {
-      "hero": {
-        "title": "Find the Perfect Tires for Every Ride",
-        "subtitle": "Quality Tires with Professional Installation",
-        "searchByVehicle": "Search by Vehicle",
-        "searchBySize": "Search by Tire Size",
-        "shopNow": "Shop Now",
-        "findTires": "Find My Tires",
-        "ctaTitle": "Get Started",
-        "ctaSubtitle": "Explore our wide range of tires and services"
+    "product": {
+      "addToCart": "Add to Cart",
+      "viewDetails": "View Details",
+      "inStock": "In Stock",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock",
+      "sale": "{discount}% OFF",
+      "freeShipping": "Free Shipping",
+      "specifications": "Specifications",
+      "noImage": "No image available",
+      "wholesalePrice": "wholesale price"
+    },
+
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {total}"
+    }
+  },
+
+  "Homepage": {
+    "hero": {
+      "title": "Find the Perfect Tires for Every Ride",
+      "subtitle": "Quality Tires with Professional Installation",
+      "searchByVehicle": "Search by Vehicle",
+      "searchBySize": "Search by Tire Size",
+      "shopNow": "Shop Now",
+      "findTires": "Find My Tires",
+      "ctaTitle": "Get Started",
+      "ctaSubtitle": "Explore our wide range of tires and services"
+    },
+    "vehicleSearch": {
+      "title": "Find Tires for Your Vehicle",
+      "selectYear": "Select Year",
+      "selectMake": "Select Make",
+      "selectModel": "Select Model",
+      "selectTrim": "Select Trim",
+      "search": "Search Tires",
+      "popularVehicles": "Popular Vehicles"
+    },
+    "tireSearch": {
+      "title": "Find Tires by Size",
+      "width": "Width",
+      "aspect": "Aspect Ratio",
+      "diameter": "Diameter",
+      "widthPlaceholder": "e.g. 205",
+      "aspectPlaceholder": "e.g. 55",
+      "diameterPlaceholder": "e.g. 16",
+      "search": "Search",
+      "popularSizes": "Popular Sizes"
+    },
+    "categories": {
+      "title": "Shop by Category",
+      "allSeason": "All Season",
+      "summer": "Summer",
+      "winter": "Winter",
+      "allTerrain": "All Terrain",
+      "performance": "Performance",
+      "seeAll": "See All Categories"
+    },
+    "featured": {
+      "title": "Featured Products",
+      "subtitle": "Our Top Rated Tires",
+      "viewAll": "View All"
+    },
+    "brands": {
+      "title": "Top Brands",
+      "subtitle": "We partner with the world's best tire brands",
+      "viewAll": "View All Brands"
+    },
+    "deals": {
+      "title": "Current Deals",
+      "subtitle": "Save on Quality Tires",
+      "exclusiveOffer": "Exclusive Offer",
+      "limitedTime": "Limited Time Offer",
+      "save": "Save",
+      "off": "off",
+      "shopNow": "Shop Now",
+      "expiresIn": "Expires in:"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "We handle all your tire and wheel needs",
+      "installation": {
+        "title": "Professional Installation",
+        "description": "Our experts install your new tires with the highest precision and care"
       },
-      "vehicleSearch": {
-        "title": "Find Tires for Your Vehicle",
-        "selectYear": "Select Year",
-        "selectMake": "Select Make",
-        "selectModel": "Select Model",
-        "selectTrim": "Select Trim",
-        "search": "Search Tires",
-        "popularVehicles": "Popular Vehicles"
-      },
-      "tireSearch": {
-        "title": "Find Tires by Size",
-        "width": "Width",
-        "aspect": "Aspect Ratio",
-        "diameter": "Diameter",
-        "widthPlaceholder": "e.g. 205",
-        "aspectPlaceholder": "e.g. 55",
-        "diameterPlaceholder": "e.g. 16",
-        "search": "Search",
-        "popularSizes": "Popular Sizes"
-      },
-      "categories": {
-        "title": "Shop by Category",
-        "allSeason": "All Season",
-        "summer": "Summer",
-        "winter": "Winter",
-        "allTerrain": "All Terrain",
-        "performance": "Performance",
-        "seeAll": "See All Categories"
-      },
-      "featured": {
-        "title": "Featured Products",
-        "subtitle": "Our Top Rated Tires",
-        "viewAll": "View All"
-      },
-      "brands": {
-        "title": "Top Brands",
-        "subtitle": "We partner with the world's best tire brands",
-        "viewAll": "View All Brands"
-      },
-      "deals": {
-        "title": "Current Deals",
-        "subtitle": "Save on Quality Tires",
-        "exclusiveOffer": "Exclusive Offer",
-        "limitedTime": "Limited Time Offer",
-        "save": "Save",
-        "off": "off",
-        "shopNow": "Shop Now",
-        "expiresIn": "Expires in:"
-      },
-      "services": {
-        "title": "Our Services",
-        "subtitle": "We handle all your tire and wheel needs",        "installation": {
-          "title": "Professional Installation",
-          "description": "Our experts install your new tires with the highest precision and care"
+
+      "installationPage": {
+        "hero": {
+          "title": "Professional Tire Installation",
+          "subtitle": "Expert Service for Your New Tires",
+          "cta": "Schedule Installation"
         },
-        
-        "installationPage": {
-          "hero": {
-            "title": "Professional Tire Installation",
-            "subtitle": "Expert Service for Your New Tires",
-            "cta": "Schedule Installation"
+        "benefits": {
+          "title": "Why Choose Our Installation Service",
+          "quality": {
+            "title": "Quality Workmanship",
+            "description": "Our certified technicians are trained to handle all tire types with precision"
           },
-          "benefits": {
-            "title": "Why Choose Our Installation Service",
-            "quality": {
-              "title": "Quality Workmanship",
-              "description": "Our certified technicians are trained to handle all tire types with precision"
+          "equipment": {
+            "title": "State-of-the-Art Equipment",
+            "description": "We use advanced tools and technology for precise installation"
+          },
+          "warranty": {
+            "title": "Service Warranty",
+            "description": "All installation services come with our satisfaction guarantee"
+          },
+          "convenience": {
+            "title": "Fast & Convenient",
+            "description": "Quick turnaround times to get you back on the road quickly"
+          }
+        },
+        "process": {
+          "title": "Our Installation Process",
+          "steps": {
+            "inspection": {
+              "title": "Initial Inspection",
+              "description": "We thoroughly check your vehicle's wheels and suspension"
             },
-            "equipment": {
-              "title": "State-of-the-Art Equipment",
-              "description": "We use advanced tools and technology for precise installation"
+            "removal": {
+              "title": "Tire Removal",
+              "description": "Safe removal of your existing tires"
+            },
+            "mounting": {
+              "title": "Mounting",
+              "description": "Precise mounting of your new tires on the wheels"
+            },
+            "balancing": {
+              "title": "Balancing",
+              "description": "Computer-aided balancing for a smooth ride"
+            },
+            "installation": {
+              "title": "Installation",
+              "description": "Secure installation of wheels to your vehicle"
+            },
+            "inspection2": {
+              "title": "Final Inspection",
+              "description": "Quality check to ensure everything meets our standards"
+            }
+          }
+        },
+        "pricing": {
+          "title": "Installation Pricing",
+          "subtitle": "Transparent pricing with no hidden fees",
+          "standard": {
+            "title": "Standard Installation",
+            "price": "From $20 per tire",
+            "includes": "Mounting, Balancing, Valve Stems, Weights"
+          },
+          "premium": {
+            "title": "Premium Installation",
+            "price": "From $30 per tire",
+            "includes": "Standard + Tire Protection Package & Lifetime Rotations"
+          },
+          "specialty": {
+            "title": "Specialty Installation",
+            "price": "From $40 per tire",
+            "includes": "For Run-Flat, Low-Profile, and Custom Wheels"
+          },
+          "note": "Prices may vary based on vehicle type and tire specifications"
+        },
+        "faq": {
+          "title": "Frequently Asked Questions",
+          "questions": {
+            "time": {
+              "question": "How long does installation take?",
+              "answer": "Standard installation typically takes 45-60 minutes for a full set of four tires."
+            },
+            "appointment": {
+              "question": "Do I need an appointment?",
+              "answer": "While we accept walk-ins, we recommend scheduling an appointment to minimize wait time."
+            },
+            "bring": {
+              "question": "What should I bring for installation?",
+              "answer": "Just your vehicle and keys. If you purchased tires elsewhere and want us to install them, bring those along too."
+            },
+            "wait": {
+              "question": "Can I wait while my tires are installed?",
+              "answer": "Yes, our comfortable waiting area has free Wi-Fi, refreshments, and TV."
             },
             "warranty": {
-              "title": "Service Warranty",
-              "description": "All installation services come with our satisfaction guarantee"
-            },
-            "convenience": {
-              "title": "Fast & Convenient",
-              "description": "Quick turnaround times to get you back on the road quickly"
+              "question": "Is the installation service warranted?",
+              "answer": "Yes, all tire installations come with our service warranty to ensure your satisfaction."
             }
-          },
-          "process": {
-            "title": "Our Installation Process",
-            "steps": {
-              "inspection": {
-                "title": "Initial Inspection",
-                "description": "We thoroughly check your vehicle's wheels and suspension"
-              },
-              "removal": {
-                "title": "Tire Removal",
-                "description": "Safe removal of your existing tires"
-              },
-              "mounting": {
-                "title": "Mounting",
-                "description": "Precise mounting of your new tires on the wheels"
-              },
-              "balancing": {
-                "title": "Balancing",
-                "description": "Computer-aided balancing for a smooth ride"
-              },
-              "installation": {
-                "title": "Installation",
-                "description": "Secure installation of wheels to your vehicle"
-              },
-              "inspection2": {
-                "title": "Final Inspection",
-                "description": "Quality check to ensure everything meets our standards"
-              }
-            }
-          },
-          "pricing": {
-            "title": "Installation Pricing",
-            "subtitle": "Transparent pricing with no hidden fees",
-            "standard": {
-              "title": "Standard Installation",
-              "price": "From $20 per tire",
-              "includes": "Mounting, Balancing, Valve Stems, Weights"
-            },
-            "premium": {
-              "title": "Premium Installation",
-              "price": "From $30 per tire",
-              "includes": "Standard + Tire Protection Package & Lifetime Rotations"
-            },
-            "specialty": {
-              "title": "Specialty Installation",
-              "price": "From $40 per tire",
-              "includes": "For Run-Flat, Low-Profile, and Custom Wheels"
-            },
-            "note": "Prices may vary based on vehicle type and tire specifications"
-          },
-          "faq": {
-            "title": "Frequently Asked Questions",
-            "questions": {
-              "time": {
-                "question": "How long does installation take?",
-                "answer": "Standard installation typically takes 45-60 minutes for a full set of four tires."
-              },
-              "appointment": {
-                "question": "Do I need an appointment?",
-                "answer": "While we accept walk-ins, we recommend scheduling an appointment to minimize wait time."
-              },
-              "bring": {
-                "question": "What should I bring for installation?",
-                "answer": "Just your vehicle and keys. If you purchased tires elsewhere and want us to install them, bring those along too."
-              },
-              "wait": {
-                "question": "Can I wait while my tires are installed?",
-                "answer": "Yes, our comfortable waiting area has free Wi-Fi, refreshments, and TV."
-              },
-              "warranty": {
-                "question": "Is the installation service warranted?",
-                "answer": "Yes, all tire installations come with our service warranty to ensure your satisfaction."
-              }
-            }
-          },
-          "cta": {
-            "title": "Ready for Professional Installation?",
-            "subtitle": "Get your tires installed by certified professionals",
-            "button": "Book Installation Service",
-            "or": "or",
-            "contact": "Contact Us for Special Requirements"
-          },          "additionalServices": {
-            "title": "Additional Services",
-            "subtitle": "Enhance your tire installation with these professional services",
-            "serviceColumn": "Service",
-            "descriptionColumn": "Description",
-            "priceColumn": "Price",
-            "empty": "No additional services are currently available.",
-            "error": "Unable to load additional services at this time."
-          },
-          "form": {
-            "title": "Schedule Your Installation",
-            "vehicle": "Vehicle Information",
-            "make": "Make",
-            "model": "Model",
-            "year": "Year",
-            "makePlaceholder": "Toyota",
-            "modelPlaceholder": "RAV4",
-            "yearPlaceholder": "2022",
-            "tires": "Tire Information",
-            "size": "Tire Size",
-            "sizePlaceholder": "225/65R17",
-            "quantity": "Number of Tires",
-            "selectQuantity": "Select quantity",
-            "purchased": "Where Purchased",
-            "wherePurchased": "Where purchased?",
-            "purchasedOptions": {
-              "us": "Purchased from us",
-              "elsewhere": "Purchased elsewhere"
-            },
-            "serviceType": "Service Type",
-            "serviceTypeLabel": "Installation Type",
-            "selectServiceType": "Select service type",
-            "serviceTypes": {
-              "standard": "Standard Installation",
-              "premium": "Premium Installation",
-              "specialty": "Specialty Installation"
-            },
-            "appointment": "Preferred Appointment",
-            "date": "Preferred Date",
-            "pickDate": "Pick a date",
-            "time": "Preferred Time",
-            "selectTime": "Select time",
-            "timeSlots": {
-              "9am": "9:00 AM",
-              "10am": "10:00 AM",
-              "11am": "11:00 AM",
-              "12pm": "12:00 PM",
-              "1pm": "1:00 PM",
-              "2pm": "2:00 PM",
-              "3pm": "3:00 PM",
-              "4pm": "4:00 PM"
-            },
-            "contact": "Contact Information",
-            "name": "Full Name",
-            "namePlaceholder": "John Doe",
-            "email": "Email",
-            "emailPlaceholder": "john.doe@example.com",
-            "phone": "Phone Number",
-            "phonePlaceholder": "+1 (555) 123-4567",
-            "comments": "Additional Comments",
-            "commentsPlaceholder": "Any special requirements or additional information...",
-            "submit": "Schedule Installation",
-            "consent": "I agree to be contacted about my installation appointment",
-            "success": "Thank you! Your installation has been scheduled. We'll contact you shortly to confirm.",
-            "error": "There was an error scheduling your installation. Please try again or contact us directly."
           }
         },
-        "alignment": {
-          "title": "Wheel Alignment",
-          "description": "Ensure a smooth ride and extend the life of your tires"
+        "cta": {
+          "title": "Ready for Professional Installation?",
+          "subtitle": "Get your tires installed by certified professionals",
+          "button": "Book Installation Service",
+          "or": "or",
+          "contact": "Contact Us for Special Requirements"
         },
-        "repair": {
-          "title": "Tire Repair",
-          "description": "Fast and reliable repairs for flat tires and punctures"
+        "additionalServices": {
+          "title": "Additional Services",
+          "subtitle": "Enhance your tire installation with these professional services",
+          "serviceColumn": "Service",
+          "descriptionColumn": "Description",
+          "priceColumn": "Price",
+          "empty": "No additional services are currently available.",
+          "error": "Unable to load additional services at this time."
         },
-        "rotation": {
-          "title": "Tire Rotation",
-          "description": "Regular rotation for even wear and maximum tire life"
-        },
-        "seeAll": "See All Services",
-        "schedule": "Schedule Appointment"
-      },
-      "testimonials": {
-        "title": "What Our Customers Say",
-        "subtitle": "Thousands of satisfied customers trust us for their tire needs"
-      },
-      "whyChooseUs": {
-        "title": "Why Choose Us",
-        "freeShipping": {
-          "title": "Free Shipping",
-          "description": "Free shipping on all orders over $100"
-        },
-        "expertAdvice": {
-          "title": "Expert Advice",
-          "description": "Our tire specialists are ready to help you"
-        },
-        "warranty": {
-          "title": "Warranty Included",
-          "description": "All tires come with manufacturer warranty"
-        },
-        "easyReturns": {
-          "title": "Easy Returns",
-          "description": "30-day no-questions-asked return policy"
+        "form": {
+          "title": "Schedule Your Installation",
+          "vehicle": "Vehicle Information",
+          "make": "Make",
+          "model": "Model",
+          "year": "Year",
+          "makePlaceholder": "Toyota",
+          "modelPlaceholder": "RAV4",
+          "yearPlaceholder": "2022",
+          "tires": "Tire Information",
+          "size": "Tire Size",
+          "sizePlaceholder": "225/65R17",
+          "quantity": "Number of Tires",
+          "selectQuantity": "Select quantity",
+          "purchased": "Where Purchased",
+          "wherePurchased": "Where purchased?",
+          "purchasedOptions": {
+            "us": "Purchased from us",
+            "elsewhere": "Purchased elsewhere"
+          },
+          "serviceType": "Service Type",
+          "serviceTypeLabel": "Installation Type",
+          "selectServiceType": "Select service type",
+          "serviceTypes": {
+            "standard": "Standard Installation",
+            "premium": "Premium Installation",
+            "specialty": "Specialty Installation"
+          },
+          "appointment": "Preferred Appointment",
+          "date": "Preferred Date",
+          "pickDate": "Pick a date",
+          "time": "Preferred Time",
+          "selectTime": "Select time",
+          "timeSlots": {
+            "9am": "9:00 AM",
+            "10am": "10:00 AM",
+            "11am": "11:00 AM",
+            "12pm": "12:00 PM",
+            "1pm": "1:00 PM",
+            "2pm": "2:00 PM",
+            "3pm": "3:00 PM",
+            "4pm": "4:00 PM"
+          },
+          "contact": "Contact Information",
+          "name": "Full Name",
+          "namePlaceholder": "John Doe",
+          "email": "Email",
+          "emailPlaceholder": "john.doe@example.com",
+          "phone": "Phone Number",
+          "phonePlaceholder": "+1 (555) 123-4567",
+          "comments": "Additional Comments",
+          "commentsPlaceholder": "Any special requirements or additional information...",
+          "submit": "Schedule Installation",
+          "consent": "I agree to be contacted about my installation appointment",
+          "success": "Thank you! Your installation has been scheduled. We'll contact you shortly to confirm.",
+          "error": "There was an error scheduling your installation. Please try again or contact us directly."
         }
       },
-      "blog": {
-        "title": "Latest Articles",
-        "subtitle": "Tips and advice on tire care",
-        "readMore": "Read More"
+      "alignment": {
+        "title": "Wheel Alignment",
+        "description": "Ensure a smooth ride and extend the life of your tires"
       },
-      "newsletter": {
-        "title": "Stay Updated",
-        "subtitle": "Subscribe to our newsletter for exclusive offers and tire tips",
-        "emailPlaceholder": "Your email address",
-        "namePlaceholder": "Your name",
-        "subscribing": "Subscribing...",
-        "subsscribed": "Subscribed!",
-        "subscribe": "Subscribe",
-        "privacyNote": "We respect your privacy and never share your information"
+      "repair": {
+        "title": "Tire Repair",
+        "description": "Fast and reliable repairs for flat tires and punctures"
       },
-      "promoBar": {
-        "freeShipping": "FREE SHIPPING ON ORDERS OVER $100",
-        "discount": "USE CODE FIRST10 FOR 10% OFF YOUR FIRST ORDER",
-        "guarantee": "30-DAY SATISFACTION GUARANTEE"
+      "rotation": {
+        "title": "Tire Rotation",
+        "description": "Regular rotation for even wear and maximum tire life"
       },
-      "retailer": {
-        "title": "Become a Retail Partner",
-        "subtitle": "Sell your products on our network",
-        "learnMore": "Learn More"
+      "seeAll": "See All Services",
+      "schedule": "Schedule Appointment"
+    },
+    "testimonials": {
+      "title": "What Our Customers Say",
+      "subtitle": "Thousands of satisfied customers trust us for their tire needs"
+    },
+    "whyChooseUs": {
+      "title": "Why Choose Us",
+      "freeShipping": {
+        "title": "Free Shipping",
+        "description": "Free shipping on all orders over $100"
+      },
+      "expertAdvice": {
+        "title": "Expert Advice",
+        "description": "Our tire specialists are ready to help you"
+      },
+      "warranty": {
+        "title": "Warranty Included",
+        "description": "All tires come with manufacturer warranty"
+      },
+      "easyReturns": {
+        "title": "Easy Returns",
+        "description": "30-day no-questions-asked return policy"
       }
     },
-      "Account": {
-      "testimonials": {
-            "title": "My Testimonials",
-            "description": "View and manage your testimonials",
-            "loading": "Loading testimonials...",
-            "empty": {
-                "title": "No testimonials yet",
-                "description": "You haven&apos;t shared any testimonials yet",
-                "button": "Write a Testimonial"
-            },
-            "actions": {
-                "add": "Add Testimonial",
-                "edit": "Edit Testimonial",
-                "delete": "Delete Testimonial"
-            },
-            "form": {
-                "title": "Share Your Experience",
-                "rating": "Rating",
-                "headline": "Headline",
-                "content": "Your Testimonial",
-                "publish": "Publish My Name",
-                "submit": "Submit Testimonial",
-                "success": "Testimonial submitted successfully",
-                "error": "Failed to submit testimonial"
-            },
-            "delete": {
-                "confirm": "Are you sure you want to delete this testimonial?",
-                "warning": "This action cannot be undone.",
-                "success": "Testimonial deleted successfully",
-                "error": "Failed to delete testimonial"
-            }
+    "blog": {
+      "title": "Latest Articles",
+      "subtitle": "Tips and advice on tire care",
+      "readMore": "Read More"
+    },
+    "newsletter": {
+      "title": "Stay Updated",
+      "subtitle": "Subscribe to our newsletter for exclusive offers and tire tips",
+      "emailPlaceholder": "Your email address",
+      "namePlaceholder": "Your name",
+      "subscribing": "Subscribing...",
+      "subsscribed": "Subscribed!",
+      "subscribe": "Subscribe",
+      "privacyNote": "We respect your privacy and never share your information"
+    },
+    "promoBar": {
+      "freeShipping": "FREE SHIPPING ON ORDERS OVER $100",
+      "discount": "USE CODE FIRST10 FOR 10% OFF YOUR FIRST ORDER",
+      "guarantee": "30-DAY SATISFACTION GUARANTEE"
+    },
+    "retailer": {
+      "title": "Become a Retail Partner",
+      "subtitle": "Sell your products on our network",
+      "learnMore": "Learn More"
+    }
+  },
+  "Account": {
+    "testimonials": {
+      "title": "My Testimonials",
+      "description": "View and manage your testimonials",
+      "loading": "Loading testimonials...",
+      "empty": {
+        "title": "No testimonials yet",
+        "description": "You haven&apos;t shared any testimonials yet",
+        "button": "Write a Testimonial"
+      },
+      "actions": {
+        "add": "Add Testimonial",
+        "edit": "Edit Testimonial",
+        "delete": "Delete Testimonial"
+      },
+      "form": {
+        "title": "Share Your Experience",
+        "rating": "Rating",
+        "headline": "Headline",
+        "content": "Your Testimonial",
+        "publish": "Publish My Name",
+        "submit": "Submit Testimonial",
+        "success": "Testimonial submitted successfully",
+        "error": "Failed to submit testimonial"
+      },
+      "delete": {
+        "confirm": "Are you sure you want to delete this testimonial?",
+        "warning": "This action cannot be undone.",
+        "success": "Testimonial deleted successfully",
+        "error": "Failed to delete testimonial"
+      }
+    },
+    "layout": {
+      "title": "My Account",
+      "description": "Manage your account settings and preferences",
+      "tabs": {
+        "settings": "Settings",
+        "orders": "Orders",
+        "favorites": "Favorites",
+        "testimonials": "Testimonials"
+      }
+    },
+    "common": {
+      "loading": "Loading...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "view": "View Details",
+      "back": "Back",
+      "update": "Update",
+      "add": "Add",
+      "remove": "Remove",
+      "confirm": "Confirm",
+      "success": "Success",
+      "close": "Close",
+      "retry": "Retry",
+      "error": "Error"
+    },
+    "settings": {
+      "title": "Account Settings",
+      "description": "Manage your account settings and preferences",
+      "error": {
+        "title": "Error",
+        "message": "Failed to load user data. Please try again later.",
+        "retry": "Retry"
+      },
+      "tabs": {
+        "profile": "Profile",
+        "notifications": "Notifications",
+        "security": "Security",
+        "payment": "Payment Methods",
+        "retailer": "Business Profile"
+      },
+      "profile": {
+        "title": "Profile Information",
+        "description": "Update your personal information and address",
+        "avatar": "Profile Picture",
+        "avatarRequirements": "JPG, PNG, GIF or WebP. Max size 5MB.",
+        "fields": {
+          "name": "Full Name",
+          "email": "Email Address",
+          "phone": "Phone Number",
+          "address": "Address",
+          "company": "Company (Optional)",
+          "website": "Website (Optional)",
+          "bio": "Bio (Optional)"
         },
-        "layout": {
-            "title": "My Account",
-            "description": "Manage your account settings and preferences",
-            "tabs": {
-                "settings": "Settings",
-                "orders": "Orders",
-                "favorites": "Favorites",
-                "testimonials": "Testimonials"
-            }
+        "namePlaceholder": "Enter your full name",
+        "emailPlaceholder": "Enter your email",
+        "phonePlaceholder": "Enter your phone number",
+        "addressPlaceholder": "Enter your address",
+        "saving": "Saving...",
+        "saveChanges": "Save Changes",
+        "success": "Profile updated successfully",
+        "error": "Failed to update profile"
+      },
+      "notifications": {
+        "title": "Notification Preferences",
+        "description": "Choose how you want to receive notifications",
+        "methodsTitle": "Notification Methods",
+        "typesTitle": "Notification Types",
+        "emailNotifications": "Email Notifications",
+        "emailDescription": "Receive notifications via email",
+        "orderUpdates": "Order Updates",
+        "orderDescription": "Get notified about your order status",
+        "promotionalEmails": "Promotions & Deals",
+        "promotionalDescription": "Receive notifications about sales and special offers",
+        "inventoryAlerts": "Inventory Alerts",
+        "inventoryDescription": "Get notified about inventory changes",
+        "priceChanges": "Price Changes",
+        "priceDescription": "Get notified about price changes",
+        "saving": "Saving...",
+        "savePreferences": "Save Preferences",
+        "success": "Notification preferences updated successfully",
+        "error": "Failed to update notification preferences"
+      },
+      "password": {
+        "title": "Change Password",
+        "description": "Update your password to keep your account secure",
+        "fields": {
+          "current": "Current Password",
+          "new": "New Password",
+          "confirm": "Confirm New Password"
         },
-        "common": {
-            "loading": "Loading...",
-            "save": "Save",
-            "cancel": "Cancel",
-            "delete": "Delete",
-            "edit": "Edit",
-            "view": "View Details",
-            "back": "Back",
-            "update": "Update",
-            "add": "Add",
-            "remove": "Remove",
-            "confirm": "Confirm",
-            "success": "Success",
-            "close": "Close",
-            "retry":"Retry",
-            "error": "Error"
+        "currentPlaceholder": "Enter your current password",
+        "newPlaceholder": "Enter your new password",
+        "confirmPlaceholder": "Confirm your new password",
+        "requirements": "Password must be at least 8 characters long",
+        "updating": "Updating...",
+        "update": "Update Password",
+        "success": "Password changed successfully",
+        "error": "Failed to change password"
+      },
+      "payment": {
+        "title": "Payment Methods",
+        "description": "Manage your saved payment methods",
+        "expires": "Expires",
+        "default": "Default",
+        "setDefault": "Set as Default",
+        "remove": "Remove",
+        "noMethods": "No payment methods found",
+        "addMethod": "+ Add Payment Method",
+        "addTitle": "Add Payment Method",
+        "addDescription": "Enter your card details to add a new payment method",
+        "cardInfo": "Card Information",
+        "secureProcessing": "Your card information is securely processed by Stripe.",
+        "billingInfo": "Billing Information",
+        "nameOnCard": "Name on Card",
+        "namePlaceholder": "John Doe",
+        "email": "Email",
+        "emailPlaceholder": "john@example.com",
+        "billingAddress": "Billing Address",
+        "addressPlaceholder": "123 Main St",
+        "city": "City",
+        "cityPlaceholder": "New York",
+        "state": "State",
+        "statePlaceholder": "NY",
+        "postalCode": "Postal Code",
+        "postalCodePlaceholder": "10001",
+        "country": "Country",
+        "countryPlaceholder": "United States",
+        "setAsDefault": "Set as default payment method",
+        "defaultDescription": "This card will be used by default for future payments",
+        "adding": "Adding...",
+        "success": "Payment method added successfully",
+        "error": "Failed to add payment method"
+      },
+      "retailer": {
+        "title": "Business Profile",
+        "description": "Manage your retailer business information",
+        "fields": {
+          "company": "Company Name",
+          "phone": "Business Phone",
+          "address": "Business Address",
+          "taxId": "Tax ID (Optional)",
+          "yearsInBusiness": "Years in Business"
         },
-        "settings": {
-            "title": "Account Settings",
-            "description": "Manage your account settings and preferences",
-            "error": {
-                "title": "Error",
-                "message": "Failed to load user data. Please try again later.",
-                "retry": "Retry"
-            },
-            "tabs": {
-                "profile": "Profile",
-                "notifications": "Notifications",
-                "security": "Security",
-                "payment": "Payment Methods",
-                "retailer": "Business Profile"
-            },
-            "profile": {
-                "title": "Profile Information",
-                "description": "Update your personal information and address",
-                "avatar": "Profile Picture",
-                "avatarRequirements": "JPG, PNG, GIF or WebP. Max size 5MB.",
-                "fields": {
-                    "name": "Full Name",
-                    "email": "Email Address",
-                    "phone": "Phone Number",
-                    "address": "Address",
-                    "company": "Company (Optional)",
-                    "website": "Website (Optional)",
-                    "bio": "Bio (Optional)"
-                },
-                "namePlaceholder": "Enter your full name",
-                "emailPlaceholder": "Enter your email",
-                "phonePlaceholder": "Enter your phone number",
-                "addressPlaceholder": "Enter your address",
-                "saving": "Saving...",
-                "saveChanges": "Save Changes",
-                "success": "Profile updated successfully",
-                "error": "Failed to update profile"
-            },
-            "notifications": {
-                "title": "Notification Preferences",
-                "description": "Choose how you want to receive notifications",
-                "methodsTitle": "Notification Methods",
-                "typesTitle": "Notification Types",
-                "emailNotifications": "Email Notifications",
-                "emailDescription": "Receive notifications via email",
-                "orderUpdates": "Order Updates",
-                "orderDescription": "Get notified about your order status",
-                "promotionalEmails": "Promotions & Deals",
-                "promotionalDescription": "Receive notifications about sales and special offers",
-                "inventoryAlerts": "Inventory Alerts",
-                "inventoryDescription": "Get notified about inventory changes",
-                "priceChanges": "Price Changes",
-                "priceDescription": "Get notified about price changes",
-                "saving": "Saving...",
-                "savePreferences": "Save Preferences",
-                "success": "Notification preferences updated successfully",
-                "error": "Failed to update notification preferences"
-            },
-            "password": {
-                "title": "Change Password",
-                "description": "Update your password to keep your account secure",
-                "fields": {
-                    "current": "Current Password",
-                    "new": "New Password",
-                    "confirm": "Confirm New Password"
-                },
-                "currentPlaceholder": "Enter your current password",
-                "newPlaceholder": "Enter your new password",
-                "confirmPlaceholder": "Confirm your new password",
-                "requirements": "Password must be at least 8 characters long",
-                "updating": "Updating...",
-                "update": "Update Password",
-                "success": "Password changed successfully",
-                "error": "Failed to change password"
-            },
-            "payment": {
-                "title": "Payment Methods",
-                "description": "Manage your saved payment methods",
-                "expires": "Expires",
-                "default": "Default",
-                "setDefault": "Set as Default",
-                "remove": "Remove",
-                "noMethods": "No payment methods found",
-                "addMethod": "+ Add Payment Method",
-                "addTitle": "Add Payment Method",
-                "addDescription": "Enter your card details to add a new payment method",
-                "cardInfo": "Card Information",
-                "secureProcessing": "Your card information is securely processed by Stripe.",
-                "billingInfo": "Billing Information",
-                "nameOnCard": "Name on Card",
-                "namePlaceholder": "John Doe",
-                "email": "Email",
-                "emailPlaceholder": "john@example.com",
-                "billingAddress": "Billing Address",
-                "addressPlaceholder": "123 Main St",
-                "city": "City",
-                "cityPlaceholder": "New York",
-                "state": "State",
-                "statePlaceholder": "NY",
-                "postalCode": "Postal Code",
-                "postalCodePlaceholder": "10001",
-                "country": "Country",
-                "countryPlaceholder": "United States",
-                "setAsDefault": "Set as default payment method",
-                "defaultDescription": "This card will be used by default for future payments",
-                "adding": "Adding...",
-                "success": "Payment method added successfully",
-                "error": "Failed to add payment method"
-            },
-            "retailer": {
-                "title": "Business Profile",
-                "description": "Manage your retailer business information",
-                "fields": {
-                    "company": "Company Name",
-                    "phone": "Business Phone",
-                    "address": "Business Address",
-                    "taxId": "Tax ID (Optional)",
-                    "yearsInBusiness": "Years in Business"
-                },
-                "companyPlaceholder": "Your Business Name",
-                "phonePlaceholder": "Business Phone Number",
-                "addressPlaceholder": "Business Street Address",
-                "taxIdPlaceholder": "Tax/Business ID",
-                "yearsPlaceholder": "e.g. 5",
-                "saving": "Saving...",
-                "save": "Save Business Profile",
-                "success": "Business profile updated successfully",
-                "error": "Failed to update business profile"
-            }
-        },
-        "favorites": {
-            "title": "My Favorites",
-            "description": "View and manage your favorite products",
-            "loading": "Loading favorites...",
-            "search": "Search favorites...",
-            "sortBy": "Sort by:",
-            "sortOptions": {
-                "recent": "Most Recent",
-                "name": "Name",
-                "priceAsc": "Price (Low to High)",
-                "priceDesc": "Price (High to Low)"
-            },
-            "empty": {
-                "title": "No favorites yet",
-                "description": "You haven&apos;t added any products to your favorites yet",
-                "button": "Browse Products"
-            },
-            "noResults": {
-                "title": "No results found",
-                "description": "No products match your search criteria"
-            },
-            "actions": {
-                "remove": "Remove from favorites",
-                "view": "View Details"
-            }
-        },        
-        "orders": {
-            "title": "My Orders",
-            "description": "Track and manage your orders",
-            "loading": "Loading orders...",
-            "search": "Search orders...",
-            "noResults": "No orders match your filters. Try adjusting your search or filter.",
-            "placedOn": "Placed on",
-            "empty": {
-                "title": "No orders yet",
-                "description": "You haven&apos;t placed any orders yet",
-                "button": "Start Shopping"
-            },
-            "filter": {
-                "title": "Filter by status",
-                "all": "All Orders",
-                "processing": "Processing",
-                "shipped": "Shipped",
-                "delivered": "Delivered",
-                "cancelled": "Cancelled"
-            },
-            "labels": {
-                "orderNumber": "Order #",
-                "date": "Order Date",
-                "status": "Status",
-                "total": "Total",
-                "items": "Items",
-                "tracking": "Tracking",
-                "actions": "Actions",
-                "shipping": "Shipping Information",
-                "estimatedDelivery": "Estimated Delivery",
-                "paymentMethod": "Payment Method",
-                "paymentStatus": "Status",
-                "notes": "Order Notes",
-                "quantity": "Quantity",
-                "price": "Price",
-                "subtotal": "Subtotal",
-                "orderTotal": "Order Total"
-            },
-            "status": {
-                "pending": "Pending",
-                "processing": "Processing",
-                "shipped": "Shipped",
-                "delivered": "Delivered",
-                "cancelled": "Cancelled",
-                "returned": "Returned",
-                "refunded": "Refunded"
-            },
-            "actions": {
-                "viewDetails": "View Details",
-                "viewHistory": "View History",
-                "trackShipment": "Track Package",
-                "cancelOrder": "Cancel Order",
-                "downloadInvoice": "Download Invoice",
-                "emailInvoice": "Email Invoice",
-                "reorderItems": "Reorder Items",
-                "returnItems": "Return Items",
-                "writeReview": "Write Review",
-                "rate": "Rate",
-                "processing": "Processing...",
-                "cancelling": "Cancelling...",
-                "sending": "Sending..."
-            },
-            "history": {
-                "title": "Order History",
-                "noHistory": "No history available for this order."
-            },
-            "tracking": {
-                "title": "Tracking Information",
-                "currentStatus": "Current Status",
-                "updates": "Tracking Updates",
-                "noTracking": "No tracking information available at this time.",
-                "viewOnCarrier": "View on Carrier Website",
-                "number":"Tracking Number"
-            },
-            "rating": {
-                "title": "Rate Your Purchase",
-                "yourRating": "Your Rating",
-                "yourReview": "Your Review (optional)",
-                "placeholder": "Share your experience with this product...",
-                "submit": "Submit Rating",
-                "submitting": "Submitting..."
-            },
-            "invoice": {
-                "title": "Email Invoice",
-                "description": "Enter the email address to send the invoice to.",
-                "placeholder": "Email address",
-                "send": "Send Invoice"
-            },
-            "notes": {
-                "placeholder": "Add notes about your order...",
-                "save": "Save Notes",
-                "saving": "Saving..."
-            },
-            "notifications": {
-                "cancelSuccess": "Order has been cancelled successfully",
-                "cancelError": "Failed to cancel order: {error}",
-                "noTracking": "No tracking information available",
-                "reorderSuccess": "Items have been added to your cart",
-                "reorderError": "Failed to reorder: {error}",
-                "downloadSuccess": "Invoice downloaded successfully",
-                "downloadError": "Failed to download invoice: {error}",
-                "emailSuccess": "Invoice has been emailed successfully",
-                "emailError": "Failed to email invoice: {error}",
-                "notesSuccess": "Order notes updated successfully",
-                "notesError": "Failed to update notes: {error}",
-                "ratingSuccess": "Thank you for your rating!",
-                "ratingError": "Failed to submit rating: {error}"
-            }
-            }
-        ,
-        "Reviews": {
+        "companyPlaceholder": "Your Business Name",
+        "phonePlaceholder": "Business Phone Number",
+        "addressPlaceholder": "Business Street Address",
+        "taxIdPlaceholder": "Tax/Business ID",
+        "yearsPlaceholder": "e.g. 5",
+        "saving": "Saving...",
+        "save": "Save Business Profile",
+        "success": "Business profile updated successfully",
+        "error": "Failed to update business profile"
+      }
+    },
+    "favorites": {
+      "title": "My Favorites",
+      "description": "View and manage your favorite products",
+      "loading": "Loading favorites...",
+      "search": "Search favorites...",
+      "sortBy": "Sort by:",
+      "sortOptions": {
+        "recent": "Most Recent",
+        "name": "Name",
+        "priceAsc": "Price (Low to High)",
+        "priceDesc": "Price (High to Low)"
+      },
+      "empty": {
+        "title": "No favorites yet",
+        "description": "You haven&apos;t added any products to your favorites yet",
+        "button": "Browse Products"
+      },
+      "noResults": {
+        "title": "No results found",
+        "description": "No products match your search criteria"
+      },
+      "actions": {
+        "remove": "Remove from favorites",
+        "view": "View Details"
+      }
+    },
+    "orders": {
+      "title": "My Orders",
+      "description": "Track and manage your orders",
+      "loading": "Loading orders...",
+      "search": "Search orders...",
+      "noResults": "No orders match your filters. Try adjusting your search or filter.",
+      "placedOn": "Placed on",
+      "empty": {
+        "title": "No orders yet",
+        "description": "You haven&apos;t placed any orders yet",
+        "button": "Start Shopping"
+      },
+      "filter": {
+        "title": "Filter by status",
+        "all": "All Orders",
+        "processing": "Processing",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled"
+      },
+      "labels": {
+        "orderNumber": "Order #",
+        "date": "Order Date",
+        "status": "Status",
+        "total": "Total",
+        "items": "Items",
+        "tracking": "Tracking",
+        "actions": "Actions",
+        "shipping": "Shipping Information",
+        "estimatedDelivery": "Estimated Delivery",
+        "paymentMethod": "Payment Method",
+        "paymentStatus": "Status",
+        "notes": "Order Notes",
+        "quantity": "Quantity",
+        "price": "Price",
+        "subtotal": "Subtotal",
+        "orderTotal": "Order Total"
+      },
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "returned": "Returned",
+        "refunded": "Refunded"
+      },
+      "actions": {
+        "viewDetails": "View Details",
+        "viewHistory": "View History",
+        "trackShipment": "Track Package",
+        "cancelOrder": "Cancel Order",
+        "downloadInvoice": "Download Invoice",
+        "emailInvoice": "Email Invoice",
+        "reorderItems": "Reorder Items",
+        "returnItems": "Return Items",
+        "writeReview": "Write Review",
+        "rate": "Rate",
+        "processing": "Processing...",
+        "cancelling": "Cancelling...",
+        "sending": "Sending..."
+      },
+      "history": {
+        "title": "Order History",
+        "noHistory": "No history available for this order."
+      },
+      "tracking": {
+        "title": "Tracking Information",
+        "currentStatus": "Current Status",
+        "updates": "Tracking Updates",
+        "noTracking": "No tracking information available at this time.",
+        "viewOnCarrier": "View on Carrier Website",
+        "number": "Tracking Number"
+      },
+      "rating": {
+        "title": "Rate Your Purchase",
+        "yourRating": "Your Rating",
+        "yourReview": "Your Review (optional)",
+        "placeholder": "Share your experience with this product...",
+        "submit": "Submit Rating",
+        "submitting": "Submitting..."
+      },
+      "invoice": {
+        "title": "Email Invoice",
+        "description": "Enter the email address to send the invoice to.",
+        "placeholder": "Email address",
+        "send": "Send Invoice"
+      },
+      "notes": {
+        "placeholder": "Add notes about your order...",
+        "save": "Save Notes",
+        "saving": "Saving..."
+      },
+      "notifications": {
+        "cancelSuccess": "Order has been cancelled successfully",
+        "cancelError": "Failed to cancel order: {error}",
+        "noTracking": "No tracking information available",
+        "reorderSuccess": "Items have been added to your cart",
+        "reorderError": "Failed to reorder: {error}",
+        "downloadSuccess": "Invoice downloaded successfully",
+        "downloadError": "Failed to download invoice: {error}",
+        "emailSuccess": "Invoice has been emailed successfully",
+        "emailError": "Failed to email invoice: {error}",
+        "notesSuccess": "Order notes updated successfully",
+        "notesError": "Failed to update notes: {error}",
+        "ratingSuccess": "Thank you for your rating!",
+        "ratingError": "Failed to submit rating: {error}"
+      }
+    },
+    "Reviews": {
       "writeReview": "Write a Review",
       "writeYourReview": "Write Your Review",
       "reviewTitle": "Review Title",
@@ -1030,7 +1036,7 @@
       "reviewProcessing": "Your review is being processed...",
       "imagePreview": "Image Preview",
       "errorSubmitting": "Error submitting review. Please try again.",
-      
+
       "list": {
         "title": "Customer Reviews",
         "averageRating": "out of 5",
@@ -1061,876 +1067,879 @@
         "signInButton": "Sign In"
       }
     }
-      },
-      
-      "Home": {
-        "hero": {
-            "title": "Find Your Perfect Tires",
-            "description": "Explore our wide range of tires for every vehicle type",
-            "searchPlaceholder": "Search for tires...",
-            "searchButton": "Search",
-            "categories": {
-                "allTires": "All Tires",
-                "allSeason": "All Season",
-                "summer": "Summer",
-                "winter": "Winter",
-                "allTerrain": "All Terrain",
-                "highPerformance": "High Performance"
-            }
-        },
-        "featuredProducts": {
-            "title": "Featured Products",
-            "viewAllButton": "View All Products"
-        },
-        "testimonials": {
-            "title": "What Our Customers Say",
-            "viewAllButton": "View All Testimonials"
-        },
-        "newsletter": {
-            "title": "Subscribe to Our Newsletter",
-            "description": "Get the latest updates and exclusive offers straight to your inbox.",
-            "emailPlaceholder": "Enter your email address",
-            "subscribeButton": "Subscribe"
-        }
-    },
-    "ProductDetail": {
-        "breadcrumb": {
-            "home": "Home",
-            "products": "Products"
-        },
-        "badge": {
-            "featured": "Featured",
-            "runFlat": "Run Flat",
-            "reinforced": "Reinforced"
-        },
-        "reviews": {
-            "review": "review",
-            "reviews": "reviews",
-            "writeReview": "Write a Review",
-            "seeAllReviews": "See all reviews",
-            "noReviews": "No reviews yet. Be the first to review this product!"
-        },
-        "price": {
-            "outOfStock": "Out of stock",
-            "lowStock": "Low stock - only {count} left",
-            "inStock": "In stock - {count} available"
-        },
-        "pricing":{
-        "wholesale":"wholesale price",
-        "retailPrice":"retail price",
-        "discount":"discount",
-        "retailDiscount":"retail discount",
-        "wholesaleDiscount":"wholesale discount",
-        "wholesaleSalePrice":"wholesale sale price",
-        "wholesalePricing":"wholesale pricing"
-      },
-        "performance": {
-            "title": "Performance Ratings",
-            "wetGrip": "Wet Grip",
-            "fuelEfficiency": "Fuel Efficiency",
-            "noise": "Noise (dB)",
-            "ratings": {
-                "A": "Excellent",
-                "B": "Good",
-                "C": "Fair",
-                "D": "Poor",
-                "E": "Very Poor"
-            }
-        },
-        "tabs": {
-            "specifications": "Specifications",
-            "performance": "Performance",
-            "details": "Additional Details"
-        },
-        "addToCart":"Add to Cart",
-        "addToFavorites":"Add to Favorites",
-        "removeFromFavorites":"Remove from Favorites",
-        "specifications": {
-            "size": "Size",
-            "loadSpeed": "Load & Speed Rating",
-            "type": "Type",
-            "construction": "Construction",
-            "treadDepth": "Tread Depth",
-            "sidewall": "Sidewall",
-            "runFlat": "Run Flat",
-            "reinforced": "Reinforced",
-            "plyRating": "Ply Rating",
-            "maxPressure": "Max Pressure",
-            "maxLoad": "Max Load",
-            "standard": "Standard",
-            "yes": "Yes",
-            "no": "No"
-        },
-        "performanceTab": {
-            "treadPattern": "Tread Pattern",
-            "wetGrip": "Wet Grip",
-            "fuelEfficiency": "Fuel Efficiency",
-            "noiseLevel": "Noise Level",
-            "snowRating": "Snow Rating",
-            "utqgRating": "UTQG Rating",
-            "mileageWarranty": "Mileage Warranty",
-            "miles": "miles"
-        },
-        "detailsTab": {
-            "sku": "SKU",
-            "manufacturerPart": "Manufacturer Part #",
-            "brand": "Brand",
-            "model": "Model",
-            "category": "Category",
-            "countryOrigin": "Country of Origin",
-            "certifications": "Certifications",
-            "na": "N/A"
-        },
-        "search": {
-            "placeholder": "Search for tires...",
-            "button": "Search"
-        },
-        "recommendations": {
-            "title": "You May Also Like"
-        }
-    },
-    "navbar": {
-      "logo": "Ariana Bandencentrale b.v.",
-      "logoShort": "ABC b.v.",
-      "navigation": "Navigation",
-      "account": "Account",
-      "navLinks": {
-        "allTires": "All Tires",
-        "tireFinder": "Tire Finder",
-        "brands": "Brands",
-        "deals": "Deals",
-        "installation": "Installation"
-      },
-      "search": {
-        "placeholder": "Search products..."
-      },
-      "auth": {
-        "login": "Login",
-        "register": "Register",
-        "becomeRetailer": "Become a Retailer"
-      },
-      "userMenu": {
-        "myOrders": "My Orders",
-        "profileSettings": "Profile Settings",
-        "appointments": "Appointments",
-        "dashboard": "Dashboard",
-        "manageProducts": "Manage Products",
-        "manageOrders": "Manage Orders",
-        "retailerApplications": "Retailer Applications",
-        "myAppointments": "My Appointments",
-        "signOut": "Sign Out"
-      },      
-      "cart": {
-        "aria": "Shopping Cart",
-        "ariaCount":"Shopping Cart with {count} items",
-        "items": {
-          "one": "{count} item",
-          "other": "{count} items"
-        },
-        "empty":"Your cart is empty"
-      }
-    },
-    "Deals": {
-      "title": "Current Deals",
-      "promoCode": "Promo Code",
-      "validFrom": "Valid from {startDate}",
-      "validTo": "Valid to {endDate}",
-      "validPeriod": "Valid from {startDate} to {endDate}",
-      "description": "Explore our latest promotions and special offers on premium tires and services",
-      "shopNow": "Shop Now",
-      "noPromotionsAvailable": "No promotions available at the moment",
-      "checkBackLater": "Check back later for new deals",
-      "viewAll": "View All Promotions",
-      "validUntil": "Valid until {date}",
-      "endingSoon": "Ending Soon",
-      "noEndDate": "No expiration date",
-      "errorLoading": "Error loading promotions",
-      "tryAgainLater": "Please try again later",
-      "viewDetails": "View Details",
-      "emptyState": "No active promotions at the moment",
-      "filters": {
-        "all": "All Deals",
-        "ending": "Ending Soon",
-        "newest": "Newest"
-      },
-      "detail": {
-        "title": "Promotion Details",
-        "promotionDetails": "Promotion Details",
-        "viewAllProducts": "View All Products",
-        "back": "Back to all deals",
-        "validPeriod": "Valid from {startDate} to {endDate}",
-        "permanentOffer": "Permanent offer",
-        "termsAndConditions": "Terms and Conditions",
-        "howToRedeem": "How to Redeem",
-        "relatedProducts": "Related Products",
-        "copyCode": "Copy Code",
-        "codeCopied": "Code copied to clipboard!"
-      }
-    },
-    "productsHeader": {
-      "title": "Tires",
-      "description": "Browse our selection of premium tires for every vehicle type",
-      "search": {
-        "placeholder": "Search tires...",
-        "button": "Search"
-      },
-      "sort": {
-        "label": "Sort by:",
-        "placeholder": "Sort by",
-        "options": {
-          "featured": "Featured",
-          "price_low": "Price: Low to High",
-          "price_high": "Price: High to Low",
-          "newest": "Newest",
-          "rating": "Customer Rating",
-          "discount": "Discount %"
-        }
-      },
+  },
+
+  "Home": {
+    "hero": {
+      "title": "Find Your Perfect Tires",
+      "description": "Explore our wide range of tires for every vehicle type",
+      "searchPlaceholder": "Search for tires...",
+      "searchButton": "Search",
       "categories": {
-        "all": "All Tires",
-        "all_season": "All Season",
+        "allTires": "All Tires",
+        "allSeason": "All Season",
         "summer": "Summer",
         "winter": "Winter",
-        "all_terrain": "All Terrain",
-        "high_performance": "High Performance",
-        "sale": "On Sale"
+        "allTerrain": "All Terrain",
+        "highPerformance": "High Performance"
       }
     },
-    "productGrid": {
-      "noProducts": {
-        "title": "No products found",
-        "description": "Try adjusting your filters or search term"
-      },
-      "showing": "Showing {count} of {total} products",
-      "productCard": {
-        "discount": "{discount}% OFF",
-        "runFlat": "Run Flat",
-        "lowStock": "Low Stock",
-        "outOfStock": "Out of Stock",
-        "inStock": "{count} in stock",
-        "noImage": "No image",
-        "specifications": "Technical Specifications",
-        "specs": {
-          "treadDepth": "Tread Depth",
-          "sidewall": "Sidewall",
-          "treadPattern": "Tread Pattern",
-          "snowRating": "Snow Rating",
-          "utqg": "UTQG",
-          "warranty": "Warranty",
-          "warrantyMiles": "{miles} miles"
-        },
-        "performance": {
-          "wetGrip": "Wet Grip",
-          "fuelEfficiency": "Fuel Efficiency",
-          "noiseLevel": "Noise Level",
-          "ratings": {
-            "A": "Excellent",
-            "B": "Good",
-            "C": "Fair",
-            "D": "Poor",
-            "E": "Very Poor"
-          }
-        },
-        "buttons": {
-          "viewDetails": "View Details"
-        }
+    "featuredProducts": {
+      "title": "Featured Products",
+      "viewAllButton": "View All Products"
+    },
+    "testimonials": {
+      "title": "What Our Customers Say",
+      "viewAllButton": "View All Testimonials"
+    },
+    "newsletter": {
+      "title": "Subscribe to Our Newsletter",
+      "description": "Get the latest updates and exclusive offers straight to your inbox.",
+      "emailPlaceholder": "Enter your email address",
+      "subscribeButton": "Subscribe"
+    }
+  },
+  "ProductDetail": {
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products"
+    },
+    "badge": {
+      "featured": "Featured",
+      "runFlat": "Run Flat",
+      "reinforced": "Reinforced"
+    },
+    "reviews": {
+      "review": "review",
+      "reviews": "reviews",
+      "writeReview": "Write a Review",
+      "seeAllReviews": "See all reviews",
+      "noReviews": "No reviews yet. Be the first to review this product!"
+    },
+    "price": {
+      "outOfStock": "Out of stock",
+      "lowStock": "Low stock - only {count} left",
+      "inStock": "In stock - {count} available"
+    },
+    "pricing": {
+      "wholesale": "Wholesale Price",
+      "retailPrice": "Retail Price",
+      "discount": "{percent}% Discount",
+      "retailDiscount": "Retail Discount: {percent}%",
+      "wholesaleDiscount": "Wholesale Discount: {percent}%",
+      "wholesaleSalePrice": "Wholesale Sale Price",
+      "wholesalePricing": "Wholesale pricing available for retailers"
+    },
+    "performance": {
+      "title": "Performance Ratings",
+      "wetGrip": "Wet Grip",
+      "fuelEfficiency": "Fuel Efficiency",
+      "noise": "Noise (dB)",
+      "ratings": {
+        "A": "Excellent",
+        "B": "Good",
+        "C": "Fair",
+        "D": "Poor",
+        "E": "Very Poor"
       }
     },
-    "appointments": {
-      "title": "My Appointments",
-      "description": "Book and manage your appointments",
-      "loading": "Loading your appointments...",
-      "newButton": "Book New Appointment",
-      "tabs": {
-        "upcoming": "Upcoming",
-        "past": "Past",
-        "all": "All"
+    "tabs": {
+      "specifications": "Specifications",
+      "performance": "Performance",
+      "details": "Additional Details"
+    },
+    "addToCart": "Add to Cart",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "specifications": {
+      "size": "Size",
+      "loadSpeed": "Load & Speed Rating",
+      "type": "Type",
+      "construction": "Construction",
+      "treadDepth": "Tread Depth",
+      "sidewall": "Sidewall",
+      "runFlat": "Run Flat",
+      "reinforced": "Reinforced",
+      "plyRating": "Ply Rating",
+      "maxPressure": "Max Pressure",
+      "maxLoad": "Max Load",
+      "standard": "Standard",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "performanceTab": {
+      "treadPattern": "Tread Pattern",
+      "wetGrip": "Wet Grip",
+      "fuelEfficiency": "Fuel Efficiency",
+      "noiseLevel": "Noise Level",
+      "snowRating": "Snow Rating",
+      "utqgRating": "UTQG Rating",
+      "mileageWarranty": "Mileage Warranty",
+      "miles": "miles"
+    },
+    "detailsTab": {
+      "sku": "SKU",
+      "manufacturerPart": "Manufacturer Part #",
+      "brand": "Brand",
+      "model": "Model",
+      "category": "Category",
+      "countryOrigin": "Country of Origin",
+      "certifications": "Certifications",
+      "na": "N/A"
+    },
+    "search": {
+      "placeholder": "Search for tires...",
+      "button": "Search"
+    },
+    "recommendations": {
+      "title": "You May Also Like"
+    }
+  },
+  "navbar": {
+    "logo": "Ariana Bandencentrale b.v.",
+    "logoShort": "ABC b.v.",
+    "navigation": "Navigation",
+    "account": "Account",
+    "navLinks": {
+      "allTires": "All Tires",
+      "tireFinder": "Tire Finder",
+      "brands": "Brands",
+      "deals": "Deals",
+      "installation": "Installation"
+    },
+    "search": {
+      "placeholder": "Search products..."
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register",
+      "becomeRetailer": "Become a Retailer"
+    },
+    "userMenu": {
+      "myOrders": "My Orders",
+      "profileSettings": "Profile Settings",
+      "appointments": "Appointments",
+      "dashboard": "Dashboard",
+      "manageProducts": "Manage Products",
+      "manageOrders": "Manage Orders",
+      "retailerApplications": "Retailer Applications",
+      "myAppointments": "My Appointments",
+      "signOut": "Sign Out"
+    },
+    "cart": {
+      "aria": "Shopping Cart",
+      "ariaCount": "Shopping Cart with {count} items",
+      "items": {
+        "one": "{count} item",
+        "other": "{count} items"
       },
-      "emptyStates": {
-        "upcoming": {
-          "title": "No upcoming appointments",
-          "description": "You don&apos;t have any upcoming appointments scheduled. Book a new appointment to get started.",
-          "button": "Book Appointment"
-        },
-        "past": {
-          "title": "No past appointments",
-          "description": "You don&apos;t have any past appointment history."
-        },
-        "all": {
-          "title": "No appointments found",
-          "description": "You haven&apos;t booked any appointments yet. Book your first appointment now.",
-          "button": "Book Appointment"
-        }
-      },
-      "dialog": {
-        "title": "Book an Appointment",
-        "description": "Use the calendar to book a new appointment at your preferred time."
-      },
-      "card": {
-        "duration": "{duration} minutes",
-        "viewButton": "View Details",
-        "cancelButton": "Cancel",
-        "cancelConfirm": "Are you sure you want to cancel this appointment?"
-      },
-      "status": {
-        "scheduled": "Scheduled",
-        "confirmed": "Confirmed",
-        "completed": "Completed",
-        "cancelled": "Cancelled",
-        "no_show": "No show"
-      },
-      "serviceTypes": {
-        "TIRE_INSTALLATION": "Tire Installation",
-        "TIRE_ROTATION": "Tire Rotation",
-        "WHEEL_ALIGNMENT": "Wheel Alignment",
-        "FLAT_REPAIR": "Flat Repair",
-        "TIRE_BALANCING": "Tire Balancing",
-        "TIRE_INSPECTION": "Tire Inspection",
-        "OTHER": "Other Service"
-      },
-      "notifications": {
-        "bookSuccess": "Appointment booked successfully",
-        "bookError": "Failed to book appointment",
-        "cancelSuccess": "Appointment cancelled successfully",
-        "cancelError": "Failed to cancel appointment",
-        "loadError": "Failed to load appointments"
+      "empty": "Your cart is empty"
+    }
+  },
+  "Deals": {
+    "title": "Current Deals",
+    "promoCode": "Promo Code",
+    "validFrom": "Valid from {startDate}",
+    "validTo": "Valid to {endDate}",
+    "validPeriod": "Valid from {startDate} to {endDate}",
+    "description": "Explore our latest promotions and special offers on premium tires and services",
+    "shopNow": "Shop Now",
+    "noPromotionsAvailable": "No promotions available at the moment",
+    "checkBackLater": "Check back later for new deals",
+    "viewAll": "View All Promotions",
+    "validUntil": "Valid until {date}",
+    "endingSoon": "Ending Soon",
+    "noEndDate": "No expiration date",
+    "errorLoading": "Error loading promotions",
+    "tryAgainLater": "Please try again later",
+    "viewDetails": "View Details",
+    "emptyState": "No active promotions at the moment",
+    "filters": {
+      "all": "All Deals",
+      "ending": "Ending Soon",
+      "newest": "Newest"
+    },
+    "detail": {
+      "title": "Promotion Details",
+      "promotionDetails": "Promotion Details",
+      "viewAllProducts": "View All Products",
+      "back": "Back to all deals",
+      "validPeriod": "Valid from {startDate} to {endDate}",
+      "permanentOffer": "Permanent offer",
+      "termsAndConditions": "Terms and Conditions",
+      "howToRedeem": "How to Redeem",
+      "relatedProducts": "Related Products",
+      "copyCode": "Copy Code",
+      "codeCopied": "Code copied to clipboard!"
+    }
+  },
+  "productsHeader": {
+    "title": "Tires",
+    "description": "Browse our selection of premium tires for every vehicle type",
+    "search": {
+      "placeholder": "Search tires...",
+      "button": "Search"
+    },
+    "sort": {
+      "label": "Sort by:",
+      "placeholder": "Sort by",
+      "options": {
+        "featured": "Featured",
+        "price_low": "Price: Low to High",
+        "price_high": "Price: High to Low",
+        "newest": "Newest",
+        "rating": "Customer Rating",
+        "discount": "Discount %"
       }
     },
-    "form": {
-      "view": {
-        "calendar": "Calendar View",
-        "form": "Form View"
+    "categories": {
+      "all": "All Tires",
+      "all_season": "All Season",
+      "summer": "Summer",
+      "winter": "Winter",
+      "all_terrain": "All Terrain",
+      "high_performance": "High Performance",
+      "sale": "On Sale"
+    }
+  },
+  "productGrid": {
+    "noProducts": {
+      "title": "No products found",
+      "description": "Try adjusting your filters or search term"
+    },
+    "showing": "Showing {count} of {total} products",
+    "productCard": {
+      "discount": "{discount}% OFF",
+      "runFlat": "Run Flat",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock",
+      "inStock": "{count} in stock",
+      "noImage": "No image",
+      "specifications": "Technical Specifications",
+      "specs": {
+        "treadDepth": "Tread Depth",
+        "sidewall": "Sidewall",
+        "treadPattern": "Tread Pattern",
+        "snowRating": "Snow Rating",
+        "utqg": "UTQG",
+        "warranty": "Warranty",
+        "warrantyMiles": "{miles} miles"
       },
-      "alert": "Click on a date to schedule your appointment. Blue slots are booked appointments.",
-      "fields": {
-        "name": {
-          "label": "Name",
-          "placeholder": "Your full name"
-        },
-        "email": {
-          "label": "Email",
-          "placeholder": "Your email address"
-        },
-        "phone": {
-          "label": "Phone Number",
-          "placeholder": "Your phone number"
-        },
-        "serviceType": {
-          "label": "Service Type",
-          "placeholder": "Select a service",
-          "tooltip": "Service duration affects available time slots",
-          "options": {
-            "TIRE_INSTALLATION": "Tire Installation (60 min)",
-            "TIRE_ROTATION": "Tire Rotation (30 min)",
-            "WHEEL_ALIGNMENT": "Wheel Alignment (60 min)",
-            "FLAT_REPAIR": "Flat Repair (45 min)",
-            "TIRE_BALANCING": "Tire Balancing (45 min)",
-            "TIRE_INSPECTION": "Tire Inspection (30 min)",
-            "OTHER": "Other Service (60 min)"
-          }
-        },
-        "appointmentDate": {
-          "label": "Appointment Date",
-          "placeholder": "Pick a date"
-        },
-        "appointmentTime": {
-          "label": "Appointment Time",
-          "placeholder": "Select a time",
-          "loading": "Loading available times...",
-          "noTimes": "No available times for selected date",
-          "minutesLabel": "min",
-          "noTimeSlotsMessage": "No available time slots for this date"
-        },
-        "vehicleInfo": {
-          "label": "Vehicle Information (Optional)",
-          "placeholder": "e.g., 2018 Honda Civic, Silver"
-        },
-        "notes": {
-          "label": "Additional Notes (Optional)",
-          "placeholder": "Any specific details or requirements"
+      "performance": {
+        "wetGrip": "Wet Grip",
+        "fuelEfficiency": "Fuel Efficiency",
+        "noiseLevel": "Noise Level",
+        "ratings": {
+          "A": "Excellent",
+          "B": "Good",
+          "C": "Fair",
+          "D": "Poor",
+          "E": "Very Poor"
         }
       },
       "buttons": {
-        "backToCalendar": "Back to Calendar",
-        "bookAppointment": "Book Appointment",
-        "booking": "Booking..."
+        "viewDetails": "View Details"
+      }
+    }
+  },
+  "appointments": {
+    "title": "My Appointments",
+    "description": "Book and manage your appointments",
+    "loading": "Loading your appointments...",
+    "newButton": "Book New Appointment",
+    "tabs": {
+      "upcoming": "Upcoming",
+      "past": "Past",
+      "all": "All"
+    },
+    "emptyStates": {
+      "upcoming": {
+        "title": "No upcoming appointments",
+        "description": "You don&apos;t have any upcoming appointments scheduled. Book a new appointment to get started.",
+        "button": "Book Appointment"
       },
-      "errors": {
-        "pastDates": "Cannot select past dates",
-        "closedDays": "We are closed on Sundays",
-        "fetchError": "Failed to load available time slots",
-        "appointmentError": "Failed to load existing appointments",
-        "submissionError": "An error occurred while booking your appointment"
+      "past": {
+        "title": "No past appointments",
+        "description": "You don&apos;t have any past appointment history."
+      },
+      "all": {
+        "title": "No appointments found",
+        "description": "You haven&apos;t booked any appointments yet. Book your first appointment now.",
+        "button": "Book Appointment"
       }
     },
-      "TireFinder": {
-        "title": "Find the Perfect Tires for Your Vehicle",
-        "subtitle": "Search by vehicle or tire size to find the right tires for your car, truck, or SUV",
-        "tabs": {
-          "vehicle": "Search by Vehicle",
-          "size": "Search by Tire Size"
-        },
-        "vehicle": {
-          "make": "Make",
-          "selectMake": "Select Make",
-          "model": "Model",
-          "selectModel": "Select Model",
-          "selectMakeFirst": "Select Make First",
-          "year": "Year",
-          "selectYear": "Select Year",
-          "selectModelFirst": "Select Model First",
-          "findTiresButton": "Find Tires for Your Vehicle"
-        },
-        "size": {
-          "width": "Width",
-          "selectWidth": "Select Width",
-          "aspectRatio": "Aspect Ratio",
-          "selectRatio": "Select Ratio",
-          "diameter": "Rim Diameter",
-          "selectDiameter": "Select Diameter",
-          "tireSizePlaceholder": "Example: 225/45R17",
-          "findTiresSizeButton": "Find Tires by Size"
-        },
-        "tireTypes": {
-          "title": "Popular Tire Types",
-          "subtitle": "Browse our selection of quality tires for any driving condition",
-          "ALL_SEASON": {
-            "name": "All Season",
-            "description": "Best for year-round use in moderate climates"
-          },
-          "WINTER": {
-            "name": "Winter",
-            "description": "Specially designed for snow, ice, and cold temperatures"
-          },
-          "SUMMER": {
-            "name": "Summer",
-            "description": "Designed for optimal performance in warm weather"
-          },
-          "ALL_TERRAIN": {
-            "name": "All Terrain",
-            "description": "Great for on and off-road driving"
-          },
-          "HIGH_PERFORMANCE": {
-            "name": "High Performance",
-            "description": "Designed for speed and handling"
-          },
-          "TOURING": {
-            "name": "Touring",
-            "description": "Balanced comfort and performance for everyday driving"
-          },
-          "viewTires": "View {type} Tires"
-        },
-        "popularVehicles": {
-          "title": "Popular Vehicle Models",
-          "subtitle": "Quick access to tires for commonly searched vehicles"
-        },
-        "help": {
-          "title": "Need Help Finding the Right Tires?",
-          "description": "Our tire experts are ready to assist you with any questions about finding the perfect tires for your vehicle and driving needs.",
-          "contactSupport": "Contact Support",
-          "chatExpert": "Chat with an Expert"
+    "dialog": {
+      "title": "Book an Appointment",
+      "description": "Use the calendar to book a new appointment at your preferred time."
+    },
+    "card": {
+      "duration": "{duration} minutes",
+      "viewButton": "View Details",
+      "cancelButton": "Cancel",
+      "cancelConfirm": "Are you sure you want to cancel this appointment?",
+      "expired": "Appointment Expired"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "no_show": "No show"
+    },
+    "serviceTypes": {
+      "TIRE_INSTALLATION": "Tire Installation",
+      "TIRE_ROTATION": "Tire Rotation",
+      "WHEEL_ALIGNMENT": "Wheel Alignment",
+      "FLAT_REPAIR": "Flat Repair",
+      "TIRE_BALANCING": "Tire Balancing",
+      "TIRE_INSPECTION": "Tire Inspection",
+      "OTHER": "Other Service"
+    },
+    "notifications": {
+      "bookSuccess": "Appointment booked successfully",
+      "bookError": "Failed to book appointment",
+      "cancelSuccess": "Appointment cancelled successfully",
+      "cancelError": "Failed to cancel appointment",
+      "loadError": "Failed to load appointments"
+    }
+  },
+  "form": {
+    "view": {
+      "calendar": "Calendar View",
+      "form": "Form View"
+    },
+    "alert": "Click on a date to schedule your appointment. Blue slots are booked appointments.",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your full name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Your email address"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Your phone number"
+      },
+      "serviceType": {
+        "label": "Service Type",
+        "placeholder": "Select a service",
+        "tooltip": "Service duration affects available time slots",
+        "options": {
+          "TIRE_INSTALLATION": "Tire Installation (60 min)",
+          "TIRE_ROTATION": "Tire Rotation (30 min)",
+          "WHEEL_ALIGNMENT": "Wheel Alignment (60 min)",
+          "FLAT_REPAIR": "Flat Repair (45 min)",
+          "TIRE_BALANCING": "Tire Balancing (45 min)",
+          "TIRE_INSPECTION": "Tire Inspection (30 min)",
+          "OTHER": "Other Service (60 min)"
         }
       },
-    "brandPage": {
-      "title": "{brandName} Tires | Premium Tire Shop",
-      "metaDescription": "Shop our collection of {brandName} tires for all vehicle types.",
-      "breadcrumb": "All Brands",
-      "heading": "{brandName} Tires",
-      "tabs": {
-        "all": "All Products"
+      "appointmentDate": {
+        "label": "Appointment Date",
+        "placeholder": "Pick a date"
       },
-      "product": {
-        "noImage": "No image",
-        "discount": "{discount}% OFF",
-        "viewDetails": "View Details"
+      "appointmentTime": {
+        "label": "Appointment Time",
+        "placeholder": "Select a time",
+        "loading": "Loading available times...",
+        "noTimes": "No available times for selected date",
+        "minutesLabel": "min",
+        "noTimeSlotsMessage": "No available time slots for this date"
       },
-      "emptyState": {
-        "title": "No products found from this brand",
-        "description": "We're working on adding products from this brand. Please check back soon.",
-        "emptyModelTitle": "No products found in this model",
-        "emptyModelDescription": "We're working on adding products from this model. Please check back soon.",
-        "browseAll": "Browse All Products"
+      "vehicleInfo": {
+        "label": "Vehicle Information (Optional)",
+        "placeholder": "e.g., 2018 Honda Civic, Silver"
+      },
+      "notes": {
+        "label": "Additional Notes (Optional)",
+        "placeholder": "Any specific details or requirements"
       }
     },
-    "brandsPage": {
-      "title": "Tire Brands",
-      "description": "Explore our extensive collection of high-quality tire brands. We partner with the world's leading manufacturers to bring you the best selection.",
-      "products": "{count} Products",
-      "viewProducts": "View Products",
-      "error": {
-        "title": "Error loading brands",
-        "description": "We encountered an issue while loading the brands. Please try again later.",
-        "retry": "Retry"
-      }
+    "buttons": {
+      "backToCalendar": "Back to Calendar",
+      "bookAppointment": "Book Appointment",
+      "booking": "Booking..."
     },
-    "retailer": {
-      "form": {
-        "title": "Become a Retailer",
-        "description": "Apply to join our network of tire retailers and gain access to wholesale pricing",
-        "fields": {
-          "name": {
-            "label": "Full Name",
-            "placeholder": "John Doe",
-            "error": "Name must be at least 3 characters"
-          },
-          "email": {
-            "label": "Email",
-            "placeholder": "example@example.com",
-            "error": "Please enter a valid email address"
-          },
-          "companyName": {
-            "label": "Company Name",
-            "placeholder": "Your Tire Shop",
-            "error": "Company name must be at least 2 characters"
-          },
-          "phone": {
-            "label": "Phone Number",
-            "placeholder": "123-456-7890",
-            "error": "Phone number must be at least 10 characters"
-          },
-          "businessAddress": {
-            "label": "Business Address",
-            "placeholder": "123 Main St, City, State, Zip",
-            "error": "Business address must be at least 5 characters"
-          },
-          "taxId": {
-            "label": "Tax ID (Optional)",
-            "placeholder": "Tax ID or Business License #",
-            "description": "For wholesale verification purposes only"
-          },
-          "yearsInBusiness": {
-            "label": "Years in Business",
-            "placeholder": "e.g., 5",
-            "error": "Please specify years in business"
-          },
-          "additionalInfo": {
-            "label": "Additional Information (Optional)",
-            "placeholder": "Tell us more about your business and why you'd like to become a retailer"
-          }
+    "errors": {
+      "pastDates": "Cannot select past dates",
+      "closedDays": "We are closed on Sundays",
+      "fetchError": "Failed to load available time slots",
+      "appointmentError": "Failed to load existing appointments",
+      "submissionError": "An error occurred while booking your appointment"
+    }
+  },
+  "TireFinder": {
+    "title": "Find the Perfect Tires for Your Vehicle",
+    "subtitle": "Search by vehicle or tire size to find the right tires for your car, truck, or SUV",
+    "tabs": {
+      "vehicle": "Search by Vehicle",
+      "size": "Search by Tire Size"
+    },
+    "vehicle": {
+      "make": "Make",
+      "selectMake": "Select Make",
+      "model": "Model",
+      "selectModel": "Select Model",
+      "selectMakeFirst": "Select Make First",
+      "year": "Year",
+      "selectYear": "Select Year",
+      "selectModelFirst": "Select Model First",
+      "findTiresButton": "Find Tires for Your Vehicle"
+    },
+    "size": {
+      "width": "Width",
+      "selectWidth": "Select Width",
+      "aspectRatio": "Aspect Ratio",
+      "selectRatio": "Select Ratio",
+      "diameter": "Rim Diameter",
+      "selectDiameter": "Select Diameter",
+      "tireSizePlaceholder": "Example: 225/45R17",
+      "findTiresSizeButton": "Find Tires by Size"
+    },
+    "tireTypes": {
+      "title": "Popular Tire Types",
+      "subtitle": "Browse our selection of quality tires for any driving condition",
+      "ALL_SEASON": {
+        "name": "All Season",
+        "description": "Best for year-round use in moderate climates"
+      },
+      "WINTER": {
+        "name": "Winter",
+        "description": "Specially designed for snow, ice, and cold temperatures"
+      },
+      "SUMMER": {
+        "name": "Summer",
+        "description": "Designed for optimal performance in warm weather"
+      },
+      "ALL_TERRAIN": {
+        "name": "All Terrain",
+        "description": "Great for on and off-road driving"
+      },
+      "HIGH_PERFORMANCE": {
+        "name": "High Performance",
+        "description": "Designed for speed and handling"
+      },
+      "TOURING": {
+        "name": "Touring",
+        "description": "Balanced comfort and performance for everyday driving"
+      },
+      "viewTires": "View {type} Tires"
+    },
+    "popularVehicles": {
+      "title": "Popular Vehicle Models",
+      "subtitle": "Quick access to tires for commonly searched vehicles"
+    },
+    "help": {
+      "title": "Need Help Finding the Right Tires?",
+      "description": "Our tire experts are ready to assist you with any questions about finding the perfect tires for your vehicle and driving needs.",
+      "contactSupport": "Contact Support",
+      "chatExpert": "Chat with an Expert"
+    }
+  },
+  "brandPage": {
+    "title": "{brandName} Tires | Premium Tire Shop",
+    "metaDescription": "Shop our collection of {brandName} tires for all vehicle types.",
+    "breadcrumb": "All Brands",
+    "heading": "{brandName} Tires",
+    "tabs": {
+      "all": "All Products"
+    },
+    "product": {
+      "noImage": "No image",
+      "discount": "{discount}% OFF",
+      "viewDetails": "View Details"
+    },
+    "emptyState": {
+      "title": "No products found from this brand",
+      "description": "We're working on adding products from this brand. Please check back soon.",
+      "emptyModelTitle": "No products found in this model",
+      "emptyModelDescription": "We're working on adding products from this model. Please check back soon.",
+      "browseAll": "Browse All Products"
+    }
+  },
+  "brandsPage": {
+    "title": "Tire Brands",
+    "description": "Explore our extensive collection of high-quality tire brands. We partner with the world's leading manufacturers to bring you the best selection.",
+    "products": "{count} Products",
+    "viewProducts": "View Products",
+    "error": {
+      "title": "Error loading brands",
+      "description": "We encountered an issue while loading the brands. Please try again later.",
+      "retry": "Retry"
+    }
+  },
+  "retailer": {
+    "form": {
+      "title": "Become a Retailer",
+      "description": "Apply to join our network of tire retailers and gain access to wholesale pricing",
+      "fields": {
+        "name": {
+          "label": "Full Name",
+          "placeholder": "John Doe",
+          "error": "Name must be at least 3 characters"
         },
-        "submit": "Submit Application",
-        "submitting": "Submitting..."
+        "email": {
+          "label": "Email",
+          "placeholder": "example@example.com",
+          "error": "Please enter a valid email address"
+        },
+        "companyName": {
+          "label": "Company Name",
+          "placeholder": "Your Tire Shop",
+          "error": "Company name must be at least 2 characters"
+        },
+        "phone": {
+          "label": "Phone Number",
+          "placeholder": "123-456-7890",
+          "error": "Phone number must be at least 10 characters"
+        },
+        "businessAddress": {
+          "label": "Business Address",
+          "placeholder": "123 Main St, City, State, Zip",
+          "error": "Business address must be at least 5 characters"
+        },
+        "taxId": {
+          "label": "Tax ID (Optional)",
+          "placeholder": "Tax ID or Business License #",
+          "description": "For wholesale verification purposes only"
+        },
+        "yearsInBusiness": {
+          "label": "Years in Business",
+          "placeholder": "e.g., 5",
+          "error": "Please specify years in business"
+        },
+        "additionalInfo": {
+          "label": "Additional Information (Optional)",
+          "placeholder": "Tell us more about your business and why you'd like to become a retailer"
+        }
       },
-      "success": {
-        "title": "Application Submitted",
-        "description": "Thank you for your interest in becoming a retailer",
-        "message1": "Your application has been received and is under review.",
-        "message2": "Our team will review your information and get back to you via email within 2-3 business days.",
-        "returnButton": "Return to Homepage"
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
+    },
+    "success": {
+      "title": "Application Submitted",
+      "description": "Thank you for your interest in becoming a retailer",
+      "message1": "Your application has been received and is under review.",
+      "message2": "Our team will review your information and get back to you via email within 2-3 business days.",
+      "returnButton": "Return to Homepage"
+    },
+    "notifications": {
+      "success": "Your retailer application has been submitted successfully",
+      "error": "Something went wrong. Please try again later."
+    }
+  },
+
+  "Category": {
+    "categoryNotFoundTitle": "Category Not Found",
+    "categoryNotFoundDesc": "The requested category could not be found",
+    "categoryMetaTitle": "{name} Tires | Premium Tire Shop",
+    "categoryDefaultDesc": "Shop our collection of {name} tires for all vehicle types",
+    "categoryErrorTitle": "Error Loading Category",
+    "categoryErrorDesc": "We encountered an issue while loading the category information",
+    "categoryTitle": "{name} Tires",
+    "allCategories": "All Categories",
+    "viewDetails": "View Details",
+    "noImage": "No image",
+    "off": "OFF",
+    "noProductsFound": "No products found in this category",
+    "noProductsFoundMessage": "We're working on adding products to this category. Please check back soon.",
+    "browseAllProducts": "Browse All Products"
+  },
+  "Categories": {
+    "title": "Tire Categories",
+    "description": "Browse our comprehensive selection of tire categories to find the perfect match for your vehicle and driving needs.",
+    "loading": {
+      "placeholder": "Loading categories..."
+    },
+    "error": {
+      "title": "Error loading categories",
+      "message": "We encountered an issue while loading the categories. Please try again later.",
+      "retryButton": "Retry"
+    },
+    "card": {
+      "defaultDescription": "Shop our selection of {categoryName} tires",
+      "browseButton": "Browse Collection"
+    }
+  },
+  "Dashboard": {
+    "chatSupport": {
+      "title": "Customer Support Chat",
+      "chatDashboard": "Chat Dashboard",
+      "connected": "Connected to chat service",
+      "disconnected": "Disconnected from chat service",
+      "activeChats": "Active Chats",
+      "closedChats": "Closed Chats",
+      "customers": "Customers",
+      "typeMessage": "Type your message...",
+      "send": "Send",
+      "noActiveChat": "No active chat selected",
+      "selectCustomer": "Select a customer from the list to start chatting",
+      "online": "Online",
+      "offline": "Offline",
+      "away": "Away",
+      "resolveChat": "Resolve Chat",
+      "chatResolved": "This chat has been marked as resolved",
+      "noClosedChats": "No closed chats to display",
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
+    "common": {
+      "title": "Analytics Dashboard",
+      "overview": "Overview",
+      "inventory": "Inventory",
+      "sales": "Sales Analytics",
+      "orders": "Order Management",
+      "downloadReport": "Download Report",
+      "totalRevenue": "Total Revenue",
+      "totalOrders": "Total Orders",
+      "lowStock": "Low Stock Items",
+      "pendingOrders": "Pending Orders"
+    },
+    "installations": {
+      "title": "Installations",
+      "subtitle": "Manage tire installations and service appointments",
+      "actions": {
+        "create": "Create Installation",
+        "edit": "Edit Installation",
+        "delete": "Delete Installation",
+        "view": "View Details",
+        "schedule": "Schedule Installation",
+        "cancel": "Cancel Installation",
+        "reschedule": "Reschedule",
+        "complete": "Mark as Complete",
+        "export": "Export Data",
+        "filter": "Filter Installations"
+      },
+      "filters": {
+        "searchPlaceholder": "Filter installations",
+        "search": "Search",
+        "dateRange": "Date Range",
+        "all": "All Installations",
+        "allStatuses": "All Statuses",
+        "status": "Status",
+        "scheduled": "Scheduled",
+        "confirmed": "Confirmed",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "canceled": "Canceled",
+        "today": "Today",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month",
+        "custom": "Custom Range"
+      },
+      "tabs": {
+        "all": "All Installations",
+        "scheduled": "Scheduled",
+        "confirmed": "Confirmed",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "canceled": "Canceled",
+        "today": "Today",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month",
+        "rescheduled": "Rescheduled"
+      },
+      "table": {
+        "id": "ID",
+        "customerName": "Customer",
+        "vehicleInfo": "Vehicle",
+        "serviceType": "Service Type",
+        "date": "Date",
+        "time": "Time",
+        "status": "Status",
+        "technician": "Technician",
+        "bay": "Bay",
+        "price": "Price",
+        "actions": "Actions"
+      },
+      "details": {
+        "customerDetails": "Customer Details",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "vehicleDetails": "Vehicle Details",
+        "make": "Make",
+        "model": "Model",
+        "year": "Year",
+        "tireDetails": "Tire Details",
+        "size": "Tire Size",
+        "quantity": "Quantity",
+        "purchasedFrom": "Purchased From",
+        "serviceDetails": "Service Details",
+        "serviceType": "Service Type",
+        "appointmentDate": "Appointment Date",
+        "appointmentTime": "Appointment Time",
+        "status": "Status",
+        "technician": "Assigned Technician",
+        "bay": "Service Bay",
+        "price": "Service Price",
+        "additionalInfo": "Additional Information",
+        "comments": "Comments"
+      },
+      "form": {
+        "createTitle": "Create New Installation",
+        "editTitle": "Edit Installation",
+        "customerInfo": "Customer Information",
+        "vehicleInfo": "Vehicle Information",
+        "serviceInfo": "Service Information",
+        "additionalInfo": "Additional Information",
+        "selectStatus": "Select Status",
+        "selectTechnician": "Select Technician",
+        "selectBay": "Select Bay",
+        "submit": "Submit",
+        "update": "Update",
+        "cancel": "Cancel"
       },
       "notifications": {
-        "success": "Your retailer application has been submitted successfully",
-        "error": "Something went wrong. Please try again later."
+        "created": "Installation created successfully",
+        "updated": "Installation updated successfully",
+        "deleted": "Installation deleted successfully",
+        "completed": "Installation marked as complete",
+        "rescheduled": "Installation rescheduled successfully",
+        "canceled": "Installation canceled successfully",
+        "error": "An error occurred. Please try again."
+      },
+      "empty": {
+        "title": "No Installations Found",
+        "description": "There are no installations matching your filters.",
+        "action": "Clear Filters"
       }
     },
-    
-      "Category": {
-        "categoryNotFoundTitle": "Category Not Found",
-        "categoryNotFoundDesc": "The requested category could not be found",
-        "categoryMetaTitle": "{name} Tires | Premium Tire Shop",
-        "categoryDefaultDesc": "Shop our collection of {name} tires for all vehicle types",
-        "categoryErrorTitle": "Error Loading Category",
-        "categoryErrorDesc": "We encountered an issue while loading the category information",
-        "categoryTitle": "{name} Tires",
-        "allCategories": "All Categories",
-        "viewDetails": "View Details",
-        "noImage": "No image",
-        "off": "OFF",
-        "noProductsFound": "No products found in this category",
-        "noProductsFoundMessage": "We're working on adding products to this category. Please check back soon.",
-        "browseAllProducts": "Browse All Products"
+    "Promotions": {
+      "title": "Promotions",
+      "description": "Manage promotional offers and discounts",
+      "addPromotion": "Add Promotion",
+      "addNewPromotion": "Add New Promotion",
+      "editPromotion": "Edit Promotion",
+      "createPromotion": "Create Promotion",
+      "updatePromotion": "Update Promotion",
+      "searchPlaceholder": "Search promotions...",
+      "noPromotions": "No promotions found",
+      "creating": "Creating...",
+      "updating": "Updating...",
+      "deletedSuccess": "Promotion deleted successfully",
+      "deletedError": "Failed to delete promotion",
+      "activatedSuccess": "Promotion activated successfully",
+      "deactivatedSuccess": "Promotion deactivated successfully",
+      "toggleError": "Failed to update promotion status",
+      "createdSuccess": "Promotion created successfully",
+      "createdError": "Failed to create promotion",
+      "updatedSuccess": "Promotion updated successfully",
+      "updatedError": "Failed to update promotion",
+      "deleteConfirm": "Are you sure you want to delete this promotion?",
+      "deleteDescription": "This action cannot be undone.",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "scheduled": "Scheduled",
+        "expired": "Expired"
       },
-      "Categories": {
-        "title": "Tire Categories",
-        "description": "Browse our comprehensive selection of tire categories to find the perfect match for your vehicle and driving needs.",
-        "loading": {
-          "placeholder": "Loading categories..."
-        },
-        "error": {
-          "title": "Error loading categories",
-          "message": "We encountered an issue while loading the categories. Please try again later.",
-          "retryButton": "Retry"
-        },
-        "card": {
-          "defaultDescription": "Shop our selection of {categoryName} tires",
-          "browseButton": "Browse Collection"
-        }
-      },
-      "Dashboard": {
-        "chatSupport": {
-          "title": "Customer Support Chat",
-          "chatDashboard": "Chat Dashboard",
-          "connected": "Connected to chat service",
-          "disconnected": "Disconnected from chat service",
-          "activeChats": "Active Chats",
-          "closedChats": "Closed Chats",
-          "customers": "Customers",
-          "typeMessage": "Type your message...",
-          "send": "Send",
-          "noActiveChat": "No active chat selected",
-          "selectCustomer": "Select a customer from the list to start chatting",
-          "online": "Online",
-          "offline": "Offline",
-          "away": "Away",
-          "resolveChat": "Resolve Chat",
-          "chatResolved": "This chat has been marked as resolved",
-          "noClosedChats": "No closed chats to display",
-          "today": "Today",
-          "yesterday": "Yesterday"
-        },
-        "common": {
-            "title": "Analytics Dashboard",
-            "overview": "Overview",
-            "inventory": "Inventory",
-            "sales": "Sales Analytics",
-            "orders": "Order Management", 
-            "downloadReport": "Download Report",
-            "totalRevenue": "Total Revenue",
-            "totalOrders": "Total Orders",
-            "lowStock": "Low Stock Items",
-            "pendingOrders": "Pending Orders"
-        },
-        "installations": {
-            "title": "Installations",
-            "subtitle": "Manage tire installations and service appointments",
-            "actions": {
-                "create": "Create Installation",
-                "edit": "Edit Installation",
-                "delete": "Delete Installation",
-                "view": "View Details",
-                "schedule": "Schedule Installation",
-                "cancel": "Cancel Installation",
-                "reschedule": "Reschedule",
-                "complete": "Mark as Complete",
-                "export": "Export Data",
-                "filter": "Filter Installations"
-            },            "filters": {
-              "searchPlaceholder":"Filter installations",
-              "search":"Search",
-              "dateRange":"Date Range",
-                "all": "All Installations",
-                "allStatuses": "All Statuses",
-                "status": "Status",
-                "scheduled": "Scheduled",
-                "confirmed": "Confirmed",
-                "inProgress": "In Progress",
-                "completed": "Completed",
-                "canceled": "Canceled",
-                "today": "Today",
-                "thisWeek": "This Week",
-                "thisMonth": "This Month",
-                "custom": "Custom Range"
-            },
-            "tabs": {
-                "all": "All Installations",
-                "scheduled": "Scheduled",
-                "confirmed": "Confirmed",
-                "inProgress": "In Progress",
-                "completed": "Completed",
-                "canceled": "Canceled",
-                "today": "Today",
-                "thisWeek": "This Week",
-                "thisMonth": "This Month",
-                "rescheduled": "Rescheduled"
-            },"table": {
-                "id": "ID",
-                "customerName": "Customer",
-                "vehicleInfo": "Vehicle",
-                "serviceType": "Service Type",
-                "date": "Date",
-                "time": "Time",
-                "status": "Status",
-                "technician": "Technician",
-                "bay": "Bay",
-                "price": "Price",
-                "actions": "Actions"
-            },
-            "details": {
-                "customerDetails": "Customer Details",
-                "name": "Name",
-                "email": "Email",
-                "phone": "Phone Number",
-                "vehicleDetails": "Vehicle Details",
-                "make": "Make",
-                "model": "Model",
-                "year": "Year",
-                "tireDetails": "Tire Details",
-                "size": "Tire Size",
-                "quantity": "Quantity",
-                "purchasedFrom": "Purchased From",
-                "serviceDetails": "Service Details",
-                "serviceType": "Service Type",
-                "appointmentDate": "Appointment Date",
-                "appointmentTime": "Appointment Time",
-                "status": "Status",
-                "technician": "Assigned Technician",
-                "bay": "Service Bay",
-                "price": "Service Price",
-                "additionalInfo": "Additional Information",
-                "comments": "Comments"
-            },
-            "form": {
-                "createTitle": "Create New Installation",
-                "editTitle": "Edit Installation",
-                "customerInfo": "Customer Information",
-                "vehicleInfo": "Vehicle Information",
-                "serviceInfo": "Service Information",
-                "additionalInfo": "Additional Information",
-                "selectStatus": "Select Status",
-                "selectTechnician": "Select Technician",
-                "selectBay": "Select Bay",
-                "submit": "Submit",
-                "update": "Update",
-                "cancel": "Cancel"
-            },
-            "notifications": {
-                "created": "Installation created successfully",
-                "updated": "Installation updated successfully",
-                "deleted": "Installation deleted successfully",
-                "completed": "Installation marked as complete",
-                "rescheduled": "Installation rescheduled successfully",
-                "canceled": "Installation canceled successfully",
-                "error": "An error occurred. Please try again."
-            },
-            "empty": {
-                "title": "No Installations Found",
-                "description": "There are no installations matching your filters.",
-                "action": "Clear Filters"
-            }
-        },
-  "Promotions": {
-    "title": "Promotions",
-    "description": "Manage promotional offers and discounts",
-    "addPromotion": "Add Promotion",
-    "addNewPromotion": "Add New Promotion",
-    "editPromotion": "Edit Promotion",
-    "createPromotion": "Create Promotion",
-    "updatePromotion": "Update Promotion",
-    "searchPlaceholder": "Search promotions...",
-    "noPromotions": "No promotions found",
-    "creating": "Creating...",
-    "updating": "Updating...",
-    "deletedSuccess": "Promotion deleted successfully",
-    "deletedError": "Failed to delete promotion",
-    "activatedSuccess": "Promotion activated successfully",
-    "deactivatedSuccess": "Promotion deactivated successfully",
-    "toggleError": "Failed to update promotion status",
-    "createdSuccess": "Promotion created successfully",
-    "createdError": "Failed to create promotion",
-    "updatedSuccess": "Promotion updated successfully",
-    "updatedError": "Failed to update promotion",
-    "deleteConfirm": "Are you sure you want to delete this promotion?",
-    "deleteDescription": "This action cannot be undone.",
-    "confirm": "Confirm",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "status": {
-      "active": "Active",
-      "inactive": "Inactive",
-      "scheduled": "Scheduled",
-      "expired": "Expired"
-    },
-    "actions":"Actions",
-    "edit":"Edit",
-    "deactivate":"Deactivate",
-    "table": {
-      "title": "Title",
-      "type": "Type",
-      "value": "Value",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "badgeType":"Badge Type",
-      "status": "Status",
       "actions": "Actions",
       "edit": "Edit",
-      "delete": "Delete",
-      "activate": "Activate",
       "deactivate": "Deactivate",
-      "noPromotions": "No promotions found",
-      "searchPromotions": "Search promotions...",
-      "itemsPerPage": "Items per page",
-      "of": "of",
-      "next": "Next",
-      "previous": "Previous"
-    },
-    "form": {
-      "title": "Promotion Title",
-      "brands": "Brands",
-      "categories": "Categories",
-      "products": "Products",
-      "models": "Models",
-      "selectBrands": "Select Brands",
-      "selectCategories": "Select Categories",
-      "selectProducts": "Select Products",
-      "selectModels": "Select Models",
-      "selectBrandFirst": "Select a brand first",
-      "selectCategoryFirst": "Select a category first",
-      "selectProductFirst": "Select a product first",
-      "selectModelFirst": "Select a model first",
-      "description": "Promotion Description",
-      "type": "Promotion Type",
-      "value": "Value",
-      "percentageValue": "Percentage (%)",
-      "fixedValue": "Amount ($)",
-      "howToRedeem": "How to Redeem",
-      "termsAndConditions": "Terms and Conditions",
-      "minPurchaseAmount": "Minimum Purchase Amount ($)",
-      "buyQuantity": "Buy Quantity",
-      "getQuantity": "Get Quantity",
-      "image": "Promotion Image",
-      "imageUrl": "Image URL",
-      "badgeType": "Badge Type",
-      "colorScheme": "Color Scheme",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "promoCode": "Promotion Code",
-      "usageLimit": "Usage Limit",
-      "target": "Target Audience",
-      "isActive": "Active Status",
-      "isActiveDescription": "When active, this promotion will be visible to customers if within the date range",
-      "selectType": "Select a promotion type",
-      "selectBadgeType": "Select a badge type",
-      "selectColor": "Select a color",
-      "selectTarget": "Select target audience",
-      "noEndDate": "No end date",
-      "optional": "optional",
-      "active": "Active",
-      "inactive": "Inactive",
-      "activeDescription": "This promotion is currently active",
-      "inactiveDescription": "This promotion is currently inactive",
-      "create": "Create Promotion",
-      "creating": "Creating Promotion...",
-      "subscriberGroups": "Subscriber Groups",
-      "selectSubscriberGroups": "Select Subscriber Groups"
-    },
-    "types": {
-      "percentage": "Percentage Discount",
-      "fixedAmount": "Fixed Amount Discount",
-      "buyXGetY": "Buy X Get Y Free",
-      "freeShipping": "Free Shipping",
-      "gift": "Free Gift"
-    },
-    "badgeTypes": {
-      "discount": "Discount",
-      "tag": "Tag",
-      "gift": "Gift",
-      "new": "New",
-      "sale": "Sale"
-    },
-    "colors": {
-      "blue": "Blue",
-      "green": "Green",
-      "red": "Red",
-      "purple": "Purple",
-      "orange": "Orange"
-    },
-    "targets": {
-      "all": "All Customers",
-      "registeredUsers": "Registered Users",
-      "firstTimeCustomers": "First-Time Customers",
-      "returningCustomers": "Returning Customers",
-      "specificGroup": "Specific Group"
+      "table": {
+        "title": "Title",
+        "type": "Type",
+        "value": "Value",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "badgeType": "Badge Type",
+        "status": "Status",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "noPromotions": "No promotions found",
+        "searchPromotions": "Search promotions...",
+        "itemsPerPage": "Items per page",
+        "of": "of",
+        "next": "Next",
+        "previous": "Previous"
+      },
+      "form": {
+        "title": "Promotion Title",
+        "brands": "Brands",
+        "categories": "Categories",
+        "products": "Products",
+        "models": "Models",
+        "selectBrands": "Select Brands",
+        "selectCategories": "Select Categories",
+        "selectProducts": "Select Products",
+        "selectModels": "Select Models",
+        "selectBrandFirst": "Select a brand first",
+        "selectCategoryFirst": "Select a category first",
+        "selectProductFirst": "Select a product first",
+        "selectModelFirst": "Select a model first",
+        "description": "Promotion Description",
+        "type": "Promotion Type",
+        "value": "Value",
+        "percentageValue": "Percentage (%)",
+        "fixedValue": "Amount ($)",
+        "howToRedeem": "How to Redeem",
+        "termsAndConditions": "Terms and Conditions",
+        "minPurchaseAmount": "Minimum Purchase Amount ($)",
+        "buyQuantity": "Buy Quantity",
+        "getQuantity": "Get Quantity",
+        "image": "Promotion Image",
+        "imageUrl": "Image URL",
+        "badgeType": "Badge Type",
+        "colorScheme": "Color Scheme",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "promoCode": "Promotion Code",
+        "usageLimit": "Usage Limit",
+        "target": "Target Audience",
+        "isActive": "Active Status",
+        "isActiveDescription": "When active, this promotion will be visible to customers if within the date range",
+        "selectType": "Select a promotion type",
+        "selectBadgeType": "Select a badge type",
+        "selectColor": "Select a color",
+        "selectTarget": "Select target audience",
+        "noEndDate": "No end date",
+        "optional": "optional",
+        "active": "Active",
+        "inactive": "Inactive",
+        "activeDescription": "This promotion is currently active",
+        "inactiveDescription": "This promotion is currently inactive",
+        "create": "Create Promotion",
+        "creating": "Creating Promotion...",
+        "subscriberGroups": "Subscriber Groups",
+        "selectSubscriberGroups": "Select Subscriber Groups"
+      },
+      "types": {
+        "percentage": "Percentage Discount",
+        "fixedAmount": "Fixed Amount Discount",
+        "buyXGetY": "Buy X Get Y Free",
+        "freeShipping": "Free Shipping",
+        "gift": "Free Gift"
+      },
+      "badgeTypes": {
+        "discount": "Discount",
+        "tag": "Tag",
+        "gift": "Gift",
+        "new": "New",
+        "sale": "Sale"
+      },
+      "colors": {
+        "blue": "Blue",
+        "green": "Green",
+        "red": "Red",
+        "purple": "Purple",
+        "orange": "Orange"
+      },
+      "targets": {
+        "all": "All Customers",
+        "registeredUsers": "Registered Users",
+        "firstTimeCustomers": "First-Time Customers",
+        "returningCustomers": "Returning Customers",
+        "specificGroup": "Specific Group"
+      }
     }
   }
 }
-  }
