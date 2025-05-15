@@ -1,40 +1,49 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { DHLShippingProvider } from '@/lib/shipping/providers/dhl-provider';
-import { Address } from '@/lib/shipping/shipping-interfaces';
+import { NextResponse } from "next/server";
 
 /**
- * API route to validate shipping addresses with DHL
+ * API route to validate shipping addresses with GLS
  * POST /api/shipping/validate-address
  */
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    // Parse the request body
-    const addressData: Address = await request.json();
-    
-    // Validate the address data
-    if (!addressData.street || !addressData.city || !addressData.postalCode || !addressData.countryCode) {
+    const body = await request.json();
+    const { token, address } = body;
+
+    if (!token) {
       return NextResponse.json(
-        { error: 'Missing required address fields', valid: false },
+        { error: "Authorization token is required" },
         { status: 400 }
       );
     }
-    
-    // Create an instance of the DHL shipping provider
-    const dhlProvider = new DHLShippingProvider();
-    
-    // Validate the address with DHL
-    const validationResult = await dhlProvider.validateAddress(addressData);
-    
-    // Return the validation result
-    return NextResponse.json({ 
-      valid: validationResult.valid,
-      suggestedAddress: validationResult.suggestedAddress,
-      messages: validationResult.messages
-    });
-  } catch (error) {
-    console.error('Error validating address:', error);
+
+    const response = await fetch(
+      "https://api-sandbox.gls-group.net/address/v2/validate",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(address),
+      }
+    );
+
+    // If GLS API returns an error
+    if (!response.ok) {
+      const errorData = await response.json();
+      return NextResponse.json(
+        { error: `GLS API error: ${response.status}`, details: errorData },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error: any) {
+    console.error("Error in address validation API route:", error);
     return NextResponse.json(
-      { error: 'Failed to validate address', details: (error as Error).message, valid: false },
+      { error: error.message || "Internal server error" },
       { status: 500 }
     );
   }

@@ -3,6 +3,11 @@
 import { ShippingAddress as CartShippingAddress, ShippingOption } from "@/contexts/cart-context";
 import { CartItem } from "@/contexts/cart-context";
 
+// Constants for default tire dimensions
+const DEFAULT_TIRE_WEIGHT_KG = 8; // Average passenger tire weight
+const DEFAULT_TIRE_DIAMETER_CM = 65; // ~26 inches diameter
+const DEFAULT_TIRE_WIDTH_CM = 20; // ~8 inches width
+
 // This function maps our cart context address format to the shipping API format
 const mapToShippingAddress = (address: CartShippingAddress) => {
   return {
@@ -21,29 +26,65 @@ const mapToShippingAddress = (address: CartShippingAddress) => {
 
 // This function converts the cart items to package details for the shipping API
 const createPackageDetails = (items: CartItem[]) => {
-  // If item has dimensions and weight, use those
-  // Otherwise, use default values
-  const packages = items.map(item => {
-    return {
-      weight: item.weight || 1, // Default weight in kg if not specified
-      length: item.dimensions?.length || 30, // Default dimensions in cm
-      width: item.dimensions?.width || 20,
-      height: item.dimensions?.height || 10,
-      description: item.name
-    };
-  });
-
-  // If there are no items with dimensions, create a default package
-  if (packages.length === 0) {
-    packages.push({
-      weight: 1, // 1kg
-      length: 30, // 30cm
-      width: 20, // 20cm
-      height: 10, // 10cm
-      description: "Tire package"
-    });
+  // If there are no items, return a default package
+  if (!items.length) {
+    return [{
+      weight: DEFAULT_TIRE_WEIGHT_KG,
+      length: DEFAULT_TIRE_DIAMETER_CM,
+      width: DEFAULT_TIRE_DIAMETER_CM,
+      height: DEFAULT_TIRE_WIDTH_CM,
+      description: "Default tire package"
+    }];
   }
 
+  // Create an array to hold all packages
+  const packages = [];
+  
+  // Group similar items to reduce package count (up to 4 tires per package)
+  const groupedItems = new Map();
+  
+  // Group items by their dimensions
+  items.forEach(item => {
+    // Create a key based on dimensions (or default if not available)
+    const key = `${item.dimensions?.length || DEFAULT_TIRE_DIAMETER_CM}-${item.dimensions?.width || DEFAULT_TIRE_DIAMETER_CM}-${item.dimensions?.height || DEFAULT_TIRE_WIDTH_CM}`;
+    
+    if (!groupedItems.has(key)) {
+      groupedItems.set(key, {
+        items: [],
+        totalWeight: 0,
+        dimensions: {
+          length: item.dimensions?.length || DEFAULT_TIRE_DIAMETER_CM,
+          width: item.dimensions?.width || DEFAULT_TIRE_DIAMETER_CM,
+          height: item.dimensions?.height || DEFAULT_TIRE_WIDTH_CM
+        }
+      });
+    }
+    
+    const group = groupedItems.get(key);
+    group.items.push(item);
+    group.totalWeight += (item.weight || DEFAULT_TIRE_WEIGHT_KG) * item.quantity;
+  });
+  
+  // Create packages from grouped items
+  groupedItems.forEach(group => {
+    // Package weight shouldn't exceed 50kg for practical handling
+    const MAX_PACKAGE_WEIGHT = 50;
+    let remainingWeight = group.totalWeight;
+    
+    // Create as many packages as needed to accommodate the weight
+    while (remainingWeight > 0) {
+      const packageWeight = Math.min(remainingWeight, MAX_PACKAGE_WEIGHT);
+      packages.push({
+        weight: packageWeight,
+        length: group.dimensions.length,
+        width: group.dimensions.width,
+        height: group.dimensions.height,
+        description: `Tire package (${group.items.map(i => i.name).join(", ").substring(0, 50)}${group.items.length > 1 ? "..." : ""})`
+      });
+      remainingWeight -= packageWeight;
+    }
+  });
+  
   return packages;
 };
 

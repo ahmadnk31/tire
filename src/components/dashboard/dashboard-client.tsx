@@ -112,7 +112,14 @@ export default function DashboardClient({
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/dashboard/translations">
+                      <Layers className="mr-2" />
+                      Translations
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
                 {/* Inventory Management Section */}
                 <SidebarMenuItem className="mt-6">
                   <div className="px-3 py-2">

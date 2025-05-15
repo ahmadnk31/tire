@@ -46,6 +46,7 @@ import { LocaleSwitcher } from "./locale-switcher";
 import { useCart } from "@/contexts/cart-context";
 import { CartQuickView } from "./cart-quick-view";
 import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 
 export function Navbar() {
   const t = useTranslations("navbar");
@@ -169,11 +170,13 @@ export function Navbar() {
                   <SheetHeader className='p-4 border-b'>
                     <SheetTitle className='text-left flex items-center justify-between'>
                       <Link href={`/`} onClick={() => setIsMobileOpen(false)}>
-                        {t("logo")}
+                        <Image src='/images/5g-logo.png' alt='Logo'
+                        className="object-contain" 
+                         />
                       </Link>
                       <SheetClose className='rounded-full opacity-70 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring'>
                         <X className='h-4 w-4' />
-                        <span className='sr-only'>Close</span>
+                        <span className='sr-only'>{t("close")}</span>
                       </SheetClose>
                     </SheetTitle>
                   </SheetHeader>
@@ -269,10 +272,20 @@ export function Navbar() {
               <span
                 className={`text-xl font-bold hidden sm:inline-block ${textColor}`}
               >
-                {t("logo")}
+                <Image
+                  src='/images/arianabandencentralebv-logo-transparent.png'
+                  alt='Logo'
+                  width={100}
+                  height={40}
+                />
               </span>
               <span className={`text-xl font-bold sm:hidden ${textColor}`}>
-                {t("logoShort")}
+                <Image
+                  src='/images/arianabandencentralebv-logo-transparent.png'
+                  alt='Logo'
+                  width={100}
+                  height={40}
+                />
               </span>
             </Link>
           </div>
@@ -363,7 +376,9 @@ export function Navbar() {
                     ))}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={() => signOut()}
+                      onClick={() => signOut({
+                        callbackUrl: `/${locale}/login`,
+                      })}
                       className='text-destructive focus:text-destructive'
                     >
                       <LogOut className='mr-2 h-4 w-4' />

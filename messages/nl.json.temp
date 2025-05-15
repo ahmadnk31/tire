@@ -1,0 +1,24 @@
+{
+  /* Adding brandPage section */
+  "brandPage": {
+    "title": "{brandName} Banden | Premium Bandenwinkel",
+    "metaDescription": "Bekijk onze collectie {brandName} banden voor alle voertuigtypes.",
+    "breadcrumb": "Alle Merken",
+    "heading": "{brandName} Banden",
+    "tabs": {
+      "all": "Alle Producten"
+    },
+    "product": {
+      "noImage": "Geen afbeelding",
+      "discount": "{discount}% KORTING",
+      "viewDetails": "Details Bekijken"
+    },
+    "emptyState": {
+      "title": "Geen producten gevonden van dit merk",
+      "description": "We werken aan het toevoegen van producten van dit merk. Kom binnenkort terug.",
+      "emptyModelTitle": "Geen producten gevonden in dit model",
+      "emptyModelDescription": "We werken aan het toevoegen van producten voor dit model. Kom binnenkort terug.",
+      "browseAll": "Bekijk Alle Producten"
+    }
+  }
+}

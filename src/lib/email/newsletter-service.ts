@@ -35,6 +35,7 @@ export async function sendNewsletter(newsletterId: string) {
             id: true,
             email: true,
             name: true,
+            preferredLanguage: true, // Get the subscriber's preferred language
           },
         });
       })
@@ -69,19 +70,38 @@ export async function sendNewsletter(newsletterId: string) {
       },
     });
 
-    // Prepare recipient list
-    const recipientEmails = subscribers.map((s) => s.email);
+    // Group subscribers by their preferred language to send localized content
+    const subscribersByLocale = subscribers.reduce((acc, subscriber) => {
+      const locale = subscriber.preferredLanguage || 'en'; // Default to English if no preference set
+      if (!acc[locale]) {
+        acc[locale] = [];
+      }
+      acc[locale].push(subscriber);
+      return acc;
+    }, {} as Record<string, typeof subscribers>);
 
-    // Send the newsletter
-    const emailResults = await sendBulkEmail({
-      to: recipientEmails,
-      subject: newsletter.subject,
-      htmlBody: formatNewsletterHtml(newsletter.content, newsletter),
-      textBody: formatNewsletterText(newsletter.content),
-    });
+    let successfulSends = 0;
+    let totalSendAttempts = 0;
 
-    // Count successful sends
-    const successfulSends = emailResults.filter((r) => r.success).length;
+    // Send emails to each group of subscribers by locale
+    for (const [locale, localeSubscribers] of Object.entries(subscribersByLocale)) {
+      console.log(`Sending newsletters to ${localeSubscribers.length} subscribers in ${locale} locale`);
+      
+      // Get the list of emails for this locale group
+      const recipientEmails = localeSubscribers.map(s => s.email);
+      totalSendAttempts += recipientEmails.length;
+      
+      // Send the newsletter to this language group with localized content
+      const emailResults = await sendBulkEmail({
+        to: recipientEmails,
+        subject: newsletter.subject, // Ideally, this would be translated based on locale
+        htmlBody: formatNewsletterHtml(newsletter.content, newsletter, locale),
+        textBody: formatNewsletterText(newsletter.content, locale),
+      });
+      
+      // Count successful sends for this locale group
+      successfulSends += emailResults.filter((r) => r.success).length;
+    }
     
     // Update the newsletter record with sent information
     await prisma.newsletter.update({
@@ -96,7 +116,7 @@ export async function sendNewsletter(newsletterId: string) {
     return {
       success: true,
       recipientCount: successfulSends,
-      totalRecipients: recipientEmails.length,
+      totalRecipients: totalSendAttempts,
     };
   } catch (error) {
     console.error("Error sending newsletter:", error);
@@ -115,11 +135,29 @@ export async function sendNewsletter(newsletterId: string) {
 
 /**
  * Format newsletter content as HTML with proper styling
+ * Preserves TipTap's HTML formatting while adding email template structure
  */
-function formatNewsletterHtml(content: string, newsletter: any) {
+function formatNewsletterHtml(content: string, newsletter: any, locale: string = 'en') {
+  // Get localized unsubscribe text
+  const localizations: Record<string, { unsubscribe: string, updatePreferences: string, companyName: string }> = {
+    'en': {
+      unsubscribe: 'Unsubscribe',
+      updatePreferences: 'Update preferences',
+      companyName: 'Your Tire Company'
+    },
+    'nl': {
+      unsubscribe: 'Uitschrijven',
+      updatePreferences: 'Voorkeuren bijwerken',
+      companyName: 'Uw Bandenbedrijf'
+    }
+  };
+  
+  // Use the requested locale or fall back to English
+  const localized = localizations[locale] || localizations['en'];
+  
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="${locale}">
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -159,9 +197,49 @@ function formatNewsletterHtml(content: string, newsletter: any) {
           border-radius: 4px;
           margin: 20px 0;
         }
+        /* TipTap specific styling for email clients */
         img {
           max-width: 100%;
           height: auto;
+        }
+        h1 {
+          font-size: 24px;
+          margin-top: 16px;
+          margin-bottom: 16px;
+        }
+        h2 {
+          font-size: 20px;
+          margin-top: 14px;
+          margin-bottom: 14px;
+        }
+        h3 {
+          font-size: 18px;
+          margin-top: 12px;
+          margin-bottom: 12px;
+        }
+        ul, ol {
+          padding-left: 24px;
+        }
+        blockquote {
+          border-left: 4px solid #e9ecef;
+          padding-left: 16px;
+          margin-left: 0;
+          color: #6c757d;
+        }
+        p {
+          margin-bottom: 16px;
+        }
+        .align-left {
+          text-align: left;
+        }
+        .align-center {
+          text-align: center;
+        }
+        .align-right {
+          text-align: right;
+        }
+        .align-justify {
+          text-align: justify;
         }
       </style>
     </head>
@@ -173,10 +251,9 @@ function formatNewsletterHtml(content: string, newsletter: any) {
         ${content}
       </div>
       <div class="footer">
-        <p>© ${new Date().getFullYear()} Your Tire Company. All rights reserved.</p>
-        <p>
-          <a href="{{unsubscribe_link}}">Unsubscribe</a> |
-          <a href="{{preferences_link}}">Update preferences</a>
+        <p>© ${new Date().getFullYear()} ${localized.companyName}. All rights reserved.</p>
+        <p>          <a href="{{unsubscribe_link}}">${localized.unsubscribe}</a> |
+          <a href="{{preferences_link}}">${localized.updatePreferences}</a>
         </p>
       </div>
     </body>
@@ -186,15 +263,49 @@ function formatNewsletterHtml(content: string, newsletter: any) {
 
 /**
  * Format newsletter content as plain text
+ * Converts HTML content from TipTap to plain text format
  */
-function formatNewsletterText(content: string) {
-  // Simple conversion - strip HTML tags for text version
-  const textContent = content.replace(/<[^>]*>?/gm, '');
-  return textContent
+function formatNewsletterText(content: string, locale: string = 'en') {
+  // Get localized footer text
+  const localizations: Record<string, { unsubscribe: string, updatePreferences: string, companyName: string }> = {
+    'en': {
+      unsubscribe: 'Unsubscribe',
+      updatePreferences: 'Update preferences',
+      companyName: 'Your Tire Company'
+    },
+    'nl': {
+      unsubscribe: 'Uitschrijven',
+      updatePreferences: 'Voorkeuren bijwerken',
+      companyName: 'Uw Bandenbedrijf'
+    }
+  };
+  
+  // Use the requested locale or fall back to English
+  const localized = localizations[locale] || localizations['en'];
+
+  // Convert HTML to plain text
+  let textContent = content.replace(/<br\s*\/?>/gi, '\n');  // Replace <br> with newlines
+  textContent = textContent.replace(/<\/p>/gi, '\n\n');     // Replace </p> with double newlines
+  textContent = textContent.replace(/<li>/gi, '• ');        // Replace list items with bullets
+  textContent = textContent.replace(/<\/li>/gi, '\n');      // End list items with newline
+  textContent = textContent.replace(/<\/h[1-6]>/gi, '\n\n'); // Add newlines after headings
+  textContent = textContent.replace(/<[^>]*>?/gm, '');      // Remove all remaining HTML tags
+  
+  // Fix HTML entities
+  textContent = textContent
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .trim();
+  
+  // Normalize multiple line breaks
+  textContent = textContent.replace(/\n\s*\n\s*\n+/g, '\n\n');
+  
+  // Add plain text footer
+  textContent += `\n\n--\n© ${new Date().getFullYear()} ${localized.companyName}. All rights reserved.\n`;
+  textContent += `${localized.unsubscribe}: {{unsubscribe_link}} | ${localized.updatePreferences}: {{preferences_link}}`;
+  
+  return textContent;
 }

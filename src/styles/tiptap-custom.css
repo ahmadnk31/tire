@@ -1,0 +1,128 @@
+/* TipTap Editor Custom Styles */
+
+.tiptap-editor-wrapper {
+    width: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Style for when the editor has focus */
+.tiptap-editor-wrapper .is-active {
+    color: theme('colors.primary.DEFAULT');
+}
+
+/* TipTap toolbar */
+.tiptap-toolbar {
+    border-bottom: none;
+}
+
+/* Styling for blocks in the editor */
+.tiptap-editor-wrapper .ProseMirror {
+    padding: 1rem;
+    min-height: 250px;
+    outline: none;
+}
+
+/* Placeholder text styling */
+.tiptap-editor-wrapper .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    pointer-events: none;
+    height: 0;
+}
+
+/* Add a slight background to blockquotes */
+.tiptap-editor-wrapper .ProseMirror blockquote {
+    border-left: 3px solid #e9ecef;
+    padding-left: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
+/* Add better list styling */
+.tiptap-editor-wrapper .ProseMirror ul,
+.tiptap-editor-wrapper .ProseMirror ol {
+    padding-left: 1.5rem;
+}
+
+/* Add a slight background to code blocks */
+.tiptap-editor-wrapper .ProseMirror code {
+    background-color: #f1f3f5;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* Add styling for text alignment */
+.tiptap-editor-wrapper .ProseMirror .text-center {
+    text-align: center;
+}
+
+.tiptap-editor-wrapper .ProseMirror .text-right {
+    text-align: right;
+}
+
+.tiptap-editor-wrapper .ProseMirror .text-left {
+    text-align: left;
+}
+
+.tiptap-editor-wrapper .ProseMirror .text-justify {
+    text-align: justify;
+}
+
+/* Add image styling */
+.tiptap-editor-wrapper .ProseMirror img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+    display: block;
+    margin: 1rem 0;
+}
+
+/* Add better styling for links */
+.tiptap-editor-wrapper .ProseMirror a {
+    color: theme('colors.primary.DEFAULT');
+    text-decoration: underline;
+}
+
+/* Add better styling for headings */
+.tiptap-editor-wrapper .ProseMirror h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.tiptap-editor-wrapper .ProseMirror h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.tiptap-editor-wrapper .ProseMirror h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Add styling for dark mode */
+.dark .tiptap-editor-wrapper .ProseMirror {
+    color: theme('colors.foreground');
+}
+
+.dark .tiptap-editor-wrapper .ProseMirror blockquote {
+    border-left-color: theme('colors.muted.DEFAULT');
+    background-color: theme('colors.muted.DEFAULT');
+}
+
+.dark .tiptap-editor-wrapper .ProseMirror code {
+    background-color: theme('colors.muted.DEFAULT');
+}
+
+.dark .tiptap-editor-wrapper .ProseMirror a {
+    color: theme('colors.primary.DEFAULT');
+}

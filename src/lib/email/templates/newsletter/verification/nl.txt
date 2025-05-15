@@ -1,0 +1,15 @@
+Verifieer Uw E-mailadres
+
+Hallo {{name}},
+
+Bedankt voor het aanmelden voor onze nieuwsbrief. Om uw inschrijving te voltooien en onze updates te ontvangen, verifieer uw e-mailadres door op de onderstaande link te klikken:
+
+{{verificationUrl}}
+
+Deze verificatielink vervalt in {{expiryHours}} uur.
+
+Als u zich niet heeft aangemeld voor onze nieuwsbrief, kunt u deze e-mail veilig negeren.
+
+Dit is een geautomatiseerd bericht van {{siteUrl}}. Reageer niet op deze e-mail.
+
+© {{currentYear}} {{siteName}}. Alle rechten voorbehouden. 

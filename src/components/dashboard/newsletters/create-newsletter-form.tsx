@@ -42,6 +42,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { toast } from "sonner"
 import React from "react"
+import { RichTextAdapter } from "@/components/tiptap/rich-text-adapter"
 
 // API functions for newsletters
 const fetchSubscriberGroups = async () => {
@@ -177,34 +178,40 @@ export function CreateNewsletterForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Recipient Groups</FormLabel>
-              <Select
-                disabled={isLoadingGroups}
-                onValueChange={(value) => field.onChange([value])}
-                defaultValue={field.value?.[0]}
-              >
-                <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a recipient group" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-                    {isLoadingGroups ? (
-                      <SelectItem value="loading" disabled>Loading groups...</SelectItem>
-                    ) : subscriberGroups.length > 0 ? (
-                      subscriberGroups.map((group) => (
-                        <SelectItem key={group.id} value={group.id}>
-                          {group.name}
-                        </SelectItem>
-                      ))
-                    ) : (
-                      <SelectItem value="no-groups" disabled>No recipient groups found</SelectItem>
-                    )}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <div className="mt-2 border rounded-md p-4 space-y-2">
+                {isLoadingGroups ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="h-4 w-4 rounded-sm animate-pulse bg-muted"></div>
+                    <div className="h-4 w-40 rounded-sm animate-pulse bg-muted"></div>
+                  </div>
+                ) : subscriberGroups.length > 0 ? (
+                  subscriberGroups.map((group) => (
+                    <div key={group.id} className="flex items-center space-x-2">
+                      <Checkbox
+                        checked={field.value?.includes(group.id)}
+                        onCheckedChange={(checked) => {
+                          return checked
+                            ? field.onChange([...field.value, group.id])
+                            : field.onChange(
+                                field.value?.filter(
+                                  (value) => value !== group.id
+                                )
+                              );
+                        }}
+                      />
+                      <label
+                        htmlFor={group.id}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {group.name}
+                      </label>                    </div>
+                  ))
+                ) : (
+                  <div className="text-sm text-muted-foreground">No recipient groups found</div>
+                )}
+              </div>
               <FormDescription>
-                Choose which subscriber group should receive this newsletter.
+                Select one or more subscriber groups to receive this newsletter.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -215,17 +222,18 @@ export function CreateNewsletterForm({
           control={form.control}
           name="content"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Content</FormLabel>
+            <FormItem>              <FormLabel>Email Content</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Write your newsletter content here..."
-                  className="min-h-[200px]"
-                  {...field}
+                <RichTextAdapter
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Create your newsletter content with rich formatting..."
+                  className="min-h-[400px]"
                 />
               </FormControl>
               <FormDescription>
-                The main content of your newsletter.
+                Create beautiful newsletter content with formatting options. 
+                You can add headings, lists, images, and more.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -244,46 +252,105 @@ export function CreateNewsletterForm({
           >
             Schedule for later
           </label>
-        </div>
-
-        {isScheduleEnabled && (
+        </div>        {isScheduleEnabled && (
           <FormField
             control={form.control}
             name="schedule"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Schedule Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
+                <FormLabel>Schedule Date and Time</FormLabel>
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full sm:w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={(date) => {
+                          // Preserve the current time when changing date
+                          if (date && field.value) {
+                            const currentDate = field.value;
+                            date.setHours(currentDate.getHours());
+                            date.setMinutes(currentDate.getMinutes());
+                          } else if (date) {
+                            // If no previous date, set default time to current time
+                            const now = new Date();
+                            date.setHours(now.getHours());
+                            date.setMinutes(now.getMinutes());
+                          }
+                          field.onChange(date);
+                        }}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  
+                  {field.value && (
+                    <div className="flex gap-2">
+                      <Select
+                        value={field.value ? String(field.value.getHours()).padStart(2, '0') : undefined}
+                        onValueChange={(hour) => {
+                          const newDate = new Date(field.value || new Date());
+                          newDate.setHours(parseInt(hour));
+                          field.onChange(newDate);
+                        }}
                       >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                        <SelectTrigger className="w-[100px]">
+                          <SelectValue placeholder="Hour" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Array.from({length: 24}, (_, i) => i).map(hour => (
+                            <SelectItem key={hour} value={String(hour).padStart(2, '0')}>
+                              {String(hour).padStart(2, '0')}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      
+                      <span className="flex items-center">:</span>
+                      
+                      <Select
+                        value={field.value ? String(field.value.getMinutes()).padStart(2, '0') : undefined}
+                        onValueChange={(minute) => {
+                          const newDate = new Date(field.value || new Date());
+                          newDate.setMinutes(parseInt(minute));
+                          field.onChange(newDate);
+                        }}
+                      >
+                        <SelectTrigger className="w-[100px]">
+                          <SelectValue placeholder="Minute" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[0, 15, 30, 45].map(minute => (
+                            <SelectItem key={minute} value={String(minute).padStart(2, '0')}>
+                              {String(minute).padStart(2, '0')}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+                </div>
                 <FormDescription>
-                  Choose when to send this newsletter.
+                  Choose the date and time when this newsletter should be sent.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

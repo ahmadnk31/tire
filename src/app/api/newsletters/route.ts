@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { NewsletterStatus } from "@prisma/client";
+import { sendNewsletter } from "@/lib/email/newsletter-service";
 
 export async function GET() {
   try {
@@ -27,6 +29,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, subject, content, schedule, recipientGroups, sendNow } = body;
     
+    // Determine newsletter status
+    const status = sendNow ? NewsletterStatus.SENDING : 
+                   schedule ? NewsletterStatus.SCHEDULED : 
+                   NewsletterStatus.DRAFT;
+    
     // Create newsletter record
     const newsletter = await prisma.newsletter.create({
       data: {
@@ -34,7 +41,7 @@ export async function POST(req: Request) {
         subject,
         content,
         scheduledFor: schedule || null,
-        status: sendNow ? "SENT" : schedule ? "SCHEDULED" : "DRAFT",
+        status,
         recipientGroups: {
           connect: recipientGroups.map((groupId: string) => ({
             id: groupId,
@@ -43,11 +50,22 @@ export async function POST(req: Request) {
       },
     });
     
-    // If sendNow is true, we would implement email sending logic here
-    // For now, we'll just update the status
+    // If sendNow is true, send the newsletter immediately
     if (sendNow) {
-      // In a real application, this would trigger an email service
-      console.log(`Newsletter ${newsletter.id} would be sent now`);
+      try {
+        // This will be processed asynchronously to avoid blocking the response
+        const sendPromise = sendNewsletter(newsletter.id);
+        
+        // Don't await the promise here to avoid blocking the API response
+        // But add a catch handler to log any errors
+        sendPromise.catch((error) => {
+          console.error(`Error sending newsletter ${newsletter.id}:`, error);
+        });
+        
+        console.log(`Newsletter ${newsletter.id} is being sent in the background`);
+      } catch (error) {
+        console.error(`Failed to initiate sending for newsletter ${newsletter.id}:`, error);
+      }
     }
     
     return NextResponse.json(newsletter);

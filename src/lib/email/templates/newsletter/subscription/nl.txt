@@ -1,0 +1,19 @@
+Welkom bij Onze Nieuwsbrief!
+
+Hallo {{name}},
+
+Bedankt voor het inschrijven op onze nieuwsbrief! U maakt nu deel uit van onze community en bent een van de eersten die het volgende ontvangt:
+
+- Speciale promoties en bandenaanbiedingen
+- Seizoensgebonden onderhoudstips
+- Nieuwe productaankondigingen
+- Deskundig autoadvies
+
+We zijn blij dat u bij ons bent en kijken ernaar uit om u waardevolle inhoud te bieden.
+
+Bezoek onze website: {{siteUrl}}
+
+Als u zich niet heeft ingeschreven voor deze nieuwsbrief, of als u zich op elk moment wilt uitschrijven, gebruik deze link:
+{{unsubscribeUrl}}
+
+© {{currentYear}} {{siteName}}. Alle rechten voorbehouden. 

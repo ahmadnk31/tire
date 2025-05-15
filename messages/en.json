@@ -1,4 +1,1122 @@
-{
+{  "navbar": {
+    "logo": "Ariana Bandencentrale b.v.",
+    "logoShort": "ABC b.v.",
+    "navigation": "Navigation",
+    "account": "Account",
+    "navLinks": {
+      "allTires": "All Tires",
+      "tireFinder": "Tire Finder",
+      "brands": "Brands",
+      "deals": "Deals",
+      "installation": "Installation"
+    },
+    "search": {
+      "placeholder": "Search products..."
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register",
+      "becomeRetailer": "Become a Retailer"
+    },
+    "userMenu": {
+      "myOrders": "My Orders",
+      "profileSettings": "Profile Settings",
+      "appointments": "Appointments",
+      "dashboard": "Dashboard",
+      "manageProducts": "Manage Products",
+      "manageOrders": "Manage Orders",
+      "retailerApplications": "Retailer Applications",
+      "myAppointments": "My Appointments",
+      "signOut": "Sign Out"
+    },
+    "cart": {
+      "aria": "Shopping Cart",
+      "ariaCount": "Shopping Cart with {count} items",
+      "items": {
+        "one": "{count} item",
+        "other": "{count} items"
+      },
+      "empty": "Your cart is empty"
+    }
+  },
+  "About": {
+    "title": "About Us",
+    "subtitle": "Learn more about our company, our values, and our commitment to quality service.",
+    "common": {
+      "home": "Home"
+    }
+    },
+    "ourStory": {
+      "title": "Our Story",
+      "paragraph1": "Ariana Bandencentrale BV was founded in 2010 with a simple mission: to provide high-quality tires and exceptional service to our customers. What started as a small family business has grown into one of the region's most trusted tire providers.",
+      "paragraph2": "Over the years, we've built our reputation by focusing on customer satisfaction, expert advice, and competitive pricing. We're proud to serve both individual car owners and fleet operators throughout Belgium and beyond.",
+      "imageAlt": "Our tire shop facility"
+    },
+    "mission": {
+      "title": "Our Mission & Values",
+      "statement": "Our mission is to keep our customers safe on the road by providing the highest quality tires and exceptional service at competitive prices. We believe in honesty, integrity, and building long-term relationships with our clients."
+    },
+    "values": {
+      "quality": {
+        "title": "Quality",
+        "description": "We offer only top-quality tires and products that ensure safety and performance on the road."
+      },
+      "service": {
+        "title": "Service Excellence",
+        "description": "We go above and beyond to provide exceptional service and expertise to every customer."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We stay ahead with the latest technology and products in the tire industry."
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "Our knowledgeable team of tire experts is dedicated to helping you find the perfect tires for your vehicle and driving needs.",
+      "members": {
+        "member1": {
+          "name": "Johan Vermeer",
+          "position": "Founder & CEO",
+          "bio": "Johan has over 25 years of experience in the tire industry and founded Ariana Bandencentrale with a vision for exceptional service."
+        },
+        "member2": {
+          "name": "Sophia Janssen",
+          "position": "Technical Director",
+          "bio": "Sophia is our technical expert with specialized knowledge in performance tires and vehicle dynamics."
+        },
+        "member3": {
+          "name": "Thomas De Vries",
+          "position": "Customer Service Manager",
+          "bio": "Thomas ensures that every customer receives personalized attention and the best possible service."
+        }
+      }
+    },
+    "expertise": {
+      "title": "Our Expertise",
+      "description": "With decades of combined experience, our team offers unmatched expertise in all types of tires for passenger cars, SUVs, light trucks, and commercial vehicles.",
+      "points": {
+        "point1": {
+          "title": "Wide Selection",
+          "description": "We carry all major tire brands and models to meet every need and budget."
+        },
+        "point2": {
+          "title": "Expert Fitting",
+          "description": "Our technicians are trained to ensure proper tire fitting and balancing for optimal performance."
+        },
+        "point3": {
+          "title": "Seasonal Solutions",
+          "description": "We provide specialized advice for summer, winter, and all-season tire requirements."
+        },
+        "point4": {
+          "title": "Fleet Services",
+          "description": "Comprehensive tire management solutions for commercial fleets of all sizes."
+        }
+      }
+    },
+    "conclusion": {
+      "title": "Your Trusted Tire Partner",
+      "message": "When you choose Ariana Bandencentrale BV, you're choosing a partner committed to your safety, satisfaction, and value. We look forward to serving you and keeping you safely on the road for years to come."
+  },
+  "Services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive tire services to keep your vehicle running at its best",
+    "common": {
+      "home": "Home"
+    },
+    "overview": {
+      "title": "Service Overview",
+      "paragraph1": "At Ariana Bandencentrale BV, we offer a complete range of tire and automotive services designed to keep your vehicle running safely and efficiently. Our certified technicians use the latest equipment and techniques to ensure quality workmanship on every job.",
+      "paragraph2": "From routine maintenance to emergency repairs, we're your one-stop destination for all your tire and related automotive needs.",
+      "imageAlt": "Our service center"
+    },
+    "categories": {
+      "tires": "Tire Services",
+      "maintenance": "Maintenance",
+      "repair": "Repairs",
+      "consultation": "Consultation"
+    },
+    "services": {
+      "tires": {
+        "title": "Tire Services",
+        "description": "Our core expertise is in all things tire-related. We offer comprehensive tire services including sales, installation, rotation, balancing, and repair.",
+        "items": {
+          "item1": "New tire sales and professional installation",
+          "item2": "Tire rotation and balancing",
+          "item3": "Flat tire repair and patching",
+          "item4": "Tire pressure monitoring system (TPMS) service"
+        },
+        "imageAlt": "Tire installation service"
+      },
+      "maintenance": {
+        "title": "Maintenance Services",
+        "description": "Regular maintenance helps prevent costly repairs and extends the life of your tires and vehicle. Our maintenance services keep your car running smoothly.",
+        "items": {
+          "item1": "Wheel alignment",
+          "item2": "Brake inspection and service",
+          "item3": "Suspension check and maintenance",
+          "item4": "Seasonal tire changeovers and storage"
+        },
+        "imageAlt": "Vehicle maintenance service"
+      },
+      "repair": {
+        "title": "Repair Services",
+        "description": "When something goes wrong with your tires or related systems, our skilled technicians can diagnose and fix the problem quickly and effectively.",
+        "items": {
+          "item1": "Emergency tire repair or replacement",
+          "item2": "Wheel repair and refurbishment",
+          "item3": "Suspension and steering repairs",
+          "item4": "Brake system repairs"
+        },
+        "imageAlt": "Tire repair service"
+      },
+      "consultation": {
+        "title": "Consultation Services",
+        "description": "Not sure what tires you need? Our experts provide personalized consultation to help you make the best choice for your vehicle and driving habits.",
+        "items": {
+          "item1": "Tire selection guidance based on vehicle and driving needs",
+          "item2": "Fleet tire management consultation",
+          "item3": "Seasonal tire recommendations",
+          "item4": "Tire care and maintenance education"
+        },
+        "imageAlt": "Tire consultation service"
+      }
+    },
+    "appointment": {
+      "schedule": "Schedule Service",
+      "inquire": "Inquire About Services"
+    },
+    "guarantees": {
+      "title": "Our Service Guarantees",
+      "items": {
+        "item1": {
+          "title": "Quality Assurance",
+          "description": "We stand behind all our work with a satisfaction guarantee."
+        },
+        "item2": {
+          "title": "Certified Technicians",
+          "description": "All services performed by fully trained and certified professionals."
+        },
+        "item3": {
+          "title": "Transparent Pricing",
+          "description": "No hidden fees or surprises - just honest, upfront pricing."
+        },
+        "item4": {
+          "title": "Timely Service",
+          "description": "We value your time and work efficiently without compromising quality."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Experience Our Services?",
+      "description": "Schedule an appointment today and see why our customers trust us with their vehicles year after year.",
+      "scheduleService": "Schedule a Service",
+      "contact": "Contact Us"
+    },
+    "testimonials": {
+      "title": "What Our Customers Say",
+      "items": {
+        "item1": {
+          "name": "David Peterson",
+          "location": "Brussels",
+          "quote": "The team at Ariana Bandencentrale provided excellent service. They helped me select the perfect tires for my SUV and had them installed quickly and professionally."
+        },
+        "item2": {
+          "name": "Sophie Martens",
+          "location": "Gent",
+          "quote": "I've been a customer for years and always receive honest advice and quality work. Their tire knowledge is unmatched in the area."
+        },
+        "item3": {
+          "name": "Thomas Laurent",
+          "location": "Antwerp",
+          "quote": "When I had a flat tire on the highway, they got me back on the road quickly with a fair price. I won't go anywhere else for tire service."
+        }
+      }
+    }
+  },
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our products, services, shipping, and more.",
+    "common": {
+      "home": "Home"
+    },
+    "search": {
+      "placeholder": "Search for answers...",
+      "tip": "Type keywords related to your question"
+    },
+    "categories": {
+      "general": "General",
+      "tires": "Tires & Products",
+      "services": "Services",
+      "shipping": "Shipping",
+      "warranty": "Warranty",
+      "payment": "Payment"
+    },
+    "questions": {
+      "general": {
+        "q1": {
+          "question": "What are your business hours?",
+          "answer": "Our store is open Monday to Friday from 9:00 AM to 6:00 PM, and Saturday from 10:00 AM to 4:00 PM. We are closed on Sundays and public holidays."
+        },
+        "q2": {
+          "question": "Do I need an appointment for tire services?",
+          "answer": "While we do accept walk-ins when possible, we strongly recommend scheduling an appointment to ensure prompt service. You can book an appointment through our website or by calling our service center."
+        },
+        "q3": {
+          "question": "How can I contact customer support?",
+          "answer": "You can reach our customer support team by phone at +32 467 662 197, by email at info@arianabandencentralebv.be, or by filling out the contact form on our website."
+        },
+        "q4": {
+          "question": "Do you offer services for commercial vehicles?",
+          "answer": "Yes, we provide tire services for light commercial vehicles and fleet services for businesses of all sizes. Please contact us directly for more information about our commercial vehicle services."
+        },
+        "q5": {
+          "question": "Can I purchase tires online and have them shipped to my home?",
+          "answer": "Yes, you can purchase tires through our online store and choose to have them shipped directly to your home or to our service center for professional installation."
+        }
+      },
+      "tires": {
+        "q1": {
+          "question": "How do I know which tires are right for my vehicle?",
+          "answer": "You can use our Tire Finder tool on the website by entering your vehicle make, model, and year. Alternatively, you can consult with our tire experts who will recommend the best options based on your vehicle, driving habits, and budget."
+        },
+        "q2": {
+          "question": "How often should I replace my tires?",
+          "answer": "Tires typically need replacement every 6-10 years depending on usage, but you should check them regularly for signs of wear. The legal tread depth minimum is 1.6mm, but we recommend replacement when tread depth reaches 3mm for safety reasons."
+        },
+        "q3": {
+          "question": "What's the difference between summer, winter, and all-season tires?",
+          "answer": "Summer tires perform best in warm conditions, providing excellent grip and handling. Winter tires are designed for cold temperatures and snow, with special compounds that remain flexible in freezing conditions. All-season tires offer a compromise, performing adequately in most conditions but not excelling in extreme weather."
+        },
+        "q4": {
+          "question": "Do you sell used or refurbished tires?",
+          "answer": "We primarily sell new tires to ensure maximum safety and performance. However, we occasionally offer certified used tires that have been thoroughly inspected and meet our quality standards."
+        },
+        "q5": {
+          "question": "What tire brands do you carry?",
+          "answer": "We carry all major tire brands including Michelin, Continental, Goodyear, Bridgestone, Pirelli, Dunlop, Hankook, and many others. Our selection includes options for various vehicle types, driving conditions, and price points."
+        }
+      },
+      "services": {
+        "q1": {
+          "question": "What is included in a wheel alignment service?",
+          "answer": "Our wheel alignment service includes a comprehensive check of your vehicle's suspension system, adjustment of the camber, caster, and toe angles to manufacturer specifications, and a detailed report showing before and after measurements."
+        },
+        "q2": {
+          "question": "How often should I rotate my tires?",
+          "answer": "We recommend rotating your tires every 10,000 to 12,000 kilometers or according to your vehicle manufacturer's recommendations. Regular rotation ensures even wear and extends tire life."
+        },
+        "q3": {
+          "question": "Can you repair a flat tire, or do I need a replacement?",
+          "answer": "Whether a tire can be repaired depends on the type and extent of damage. Punctures in the tread area that are smaller than 6mm can typically be repaired. However, sidewall damage, large punctures, or blowouts usually require tire replacement for safety reasons."
+        },
+        "q4": {
+          "question": "How long does a typical tire installation take?",
+          "answer": "For a standard set of four tires, installation typically takes about 45-60 minutes. This includes mounting, balancing, and installation on your vehicle."
+        },
+        "q5": {
+          "question": "Do you offer mobile tire services?",
+          "answer": "Yes, we offer mobile tire services for emergency situations and fleet customers within our service area. Please contact our customer service team for availability and pricing."
+        }
+      },
+      "shipping": {
+        "q1": {
+          "question": "Do you ship internationally?",
+          "answer": "Currently, we ship throughout Belgium and to neighboring countries including the Netherlands, Luxembourg, Germany, and France. For other international shipping requests, please contact our customer service team."
+        },
+        "q2": {
+          "question": "How long does shipping take?",
+          "answer": "Standard shipping within Belgium typically takes 2-3 business days. Express shipping is available with next-day delivery for orders placed before 2 PM. International shipping to neighboring countries takes 3-5 business days."
+        },
+        "q3": {
+          "question": "What are the shipping costs?",
+          "answer": "Shipping costs depend on the order weight, dimensions, and shipping destination. Orders over €250 qualify for free standard shipping within Belgium. You can calculate exact shipping costs during checkout."
+        },
+        "q4": {
+          "question": "Can I track my order?",
+          "answer": "Yes, once your order ships, you'll receive a confirmation email with tracking information. You can also track your order through your account on our website."
+        },
+        "q5": {
+          "question": "What if my tires arrive damaged?",
+          "answer": "If your tires arrive damaged, please contact us within 48 hours of delivery with photos of the damage. We'll arrange for a replacement or refund depending on your preference and product availability."
+        }
+      },
+      "warranty": {
+        "q1": {
+          "question": "What warranty do your tires come with?",
+          "answer": "All new tires come with the manufacturer's standard warranty, which typically covers defects in materials and workmanship. Many premium tires also include road hazard protection. We also offer extended warranty options for additional peace of mind."
+        },
+        "q2": {
+          "question": "How do I make a warranty claim?",
+          "answer": "To make a warranty claim, bring your tires to our service center along with your proof of purchase. Our technicians will inspect the tires and process your claim according to the applicable warranty terms."
+        },
+        "q3": {
+          "question": "Is installation covered under warranty?",
+          "answer": "We guarantee our installation work for the life of the tires. If you experience any issues related to the installation, we'll address them at no cost to you."
+        },
+        "q4": {
+          "question": "What's not covered by the tire warranty?",
+          "answer": "Tire warranties typically do not cover normal wear and tear, improper maintenance, damage from accidents, misuse, or modifications. Road hazard damage isn't covered by manufacturer warranties unless specifically included or purchased separately."
+        },
+        "q5": {
+          "question": "How long is the warranty period?",
+          "answer": "Warranty periods vary by manufacturer and tire model. Most quality tires come with a 6-year warranty against defects, while treadwear warranties may be based on specific mileage, typically ranging from 40,000 to 100,000 kilometers."
+        }
+      },
+      "payment": {
+        "q1": {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept major credit and debit cards (Visa, Mastercard, American Express), PayPal, bank transfers, and cash for in-store purchases."
+        },
+        "q2": {
+          "question": "Do you offer financing options?",
+          "answer": "Yes, we offer various financing options for purchases over €300. You can apply online or in our store, and approval typically takes just a few minutes."
+        },
+        "q3": {
+          "question": "Is my payment information secure?",
+          "answer": "Yes, we use industry-standard encryption and security measures to protect your payment information. We are PCI DSS compliant and never store your complete credit card information."
+        },
+        "q4": {
+          "question": "Can I pay in installments?",
+          "answer": "Yes, we offer installment payment plans for purchases over €500. You can spread your payment over 3, 6, or 12 months, depending on the total amount."
+        },
+        "q5": {
+          "question": "Do you offer discounts for bulk purchases?",
+          "answer": "Yes, we offer special pricing for fleet customers and bulk purchases. Please contact our sales team for a customized quote based on your specific requirements."
+        }
+      }
+    },
+    "relatedLinks": "Related Links",
+    "relatedServices": "View Our Services",
+    "relatedWarranty": "Warranty Information",
+    "stillHaveQuestions": {
+      "title": "Still Have Questions?",
+      "description": "Our team is here to help with any questions you may have about our products or services.",
+      "contactUs": "Contact Us",
+      "callUs": "Call Us Now",
+      "phoneNumber": "+32 467 662 197"
+    },
+    "quickLinks": {
+      "title": "Quick Links to Helpful Information",
+      "shipping": {
+        "title": "Shipping Information",
+        "description": "Learn about our shipping methods, delivery times, and costs.",
+        "linkText": "View Shipping Details"
+      },
+      "returns": {
+        "title": "Returns & Refunds",
+        "description": "Understand our return policy and refund process.",
+        "linkText": "View Returns Policy"
+      },
+      "warranty": {
+        "title": "Warranty Information",
+        "description": "Find details about our warranty coverage and claims process.",
+        "linkText": "View Warranty Details"
+      }
+    }
+  },
+  "Shipping": {
+    "title": "Shipping Information",
+    "subtitle": "Everything you need to know about our shipping policies, methods, and delivery timeframes",
+    "common": {
+      "home": "Home"
+    },
+    "methods": {
+      "title": "Shipping Methods",
+      "cost": "Cost",
+      "standard": {
+        "title": "Standard Shipping",
+        "time": "2-5 Business Days",
+        "description": "Our standard shipping option provides reliable delivery at an economical price. Perfect for most orders when you don't need immediate delivery.",
+        "cost": "€7.95 (Free on orders over €250)"
+      },
+      "express": {
+        "title": "Express Shipping",
+        "time": "1-2 Business Days",
+        "description": "Need your tires quickly? Our express shipping ensures fast delivery for urgent requirements. Available for most locations.",
+        "cost": "€14.95"
+      },
+      "store": {
+        "title": "Store Pickup",
+        "time": "Ready in 24 Hours",
+        "description": "Order online and pick up at our store. We'll have your items ready and waiting. Perfect if you're planning to have installation done at our service center.",
+        "cost": "Free"
+      },
+      "bulkOrder": {
+        "title": "Commercial/Bulk Delivery",
+        "time": "3-7 Business Days",
+        "description": "Special shipping arrangements for large orders and commercial customers. Our team will coordinate delivery to suit your schedule.",
+        "cost": "Based on order size (Call for quote)"
+      }
+    },
+    "policies": {
+      "title": "Shipping Policies",
+      "eligibility": {
+        "question": "What products are eligible for shipping?",
+        "answer": "All tires and automotive accessories in our inventory can be shipped. Some oversized items or special orders may incur additional shipping charges, which will be clearly indicated during checkout."
+      },
+      "tracking": {
+        "question": "How do I track my shipment?",
+        "answer": "Once your order ships, you'll receive a confirmation email with tracking information. You can also log in to your account on our website to view real-time shipping status and delivery estimates."
+      },
+      "damages": {
+        "question": "What if my items arrive damaged?",
+        "answer": "In the rare event that items arrive damaged, please contact us within 48 hours of delivery with photos of the damage. We'll promptly arrange for replacement items to be shipped to you at no additional cost."
+      },
+      "internationally": {
+        "question": "Do you ship internationally?",
+        "answer": "We currently ship throughout Belgium and to neighboring countries including the Netherlands, Luxembourg, Germany, and France. For other international shipping requests, please contact our customer service team for options and pricing."
+      },
+      "restrictions": {
+        "question": "Are there any shipping restrictions?",
+        "answer": "Some remote areas may have limited shipping options or additional surcharges. Very large orders may require special delivery arrangements. Our system will calculate and display any applicable restrictions during checkout."
+      }
+    },
+    "timeline": {
+      "title": "Shipping Timeline",
+      "steps": {
+        "step1": {
+          "title": "Order Processing",
+          "time": "Within 24 hours",
+          "description": "Once your order is placed, our team verifies inventory and prepares your items for shipping. Most orders are processed the same business day if placed before 2 PM."
+        },
+        "step2": {
+          "title": "Packaging",
+          "time": "1 business day",
+          "description": "Your tires or automotive products are carefully packaged to prevent damage during transit. Each tire is individually wrapped and secured."
+        },
+        "step3": {
+          "title": "Shipping",
+          "time": "1-3 business days",
+          "description": "Your package is picked up by our shipping partner and begins its journey to you. Transit times vary based on your location and chosen shipping method."
+        },
+        "step4": {
+          "title": "Delivery",
+          "time": "Based on shipping method",
+          "description": "Your package arrives at your specified delivery address. For residential deliveries, someone may need to be present to accept the package depending on size."
+        }
+      }
+    },
+    "zones": {
+      "title": "Shipping Zones & Delivery Times",
+      "description": "Delivery times vary depending on your location. Here's what you can expect based on our shipping zones:",
+      "standardShipping": "Standard Shipping",
+      "expressShipping": "Express Shipping",
+      "zone1": {
+        "name": "Zone 1: Major Belgian Cities",
+        "areas": "Brussels, Antwerp, Ghent, Charleroi, Liège, and surrounding areas",
+        "standardTime": "1-2 business days",
+        "expressTime": "Next business day"
+      },
+      "zone2": {
+        "name": "Zone 2: Other Belgian Regions",
+        "areas": "All other regions within Belgium",
+        "standardTime": "2-3 business days",
+        "expressTime": "1-2 business days"
+      },
+      "zone3": {
+        "name": "Zone 3: Neighboring Countries",
+        "areas": "Netherlands, Luxembourg, Germany (border regions), France (border regions)",
+        "standardTime": "3-5 business days",
+        "expressTime": "2-3 business days"
+      }
+    },
+    "notes": {
+      "title": "Important Shipping Notes",
+      "note1": "Delivery times are estimates and may vary during peak seasons or adverse weather conditions.",
+      "note2": "For overweight or oversized items, additional shipping charges may apply and will be calculated during checkout.",
+      "note3": "If you're not available to receive your delivery, the courier may leave a notice and attempt redelivery or hold your package at a local pickup point."
+    },
+    "contact": {
+      "title": "Questions About Shipping?",
+      "description": "Our customer service team is ready to help with any shipping-related questions or special requirements you may have.",
+      "button": "Contact Our Shipping Department"
+    }
+  },
+  "Warranty": {
+    "title": "Warranty Information",
+    "subtitle": "Understanding our tire warranty coverage, claim process, and policy details",
+    "common": {
+      "home": "Home"
+    },
+    "overview": {
+      "title": "Warranty Overview",
+      "description1": "At Ariana Bandencentrale BV, we stand behind the quality of our products and services. All new tires purchased from us come with manufacturer warranties, and we offer additional coverage options for your peace of mind.",
+      "description2": "Our warranty programs are designed to protect your investment and ensure your satisfaction with our products. We work directly with manufacturers to process warranty claims quickly and efficiently.",
+      "commitment": "Our Commitment to Quality and Customer Satisfaction"
+    },
+    "quickAccess": {
+      "title": "Quick Access",
+      "register": "Register Your Tires",
+      "claim": "File a Warranty Claim",
+      "check": "Check Warranty Status",
+      "contact": "Contact Warranty Support"
+    },
+    "types": {
+      "title": "Types of Warranty Coverage",
+      "manufacturer": {
+        "name": "Manufacturer's Warranty",
+        "duration": "Typically 6 years from manufacture date",
+        "description": "Coverage provided by the tire manufacturer for defects in materials and workmanship.",
+        "coverage": {
+          "point1": "Premature treadwear under normal use conditions",
+          "point2": "Manufacturing defects affecting safety or performance",
+          "point3": "Material failures not caused by external damage"
+        }
+      },
+      "roadHazard": {
+        "name": "Road Hazard Protection",
+        "duration": "First 2 years or 50% of tread life",
+        "description": "Optional coverage for damage caused by road hazards such as potholes, nails, or debris.",
+        "coverage": {
+          "point1": "Punctures, cuts, and impact breaks",
+          "point2": "Tire damage from potholes or road debris",
+          "point3": "Pro-rated replacement or repair costs"
+        }
+      },
+      "extended": {
+        "name": "Extended Warranty",
+        "duration": "Up to 3 additional years",
+        "description": "Our premium protection plan that extends coverage beyond the standard warranty period.",
+        "coverage": {
+          "point1": "Extended time period beyond manufacturer warranty",
+          "point2": "Includes road hazard protection",
+          "point3": "Preferred service and handling priority"
+        }
+      }
+    },
+    "coverage": {
+      "title": "Coverage Details",
+      "covered": {
+        "title": "What's Covered",
+        "description": "Our warranties typically cover the following issues:",
+        "points": {
+          "point1": "Manufacturing defects in materials and workmanship",
+          "point2": "Premature or irregular wear with proper maintenance",
+          "point3": "Loss of air pressure due to internal material failure",
+          "point4": "Sudden failure under normal driving conditions"
+        }
+      },
+      "notCovered": {
+        "title": "What's Not Covered",
+        "description": "Warranty coverage typically excludes the following:",
+        "points": {
+          "point1": "Damage from accidents, misuse, or vandalism",
+          "point2": "Improper installation or maintenance",
+          "point3": "Normal wear and tear appropriate for mileage driven",
+          "point4": "Modification of the original tire design"
+        }
+      },
+      "conditions": {
+        "title": "Warranty Conditions",
+        "description": "To maintain warranty coverage, these conditions must be met:",
+        "points": {
+          "point1": "Tires must be properly inflated according to vehicle specifications",
+          "point2": "Regular rotation and alignment according to recommended schedules",
+          "point3": "No racing, off-road use (unless specifically designed for it)",
+          "point4": "Proper load ratings must be observed"
+        }
+      },
+      "prorating": {
+        "title": "Warranty Proration",
+        "description": "Many warranties are prorated based on tread wear. Here's how proration typically works:",
+        "table": {
+          "treadWear": "Tread Wear",
+          "creditPercentage": "Warranty Credit",
+          "row1": {
+            "wear": "0% to 25% worn",
+            "credit": "100% of original purchase price"
+          },
+          "row2": {
+            "wear": "26% to 50% worn",
+            "credit": "75% of original purchase price"
+          },
+          "row3": {
+            "wear": "51% to 75% worn",
+            "credit": "50% of original purchase price"
+          },
+          "row4": {
+            "wear": "76% to 100% worn",
+            "credit": "25% of original purchase price"
+          }
+        }
+      }
+    },
+    "claims": {
+      "title": "Warranty Claim Process",
+      "steps": {
+        "step1": {
+          "title": "Contact Us",
+          "description": "The first step is to contact our warranty department by phone, email, or through our online form. Explain the issue you're experiencing with your tires."
+        },
+        "step2": {
+          "title": "Inspection",
+          "description": "Bring your vehicle to our service center for a thorough inspection of the affected tire(s). Our technicians will document the condition and determine if the issue is covered under warranty."
+        },
+        "step3": {
+          "title": "Documentation",
+          "description": "We'll prepare the necessary warranty claim documentation, including photos and measurements. You'll need to provide your original purchase receipt or warranty registration information."
+        },
+        "step4": {
+          "title": "Resolution",
+          "description": "Based on the type of warranty and condition of the tires, we'll process your claim accordingly. This may include repair, replacement, or a pro-rated credit toward new tires."
+        }
+      },
+      "phoneNumber": "+32 467 662 197",
+      "contactButton": "Contact Warranty Department",
+      "callButton": "Call Us",
+      "requirements": {
+        "title": "Required for Warranty Claims",
+        "description": "To process your warranty claim, please have the following information ready:",
+        "list": {
+          "item1": "Original purchase receipt",
+          "item2": "Vehicle information (make, model, year)",
+          "item3": "Date of purchase and installation",
+          "item4": "Description of the issue you're experiencing"
+        }
+      }
+    },
+    "faq": {
+      "title": "Warranty FAQ",
+      "questions": {
+        "q1": {
+          "question": "How do I know if my issue is covered under warranty?",
+          "answer": "Most warranties cover manufacturing defects and premature wear under normal use conditions. Damage from road hazards, improper maintenance, or accidents may not be covered under standard warranties. Our technicians can inspect your tires and determine coverage eligibility."
+        },
+        "q2": {
+          "question": "How long does the warranty claim process take?",
+          "answer": "Most warranty claims are processed within 1-2 business days. Simple repairs may be completed the same day, while replacement claims requiring special order tires may take 3-5 business days depending on availability."
+        },
+        "q3": {
+          "question": "Do I need my original receipt for warranty claims?",
+          "answer": "While having your original receipt is ideal, we can also look up your purchase in our system if you bought your tires from us. For manufacturer warranties, we may be able to process claims based on the DOT code on the tire even without a receipt."
+        },
+        "q4": {
+          "question": "Can I transfer my tire warranty if I sell my vehicle?",
+          "answer": "Most manufacturer warranties stay with the tire, not the owner, so they can typically be transferred. However, some extended warranties and road hazard protections may not be transferable. Check your specific warranty terms or contact us for details."
+        },
+        "q5": {
+          "question": "What's the difference between a defect and normal wear?",
+          "answer": "Defects typically appear as unusual patterns, bulges, separations, or premature wear that doesn't match driving habits. Normal wear occurs gradually and evenly across the tread surface. Our technicians are trained to identify the difference between defects and normal wear patterns."
+        }
+      }
+    },
+    "contact": {
+      "title": "Warranty Support",
+      "description": "Our warranty specialists are here to help with any questions or claims. Contact us for assistance with your tire warranty needs.",
+      "button": "Contact Warranty Support",
+      "callUs": "Call Us",
+      "phoneNumber": "+32 467 662 197"
+    }
+  },
+  "PrivacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated: May 1, 2025",
+    "downloadPdf": "Download PDF Version",
+    "common": {
+      "home": "Home"
+    },
+    "introduction": "At Ariana Bandencentrale BV, we are committed to protecting your privacy and handling your personal data with transparency and care. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our services, or interact with us in any way.",
+    "summary": {
+      "title": "Summary of Key Points",
+      "points": {
+        "point1": "We collect personal information that you provide directly to us, as well as information automatically collected when you use our website.",
+        "point2": "We use your information to process transactions, improve our services, communicate with you, and comply with legal obligations.",
+        "point3": "We may share your information with service providers, business partners, and when required by law.",
+        "point4": "You have rights regarding your personal data, including access, correction, and deletion rights.",
+        "point5": "We use cookies and similar technologies to enhance your browsing experience and collect data for analytics."
+      }
+    },
+    "informationCollection": {
+      "title": "Information We Collect",
+      "description": "We collect several types of information from and about users of our website and services:",
+      "personalData": {
+        "title": "Personal Data",
+        "items": {
+          "item1": "Name, email address, postal address, and phone number",
+          "item2": "Payment information (such as credit card details)",
+          "item3": "Vehicle information (make, model, year)",
+          "item4": "Account login credentials",
+          "item5": "Communication preferences and marketing choices",
+          "item6": "Customer service interactions and feedback"
+        }
+      },
+      "nonPersonalData": {
+        "title": "Non-Personal Data",
+        "description": "We also collect non-personal data that does not directly identify you:",
+        "items": {
+          "item1": "Browser type, device information, and operating system",
+          "item2": "IP address, referring websites, and pages visited",
+          "item3": "Usage data such as time spent on site and interaction with features"
+        }
+      }
+    },
+    "informationUse": {
+      "title": "How We Use Your Information",
+      "description": "We use the information we collect for various purposes, including:",
+      "purposes": {
+        "purpose1": "Processing and fulfilling your orders and service requests",
+        "purpose2": "Creating and managing your account",
+        "purpose3": "Providing customer support and responding to inquiries",
+        "purpose4": "Sending transactional emails and service notifications",
+        "purpose5": "Marketing and promotional communications (with your consent)",
+        "purpose6": "Improving our website, products, and services",
+        "purpose7": "Complying with legal obligations and protecting our rights"
+      }
+    },
+    "dataSharing": {
+      "title": "Information Sharing and Disclosure",
+      "description": "We may share your information with third parties in the following circumstances:",
+      "parties": {
+        "party1": {
+          "name": "Service Providers",
+          "purpose": "Companies that provide services on our behalf, such as payment processing, shipping, and IT support."
+        },
+        "party2": {
+          "name": "Business Partners",
+          "purpose": "Tire manufacturers and suppliers when necessary to fulfill warranties or service requests."
+        },
+        "party3": {
+          "name": "Legal Requirements",
+          "purpose": "When required by law, court order, or governmental regulation."
+        },
+        "party4": {
+          "name": "Business Transfers",
+          "purpose": "In connection with a merger, acquisition, or sale of assets."
+        }
+      }
+    },
+    "cookies": {
+      "title": "Cookies and Tracking Technologies",
+      "description": "We use cookies and similar tracking technologies to track activity on our website and hold certain information. Cookies are files with small amount of data which may include an anonymous unique identifier.",
+      "types": {
+        "title": "Types of Cookies We Use",
+        "essential": {
+          "name": "Essential Cookies",
+          "description": "Required for the website to function properly. These enable core functionality such as security, network management, and account access."
+        },
+        "preference": {
+          "name": "Preference Cookies",
+          "description": "Allow the website to remember choices you make and provide enhanced, personalized features."
+        },
+        "analytics": {
+          "name": "Analytics Cookies",
+          "description": "Help us understand how visitors interact with our website by collecting and reporting information anonymously."
+        },
+        "marketing": {
+          "name": "Marketing Cookies",
+          "description": "Used to track visitors across websites to enable us to display relevant advertisements and measure their effectiveness."
+        }
+      },
+      "management": "You can set your browser to refuse all cookies or to indicate when a cookie is being sent. However, some features of our website may not function properly without cookies."
+    },
+    "userRights": {
+      "title": "Your Rights",
+      "description": "Depending on your location, you may have certain rights regarding your personal data, including:",
+      "rights": {
+        "access": {
+          "title": "Right to Access",
+          "description": "You can request a copy of the personal data we hold about you."
+        },
+        "rectification": {
+          "title": "Right to Rectification",
+          "description": "You can request correction of your personal data if it is inaccurate or incomplete."
+        },
+        "erasure": {
+          "title": "Right to Erasure",
+          "description": "In certain circumstances, you can request deletion of your personal data."
+        },
+        "restriction": {
+          "title": "Right to Restriction",
+          "description": "You can request that we restrict processing of your personal data under certain conditions."
+        },
+        "portability": {
+          "title": "Right to Data Portability",
+          "description": "You can request to receive your personal data in a structured, commonly used, and machine-readable format."
+        },
+        "objection": {
+          "title": "Right to Object",
+          "description": "You can object to our processing of your personal data under certain circumstances."
+        }
+      },
+      "exercising": "To exercise any of these rights, please contact us using the information provided in the contact section of this policy."
+    },
+    "dataSecurity": {
+      "title": "Data Security",
+      "description": "We implement appropriate security measures to protect against unauthorized access, alteration, disclosure, or destruction of your personal data. These measures include:",
+      "measures": {
+        "measure1": "Encryption of sensitive data during transmission and storage",
+        "measure2": "Regular security assessments and testing",
+        "measure3": "Access controls and authentication mechanisms",
+        "measure4": "Employee training on data security and privacy practices"
+      }
+    },
+    "dataRetention": {
+      "title": "Data Retention",
+      "description": "We retain your personal data for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. We determine the appropriate retention period based on the amount, nature, and sensitivity of the data, potential risk of harm from unauthorized use, and legal requirements."
+    },
+    "thirdPartyLinks": {
+      "title": "Third-Party Links",
+      "description": "Our website may contain links to third-party websites and services. We are not responsible for the privacy practices or content of these third parties. We encourage you to read the privacy policies of any third-party websites you visit."
+    },
+    "policyUpdates": {
+      "title": "Changes to This Privacy Policy",
+      "description": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last Updated' date. You are advised to review this Privacy Policy periodically for any changes."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have any questions about this Privacy Policy or our data practices, please contact us at:",
+      "company": "Company Address:",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "governingLaw": {
+      "title": "Governing Law",
+      "description": "This Privacy Policy is governed by and construed in accordance with the laws of Belgium, without regard to its conflict of law provisions."
+    },
+    "effectiveDate": "This Privacy Policy is effective as of May 1, 2025.",
+    "questions": {
+      "title": "Questions About Your Privacy?",
+      "description": "We're committed to transparency and are happy to address any concerns you may have about your personal data.",
+      "contactUs": "Contact Our Privacy Team",
+      "email": "Email Us"
+    }
+  },
+  "Returns": {
+    "title": "Returns & Refunds",
+    "subtitle": "Our policy for returning products and processing refunds",
+    "common": {
+      "home": "Home"
+    },
+    "overview": {
+      "title": "Returns Overview",
+      "description1": "At Ariana Bandencentrale BV, we strive for complete customer satisfaction. If you're not entirely satisfied with your purchase, we offer a straightforward returns process to ensure your peace of mind.",
+      "description2": "Please review the information below to understand our return policy, eligibility requirements, and refund processes. If you have any questions, our customer service team is ready to assist you.",
+      "returnWindow": "Return Window: 30 days from date of purchase for unused products in original condition"
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "process": {
+        "title": "Returns Process",
+        "description": "How to initiate and complete a return"
+      },
+      "eligibility": {
+        "title": "Return Eligibility",
+        "description": "Which products can be returned"
+      },
+      "refunds": {
+        "title": "Refund Information",
+        "description": "How and when refunds are processed"
+      }
+    },
+    "process": {
+      "title": "Returns Process",
+      "steps": {
+        "step1": {
+          "title": "Contact Us",
+          "description": "Begin by contacting our customer service team through email, phone, or the online form. Provide your order number and details about the items you wish to return."
+        },
+        "step2": {
+          "title": "Return Authorization",
+          "description": "Our team will review your request and provide a Return Authorization Number (RA#) if your return is approved. This number must be included with your return shipment."
+        },
+        "step3": {
+          "title": "Package Your Return",
+          "description": "Carefully package the item(s) in their original packaging if possible. Include the RA# clearly marked on the outside of the package and any documentation provided by our team."
+        },
+        "step4": {
+          "title": "Ship Your Return",
+          "description": "Ship your return to the address provided during the authorization process. We recommend using a shipping method that includes tracking and insurance."
+        },
+        "step5": {
+          "title": "Refund Processing",
+          "description": "Once we receive and inspect your return, we'll process your refund according to the original payment method. You'll receive a confirmation email when your refund has been processed."
+        }
+      },
+      "initiateButton": "Initiate a Return",
+      "refundTiming": "Refunds typically take 5-10 business days to appear on your account, depending on your financial institution."
+    },
+    "eligibility": {
+      "title": "Return Eligibility",
+      "description": "To ensure a smooth returns process, please note the following eligibility criteria:",
+      "eligible": {
+        "title": "Items Eligible for Return",
+        "items": {
+          "item1": "Unused tires and products in their original packaging",
+          "item2": "Items returned within 30 days of purchase",
+          "item3": "Products with manufacturing defects or damage upon receipt",
+          "item4": "Incorrect items shipped (different from what you ordered)",
+          "item5": "Items that don't match the product description on our website"
+        }
+      },
+      "notEligible": {
+        "title": "Items Not Eligible for Return",
+        "items": {
+          "item1": "Used or mounted tires (except for warranty claims)",
+          "item2": "Products with signs of wear, damage, or installation attempts",
+          "item3": "Items returned more than 30 days after purchase",
+          "item4": "Custom-ordered or special-order products",
+          "item5": "Products sold as 'final sale' or at discounted prices due to clearance"
+        }
+      }
+    },
+    "refunds": {
+      "title": "Refund Information",
+      "description": "We process refunds promptly once your return is received and inspected. Here's what you need to know about our refund process:",
+      "methods": {
+        "original": {
+          "title": "Original Payment Method",
+          "timing": "5-10 business days",
+          "description": "Refunds are processed back to the original payment method used for the purchase, such as credit card, debit card, or PayPal."
+        },
+        "credit": {
+          "title": "Store Credit",
+          "timing": "Immediate upon approval",
+          "description": "In some cases, you may choose to receive store credit instead of a refund. Store credit is issued immediately and can be used for future purchases."
+        },
+        "exchange": {
+          "title": "Product Exchange",
+          "timing": "Based on product availability",
+          "description": "If you prefer to exchange your purchase for a different product, we can arrange this instead of processing a refund."
+        }
+      },
+      "deductions": {
+        "title": "Possible Refund Deductions",
+        "description": "In certain situations, your refund amount may be reduced to account for the following:",
+        "items": {
+          "item1": "Original shipping costs are not refunded unless the return is due to our error",
+          "item2": "Restocking fees (typically 15%) may apply for non-defective returns",
+          "item3": "Deductions for any damage to products or packaging beyond normal inspection"
+        }
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "q1": {
+          "question": "How long do I have to return a product?",
+          "answer": "You have 30 days from the date of purchase to return unused products in their original condition and packaging. After this period, returns may only be accepted for warranty claims or special circumstances at our discretion."
+        },
+        "q2": {
+          "question": "Do I have to pay for return shipping?",
+          "answer": "Yes, customers are generally responsible for return shipping costs. However, if the return is due to our error (wrong item shipped, defective product), we will cover the return shipping costs or provide a prepaid return label."
+        },
+        "q3": {
+          "question": "Can I return mounted or used tires?",
+          "answer": "Generally, once tires have been mounted or used, they cannot be returned for a refund under our standard return policy. However, if there is a manufacturing defect, they may be covered under the manufacturer's warranty. Please contact our customer service team for assistance with warranty claims."
+        },
+        "q4": {
+          "question": "How long will it take to process my refund?",
+          "answer": "Once we receive your return, it typically takes 1-2 business days to inspect and process. After processing, refunds to credit or debit cards usually take 5-10 business days to appear on your account, depending on your financial institution. Store credit is issued immediately upon approval."
+        },
+        "q5": {
+          "question": "Can I exchange a product instead of getting a refund?",
+          "answer": "Yes, we're happy to exchange products for a different size, model, or brand. Contact our customer service team to arrange an exchange. If there is a price difference, you'll either need to pay the additional amount or receive a refund for the difference."
+        },
+        "q6": {
+          "question": "What if I received damaged or defective items?",
+          "answer": "If you receive damaged or defective items, please contact us within 48 hours of delivery with photos of the damage. We'll arrange for a replacement or refund and provide instructions for returning the damaged items at no cost to you."
+        }
+      }
+    },
+    "contact": {
+      "title": "Need Help with Returns?",
+      "description": "Our customer service team is ready to assist you with returns, exchanges, or any questions about our return policy.",
+      "contactUs": "Contact Customer Service",
+      "callUs": "Call Us",
+      "phoneNumber": "+32 467 662 197"
+    }
+  },
+  "Contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "phone": "Phone Number (Optional)",
+      "subject": "Subject",
+      "message": "Message",
+      "namePlaceholder": "Enter your full name",
+      "emailPlaceholder": "Enter your email address",
+      "phonePlaceholder": "Enter your phone number",
+      "subjectPlaceholder": "What is this regarding?",
+      "messagePlaceholder": "Enter your message here...",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "verifyEmail": "Please verify your email first",
+      "verification": {
+        "title": "Verify Your Email",
+        "description": "To protect against spam, we need to verify your email address first. We've sent a verification code to:",
+        "enterCode": "Enter Verification Code",
+        "codePlaceholder": "Enter 6-digit code",
+        "verify": "Verify",
+        "verifying": "Verifying...",
+        "resend": "Resend Code",
+        "success": "Email verified successfully!",
+        "error": "Invalid verification code. Please try again."
+      },
+      "success": "Thank you for your message. We'll get back to you soon!",
+      "error": "There was a problem sending your message. Please try again."
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": "Our Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Business Hours",
+      "weekdays": "Monday - Friday: 9:00 AM - 6:00 PM",
+      "weekends": "Saturday: 10:00 AM - 4:00 PM",
+      "closed": "Sunday: Closed"
+    },
+    "map": {
+      "title": "Find Us",
+      "viewLarger": "View Larger Map"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "response": {
+          "question": "How quickly can I expect a response?",
+          "answer": "We typically respond to all inquiries within 24-48 business hours."
+        },
+        "appointment": {
+          "question": "Do I need an appointment for tire services?",
+          "answer": "Yes, we recommend scheduling an appointment for tire services to ensure prompt service."
+        },
+        "warranty": {
+          "question": "What warranty do you offer on tires?",
+          "answer": "All our tires come with the manufacturer's warranty. We also offer extended warranty options."
+        }
+      }
+    }
+  },
+  "Footer": {
+    "companyName": "Ariana Bandencentrale BV",
+    "companySlogan": "Quality Tires for Every Journey",
+    "address": "Provinciebaan 192A 8880 Ledegem,Belgie",
+    "quickLinks": {
+      "title": "Quick Links",
+      "about": "About Us",
+      "services": "Services",
+      "tireFinder": "Tire Finder",
+      "installation": "Installation",
+      "contact": "Contact Us"
+    },
+    "customerService": {
+      "title": "Customer Service",
+      "faq": "FAQ",
+      "shipping": "Shipping Information",
+      "returns": "Returns & Refunds",
+      "warranty": "Warranty",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Subscribe to receive updates on new products and special promotions.",
+      "placeholder": "Your email address",
+      "button": "Subscribe"
+    },
+    "copyright": "© {year} Ariana Bandencentrale BV. All rights reserved."
+  },
   "Email": {
     "subjects": {
       "verification": "Verify Your Email Address",
@@ -432,6 +1550,7 @@
     },
     "deals": {
       "title": "Current Deals",
+      "browseProducts": "Browse Products",
       "subtitle": "Save on Quality Tires",
       "exclusiveOffer": "Exclusive Offer",
       "limitedTime": "Limited Time Offer",
@@ -1196,49 +2315,11 @@
       "title": "You May Also Like"
     }
   },
-  "navbar": {
-    "logo": "Ariana Bandencentrale b.v.",
-    "logoShort": "ABC b.v.",
-    "navigation": "Navigation",
-    "account": "Account",
-    "navLinks": {
-      "allTires": "All Tires",
-      "tireFinder": "Tire Finder",
-      "brands": "Brands",
-      "deals": "Deals",
-      "installation": "Installation"
-    },
-    "search": {
-      "placeholder": "Search products..."
-    },
-    "auth": {
-      "login": "Login",
-      "register": "Register",
-      "becomeRetailer": "Become a Retailer"
-    },
-    "userMenu": {
-      "myOrders": "My Orders",
-      "profileSettings": "Profile Settings",
-      "appointments": "Appointments",
-      "dashboard": "Dashboard",
-      "manageProducts": "Manage Products",
-      "manageOrders": "Manage Orders",
-      "retailerApplications": "Retailer Applications",
-      "myAppointments": "My Appointments",
-      "signOut": "Sign Out"
-    },
-    "cart": {
-      "aria": "Shopping Cart",
-      "ariaCount": "Shopping Cart with {count} items",
-      "items": {
-        "one": "{count} item",
-        "other": "{count} items"
-      },
-      "empty": "Your cart is empty"
-    }
-  },
+  
   "Deals": {
     "title": "Current Deals",
+    "browseProducts": "Browse Products",
+    "viewAllDeals": "View All Deals",
     "promoCode": "Promo Code",
     "validFrom": "Valid from {startDate}",
     "validTo": "Valid to {endDate}",
@@ -1943,4 +3024,5 @@
       }
     }
   }
+  
 }

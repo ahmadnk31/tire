@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import {
   ColumnDef,
@@ -36,6 +37,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ProductForm } from "./product-form"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Link } from "@/i18n/navigation"
 
 export type Product = {
   id: string
@@ -235,51 +237,28 @@ export const columns: ColumnDef<Product>[] = [
         {row.original.width}/{row.original.aspectRatio}R{row.original.rimDiameter}
       </div>
     ),
-  },
-  {
+  },  {
     id: "actions",
     cell: ({ row }) => {
-      // Transform the data to ensure nullable fields have proper defaults
-      const transformedData = {
-        ...row.original,
-        treadDepth: row.original.treadDepth || 0, // Convert null/undefined to 0
-        sidewallType: row.original.sidewallType || "", // Convert null/undefined to empty string
-        treadPattern: row.original.treadPattern || "",
-        wetGrip: row.original.wetGrip || "",
-        fuelEfficiency: row.original.fuelEfficiency || "",
-        noiseLevel: row.original.noiseLevel || "",
-        snowRating: row.original.snowRating || "",
-        treadwear: row.original.treadwear || 0,
-        traction: row.original.traction || "",
-        temperature: row.original.temperature || "",
-        mileageWarranty: row.original.mileageWarranty || 0,
-        plyRating: row.original.plyRating || 0,
-        maxInflationPressure: row.original.maxInflationPressure ? String(row.original.maxInflationPressure) : null,
-        maxLoad: row.original.maxLoad ? String(row.original.maxLoad) : null,
-        manufacturerPartNumber: row.original.manufacturerPartNumber || "",
-        certifications: row.original.certifications || "",
-        countryOfOrigin: row.original.countryOfOrigin || "",
-      }
-      
+      const router = useRouter();
       return (
-        <Dialog>
-          
-          <DialogTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              Edit
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="h-[90vh] overflow-y-auto min-w-[700px]">
-            <DialogTitle></DialogTitle>
-            <ProductForm initialData={transformedData} />
-          </DialogContent>
-        </Dialog>
+        <Button
+          variant="ghost"
+          className="h-8 w-8 p-0"
+          onClick={() => {
+            // Navigate to the edit product page using Next.js router
+            router.push(`/dashboard/products/${row.original.id}/edit`);
+          }}
+        >
+          Edit
+        </Button>
       )
     },
   },
 ]
 
 export function ProductsDataTable() {
+  const router = useRouter()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -355,17 +334,13 @@ export function ProductsDataTable() {
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+    <Card>      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Products</CardTitle>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>Add Product</Button>
-          </DialogTrigger>
-          <DialogContent className="min-w-[700px] h-[90vh] overflow-y-auto">
-            <ProductForm />
-          </DialogContent>
-        </Dialog>
+        <Button asChild>
+          <Link href="/dashboard/products/create">
+            Create Product
+          </Link>
+        </Button>
       </CardHeader>
       <CardContent>
         <div className="flex items-center py-4">

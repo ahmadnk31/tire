@@ -1,27 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { DHLShippingProvider } from '@/lib/shipping/providers/dhl-provider';
 
 /**
- * API route to test DHL authentication status
+ * API route to check shipping API authentication status
  * GET /api/shipping/auth-status
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Create an instance of the DHL shipping provider
     const dhlProvider = new DHLShippingProvider();
     
-    // Test authentication with DHL
+    // Test authentication with DHL API
     const authStatus = await dhlProvider.testAuthentication();
     
     // Return the authentication status
-    return NextResponse.json({ 
-      authenticated: authStatus.authenticated,
-      message: authStatus.message
-    });
+    return NextResponse.json(authStatus);
   } catch (error) {
-    console.error('Error checking authentication status:', error);
+    console.error('Error checking shipping authentication:', error);
     return NextResponse.json(
-      { authenticated: false, error: 'Authentication failed', details: (error as Error).message },
+      { authenticated: false, message: (error as Error).message },
       { status: 500 }
     );
   }

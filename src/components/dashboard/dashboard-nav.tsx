@@ -12,6 +12,7 @@ import {
   Truck,
   Store,
   BarChart,
+  Globe,
 } from "lucide-react";
 
 const items = [
@@ -49,6 +50,11 @@ const items = [
     title: "Analytics",
     href: "/dashboard/analytics",
     icon: BarChart,
+  },
+  {
+    title: "Translations",
+    href: "/dashboard/translations",
+    icon: Globe,
   },
   {
     title: "Settings",

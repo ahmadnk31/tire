@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "@/styles/tiptap-custom.css";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/contexts/cart-context";
 import { FavoritesProvider } from "@/contexts/favorites-context";
 import { PromotionProvider } from "@/contexts/promotion-context";
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+import { NextIntlClientProvider, hasLocale } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { routing } from '@/i18n/routing';
+import { CookieConsentProvider } from "@/components/providers/cookie-consent-provider";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,9 +50,12 @@ export default async function RootLayout({
               <CartProvider>
                 <FavoritesProvider>
                   <NextIntlClientProvider>
-                  <Navbar />
-                  {children}
-                  <Toaster />
+                    <CookieConsentProvider>
+                      <Navbar />
+                      {children}
+                      <Footer />
+                      <Toaster />
+                    </CookieConsentProvider>
                   </NextIntlClientProvider>
                 </FavoritesProvider>
               </CartProvider>

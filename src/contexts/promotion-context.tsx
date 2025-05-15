@@ -137,8 +137,12 @@ export function calculateItemDiscount(item: any, promotion: Promotion): number {
 }
 
 // Calculate total discount across all items
-export function calculateTotalDiscount(items: any[], promotions: Promotion[]): number {
+export function calculateTotalDiscount(items: any[], promotions: Promotion[]): {
+  discountAmount: number; 
+  hasFreeShipping: boolean;
+} {
   let totalDiscount = 0;
+  let hasFreeShipping = false;
   
   for (const promotion of promotions) {
     switch (promotion.type) {
@@ -158,11 +162,11 @@ export function calculateTotalDiscount(items: any[], promotions: Promotion[]): n
           totalDiscount += promotion.value;
         }
         break;
-          case 'free_shipping':
-        // Mark that we have a free shipping promotion
+      
+      case 'free_shipping':
+        // Just mark that we have a free shipping promotion
         // The actual shipping discount will be applied in the cart context
-        // We just need to indicate that this promotion exists
-        totalDiscount += 0; // The actual discount is handled elsewhere
+        hasFreeShipping = true;
         break;
         
       // Handle other promotion types
@@ -171,5 +175,8 @@ export function calculateTotalDiscount(items: any[], promotions: Promotion[]): n
     }
   }
   
-  return totalDiscount;
+  return {
+    discountAmount: totalDiscount,
+    hasFreeShipping
+  };
 }

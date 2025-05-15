@@ -474,8 +474,72 @@ export default async function Home({ params }: { params: { locale: string } }) {
       {/* Newsletter Subscription Section */}
       <section className="py-16 bg-gradient-to-br from-blue-700 to-blue-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-pattern opacity-10"></div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full opacity-30 -mt-20 -mr-20"></div>
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue-400 rounded-full opacity-20 -mb-20 -ml-20"></div>
+        
+        {/* Mail icon elements */}
+        <div className="absolute top-1/4 left-10 lg:left-32 hidden md:block">
+          <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center transform rotate-12 animate-pulse">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/80">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </div>
+        </div>
+        
+        <div className="absolute top-2/3 right-10 lg:right-32 hidden md:block">
+          <div className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center transform -rotate-12 animate-pulse animation-delay-1000">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/80">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </div>
+        </div>
+        
         <div className="container mx-auto px-4 relative z-10">
+          <div className="flex justify-center mb-8">
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </div>
+          </div>
+          
           <NewsletterSubscription />
+          
+          <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-white/80">
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+              <span>Weekly Updates</span>
+            </div>
+            
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+              </svg>
+              <span>Privacy Protected</span>
+            </div>
+            
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                <path d="M20 6 9 17l-5-5"></path>
+              </svg>
+              <span>No Spam</span>
+            </div>
+            
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span>Unsubscribe Anytime</span>
+            </div>
+          </div>
         </div>
       </section>
 

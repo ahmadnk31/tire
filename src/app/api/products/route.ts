@@ -264,6 +264,27 @@ export async function POST(request: NextRequest) {
     
     // Extract and parse other fields with safe parsing
     const description = formData.get('description') as string || null;
+    const short_description = formData.get('short_description') as string || null;
+    
+    // Parse localized descriptions from JSON
+    let localized_descriptions: Record<string, string> | null = null;
+    let localized_short_descriptions: Record<string, string> | null = null;
+    
+    try {
+      const localizedDescriptionsJson = formData.get('localized_descriptions');
+      if (localizedDescriptionsJson) {
+        localized_descriptions = JSON.parse(localizedDescriptionsJson as string);
+        console.log("Parsed localized descriptions:", localized_descriptions);
+      }
+      
+      const localizedShortDescriptionsJson = formData.get('localized_short_descriptions');
+      if (localizedShortDescriptionsJson) {
+        localized_short_descriptions = JSON.parse(localizedShortDescriptionsJson as string);
+        console.log("Parsed localized short descriptions:", localized_short_descriptions);
+      }
+    } catch (e) {
+      console.error("Error parsing localized descriptions:", e);
+    }
     
     // Safely parse numeric values with fallbacks
     const width = parseIntSafe(formData.get('width') as string);
@@ -318,21 +339,34 @@ export async function POST(request: NextRequest) {
     const traction = formData.get('traction') as string || null;
     const temperature = formData.get('temperature') as string || null;
     const manufacturerPartNumber = formData.get('manufacturerPartNumber') as string || null;
-    const certifications = formData.get('certifications') as string || null;
-    const countryOfOrigin = formData.get('countryOfOrigin') as string || null;
+    const certifications = formData.get('certifications') as string || null;    const countryOfOrigin = formData.get('countryOfOrigin') as string || null;
     
     // Get custom attributes if provided
     let attributes = {};
     const attributesJson = formData.get('attributes');
     if (attributesJson) {
       try {
-        attributes = JSON.parse(attributesJson as string);
+        // Handle empty string or invalid JSON
+        if (attributesJson === '') {
+          attributes = {};
+        } else {
+          attributes = JSON.parse(attributesJson as string);
+        }
+        
+        // Convert to Record<string, string> by ensuring all values are strings
+        attributes = Object.entries(attributes).reduce((acc, [key, value]) => {
+          acc[key] = String(value);
+          return acc;
+        }, {} as Record<string, string>);
+        
         console.log("Parsed custom attributes:", attributes);
       } catch (e) {
         console.error("Failed to parse attributes JSON:", e);
+        // Provide an empty object as fallback
+        attributes = {};
       }
     }
-      // Extract image URLs and keys
+    // Extract image URLs and keys
     let imageUrls: string[] = [];
     
     // First try to get images from JSON format
@@ -384,11 +418,14 @@ export async function POST(request: NextRequest) {
     // Calculate sale prices based on discounts (these are percentage discounts)
     const salePrice = retailPrice - (retailPrice * (discount / 100));
     const wholesaleSalePrice = wholesalePrice - (wholesalePrice * (retailerDiscount / 100));
-    
-    // Create product data object with only valid fields
+      // Create product data object with only valid fields
     const productData: any = {
       name,
       description,
+      short_description,
+      localized_descriptions,
+      localized_short_descriptions,
+      attributes,
       brandId,
       modelId,
       categoryId,

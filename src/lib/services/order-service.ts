@@ -1,204 +1,166 @@
-import { Order, PrismaClient, OrderStatus, PaymentStatus } from '@prisma/client';
-import { ShippingService } from '@/lib/shipping/shipping-service';
+/**
+ * Order Service
+ * 
+ * This service handles order creation, discount calculation, and shipping integration.
+ * It serves as a central point for business logic related to orders.
+ */
 
-// Define the CreateOrderInput interface
-interface OrderItem {
-  id: string;
-  quantity: number;
-  price: number;
-  weight?: number;
-  dimensions?: {
-    length: number;
-    width: number;
-    height: number;
+import { CartItem, ShippingAddress, ShippingOption } from '@/contexts/cart-context';
+import { Promotion } from '@/hooks/use-promotions';
+import { calculateTotalDiscount } from '@/contexts/promotion-context';
+import { getShippingRates } from '@/lib/shipping/shipping-client';
+
+// Order creation params
+interface CreateOrderParams {
+  items: CartItem[];
+  customerInfo: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    userId?: string;
   };
-}
-
-interface ShippingMethod {
-  id?: string;
-  provider: string;
-  serviceLevel: string;
-  name?: string;
-}
-
-interface ShippingAddress {
-  contactName?: string;
-  firstName?: string;
-  lastName?: string;
-  addressLine1: string;
-  addressLine2?: string;
-  street?: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country?: string;
-  countryCode: string;
-  phone: string;
-  email?: string;
-}
-
-interface CreateOrderInput {
-  userId?: string;
-  items: OrderItem[];
-  subtotal: number;
-  total: number;
-  paymentMethod: string;
-  paymentStatus?: PaymentStatus;
-  shippingMethod?: ShippingMethod;
   shippingAddress: ShippingAddress;
-  billingAddress?: string;
-  customerEmail?: string;
-  isRetailerOrder?: boolean;
+  selectedShippingOption: ShippingOption;
+  appliedPromotions: Promotion[];
+  paymentMethod: string;
+  notes?: string;
+}
+
+// Order calculation result
+interface OrderCalculation {
+  subtotal: number;
+  tax: number;
+  shipping: number;
+  discount: {
+    amount: number;
+    promotions: Promotion[];
+    hasFreeShipping: boolean;
+  };
+  total: number;
 }
 
 export class OrderService {
-  private prisma = new PrismaClient();
-  private shippingService = new ShippingService();
-    async createOrder(data: CreateOrderInput): Promise<Order> {
-    // Create shipment using configured shipping provider
+  /**
+   * Calculate order totals with discounts and shipping
+   */
+  static async calculateOrderTotals(params: CreateOrderParams): Promise<OrderCalculation> {
+    const { items, shippingAddress, selectedShippingOption, appliedPromotions } = params;
     
-    let shippingData = null;
-    let shippingError = null;
-      if (data.shippingMethod) {
-      try {
-        shippingData = await ShippingService.createShipment({
-          provider: data.shippingMethod.provider,
-          serviceLevel: data.shippingMethod.serviceLevel,
-          toAddress: {
-            ...data.shippingAddress,
-            contactName: data.shippingAddress.contactName || 
-                        `${data.shippingAddress.firstName || ''} ${data.shippingAddress.lastName || ''}`.trim() || 
-                        'Customer',
-                        email: data.customerEmail || data.shippingAddress.email || '',
-          },
-          fromAddress: process.env.WAREHOUSE_ADDRESS 
-            ? JSON.parse(process.env.WAREHOUSE_ADDRESS) 
-            : this.getDefaultWarehouseAddress(),
-          items: data.items.map((item: OrderItem) => ({
-            id: item.id,
-            weight: item.weight || 0,
-            dimensions: item.dimensions || { length: 0, width: 0, height: 0 },
-            quantity: item.quantity
-          }))
-        });
-      } catch (error) {
-        console.error('Error creating shipment:', error);
-        shippingError = error instanceof Error ? error.message : 'Unknown shipping error';
-        // Proceed with order creation even with shipping failure
-        // We'll mark the order for manual shipping processing
-      }
-    }      // Create order in database with order number
-    const orderNumber = `ORD-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`;
-    const order = await this.prisma.order.create({
-      data: {
-        orderNumber, // Required field
-        userId: data.userId,
-        status: 'PENDING', // Default to pending status
-        paymentStatus: data.paymentStatus || 'PENDING', // Using enum values from schema
-        paymentMethod: data.paymentMethod,
-        subtotal: data.subtotal,
-        total: data.total,
-        isRetailerOrder: data.isRetailerOrder || false,        // Shipping details - handle gracefully if shipping creation failed
-        carrier: data.shippingMethod?.provider || 'DHL', // Default carrier
-        trackingNumber: shippingData?.trackingNumber || null,
-        trackingUrl: shippingData?.trackingNumber 
-          ? this.generateTrackingUrl(data.shippingMethod?.provider || 'DHL', shippingData.trackingNumber)
-          : null,
-        
-        // Include shipping metadata if available
-        metadata: {
-          ...(shippingData ? {
-            shippingLabel: shippingData.labelUrl,
-            shippingId: shippingData.shipmentId,
-            estimatedDeliveryDate: shippingData?.estimatedDeliveryDate || null,
-            shippingMethodId: data.shippingMethod?.id,
-            shippingMethodName: data.shippingMethod?.name,
-          } : {}),
-          ...(shippingError ? {
-            shippingError: shippingError,
-            requiresManualShipping: true,
-            shippingFailedAt: new Date().toISOString()
-          } : {})
-        },
-        
-        // Address information mapped to the schema fields
-        shippingAddressLine1: data.shippingAddress.addressLine1 || data.shippingAddress.street || '',
-        shippingAddressLine2: data.shippingAddress.addressLine2 || '',
-        shippingCity: data.shippingAddress.city || '',
-        shippingState: data.shippingAddress.state || '',
-        shippingPostalCode: data.shippingAddress.postalCode || '',
-        shippingCountry: data.shippingAddress.country || data.shippingAddress.countryCode || '',
-        billingAddress: data.billingAddress || data.shippingAddress.addressLine1 || '', // Use shipping as fallback          // Order items
-        orderItems: {
-          create: data.items.map((item: OrderItem) => ({
-            productId: item.id,
-            quantity: item.quantity,
-            price: item.price,
-            isWholesalePrice: data.isRetailerOrder || false
-          }))
-        },
-        
-        // Create initial order history entry
-        orderHistory: {
-          create: {
-            status: 'PENDING',
-            note: 'Order created',
-            userId: data.userId
-          }
-        }
+    // Calculate subtotal
+    const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    
+    // Calculate discount
+    const promotionResult = calculateTotalDiscount(items, appliedPromotions);
+    const discountAmount = promotionResult.discountAmount;
+    const hasFreeShipping = promotionResult.hasFreeShipping;
+    
+    // Tax rate (this could be moved to a configuration)
+    const taxRate = 0.0825;
+    const taxableAmount = subtotal - discountAmount;
+    const tax = taxableAmount > 0 ? taxableAmount * taxRate : 0;
+    
+    // Get shipping cost
+    let shipping = selectedShippingOption?.price || 0;
+    
+    // Apply free shipping if a promotion provides it
+    if (hasFreeShipping && shipping > 0) {
+      shipping = 0;
+    }
+    
+    // Calculate total
+    const total = subtotal - discountAmount + tax + shipping;
+    
+    return {
+      subtotal,
+      tax,
+      shipping,
+      discount: {
+        amount: discountAmount,
+        promotions: appliedPromotions,
+        hasFreeShipping
       },
-      include: {
-        orderItems: true,
-        orderHistory: true
-      }
-    });
-    
-    return order;
+      total
+    };
   }
   
   /**
-   * Generate a tracking URL based on the carrier and tracking number
-   * @param carrier The shipping carrier (DHL, FedEx, etc.)
-   * @param trackingNumber The tracking number for the shipment
-   * @returns URL where the customer can track their shipment
+   * Create an order in the database
    */
-  private generateTrackingUrl(carrier: string, trackingNumber: string): string {
-    // Normalize carrier name to handle case variations
-    const normalizedCarrier = carrier.toLowerCase().trim();
-    
-    switch (normalizedCarrier) {
-      case 'dhl':
-        return `https://www.dhl.com/global-en/home/tracking/tracking-express.html?submit=1&tracking-id=${trackingNumber}`;
+  static async createOrder(params: CreateOrderParams): Promise<{ success: boolean; orderId?: string; error?: string }> {
+    try {
+      // First calculate the order totals
+      const calculation = await this.calculateOrderTotals(params);
       
-      case 'fedex':
-        return `https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}`;
+      // Prepare the order data
+      const orderData = {
+        items: params.items,
+        shippingAddress: params.shippingAddress,
+        customerInfo: params.customerInfo,
+        shippingMethod: params.selectedShippingOption,
+        subtotal: calculation.subtotal,
+        tax: calculation.tax,
+        shippingCost: calculation.shipping,
+        discount: calculation.discount,
+        total: calculation.total,
+        paymentMethod: params.paymentMethod,
+        notes: params.notes || ''
+      };
       
-      case 'ups':
-        return `https://www.ups.com/track?tracknum=${trackingNumber}`;
+      // Send to the API to create the order
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      });
       
-      case 'usps':
-        return `https://tools.usps.com/go/TrackConfirmAction?tLabels=${trackingNumber}`;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create order');
+      }
       
-      case 'gls':
-        return `https://gls-group.com/track/${trackingNumber}`;
+      const result = await response.json();
       
-      // Add more carriers as needed
-      
-      default:
-        // If carrier is unknown, use a generic format or your own tracking page
-        return `/tracking?carrier=${encodeURIComponent(carrier)}&number=${trackingNumber}`;
+      return {
+        success: true,
+        orderId: result.id
+      };
+    } catch (error) {
+      console.error('Error creating order:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
     }
   }
   
-  // Helper method to get default warehouse address if not configured in env
-  private getDefaultWarehouseAddress() {
-    return {
-      street: '123 Warehouse St',
-      city: 'Warehouse City',
-      state: 'WS',
-      postalCode: '12345',
-      country: 'US',
-      company: 'Your Company Name'
-    };
+  /**
+   * Get available shipping rates for the order
+   */
+  static async getShippingOptions(items: CartItem[], origin: ShippingAddress, destination: ShippingAddress): Promise<ShippingOption[]> {
+    try {
+      return await getShippingRates(origin, destination, items);
+    } catch (error) {
+      console.error('Error getting shipping options:', error);
+      // Return default shipping options
+      return [
+        {
+          id: "standard",
+          name: "Standard Shipping",
+          price: 9.99,
+          estimatedDelivery: "3-5 Business Days",
+          description: "Standard shipping with tracking"
+        },
+        {
+          id: "express",
+          name: "Express Shipping",
+          price: 19.99,
+          estimatedDelivery: "1-2 Business Days",
+          description: "Fast delivery with tracking"
+        }
+      ];
+    }
   }
 }

@@ -95,6 +95,18 @@ export async function GET(request: Request) {
         }
       }) : order;
     
+    // Format discount information properly
+    const discountInfo = (updatedOrder.metadata as any)?.discount || {
+      amount: 0,
+      promotions: []
+    };
+    
+    // Check if discount is just a number (old format) and convert to object
+    const normalizedDiscount = typeof discountInfo === 'number' ? {
+      amount: discountInfo,
+      promotions: []
+    } : discountInfo;
+    
     // Format order data to match what the frontend expects
     const formattedOrder = {
       ...updatedOrder,
@@ -125,7 +137,7 @@ export async function GET(request: Request) {
       },
       tax: (updatedOrder.metadata as any)?.tax || 0,
       shippingCost: (updatedOrder.metadata as any)?.shippingMethod?.price || 0,
-      discount: (updatedOrder.metadata as any)?.discount || 0
+      discount: normalizedDiscount
     };
     
     return NextResponse.json({

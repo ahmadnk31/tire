@@ -1,4 +1,436 @@
-{
+{    "navbar":{
+    "logo": "Ariana Bandencentrale b.v.",
+    "logoShort": "ABC b.v.",
+    "navigation": "Navigatie",
+    "account": "Account",
+    "navLinks":{
+      "allTires":"Alle Banden",
+      "tireFinder":"Bandenzoeker",
+      "installation":"Installatie",
+      "about":"Over Ons",
+      "deals":"Aanbiedingen",
+      "close":"Sluiten",
+      "brands":"Merken"
+    },
+    "search": {
+      "placeholder": "Zoek producten..."
+    },
+    "auth": {
+      "login": "Inloggen",
+      "register": "Registreren",
+      "becomeRetailer": "Word een Retailer"
+    },
+    "userMenu": {
+      "myOrders": "Mijn Bestellingen",
+      "profileSettings": "Profielinstellingen",
+      "appointments": "Afspraken",
+      "dashboard": "Dashboard",
+      "manageProducts": "Producten Beheren",
+      "manageOrders": "Bestellingen Beheren",
+      "retailerApplications": "Retailer Aanvragen",
+      "myAppointments": "Mijn Afspraken",
+      "signOut": "Uitloggen"
+    },
+    "cart": {
+      "aria": "Winkelwagen",
+      "ariaCount": "Winkelwagen met {count} items",
+      "items": {
+        "one": "{count} item",
+        "other": "{count} items"
+      },
+      "empty": "Je winkelwagen is leeg"
+    }
+  },
+  "Account": {
+  "testimonials": {
+    "title": "Mijn Testimonials",
+    "description": "Bekijk en beheer je testimonials",
+    "loading": "Testimonials laden...",
+    "empty": {
+      "title": "Nog geen testimonials",
+      "description": "Je hebt nog geen testimonials gedeeld",
+      "button": "Schrijf een Testimonial"
+    },
+    "actions": {
+      "add": "Testimonial Toevoegen",
+      "edit": "Testimonial Bewerken",
+      "delete": "Testimonial Verwijderen"
+    },
+    "form": {
+      "title": "Deel je Ervaring",
+      "rating": "Beoordeling",
+      "headline": "Kopregel",
+      "content": "Je Testimonial",
+      "publish": "Mijn Naam Publiceren",
+      "submit": "Testimonial Indienen",
+      "success": "Testimonial succesvol ingediend",
+      "error": "Indienen van testimonial mislukt"
+    },
+    "delete": {
+      "confirm": "Weet je zeker dat je deze testimonial wilt verwijderen?",
+      "warning": "Deze actie kan niet ongedaan worden gemaakt.",
+      "success": "Testimonial succesvol verwijderd",
+      "error": "Verwijderen van testimonial mislukt"
+    }
+  },
+  "layout": {
+    "title": "Mijn Account",
+    "description": "Beheer je accountinstellingen en voorkeuren",
+    "tabs": {
+      "settings": "Instellingen",
+      "orders": "Bestellingen",
+      "favorites": "Favorieten",
+      "testimonials": "Testimonials"
+    }
+  },
+  "orders": {
+  "title": "Mijn Bestellingen",
+  "description": "Volg en beheer je bestellingen",
+  "loading": "Bestellingen laden...",
+  "search": "Zoek bestellingen...",
+  "noResults": "Geen bestellingen gevonden die aan je filters voldoen. Pas je zoekopdracht of filters aan.",
+  "placedOn": "Geplaatst op",
+  "empty": {
+    "title": "Nog geen bestellingen",
+    "description": "Je hebt nog geen bestellingen geplaatst",
+    "button": "Begin met winkelen"
+  },
+  "filter": {
+    "title": "Filter op status",
+    "all": "Alle bestellingen",
+    "processing": "In behandeling",
+    "shipped": "Verzonden",
+    "delivered": "Geleverd",
+    "cancelled": "Geannuleerd"
+  },
+  "labels": {
+    "orderNumber": "Bestelnummer",
+    "date": "Besteldatum",
+    "status": "Status",
+    "total": "Totaal",
+    "items": "Artikelen",
+    "tracking": "Tracking",
+    "actions": "Acties",
+    "shipping": "Verzendinformatie",
+    "estimatedDelivery": "Geschatte leverdatum",
+    "paymentMethod": "Betaalmethode",
+    "paymentStatus": "Betaalstatus",
+    "notes": "Bestelnotities",
+    "quantity": "Aantal",
+    "price": "Prijs",
+    "subtotal": "Subtotaal",
+    "orderTotal": "Bestelling Totaal"
+  },
+  "status": {
+    "pending": "In afwachting",
+    "processing": "In behandeling",
+    "shipped": "Verzonden",
+    "delivered": "Geleverd",
+    "cancelled": "Geannuleerd",
+    "returned": "Geretourneerd",
+    "refunded": "Terugbetaald"
+  },
+  "actions": {
+    "viewDetails": "Details bekijken",
+    "viewHistory": "Geschiedenis bekijken",
+    "trackShipment": "Zending volgen",
+    "cancelOrder": "Bestelling annuleren",
+    "downloadInvoice": "Factuur downloaden",
+    "emailInvoice": "Factuur e-mailen",
+    "reorderItems": "Artikelen opnieuw bestellen",
+    "returnItems": "Artikelen retourneren",
+    "writeReview": "Schrijf een beoordeling",
+    "rate": "Beoordelen",
+    "processing": "Bezig met verwerken...",
+    "cancelling": "Bezig met annuleren...",
+    "sending": "Bezig met verzenden..."
+  },
+  "history": {
+    "title": "Bestelgeschiedenis",
+    "noHistory": "Geen geschiedenis beschikbaar voor deze bestelling."
+  },
+  "tracking": {
+    "title": "Track & Trace Informatie",
+    "currentStatus": "Huidige status",
+    "updates": "Track & Trace Updates",
+    "noTracking": "Er is momenteel geen trackinginformatie beschikbaar.",
+    "viewOnCarrier": "Bekijk op website van vervoerder",
+    "number": "Trackingnummer"
+  },
+  "rating": {
+    "title": "Beoordeel je aankoop",
+    "yourRating": "Jouw beoordeling",
+    "yourReview": "Jouw beoordeling (optioneel)",
+    "placeholder": "Deel je ervaring met dit product...",
+    "submit": "Beoordeling indienen",
+    "submitting": "Bezig met indienen..."
+  },
+  "invoice": {
+    "title": "Factuur e-mailen",
+    "description": "Voer het e-mailadres in waar de factuur naartoe gestuurd moet worden.",
+    "placeholder": "E-mailadres",
+    "send": "Factuur verzenden"
+  },
+  "notes": {
+    "placeholder": "Voeg notities toe aan je bestelling...",
+    "save": "Notities opslaan",
+    "saving": "Bezig met opslaan..."
+  },
+  "notifications": {
+    "cancelSuccess": "Bestelling is succesvol geannuleerd",
+    "cancelError": "Annuleren van bestelling mislukt: {error}",
+    "noTracking": "Geen trackinginformatie beschikbaar",
+    "reorderSuccess": "Artikelen zijn toegevoegd aan je winkelwagen",
+    "reorderError": "Opnieuw bestellen mislukt: {error}",
+    "downloadSuccess": "Factuur succesvol gedownload",
+    "downloadError": "Downloaden van factuur mislukt: {error}",
+    "emailSuccess": "Factuur is succesvol verzonden per e-mail",
+    "emailError": "Verzenden van factuur mislukt: {error}",
+    "notesSuccess": "Notities succesvol bijgewerkt",
+    "notesError": "Bijwerken van notities mislukt: {error}",
+    "ratingSuccess": "Bedankt voor je beoordeling!",
+    "ratingError": "Indienen van beoordeling mislukt: {error}"
+  }
+},
+  "common": {
+    "loading": "Laden...",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "view": "Details Bekijken",
+    "back": "Terug",
+    "update": "Bijwerken",
+    "add": "Toevoegen",
+    "remove": "Verwijderen",
+    "confirm": "Bevestigen",
+    "success": "Succes",
+    "close": "Sluiten",
+    "retry": "Opnieuw Proberen",
+    "error": "Fout"
+  },
+  "settings": {
+    "title": "Accountinstellingen",
+    "description": "Beheer je accountinstellingen en voorkeuren",
+    "error": {
+      "title": "Fout",
+      "message": "Gebruikersgegevens laden mislukt. Probeer het later opnieuw.",
+      "retry": "Opnieuw Proberen"
+    },
+    "tabs": {
+      "profile": "Profiel",
+      "notifications": "Meldingen",
+      "security": "Beveiliging",
+      "payment": "Betaalmethoden",
+      "retailer": "Bedrijfsprofiel"
+    },
+    "profile": {
+      "title": "Profielinformatie",
+      "description": "Werk je persoonlijke gegevens en adres bij",
+      "avatar": "Profielfoto",
+      "avatarRequirements": "JPG, PNG, GIF of WebP. Max. grootte 5MB.",
+      "fields": {
+        "name": "Volledige Naam",
+        "email": "E-mailadres",
+        "phone": "Telefoonnummer",
+        "address": "Adres",
+        "company": "Bedrijf (optioneel)",
+        "website": "Website (optioneel)",
+        "bio": "Bio (optioneel)"
+      },
+      "namePlaceholder": "Vul je volledige naam in",
+      "emailPlaceholder": "Vul je e-mailadres in",
+      "phonePlaceholder": "Vul je telefoonnummer in",
+      "addressPlaceholder": "Vul je adres in",
+      "saving": "Bezig met opslaan...",
+      "saveChanges": "Wijzigingen Opslaan",
+      "success": "Profiel succesvol bijgewerkt",
+      "error": "Bijwerken van profiel mislukt"
+    },
+    "notifications": {
+      "title": "Meldingsvoorkeuren",
+      "description": "Kies hoe je meldingen wilt ontvangen",
+      "methodsTitle": "Meldingsmethoden",
+      "typesTitle": "Soorten Meldingen",
+      "emailNotifications": "E-mailmeldingen",
+      "emailDescription": "Ontvang meldingen via e-mail",
+      "orderUpdates": "Bestelupdates",
+      "orderDescription": "Word op de hoogte gehouden van je bestelling",
+      "promotionalEmails": "Promoties & Aanbiedingen",
+      "promotionalDescription": "Ontvang meldingen over aanbiedingen",
+      "inventoryAlerts": "Voorraadmeldingen",
+      "inventoryDescription": "Krijg meldingen over voorraadwijzigingen",
+      "priceChanges": "Prijswijzigingen",
+      "priceDescription": "Ontvang meldingen over prijsveranderingen",
+      "saving": "Bezig met opslaan...",
+      "savePreferences": "Voorkeuren Opslaan",
+      "success": "Meldingsvoorkeuren succesvol bijgewerkt",
+      "error": "Bijwerken van meldingsvoorkeuren mislukt"
+    },
+    "password": {
+      "title": "Wachtwoord Wijzigen",
+      "description": "Werk je wachtwoord bij om je account veilig te houden",
+      "fields": {
+        "current": "Huidig Wachtwoord",
+        "new": "Nieuw Wachtwoord",
+        "confirm": "Bevestig Nieuw Wachtwoord"
+      },
+      "currentPlaceholder": "Voer je huidige wachtwoord in",
+      "newPlaceholder": "Voer je nieuwe wachtwoord in",
+      "confirmPlaceholder": "Bevestig je nieuwe wachtwoord",
+      "requirements": "Wachtwoord moet minstens 8 tekens bevatten",
+      "updating": "Bezig met bijwerken...",
+      "update": "Wachtwoord Bijwerken",
+      "success": "Wachtwoord succesvol gewijzigd",
+      "error": "Wachtwoord wijzigen mislukt"
+    },
+    "payment": {
+      "title": "Betaalmethoden",
+      "description": "Beheer je opgeslagen betaalmethoden",
+      "expires": "Vervalt",
+      "default": "Standaard",
+      "setDefault": "Instellen als Standaard",
+      "remove": "Verwijderen",
+      "noMethods": "Geen betaalmethoden gevonden",
+      "addMethod": "+ Betaalmethode Toevoegen",
+      "addTitle": "Betaalmethode Toevoegen",
+      "addDescription": "Vul je kaartgegevens in om een nieuwe betaalmethode toe te voegen",
+      "cardInfo": "Kaartinformatie",
+      "secureProcessing": "Je kaartgegevens worden veilig verwerkt via Stripe.",
+      "billingInfo": "Factuurgegevens",
+      "nameOnCard": "Naam op Kaart",
+      "namePlaceholder": "Jan Jansen",
+      "email": "E-mailadres",
+      "emailPlaceholder": "jan@example.com",
+      "billingAddress": "Factuuradres",
+      "addressPlaceholder": "Hoofdstraat 123",
+      "city": "Stad",
+      "cityPlaceholder": "Amsterdam",
+      "state": "Provincie",
+      "statePlaceholder": "NH",
+      "postalCode": "Postcode",
+      "postalCodePlaceholder": "1000 AB",
+      "country": "Land",
+      "countryPlaceholder": "Nederland",
+      "setAsDefault": "Instellen als standaard betaalmethode",
+      "defaultDescription": "Deze kaart wordt standaard gebruikt voor toekomstige betalingen",
+      "adding": "Toevoegen...",
+      "success": "Betaalmethode succesvol toegevoegd",
+      "error": "Toevoegen van betaalmethode mislukt"
+    },
+    "retailer": {
+      "title": "Bedrijfsprofiel",
+      "description": "Beheer je bedrijfsgegevens als retailer",
+      "fields": {
+        "company": "Bedrijfsnaam",
+        "phone": "Zakelijk Telefoonnummer",
+        "address": "Zakelijk Adres",
+        "taxId": "BTW-nummer (optioneel)",
+        "yearsInBusiness": "Jaren Actief"
+      },
+      "companyPlaceholder": "Naam van je bedrijf",
+      "phonePlaceholder": "Zakelijk telefoonnummer",
+      "addressPlaceholder": "Zakelijk adres",
+      "taxIdPlaceholder": "BTW/KvK-nummer",
+      "yearsPlaceholder": "bijv. 5",
+      "saving": "Bezig met opslaan...",
+      "save": "Bedrijfsprofiel Opslaan",
+      "success": "Bedrijfsprofiel succesvol bijgewerkt",
+      "error": "Bijwerken van bedrijfsprofiel mislukt"
+    }
+  }
+},
+  "Footer": {
+    "companyName": "Ariana Bandencentrale BV",
+    "companySlogan": "Kwaliteitsbanden voor Elke Reis",
+    "address": "Provinciebaan 192A 8880 Ledegem, België",
+    "quickLinks": {
+      "title": "Snelle Links",
+      "about": "Over Ons",
+      "services": "Diensten",
+      "tireFinder": "Bandenzoeker",
+      "installation": "Installatie",
+      "contact": "Contact"
+    },
+    "customerService": {
+      "title": "Klantenservice",
+      "faq": "FAQ",
+      "shipping": "Verzendinfo",
+      "returns": "Retourzendingen & Terugbetalingen",
+      "warranty": "Garantie",
+      "privacyPolicy": "Privacybeleid"
+    },
+    "newsletter": {
+      "title": "Nieuwsbrief",
+      "description": "Abonneer je om updates over nieuwe producten en speciale aanbiedingen te ontvangen.",
+      "placeholder": "Je e-mailadres",
+      "button": "Abonneren"
+    },
+    "copyright": "© {year} Ariana Bandencentrale BV. Alle rechten voorbehouden."
+  },
+  "Contact": {
+    "title": "Neem Contact Op",
+    "subtitle": "We horen graag van u. Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met u op.",
+    "form": {
+      "name": "Uw Naam",
+      "email": "Uw E-mail",
+      "phone": "Telefoonnummer (Optioneel)",
+      "subject": "Onderwerp",
+      "message": "Bericht",
+      "namePlaceholder": "Voer uw volledige naam in",
+      "emailPlaceholder": "Voer uw e-mailadres in",
+      "phonePlaceholder": "Voer uw telefoonnummer in",
+      "subjectPlaceholder": "Waar gaat dit over?",
+      "messagePlaceholder": "Voer uw bericht hier in...",
+      "submit": "Bericht Versturen",
+      "sending": "Versturen...",
+      "verifyEmail": "Verifieer eerst uw e-mail",
+      "verification": {
+        "title": "Verifieer Uw E-mail",
+        "description": "Om spam te voorkomen, moeten we eerst uw e-mailadres verifiëren. We hebben een verificatiecode gestuurd naar:",
+        "enterCode": "Verificatiecode Invoeren",
+        "codePlaceholder": "Voer 6-cijferige code in",
+        "verify": "Verifiëren",
+        "verifying": "Verifiëren...",
+        "resend": "Code Opnieuw Versturen",
+        "success": "E-mail succesvol geverifieerd!",
+        "error": "Ongeldige verificatiecode. Probeer het opnieuw."
+      },
+      "success": "Bedankt voor uw bericht. We nemen spoedig contact met u op!",
+      "error": "Er is een probleem opgetreden bij het verzenden van uw bericht. Probeer het opnieuw."
+    },
+    "info": {
+      "title": "Contactgegevens",
+      "address": "Ons Adres",
+      "phone": "Telefoon",
+      "email": "E-mail",
+      "hours": "Openingstijden",
+      "weekdays": "Maandag - Vrijdag: 9:00 - 18:00",
+      "weekends": "Zaterdag: 10:00 - 16:00",
+      "closed": "Zondag: Gesloten"
+    },
+    "map": {
+      "title": "Vind Ons",
+      "viewLarger": "Bekijk Grotere Kaart"
+    },
+    "faq": {
+      "title": "Veelgestelde Vragen",
+      "questions": {
+        "response": {
+          "question": "Hoe snel kan ik een reactie verwachten?",
+          "answer": "We reageren doorgaans binnen 24-48 werkuren op alle vragen."
+        },
+        "appointment": {
+          "question": "Heb ik een afspraak nodig voor bandendiensten?",
+          "answer": "Ja, we raden aan om een afspraak te maken voor bandendiensten om snelle service te garanderen."
+        },
+        "warranty": {
+          "question": "Welke garantie biedt u op banden?",
+          "answer": "Al onze banden komen met de fabrieksgarantie. We bieden ook uitgebreide garantie-opties."
+        }
+      }
+    }
+  },
   "Email": {
     "subjects": {
       "verification": "Verifieer Uw E-mailadres",
@@ -321,6 +753,87 @@
     "weAccept": "Wij Accepteren",
     "estimatedTotal": "Geschat Totaal",
     "calculatedAtCheckout": "Berekend bij het afrekenen"
+  },  "productsHeader": {
+    "title": "Banden",
+    "description": "Bekijk onze selectie premium banden voor elk voertuigtype",
+    "search": {
+      "placeholder": "Zoek banden...",
+      "button": "Zoeken"
+    },
+    "sort": {
+      "label": "Sorteren op:",
+      "placeholder": "Sorteren op",
+      "options": {
+        "featured": "Aanbevolen",
+        "price_low": "Prijs: Laag naar Hoog",
+        "price_high": "Prijs: Hoog naar Laag",
+        "newest": "Nieuwste",
+        "rating": "Klantwaardering",
+        "discount": "Korting %"
+      }
+    },
+    "categories": {
+      "all": "Alle Banden",
+      "all_season": "All Season",
+      "summer": "Zomer",
+      "winter": "Winter",
+      "all_terrain": "All Terrain",
+      "high_performance": "High Performance",
+      "sale": "In de Aanbieding"
+    }
+  },
+  "productGrid": {
+    "noProducts": {
+      "title": "Geen producten gevonden",
+      "description": "Probeer uw filters of zoekterm aan te passen"
+    },
+    "showing": "Toont {count} van {total} producten",
+    "productCard": {
+      "discount": "{discount}% KORTING",
+      "runFlat": "Run Flat",
+      "lowStock": "Beperkte Voorraad",
+      "outOfStock": "Niet op Voorraad",
+      "inStock": "{count} op voorraad",
+      "noImage": "Geen afbeelding",
+      "specifications": "Technische Specificaties",
+      "specs": {
+        "treadDepth": "Profieldiepte"
+      }
+    }
+  },
+  "Promotions": {
+    "title": "Promoties",
+    "description": "Ontdek onze nieuwste promoties en speciale aanbiedingen voor premium banden en services",
+    "viewDetails": "Bekijk Details",
+    "noPromotionsAvailable": "Geen promoties beschikbaar op dit moment",
+    "viewAll": "Bekijk Alle Promoties",
+    "validUntil": "Geldig tot",
+    "errorLoading": "Fout bij het laden van promoties",
+    "retry": "Opnieuw proberen",
+    "emptyState": "Geen actieve promoties op dit moment",
+    "searchPlaceholder": "Zoek promoties...",
+    "noPromotions": "Geen promoties gevonden",
+    "filter": {
+      "title": "Filter promoties",
+      "all": "Alle promoties",
+      "active": "Actief",
+      "upcoming": "Aankomend",
+      "expired": "Verlopen",
+      "apply": "Toepassen",
+      "reset": "Resetten",
+      "close": "Sluiten"
+    },
+    "details": {
+      "title": "Promotie Details",
+      "code": "Promotiecode",
+      "copy": "Kopiëren",
+      "copied": "Gekopieerd!",
+      "validFor": "Geldig voor",
+      "exclusions": "Uitsluitingen",
+      "terms": "Voorwaarden",
+      "noPromotions": "Geen promoties gevonden",
+      "searchPromotions": "Zoek promoties..."
+    }
   },
   "Products": {
     "title": "Banden Collectie",
@@ -336,6 +849,11 @@
       "specifications": "Specificaties",
       "sizes": "Bandenmaten"
     },
+    "noProducts": {
+      "title": "Geen producten gevonden",
+      "description": "Pas uw filters of zoekterm aan"
+    },
+    "showing": "{count} van {total} producten worden getoond",
     "search": {
       "placeholder": "Zoek banden...",
       "button": "Zoeken",
@@ -624,6 +1142,17 @@
         "title": "Bandenrotatie",
         "description": "Regelmatige rotatie voor gelijkmatige slijtage en maximale levensduur"
       },
+      "consultation": {
+        "title": "Consultatie Diensten",
+        "description": "Weet u niet zeker welke banden u nodig heeft? Onze experts bieden persoonlijke consultatie om u te helpen de beste keuze te maken voor uw voertuig en rijgewoonten.",
+        "items": {
+          "item1": "Bandselectie begeleiding op basis van voertuig en rijbehoeften",
+          "item2": "Fleetbandenbeheer consultatie",
+          "item3": "Seizoensgebonden bandenaanbevelingen",
+          "item4": "Voorlichting over bandenverzorging en onderhoud"
+        },
+        "imageAlt": "Banden consultatie service"
+      },
       "seeAll": "Alle Services Bekijken",
       "schedule": "Afspraak Maken"
     },
@@ -674,719 +1203,428 @@
       "title": "Word een Retailpartner",
       "subtitle": "Verkoop uw producten in ons netwerk",
       "learnMore": "Meer Informatie"
-    }
-  },
-  "Account": {
-    "testimonials": {
-      "title": "Mijn Testimonials",
-      "description": "Bekijk en beheer je testimonials",
-      "loading": "Testimonials laden...",
-      "empty": {
-        "title": "Nog geen testimonials",
-        "description": "Je hebt nog geen testimonials gedeeld",
-        "button": "Schrijf een Testimonial"
-      },
-      "actions": {
-        "add": "Testimonial Toevoegen",
-        "edit": "Testimonial Bewerken",
-        "delete": "Testimonial Verwijderen"
-      },
-      "status": {
-        "published": "Geplaatst",
-        "pending": "In Afwachting",
-        "rejected": "Afgewezen",
-        "featured": "Uitgelicht",
-        "submitted": "Ingediend",
-        "pendingMessage": "Testimonials in behandeling worden door ons team beoordeeld en verschijnen op de website zodra ze zijn goedgekeurd."
-      },
-      "form": {
-        "title": "Deel Je Ervaring",
-        "rating": "Beoordeling",
-        "headline": "Koptekst",
-        "content": "Jouw Testimonial",
-        "publish": "Publiceer Mijn Naam",
-        "submit": "Testimonial Indienen",
-        "success": "Testimonial succesvol ingediend",
-        "error": "Testimonial indienen mislukt"
-      },
-      "delete": {
-        "confirm": "Weet je zeker dat je deze testimonial wilt verwijderen?",
-        "warning": "Deze actie kan niet ongedaan worden gemaakt.",
-        "success": "Testimonial succesvol verwijderd",
-        "error": "Testimonial verwijderen mislukt"
-      }
-    },
-    "layout": {
-      "title": "Mijn Account",
-      "description": "Beheer je accountinstellingen en voorkeuren",
-      "tabs": {
-        "settings": "Instellingen",
-        "orders": "Bestellingen",
-        "favorites": "Favorieten",
-        "testimonials": "Getuigenissen"
-      }
-    },
-    "common": {
-      "loading": "Laden...",
-      "save": "Opslaan",
-      "cancel": "Annuleren",
-      "delete": "Verwijderen",
-      "edit": "Bewerken",
-      "view": "Bekijk Details",
-      "back": "Terug",
-      "update": "Bijwerken",
-      "add": "Toevoegen",
-      "remove": "Verwijderen",
-      "confirm": "Bevestigen",
-      "success": "Succes",
-      "close": "Sluiten",
-      "open": "Open",
-      "retry": "Opnieuw Proberen",
-      "error": "Er is een fout opgetreden. Probeer het opnieuw."
-    },
-    "settings": {
-      "title": "Account Instellingen",
-      "description": "Beheer je accountinstellingen en voorkeuren",
+    },    "brandsPage": {
+      "title": "Bandenmerken",
+      "description": "Ontdek onze uitgebreide collectie hoogwaardige bandenmerken. We werken samen met 's werelds toonaangevende fabrikanten om u de beste selectie te bieden.",
+      "products": "{count} Producten",
+      "viewProducts": "Producten Bekijken",
       "error": {
-        "title": "Fout",
-        "message": "Kon gebruikersgegevens niet laden. Probeer het later opnieuw.",
-        "retry": "Opnieuw proberen"
-      },
+        "title": "Fout bij het laden van merken",
+        "description": "We hebben een probleem ondervonden bij het laden van de merken. Probeer het later opnieuw.",
+        "retry": "Opnieuw Proberen"
+      }
+    },
+    "brandPage": {
+      "title": "{brandName} Banden | Premium Bandenwinkel",
+      "metaDescription": "Bekijk onze collectie {brandName} banden voor alle voertuigtypes.",
+      "breadcrumb": "Alle Merken",
+      "heading": "{brandName} Banden",
       "tabs": {
-        "profile": "Profiel",
-        "notifications": "Notificaties",
-        "security": "Beveiliging",
-        "payment": "Betaalmethoden",
-        "retailer": "Bedrijfsprofiel"
+        "all": "Alle Producten"
       },
-      "profile": {
-        "title": "Profielinformatie",
-        "description": "Update je persoonlijke gegevens",
-        "avatar": {
-          "change": "Avatar Wijzigen",
-          "remove": "Avatar Verwijderen",
-          "dropzone": "Sleep een afbeelding hierheen of klik om te bladeren"
-        },
-        "fields": {
-          "name": "Volledige Naam",
-          "email": "E-mailadres",
-          "phone": "Telefoonnummer",
-          "address": "Adres",
-          "company": "Bedrijf (Optioneel)",
-          "website": "Website (Optioneel)",
-          "bio": "Bio (Optioneel)"
-        },
-        "namePlaceholder": "Voer je volledige naam in",
-        "emailPlaceholder": "Voer je e-mailadres in",
-        "phonePlaceholder": "Voer je telefoonnummer in",
-        "addressPlaceholder": "Voer je adres in",
-        "saving": "Opslaan...",
-        "saveChanges": "Wijzigingen Opslaan",
-        "success": "Profiel succesvol bijgewerkt",
-        "error": "Profiel bijwerken mislukt"
+      "product": {
+        "noImage": "Geen afbeelding",
+        "discount": "{discount}% KORTING",
+        "viewDetails": "Details Bekijken"
       },
-      "notifications": {
-        "title": "Notificatievoorkeuren",
-        "description": "Beheer hoe je notificaties ontvangt",
-        "methodsTitle": "Notificatiemethoden",
-        "typesTitle": "Notificatietypes",
-        "emailNotifications": "E-mailnotificaties",
-        "emailDescription": "Ontvang notificaties via e-mail",
-        "orderUpdates": "Orderupdates",
-        "orderDescription": "Ontvang updates over je orderstatus",
-        "promotionalEmails": "Promoties & Aanbiedingen",
-        "promotionalDescription": "Ontvang notificaties over verkoop en speciale aanbiedingen",
-        "inventoryAlerts": "Voorraadwaarschuwingen",
-        "inventoryDescription": "Ontvang notificaties over voorraadwijzigingen",
-        "priceChanges": "Prijswijzigingen",
-        "priceDescription": "Ontvang notificaties over prijswijzigingen",
-        "saving": "Opslaan...",
-        "savePreferences": "Voorkeuren Opslaan",
-        "success": "Notificatievoorkeuren succesvol bijgewerkt",
-        "error": "Notificatievoorkeuren bijwerken mislukt",
-        "categories": {
-          "orders": "Bestellingen & Verzendingen",
-          "marketing": "Marketing & Promoties",
-          "account": "Account Updates",
-          "reviews": "Beoordelingen & Feedback",
-          "reminders": "Afspraakherinneringen"
-        },
-        "channels": {
-          "email": "E-mail",
-          "sms": "SMS",
-          "push": "Push Notificaties"
-        },
-        "frequency": {
-          "title": "E-mail Frequentie",
-          "instant": "Direct",
-          "daily": "Dagelijks Overzicht",
-          "weekly": "Wekelijks Overzicht"
-        }
-      },
-      "password": {
-        "title": "Wachtwoord Wijzigen",
-        "description": "Update je wachtwoord om je account veilig te houden",
-        "fields": {
-          "current": "Huidig Wachtwoord",
-          "new": "Nieuw Wachtwoord",
-          "confirm": "Bevestig Nieuw Wachtwoord"
-        },
-        "currentPlaceholder": "Voer je huidige wachtwoord in",
-        "newPlaceholder": "Voer je nieuwe wachtwoord in",
-        "confirmPlaceholder": "Bevestig je nieuwe wachtwoord",
-        "requirements": "Wachtwoord moet minimaal 8 tekens lang zijn",
-        "updating": "Bijwerken...",
-        "update": "Wachtwoord Bijwerken",
-        "success": "Wachtwoord succesvol gewijzigd",
-        "error": "Wachtwoord wijzigen mislukt"
-      },
-      "payment": {
-        "title": "Betaalmethoden",
-        "description": "Beheer je opgeslagen betaalmethoden",
-        "expires": "Verloopt",
-        "default": "Standaard",
-        "setDefault": "Als Standaard Instellen",
-        "remove": "Verwijderen",
-        "noMethods": "Geen betaalmethoden gevonden",
-        "addMethod": "+ Betaalmethode Toevoegen",
-        "addTitle": "Betaalmethode Toevoegen",
-        "addDescription": "Voer je kaartgegevens in om een nieuwe betaalmethode toe te voegen",
-        "cardInfo": "Kaartgegevens",
-        "secureProcessing": "Je kaartgegevens worden veilig verwerkt door Stripe.",
-        "billingInfo": "Factuurgegevens",
-        "nameOnCard": "Naam op Kaart",
-        "namePlaceholder": "Jan Jansen",
-        "email": "E-mail",
-        "emailPlaceholder": "jan@voorbeeld.nl",
-        "billingAddress": "Factuuradres",
-        "addressPlaceholder": "Voorbeeldstraat 123",
-        "city": "Stad",
-        "cityPlaceholder": "Amsterdam",
-        "state": "Provincie",
-        "statePlaceholder": "Noord-Holland",
-        "postalCode": "Postcode",
-        "postalCodePlaceholder": "1234 AB",
-        "country": "Land",
-        "countryPlaceholder": "Nederland",
-        "setAsDefault": "Als standaard betaalmethode instellen",
-        "defaultDescription": "Deze kaart wordt standaard gebruikt voor toekomstige betalingen",
-        "adding": "Toevoegen...",
-        "success": "Betaalmethode succesvol toegevoegd",
-        "error": "Betaalmethode toevoegen mislukt"
-      },
-      "retailer": {
-        "title": "Bedrijfsprofiel",
-        "description": "Beheer je retailer bedrijfsinformatie",
-        "fields": {
-          "company": "Bedrijfsnaam",
-          "phone": "Zakelijk Telefoonnummer",
-          "address": "Bedrijfsadres",
-          "taxId": "BTW-nummer (Optioneel)",
-          "yearsInBusiness": "Jaren actief"
-        },
-        "companyPlaceholder": "Je Bedrijfsnaam",
-        "phonePlaceholder": "Zakelijk Telefoonnummer",
-        "addressPlaceholder": "Bedrijfsadres",
-        "taxIdPlaceholder": "BTW/KVK-nummer",
-        "yearsPlaceholder": "bijv. 5",
-        "saving": "Opslaan...",
-        "save": "Bedrijfsprofiel Opslaan",
-        "success": "Bedrijfsprofiel succesvol bijgewerkt",
-        "error": "Bedrijfsprofiel bijwerken mislukt"
-      }
-    },
-    "favorites": {
-      "title": "Mijn Favorieten",
-      "description": "Bekijk en beheer je favoriete producten",
-      "loading": "Favorieten laden...",
-      "search": "Zoek in favorieten...",
-      "sortBy": "Sorteren op:",
-      "sortOptions": {
-        "recent": "Meest Recent",
-        "name": "Naam",
-        "priceAsc": "Prijs (Laag naar Hoog)",
-        "priceDesc": "Prijs (Hoog naar Laag)"
-      },
-      "empty": {
-        "title": "Nog geen favorieten",
-        "description": "Je hebt nog geen producten toegevoegd aan je favorieten",
-        "button": "Producten Bekijken"
-      },
-      "noResults": {
-        "title": "Geen resultaten gevonden",
-        "description": "Geen producten komen overeen met je zoekcriteria"
-      },
-      "actions": {
-        "remove": "Verwijder uit favorieten",
-        "view": "Bekijk Details"
-      }
-    },
-    "orders": {
-      "title": "Mijn Bestellingen",
-      "description": "Volg en beheer je bestellingen",
-      "loading": "Bestellingen laden...",
-      "search": "Zoek bestellingen...",
-      "noResults": "Geen bestellingen komen overeen met je filters. Probeer je zoekopdracht of filter aan te passen.",
-      "placedOn": "Geplaatst op",
-      "empty": {
-        "title": "Nog geen bestellingen",
-        "description": "Je hebt nog geen bestellingen geplaatst",
-        "button": "Begin met Winkelen"
-      },
-      "filter": {
-        "title": "Filter op status",
-        "all": "Alle Bestellingen",
-        "processing": "In Behandeling",
-        "shipped": "Verzonden",
-        "delivered": "Afgeleverd",
-        "cancelled": "Geannuleerd"
-      },
-      "labels": {
-        "orderNumber": "Bestelnr.",
-        "date": "Besteldatum",
-        "status": "Status",
-        "total": "Totaal",
-        "items": "Items",
-        "tracking": "Volgen",
-        "actions": "Acties",
-        "shipping": "Verzendgegevens",
-        "estimatedDelivery": "Geschatte Leverdatum",
-        "paymentMethod": "Betaalmethode",
-        "paymentStatus": "Status",
-        "notes": "Bestel Notities",
-        "quantity": "Aantal",
-        "price": "Prijs",
-        "subtotal": "Subtotaal",
-        "orderTotal": "Bestelling Totaal"
-      },
-      "status": {
-        "pending": "In Afwachting",
-        "processing": "In Behandeling",
-        "shipped": "Verzonden",
-        "delivered": "Afgeleverd",
-        "cancelled": "Geannuleerd",
-        "returned": "Geretourneerd",
-        "refunded": "Terugbetaald"
-      },
-      "actions": {
-        "viewDetails": "Bekijk Details",
-        "viewHistory": "Bekijk Geschiedenis",
-        "trackShipment": "Volg Pakket",
-        "cancelOrder": "Bestelling Annuleren",
-        "downloadInvoice": "Factuur Downloaden",
-        "emailInvoice": "Factuur E-mailen",
-        "reorderItems": "Opnieuw Bestellen",
-        "returnItems": "Items Retourneren",
-        "writeReview": "Schrijf een Recensie",
-        "rate": "Beoordeel",
-        "processing": "Verwerken...",
-        "cancelling": "Annuleren...",
-        "sending": "Versturen..."
-      },
-      "history": {
-        "title": "Bestelgeschiedenis",
-        "noHistory": "Geen geschiedenis beschikbaar voor deze bestelling."
-      },
-      "tracking": {
-        "title": "Volginformatie",
-        "currentStatus": "Huidige Status",
-        "updates": "Volgupdates",
-        "noTracking": "Op dit moment is er geen volginformatie beschikbaar.",
-        "viewOnCarrier": "Bekijk op Website van Vervoerder",
-        "number": "Volgnummer"
-      },
-      "rating": {
-        "title": "Beoordeel Je Aankoop",
-        "yourRating": "Jouw Beoordeling",
-        "yourReview": "Jouw Recensie (optioneel)",
-        "placeholder": "Deel je ervaring met dit product...",
-        "submit": "Beoordeling Indienen",
-        "submitting": "Indienen..."
-      },
-      "invoice": {
-        "title": "Factuur E-mailen",
-        "description": "Voer het e-mailadres in waarnaar de factuur moet worden verzonden.",
-        "placeholder": "E-mailadres",
-        "send": "Factuur Verzenden"
-      },
-      "notes": {
-        "placeholder": "Voeg notities toe over je bestelling...",
-        "save": "Notities Opslaan",
-        "saving": "Opslaan..."
-      },
-      "notifications": {
-        "cancelSuccess": "Bestelling is succesvol geannuleerd",
-        "cancelError": "Kon bestelling niet annuleren: {error}",
-        "noTracking": "Geen volginformatie beschikbaar",
-        "reorderSuccess": "Items zijn toegevoegd aan je winkelwagen",
-        "reorderError": "Opnieuw bestellen mislukt: {error}",
-        "downloadSuccess": "Factuur succesvol gedownload",
-        "downloadError": "Factuur downloaden mislukt: {error}",
-        "emailSuccess": "Factuur is succesvol gemaild",
-        "emailError": "Factuur mailen mislukt: {error}",
-        "notesSuccess": "Bestelnotities succesvol bijgewerkt",
-        "notesError": "Notities bijwerken mislukt: {error}",
-        "ratingSuccess": "Bedankt voor je beoordeling!",
-        "ratingError": "Beoordeling indienen mislukt: {error}"
-      }
-    },
-    "Reviews": {
-      "writeReview": "Schrijf een Review",
-      "writeYourReview": "Schrijf Uw Review",
-      "reviewTitle": "Review Titel",
-      "reviewTitlePlaceholder": "Vat uw ervaring samen in een paar woorden",
-      "reviewContent": "Review Inhoud",
-      "reviewContentPlaceholder": "Vertel ons over uw ervaring met dit product",
-      "rating": "Beoordeling",
-      "reviewImages": "Afbeeldingen (optioneel)",
-      "uploadImages": "Upload Afbeeldingen",
-      "deleteImage": "Afbeelding verwijderen",
-      "submit": "Review Versturen",
-      "cancel": "Annuleren",
-      "updating": "Bijwerken...",
-      "submitting": "Versturen...",
-      "reviewSuccessful": "Review succesvol ingediend",
-      "updateSuccessful": "Review succesvol bijgewerkt",
-      "editReview": "Review Bewerken",
-      "deleteReview": "Review Verwijderen",
-      "deleteConfirmation": "Weet u zeker dat u deze review wilt verwijderen?",
-      "productReviews": "Product Reviews",
-      "noReviews": "Nog geen reviews. Wees de eerste die dit product beoordeelt!",
-      "customerReviews": "Klantbeoordelingen",
-      "verified": "Geverifieerde Aankoop",
-      "helpful": "Nuttig",
-      "reviewProcessing": "Uw review wordt verwerkt...",
-      "imagePreview": "Voorbeeld Afbeelding",
-      "errorSubmitting": "Fout bij het indienen van review. Probeer het opnieuw.",
-      "list": {
-        "title": "Klantbeoordelingen",
-        "averageRating": "van 5",
-        "noReviewsYet": "Nog geen beoordelingen. Wees de eerste die dit product beoordeelt.",
-        "review": "beoordeling",
-        "reviews": "beoordelingen",
-        "filters": {
-          "filterBy": "Filteren op",
-          "allRatings": "Alle beoordelingen",
-          "stars": "sterren",
-          "star": "ster"
-        },
-        "sort": {
-          "sortBy": "Sorteren op",
-          "newestFirst": "Nieuwste eerst",
-          "oldestFirst": "Oudste eerst",
-          "mostHelpful": "Meest nuttig"
-        },
-        "tabs": {
-          "all": "Alle",
-          "fiveStar": "5 ★",
-          "fourStar": "4 ★"
-        },
-        "loading": "Beoordelingen laden...",
-        "noReviewsFound": "Geen beoordelingen komen overeen met uw filtercriteria.",
-        "showAllReviews": "Alle beoordelingen weergeven",
-        "signIn": "Log in om een beoordeling te schrijven",
-        "signInButton": "Inloggen"
+      "emptyState": {
+        "title": "Geen producten gevonden van dit merk",
+        "description": "We werken aan het toevoegen van producten van dit merk. Kom binnenkort terug.",
+        "emptyModelTitle": "Geen producten gevonden in dit model",
+        "emptyModelDescription": "We werken aan het toevoegen van producten voor dit model. Kom binnenkort terug.",
+        "browseAll": "Bekijk Alle Producten"
       }
     }
   },
-  "navbar": {
-    "logo": "Ariana Bandencentrale b.v.",
-    "logoShort": "ABC b.v.",
-    "navigation": "Navigatie",
-    "account": "Account",
-    "navLinks": {
-      "allTires": "Alle Banden",
-      "tireFinder": "Banden Zoeker",
-      "brands": "Merken",
-      "deals": "Aanbiedingen",
-      "installation": "Installatie"
+  "ProductDetail": {
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Producten"
+    },
+    "badge": {
+      "featured": "Uitgelicht",
+      "runFlat": "Run-Flat",
+      "reinforced": "Versterkt"
+    },
+    "addToCart": "In Winkelwagen",
+    "addToFavorites": "Toevoegen aan Favorieten",
+    "removeFromFavorites": "Verwijderen uit Favorieten",
+    "price": {
+      "from": "Vanaf",
+      "outOfStock": "Niet op voorraad",
+      "lowStock": "Nog maar {count} op voorraad",
+      "inStock": "{count} op voorraad"
+    },
+    "performance": {
+      "title": "Prestaties",
+      "wetGrip": "Grip op nat wegdek",
+      "fuelEfficiency": "Brandstofefficiëntie",
+      "noise": "Geluidsniveau",
+      "snowRating": "Sneeuwrating",
+      "traction": "Tractie",
+      "treadwear": "Profielslijtage",
+      "warrantyMiles": "Garantie Kilometers",
+      "miles": "km",
+      "temperature": "Temperatuur",
+      "ratings": {
+        "A": "Uitstekend",
+        "B": "Goed",
+        "C": "Redelijk",
+        "D": "Matig",
+        "E": "Slecht"
+      }
+    },
+    "tabs": {
+      "specifications": "Specificaties",
+      "performance": "Prestaties",
+      "details": "Details",
+      "additionalDetails": "Extra Details"
+    },
+    "specifications": {
+      "size": "Bandenmaat",
+      "loadSpeed": "Load/Speed Index",
+      "type": "Type",
+      "construction": "Constructie",
+      "standard": "Standaard",
+      "treadDepth": "Profieldiepte",
+      "sidewall": "Zijwand",
+      "maxLoad": "Max. Belasting",
+      "maxPressure": "Max. Druk",
+      "runFlat": "Run-Flat",
+      "reinforced": "Versterkt",
+      "yes": "Ja",
+      "no": "Nee",
+      "plyRating": "Ply Rating",      "notRated": "Niet beoordeeld",
+      "notWarrantied": "Geen garantie"
+    },
+    "performanceTab": {
+      "treadPattern": "Profielpatroon",
+      "wetGrip": "Grip op nat wegdek",
+      "fuelEfficiency": "Brandstofefficiëntie",
+      "noiseLevel": "Geluidsniveau",
+      "snowRating": "Sneeuwrating",
+      "utqgRating": "UTQG Rating",
+      "mileageWarranty": "Kilometergarantie",
+      "miles": "kilometer"
+    },
+    "details": {
+      "manufacturer": "Fabrikant",
+      "model": "Model",
+      "origin": "Herkomst",
+      "partNumber": "Artikelnummer",
+      "certifications": "Certificeringen"
+    },
+    "description": {
+      "notAvailable": "Geen beschrijving beschikbaar"
+    },
+    "reviews": {
+      "customerReviews": "Klantrecensies",
+      "noReviews": "Nog geen recensies. Wees de eerste om dit product te beoordelen!",
+      "review": "recensie",
+      "reviews": "recensies",
+      "writeReview": "Schrijf een Recensie",
+      "seeAllReviews": "Bekijk alle recensies"
+    },
+    "pricing": {
+      "wholesale": "Groothandelsprijs",
+      "retailPrice": "Winkelprijs",
+      "discount": "{percent}% Korting",
+      "retailDiscount": "Winkelkorting: {percent}%",
+      "wholesaleDiscount": "Groothandelskorting: {percent}%",
+      "wholesaleSalePrice": "Groothandels Verkoopprijs",
+      "wholesalePricing": "Groothandelsprijzen beschikbaar voor detailhandelaren"
+    },
+    "recommendations": {
+      "title": "Wellicht ook interessant"
+    }
+  },
+  "FAQ": {
+    "title": "Veelgestelde Vragen",
+    "subtitle": "Vind antwoorden op veelgestelde vragen over onze producten, diensten, verzending en meer.",
+    "common": {
+      "home": "Home"
     },
     "search": {
-      "placeholder": "Producten zoeken..."
-    },
-    "auth": {
-      "login": "Inloggen",
-      "register": "Registreren",
-      "becomeRetailer": "Word een Verkoper"
-    },
-    "userMenu": {
-      "myOrders": "Mijn Bestellingen",
-      "profileSettings": "Profielinstellingen",
-      "appointments": "Afspraken",
-      "dashboard": "Dashboard",
-      "manageProducts": "Producten Beheren",
-      "manageOrders": "Bestellingen Beheren",
-      "retailerApplications": "Verkoper Aanvragen",
-      "myAppointments": "Mijn Afspraken",
-      "signOut": "Uitloggen"
-    },
-    "cart": {
-      "aria": "Winkelwagen",
-      "ariaCount": "{count} artikelen in de winkelwagen",
-      "items": {
-        "one": "{count} artikel",
-        "other": "{count} artikelen"
-      },
-      "empty": "Je winkelwagen is leeg"
-    }
-  },
-  "Deals": {
-    "title": "Huidige Aanbiedingen",
-    "promoCode": "Promotie Code",
-    "validFrom": "Geldig van {startDate}",
-    "validTo": "Geldig tot {endDate}",
-    "validPeriod": "Geldig van {startDate} tot {endDate}",
-    "noPromotionsAvailable": "Momenteel zijn er geen actieve aanbiedingen",
-    "viewAll": "Bekijk Alle Aanbiedingen",
-    "checkBackLater": "Kom Later Terug Voor Meer Aanbiedingen",
-    "description": "Ontdek onze nieuwste promoties en speciale aanbiedingen op premium banden en diensten",
-    "shopNow": "Nu Winkelen",
-    "validUntil": "Geldig tot {date}",
-    "endingSoon": "Loopt Binnenkort Af",
-    "noEndDate": "Geen vervaldatum",
-    "errorLoading": "Fout bij het laden van promoties",
-    "tryAgainLater": "Probeer het later opnieuw",
-    "viewDetails": "Bekijk Details",
-    "promotionDetails": "Promotie Details",
-    "viewAllProducts": "Bekijk Alle Producten",
-    "viewAllPromotions": "Bekijk Alle Promoties",
-    "emptyState": "Momenteel geen actieve promoties",
-    "filters": {
-      "all": "Alle Aanbiedingen",
-      "ending": "Binnenkort Aflopend",
-      "newest": "Nieuwste"
-    },
-    "detail": {
-      "title": "Promotie Details",
-      "back": "Terug naar alle aanbiedingen",
-      "validPeriod": "Geldig van {startDate} tot {endDate}",
-      "permanentOffer": "Permanente aanbieding",
-      "termsAndConditions": "Voorwaarden",
-      "howToRedeem": "Hoe In Te Wisselen",
-      "relatedProducts": "Gerelateerde Producten",
-      "copyCode": "Code Kopiëren",
-      "codeCopied": "Code gekopieerd naar klembord!"
-    }
-  },
-  "productsHeader": {
-    "title": "Banden",
-    "description": "Bekijk onze selectie premium banden voor elk type voertuig",
-    "search": {
-      "placeholder": "Zoek banden...",
-      "button": "Zoeken"
-    },
-    "sort": {
-      "label": "Sorteren op:",
-      "placeholder": "Sorteren op",
-      "options": {
-        "featured": "Aanbevolen",
-        "price_low": "Prijs: Laag naar Hoog",
-        "price_high": "Prijs: Hoog naar Laag",
-        "newest": "Nieuwste",
-        "rating": "Klantbeoordeling",
-        "discount": "Korting %"
-      }
+      "placeholder": "Zoek naar antwoorden...",
+      "tip": "Typ trefwoorden gerelateerd aan uw vraag"
     },
     "categories": {
-      "all": "Alle Banden",
-      "all_season": "All Season",
-      "summer": "Zomer",
-      "winter": "Winter",
-      "all_terrain": "All Terrain",
-      "high_performance": "Hoge Prestatie",
-      "sale": "In de Aanbieding"
-    }
-  },
-  "productGrid": {
-    "noProducts": {
-      "title": "Geen producten gevonden",
-      "description": "Pas je filters of zoekterm aan"
+      "general": "Algemeen",
+      "tires": "Banden & Producten",
+      "services": "Diensten",
+      "shipping": "Verzending",
+      "warranty": "Garantie",
+      "payment": "Betaling"
     },
-    "showing": "{count} van {total} producten weergegeven",
-    "productCard": {
-      "discount": "{discount}% KORTING",
-      "runFlat": "Run Flat",
-      "lowStock": "Beperkte Voorraad",
-      "outOfStock": "Niet op Voorraad",
-      "inStock": "{count} op voorraad",
-      "noImage": "Geen afbeelding",
-      "specifications": "Technische Specificaties",
-      "specs": {
-        "treadDepth": "Profieldiepte",
-        "sidewall": "Zijwand",
-        "treadPattern": "Profielpatroon",
-        "snowRating": "Sneeuwclassificatie",
-        "utqg": "UTQG",
-        "warranty": "Garantie",
-        "warrantyMiles": "{miles} mijl"
-      },
-      "performance": {
-        "wetGrip": "Grip op nat wegdek",
-        "fuelEfficiency": "Brandstofefficiëntie",
-        "noiseLevel": "Geluidsniveau",
-        "ratings": {
-          "A": "Uitstekend",
-          "B": "Goed",
-          "C": "Redelijk",
-          "D": "Matig",
-          "E": "Slecht"
+    "questions": {
+      "general": {
+        "q1": {
+          "question": "Wat zijn jullie openingstijden?",
+          "answer": "Onze winkel is geopend van maandag tot vrijdag van 9:00 tot 18:00 uur, en zaterdag van 10:00 tot 16:00 uur. We zijn gesloten op zon- en feestdagen."
+        },
+        "q2": {
+          "question": "Heb ik een afspraak nodig voor bandendiensten?",
+          "answer": "Hoewel we indien mogelijk klanten zonder afspraak helpen, raden we sterk aan om een afspraak te maken voor een snelle service. U kunt een afspraak maken via onze website of door te bellen naar ons servicecentrum."
+        },
+        "q3": {
+          "question": "Hoe kan ik contact opnemen met de klantenservice?",
+          "answer": "U kunt onze klantenservice bereiken via telefoon op +32 467 662 197, per e-mail op info@arianabandencentralebv.be, of door het contactformulier op onze website in te vullen."
+        },
+        "q4": {
+          "question": "Bieden jullie diensten aan voor bedrijfsvoertuigen?",
+          "answer": "Ja, we bieden bandendiensten voor lichte bedrijfsvoertuigen en fleetservices voor bedrijven van alle groottes. Neem rechtstreeks contact met ons op voor meer informatie over onze diensten voor bedrijfsvoertuigen."
+        },
+        "q5": {
+          "question": "Kan ik banden online kopen en laten verzenden naar mijn huis?",
+          "answer": "Ja, u kunt banden kopen via onze online winkel en ervoor kiezen om ze rechtstreeks naar uw huis te laten verzenden of naar ons servicecentrum voor professionele montage."
         }
       },
-      "buttons": {
-        "viewDetails": "Details Bekijken"
+      "tires": {
+        "q1": {
+          "question": "Hoe weet ik welke banden geschikt zijn voor mijn voertuig?",
+          "answer": "U kunt onze Bandenzoeker op de website gebruiken door het merk, model en bouwjaar van uw voertuig in te voeren. U kunt ook overleggen met onze bandenexperts die de beste opties zullen aanbevelen op basis van uw voertuig, rijgedrag en budget."
+        },
+        "q2": {
+          "question": "Hoe vaak moet ik mijn banden vervangen?",
+          "answer": "Banden moeten meestal elke 6-10 jaar worden vervangen, afhankelijk van het gebruik, maar u moet ze regelmatig controleren op slijtage. De wettelijke minimale profieldiepte is 1,6 mm, maar wij raden vervanging aan wanneer de profieldiepte 3 mm bereikt voor de veiligheid."
+        },
+        "q3": {
+          "question": "Wat is het verschil tussen zomer-, winter- en all-season banden?",
+          "answer": "Zomerbanden presteren het beste in warme omstandigheden en bieden uitstekende grip en handling. Winterbanden zijn ontworpen voor koude temperaturen en sneeuw, met speciale rubbermengsels die flexibel blijven bij vriestemperaturen. All-season banden bieden een compromis en presteren adequaat in de meeste omstandigheden, maar niet optimaal in extreme weersomstandigheden."
+        },
+        "q4": {
+          "question": "Verkopen jullie gebruikte of opgeknapte banden?",
+          "answer": "We verkopen voornamelijk nieuwe banden om maximale veiligheid en prestaties te garanderen. We bieden echter soms gecertificeerde gebruikte banden aan die grondig zijn geïnspecteerd en voldoen aan onze kwaliteitsnormen."
+        },
+        "q5": {
+          "question": "Welke bandenmerken hebben jullie?",
+          "answer": "We hebben alle belangrijke bandenmerken, waaronder Michelin, Continental, Goodyear, Bridgestone, Pirelli, Dunlop, Hankook, en vele anderen. Ons assortiment omvat opties voor verschillende voertuigtypes, rijomstandigheden en prijsklassen."
+        }
+      },
+      "services": {
+        "q1": {
+          "question": "Wat is inbegrepen bij een wieluitlijningsservice?",
+          "answer": "Onze wieluitlijningsservice omvat een uitgebreide controle van het veersysteem van uw voertuig, aanpassing van de camber-, caster- en spoorhoeken volgens de fabrieksspecificaties, en een gedetailleerd rapport met metingen voor en na de service."
+        },
+        "q2": {
+          "question": "Hoe vaak moet ik mijn banden laten roteren?",
+          "answer": "We raden aan om uw banden elke 10.000 tot 12.000 kilometer te laten roteren, of volgens de aanbevelingen van uw voertuigfabrikant. Regelmatige rotatie zorgt voor gelijkmatige slijtage en verlengt de levensduur van de banden."
+        },
+        "q3": {
+          "question": "Kan een lekke band gerepareerd worden of heb ik een nieuwe nodig?",
+          "answer": "Of een band gerepareerd kan worden, hangt af van het type en de omvang van de schade. Gaatjes in het loopvlak die kleiner zijn dan 6 mm kunnen meestal worden gerepareerd. Schade aan de zijwand, grote gaten of klapbanden vereisen echter meestal vervanging van de band voor de veiligheid."
+        },
+        "q4": {
+          "question": "Hoe lang duurt een standaard bandenmontage?",
+          "answer": "Voor een standaard set van vier banden duurt de montage meestal ongeveer 45-60 minuten. Dit omvat het monteren, balanceren en installeren op uw voertuig."
+        },
+        "q5": {
+          "question": "Bieden jullie mobiele bandendiensten aan?",
+          "answer": "Ja, we bieden mobiele bandendiensten aan voor noodsituaties en fleetklanten binnen ons servicegebied. Neem contact op met ons klantenserviceteam voor beschikbaarheid en prijzen."
+        }
+      },
+      "shipping": {
+        "q1": {
+          "question": "Verzenden jullie internationaal?",
+          "answer": "Momenteel verzenden we door heel België en naar buurlanden zoals Nederland, Luxemburg, Duitsland en Frankrijk. Voor andere internationale verzendverzoeken kunt u contact opnemen met ons klantenserviceteam."
+        },
+        "q2": {
+          "question": "Hoe lang duurt de verzending?",
+          "answer": "Standaard verzending binnen België duurt meestal 2-3 werkdagen. Expresverzending is beschikbaar met levering de volgende dag voor bestellingen geplaatst vóór 14:00 uur. Internationale verzending naar buurlanden duurt 3-5 werkdagen."
+        },
+        "q3": {
+          "question": "Wat zijn de verzendkosten?",
+          "answer": "De verzendkosten zijn afhankelijk van het gewicht, de afmetingen en de bestemming van de bestelling. Bestellingen boven €250 komen in aanmerking voor gratis standaardverzending binnen België. U kunt de exacte verzendkosten berekenen tijdens het afrekenen."
+        },
+        "q4": {
+          "question": "Kan ik mijn bestelling volgen?",
+          "answer": "Ja, zodra uw bestelling is verzonden, ontvangt u een bevestigingsmail met traceerinformatie. U kunt uw bestelling ook volgen via uw account op onze website."
+        },
+        "q5": {
+          "question": "Wat als mijn banden beschadigd aankomen?",
+          "answer": "Als uw banden beschadigd aankomen, neem dan binnen 48 uur na levering contact met ons op met foto's van de schade. We zullen zorgen voor vervangende items of een terugbetaling, afhankelijk van uw voorkeur en beschikbaarheid van het product."
+        }
+      },
+      "warranty": {
+        "q1": {
+          "question": "Welke garantie krijg ik bij mijn banden?",
+          "answer": "Alle nieuwe banden komen met de standaard fabrieksgarantie, die meestal defecten in materialen en vakmanschap dekt. Veel premium banden hebben ook bescherming tegen wegrisico's. We bieden ook uitgebreide garantie-opties voor extra gemoedsrust."
+        },
+        "q2": {
+          "question": "Hoe dien ik een garantieclaim in?",
+          "answer": "Om een garantieclaim in te dienen, brengt u uw banden naar ons servicecentrum samen met uw aankoopbewijs. Onze technici zullen de banden inspecteren en uw claim verwerken volgens de toepasselijke garantievoorwaarden."
+        },
+        "q3": {
+          "question": "Valt montage onder de garantie?",
+          "answer": "Wij garanderen ons installatiewerk voor de levensduur van de banden. Als u problemen ondervindt die gerelateerd zijn aan de installatie, zullen we deze kosteloos voor u oplossen."
+        },
+        "q4": {
+          "question": "Wat wordt niet gedekt door de bandengarantie?",
+          "answer": "Bandengaranties dekken meestal geen normale slijtage, onjuist onderhoud, schade door ongevallen, verkeerd gebruik of wijzigingen. Schade door wegomstandigheden wordt niet gedekt door fabrieksgaranties tenzij specifiek inbegrepen of apart aangeschaft."
+        },
+        "q5": {
+          "question": "Hoe lang is de garantieperiode?",
+          "answer": "Garantieperiodes variëren per fabrikant en bandenmodel. De meeste kwaliteitsbanden komen met een 6-jarige garantie tegen defecten, terwijl slijtagegaranties kunnen worden gebaseerd op specifieke kilometerstand, meestal variërend van 40.000 tot 100.000 kilometer."
+        }
+      },
+      "payment": {
+        "q1": {
+          "question": "Welke betaalmethoden accepteren jullie?",
+          "answer": "We accepteren alle belangrijke credit- en debetkaarten (Visa, Mastercard, American Express), PayPal, bankoverschrijvingen en contant geld voor aankopen in de winkel."
+        },
+        "q2": {
+          "question": "Bieden jullie financieringsopties aan?",
+          "answer": "Ja, we bieden verschillende financieringsopties voor aankopen boven €300. U kunt online of in onze winkel aanvragen, en goedkeuring duurt meestal slechts een paar minuten."
+        },
+        "q3": {
+          "question": "Is mijn betalingsinformatie veilig?",
+          "answer": "Ja, we gebruiken industriestandaard encryptie en beveiligingsmaatregelen om uw betalingsgegevens te beschermen. We zijn PCI DSS-compliant en slaan nooit uw volledige creditcardinformatie op."
+        },
+        "q4": {
+          "question": "Kan ik in termijnen betalen?",
+          "answer": "Ja, we bieden betalingsplannen in samenwerking met verschillende financieringspartners. Deze plannen zijn beschikbaar voor aankopen boven €300 en bieden flexibele termijnen van 3, 6, en 12 maanden."
+        }
       }
     }
   },
-  "appointments": {
-    "title": "Mijn Afspraken",
-    "description": "Maak en beheer je afspraken",
-    "loading": "Je afspraken worden geladen...",
-    "newButton": "Nieuwe Afspraak Maken",
-    "tabs": {
-      "upcoming": "Aankomend",
-      "past": "Verleden",
-      "all": "Alle"
+  "payment": {
+    "methods": {
+      "title": "Betaalmethoden",
+      "creditCard": "Creditcard",
+      "debitCard": "Pinpas",
+      "paypal": "PayPal",
+      "bankTransfer": "Bankoverschrijving",
+      "applePay": "Apple Pay",
+      "googlePay": "Google Pay",
+      "ideal": "iDEAL",
+      "bancontact": "Bancontact",
+      "saveForFuture": "Bewaar deze betaalmethode voor toekomstige aankopen",
+      "defaultMethod": "Standaard betaalmethode"
     },
-    "emptyStates": {
-      "upcoming": {
-        "title": "Geen aankomende afspraken",
-        "description": "Je hebt geen aankomende afspraken gepland. Maak een nieuwe afspraak om te beginnen.",
-        "button": "Afspraak Maken"
-      },
-      "past": {
-        "title": "Geen eerdere afspraken",
-        "description": "Je hebt geen geschiedenis van eerdere afspraken."
-      },
-      "all": {
-        "title": "Geen afspraken gevonden",
-        "description": "Je hebt nog geen afspraken gemaakt. Maak nu je eerste afspraak.",
-        "button": "Afspraak Maken"
-      }
+    "cardDetails": {
+      "nameOnCard": "Naam op kaart",
+      "nameOnCardPlaceholder": "Voer de naam in zoals op de kaart vermeld",
+      "cardNumber": "Kaartnummer",
+      "cardNumberPlaceholder": "Voer uw kaartnummer in",
+      "expiryDate": "Vervaldatum",
+      "expiryDatePlaceholder": "MM/JJ",
+      "securityCode": "Beveiligingscode",
+      "securityCodePlaceholder": "CVC",
+      "securityCodeTooltip": "De 3-cijferige code op de achterkant van uw kaart"
     },
-    "dialog": {
-      "title": "Maak een Afspraak",
-      "description": "Gebruik de kalender om een nieuwe afspraak te maken op jouw gewenste tijdstip."
-    },
-    "card": {
-      "duration": "{duration} minuten",
-      "viewButton": "Details Bekijken",
-      "cancelButton": "Annuleren",
-      "cancelConfirm": "Weet je zeker dat je deze afspraak wilt annuleren?",
-      "expired": "Deze afspraak is verlopen"
+    "bankTransfer": {
+      "accountName": "Rekeningnaam",
+      "accountNumber": "Rekeningnummer",
+      "bankName": "Banknaam",
+      "referenceNumber": "Referentienummer",
+      "instructions": "Instructies",
+      "transferInstructions": "Maak het bedrag over naar de bovenstaande rekening met uw bestelnummer als referentie. Uw bestelling wordt verwerkt zodra de betaling is ontvangen."
     },
     "status": {
-      "scheduled": "Gepland",
-      "confirmed": "Bevestigd",
-      "completed": "Voltooid",
-      "cancelled": "Geannuleerd",
-      "no_show": "Niet Verschenen"
-    },
-    "serviceTypes": {
-      "TIRE_INSTALLATION": "Bandeninstallatie",
-      "TIRE_ROTATION": "Bandenrotatie",
-      "WHEEL_ALIGNMENT": "Wieluitlijning",
-      "FLAT_REPAIR": "Lekke Band Reparatie",
-      "TIRE_BALANCING": "Bandenbalancering",
-      "TIRE_INSPECTION": "Bandeninspectie",
-      "OTHER": "Andere Service"
-    },
-    "notifications": {
-      "bookSuccess": "Afspraak succesvol geboekt",
-      "bookError": "Afspraak boeken mislukt",
-      "cancelSuccess": "Afspraak succesvol geannuleerd",
-      "cancelError": "Afspraak annuleren mislukt",
-      "loadError": "Afspraken laden mislukt"
+      "processing": "Betaling wordt verwerkt",
+      "completed": "Betaling voltooid",
+      "failed": "Betaling mislukt",
+      "pending": "Betaling in behandeling",
+      "refunded": "Terugbetaald"
     }
   },
-  "form": {
-    "view": {
-      "calendar": "Kalenderweergave",
-      "form": "Formulierweergave"
+  "modals": {
+    "confirm": {
+      "title": "Bevestiging Vereist",
+      "message": "Weet u zeker dat u wilt doorgaan?",
+      "confirmButton": "Bevestigen",
+      "cancelButton": "Annuleren"
     },
-    "alert": "Klik op een datum om uw afspraak te plannen. Blauwe vakjes zijn geboekte afspraken.",
-    "fields": {
-      "name": {
-        "label": "Naam",
-        "placeholder": "Uw volledige naam"
-      },
-      "email": {
-        "label": "E-mail",
-        "placeholder": "Uw e-mailadres"
-      },
-      "phone": {
-        "label": "Telefoonnummer",
-        "placeholder": "Uw telefoonnummer"
-      },
-      "serviceType": {
-        "label": "Soort Service",
-        "placeholder": "Selecteer een service",
-        "tooltip": "Serviceduur beïnvloedt beschikbare tijdslots",
-        "options": {
-          "TIRE_INSTALLATION": "Bandeninstallatie (60 min)",
-          "TIRE_ROTATION": "Bandenrotatie (30 min)",
-          "WHEEL_ALIGNMENT": "Wieluitlijning (60 min)",
-          "FLAT_REPAIR": "Lekke band reparatie (45 min)",
-          "TIRE_BALANCING": "Banden balanceren (45 min)",
-          "TIRE_INSPECTION": "Bandeninspectie (30 min)",
-          "OTHER": "Andere service (60 min)"
-        }
-      },
-      "appointmentDate": {
-        "label": "Afspraakdatum",
-        "placeholder": "Kies een datum"
-      },
-      "appointmentTime": {
-        "label": "Afspraaktijd",
-        "placeholder": "Selecteer een tijd",
-        "loading": "Beschikbare tijden laden...",
-        "noTimes": "Geen beschikbare tijden voor geselecteerde datum",
-        "minutesLabel": "min",
-        "noTimeSlotsMessage": "Geen beschikbare tijdsloten voor deze datum"
-      },
-      "vehicleInfo": {
-        "label": "Voertuiginformatie (Optioneel)",
-        "placeholder": "bijv., 2018 Honda Civic, Zilver"
-      },
-      "notes": {
-        "label": "Extra notities (Optioneel)",
-        "placeholder": "Specifieke details of vereisten"
-      }
+    "delete": {
+      "title": "Verwijderen Bevestigen",
+      "message": "Dit item verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "confirmButton": "Verwijderen",
+      "cancelButton": "Annuleren"
     },
-    "buttons": {
-      "backToCalendar": "Terug naar Kalender",
-      "bookAppointment": "Afspraak Boeken",
-      "booking": "Boeken..."
+    "error": {
+      "title": "Fout Opgetreden",
+      "message": "Er is een fout opgetreden tijdens het verwerken van uw verzoek.",
+      "closeButton": "Sluiten"
     },
-    "errors": {
-      "pastDates": "Kan geen datums in het verleden selecteren",
-      "closedDays": "We zijn gesloten op zondagen",
-      "fetchError": "Kon beschikbare tijdsloten niet laden",
-      "appointmentError": "Kon bestaande afspraken niet laden",
-      "submissionError": "Er is een fout opgetreden bij het boeken van uw afspraak"
+    "success": {
+      "title": "Succes",
+      "message": "Uw verzoek is succesvol verwerkt.",
+      "closeButton": "Sluiten"
+    }
+  },
+  "utilities": {
+    "loading": "Laden...",
+    "loadingMore": "Meer laden...",
+    "retry": "Opnieuw proberen",
+    "viewMore": "Meer bekijken",
+    "viewLess": "Minder bekijken",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "close": "Sluiten",
+    "apply": "Toepassen",
+    "reset": "Resetten",
+    "submit": "Versturen",
+    "confirm": "Bevestigen",
+    "continue": "Doorgaan",
+    "goBack": "Terug",
+    "allRightsReserved": "Alle rechten voorbehouden",
+    "required": "Verplicht",
+    "optional": "Optioneel"
+  },
+  "promotionBadges": {
+    "new": "Nieuw",
+    "sale": "Aanbieding",
+    "bestSeller": "Best Verkocht",
+    "featured": "Uitgelicht",
+    "limitedTime": "Beperkte Tijd",
+    "freeShipping": "Gratis Verzending",
+    "gift": "Gratis Cadeau"
+  },
+  "brandPage": {
+    "title": "{brandName} Banden | Premium Bandenwinkel",
+    "metaDescription": "Bekijk onze collectie {brandName} banden voor alle voertuigtypes.",
+    "breadcrumb": "Alle Merken",
+    "heading": "{brandName} Banden",
+    "tabs": {
+      "all": "Alle Producten"
+    },
+    "product": {
+      "noImage": "Geen afbeelding",
+      "discount": "{discount}% KORTING",
+      "viewDetails": "Details Bekijken"
+    },
+    "emptyState": {
+      "title": "Geen producten gevonden van dit merk",
+      "description": "We werken aan het toevoegen van producten van dit merk. Kom binnenkort terug.",
+      "emptyModelTitle": "Geen producten gevonden in dit model",
+      "emptyModelDescription": "We werken aan het toevoegen van producten voor dit model. Kom binnenkort terug.",
+      "browseAll": "Bekijk Alle Producten"
     }
   },
   "TireFinder": {
     "title": "Vind de Perfecte Banden voor Uw Voertuig",
-    "subtitle": "Zoek op voertuig of bandenmaat om de juiste banden te vinden voor uw auto, vrachtwagen of SUV",
+    "subtitle": "Zoek op voertuig of bandenmaat om de juiste banden te vinden voor uw auto, truck of SUV",
     "tabs": {
-      "vehicle": "Zoeken op Voertuig",
-      "size": "Zoeken op Bandenmaat"
+      "vehicle": "Zoek op Voertuig",
+      "size": "Zoek op Bandenmaat"
     },
     "vehicle": {
       "make": "Merk",
       "selectMake": "Selecteer Merk",
       "model": "Model",
       "selectModel": "Selecteer Model",
-      "selectMakeFirst": "Selecteer Eerst Merk",
+      "selectMakeFirst": "Selecteer Eerst een Merk",
       "year": "Jaar",
       "selectYear": "Selecteer Jaar",
-      "selectModelFirst": "Selecteer Eerst Model",
+      "selectModelFirst": "Selecteer Eerst een Model",
       "findTiresButton": "Vind Banden voor Uw Voertuig"
     },
     "size": {
       "width": "Breedte",
       "selectWidth": "Selecteer Breedte",
-      "aspectRatio": "Hoogte/Breedte Verhouding",
+      "aspectRatio": "Hoogte-breedteverhouding",
       "selectRatio": "Selecteer Verhouding",
       "diameter": "Velgdiameter",
       "selectDiameter": "Selecteer Diameter",
@@ -1395,10 +1633,10 @@
     },
     "tireTypes": {
       "title": "Populaire Bandentypes",
-      "subtitle": "Bekijk ons assortiment kwaliteitsbanden voor elke rijomstandigheid",
+      "subtitle": "Bekijk onze selectie kwaliteitsbanden voor elke rijomstandigheid",
       "ALL_SEASON": {
         "name": "All Season",
-        "description": "Geschikt voor gebruik gedurende het hele jaar in gematigde klimaten"
+        "description": "Beste voor gebruik het hele jaar door in gematigde klimaten"
       },
       "WINTER": {
         "name": "Winter",
@@ -1406,11 +1644,11 @@
       },
       "SUMMER": {
         "name": "Zomer",
-        "description": "Ontworpen voor optimale prestaties bij warm weer"
+        "description": "Ontworpen voor optimale prestaties in warm weer"
       },
       "ALL_TERRAIN": {
         "name": "All Terrain",
-        "description": "Ideaal voor zowel op als naast de weg"
+        "description": "Uitstekend voor zowel op als naast de weg rijden"
       },
       "HIGH_PERFORMANCE": {
         "name": "High Performance",
@@ -1428,489 +1666,9 @@
     },
     "help": {
       "title": "Hulp Nodig bij het Vinden van de Juiste Banden?",
-      "description": "Onze bandenexperts staan klaar om u te helpen met alle vragen over het vinden van de perfecte banden voor uw voertuig en rijbehoeften.",
-      "contactSupport": "Contact Ondersteuning",
+      "description": "Onze bandenexperts staan klaar om u te helpen met vragen over het vinden van de perfecte banden voor uw voertuig en rijbehoeften.",
+      "contactSupport": "Contact Opnemen met Support",
       "chatExpert": "Chat met een Expert"
-    }
-  },
-  "brandPage": {
-    "title": "{brandName} Banden | Premium Bandenwinkel",
-    "metaDescription": "Bekijk onze collectie {brandName} banden voor alle voertuigtypes.",
-    "breadcrumb": "Alle Merken",
-    "heading": "{brandName} Banden",
-    "tabs": {
-      "all": "Alle Producten"
-    },
-    "product": {
-      "noImage": "Geen afbeelding",
-      "discount": "{discount}% KORTING",
-      "viewDetails": "Details Bekijken"
-    },
-    "emptyState": {
-      "title": "Geen producten gevonden van dit merk",
-      "description": "We werken eraan om producten van dit merk toe te voegen. Kom binnenkort terug.",
-      "emptyModelTitle": "Geen producten gevonden in dit model",
-      "emptyModelDescription": "We werken eraan om producten van dit model toe te voegen. Kom binnenkort terug.",
-      "browseAll": "Alle Producten Bekijken"
-    }
-  },
-  "brandsPage": {
-    "title": "Band Merken",
-    "description": "Ontdek onze uitgebreide collectie hoogwaardige bandmerken. We werken samen met 's werelds toonaangevende fabrikanten om u de beste selectie te bieden.",
-    "products": "{count} Producten",
-    "viewProducts": "Producten Bekijken",
-    "error": {
-      "title": "Fout bij het laden van merken",
-      "description": "Er is een probleem opgetreden bij het laden van de merken. Probeer het later opnieuw.",
-      "retry": "Opnieuw proberen"
-    }
-  },
-  "retailer": {
-    "form": {
-      "title": "Word een Detailhandelaar",
-      "description": "Schrijf je in om deel te nemen aan ons netwerk van bandendetailhandelaren en krijg toegang tot groothandelsprijzen",
-      "fields": {
-        "name": {
-          "label": "Volledige Naam",
-          "placeholder": "Jan Jansen",
-          "error": "Naam moet minimaal 3 tekens bevatten"
-        },
-        "email": {
-          "label": "E-mail",
-          "placeholder": "voorbeeld@voorbeeld.com",
-          "error": "Voer een geldig e-mailadres in"
-        },
-        "companyName": {
-          "label": "Bedrijfsnaam",
-          "placeholder": "Uw Bandenwinkel",
-          "error": "Bedrijfsnaam moet minimaal 2 tekens bevatten"
-        },
-        "phone": {
-          "label": "Telefoonnummer",
-          "placeholder": "06-12345678",
-          "error": "Telefoonnummer moet minimaal 10 tekens bevatten"
-        },
-        "businessAddress": {
-          "label": "Bedrijfsadres",
-          "placeholder": "Hoofdstraat 123, Stad, Provincie, Postcode",
-          "error": "Bedrijfsadres moet minimaal 5 tekens bevatten"
-        },
-        "taxId": {
-          "label": "BTW-nummer (Optioneel)",
-          "placeholder": "BTW-nummer of KVK-nummer",
-          "description": "Alleen voor groothandelsverificatie"
-        },
-        "yearsInBusiness": {
-          "label": "Jaren actief",
-          "placeholder": "bijv. 5",
-          "error": "Geef aan hoeveel jaar u actief bent"
-        },
-        "additionalInfo": {
-          "label": "Aanvullende Informatie (Optioneel)",
-          "placeholder": "Vertel ons meer over uw bedrijf en waarom u een detailhandelaar wilt worden"
-        }
-      },
-      "submit": "Aanvraag Indienen",
-      "submitting": "Indienen..."
-    },
-    "success": {
-      "title": "Aanvraag Ingediend",
-      "description": "Bedankt voor uw interesse om detailhandelaar te worden",
-      "message1": "Uw aanvraag is ontvangen en wordt beoordeeld.",
-      "message2": "Ons team zal uw informatie bekijken en binnen 2-3 werkdagen per e-mail contact met u opnemen.",
-      "returnButton": "Terug naar Homepagina"
-    },
-    "notifications": {
-      "success": "Uw aanvraag als detailhandelaar is succesvol ingediend",
-      "error": "Er is iets misgegaan. Probeer het later opnieuw."
-    }
-  },
-  "Category": {
-    "categoryNotFoundTitle": "Categorie Niet Gevonden",
-    "categoryNotFoundDesc": "De gevraagde categorie kon niet worden gevonden",
-    "categoryMetaTitle": "{name} Banden | Premium Bandenwinkel",
-    "categoryDefaultDesc": "Bekijk onze collectie {name} banden voor alle voertuigtypes",
-    "categoryErrorTitle": "Fout bij het Laden van Categorie",
-    "categoryErrorDesc": "Er is een probleem opgetreden bij het laden van de categorie-informatie",
-    "categoryTitle": "{name} Banden",
-    "allCategories": "Alle Categorieën",
-    "viewDetails": "Details Bekijken",
-    "noImage": "Geen afbeelding",
-    "off": "KORTING",
-    "noProductsFound": "Geen producten gevonden in deze categorie",
-    "noProductsFoundMessage": "We werken aan het toevoegen van producten aan deze categorie. Kom binnenkort terug.",
-    "browseAllProducts": "Bekijk Alle Producten"
-  },
-  "Categories": {
-    "title": "Bandencategorieën",
-    "description": "Bekijk ons uitgebreide assortiment bandencategorieën om de perfecte match voor uw voertuig en rijbehoeften te vinden.",
-    "loading": {
-      "placeholder": "Categorieën laden..."
-    },
-    "error": {
-      "title": "Fout bij het laden van categorieën",
-      "message": "We hebben een probleem ondervonden bij het laden van de categorieën. Probeer het later opnieuw.",
-      "retryButton": "Opnieuw proberen"
-    },
-    "card": {
-      "defaultDescription": "Bekijk onze selectie {categoryName} banden",
-      "browseButton": "Collectie bekijken"
-    }
-  },
-  "Dashboard": {
-    "chatSupport": {
-      "title": "Klantenservice Chat",
-      "chatDashboard": "Chat Dashboard",
-      "connected": "Verbonden met chatdienst",
-      "disconnected": "Verbinding met chatdienst verbroken",
-      "activeChats": "Actieve Chats",
-      "closedChats": "Gesloten Chats",
-      "customers": "Klanten",
-      "typeMessage": "Typ uw bericht...",
-      "send": "Versturen",
-      "noActiveChat": "Geen actieve chat geselecteerd",
-      "selectCustomer": "Selecteer een klant uit de lijst om te beginnen met chatten",
-      "online": "Online",
-      "offline": "Offline",
-      "away": "Afwezig",
-      "resolveChat": "Chat Oplossen",
-      "chatResolved": "Deze chat is gemarkeerd als opgelost",
-      "noClosedChats": "Geen gesloten chats om weer te geven",
-      "today": "Vandaag",
-      "yesterday": "Gisteren"
-    },
-    "installations": {
-      "title": "Installaties",
-      "subtitle": "Beheer bandeninstallaties en serviceafspraken",
-      "actions": {
-        "create": "Installatie Aanmaken",
-        "edit": "Installatie Bewerken",
-        "delete": "Installatie Verwijderen",
-        "view": "Details Bekijken",
-        "schedule": "Installatie Inplannen",
-        "cancel": "Installatie Annuleren",
-        "reschedule": "Opnieuw Inplannen",
-        "complete": "Als Voltooid Markeren",
-        "export": "Gegevens Exporteren",
-        "filter": "Installaties Filteren"
-      },
-      "filters": {
-        "searchPlaceholder": "Zoek Installaties...",
-        "status": "Status",
-        "allStatuses": "Alle Statussen",
-        "search": "Zoeken",
-        "dateRange": "Datum Bereik"
-      },
-      "tabs": {
-        "all": "Alle Installaties",
-        "scheduled": "Ingepland",
-        "confirmed": "Bevestigd",
-        "inProgress": "In Uitvoering",
-        "completed": "Voltooid",
-        "canceled": "Geannuleerd",
-        "today": "Vandaag",
-        "thisWeek": "Deze Week",
-        "thisMonth": "Deze Maand",
-        "custom": "Aangepast Bereik",
-        "reschueled": "Opnieuw Ingepland"
-      },
-      "table": {
-        "id": "ID",
-        "customerName": "Klant",
-        "vehicleInfo": "Voertuig",
-        "serviceType": "Service Type",
-        "date": "Datum",
-        "time": "Tijd",
-        "status": "Status",
-        "technician": "Monteur",
-        "bay": "Werkplaats",
-        "price": "Prijs",
-        "actions": "Acties"
-      },
-      "details": {
-        "customerDetails": "Klantgegevens",
-        "name": "Naam",
-        "email": "E-mail",
-        "phone": "Telefoonnummer",
-        "vehicleDetails": "Voertuiggegevens",
-        "make": "Merk",
-        "model": "Model",
-        "year": "Jaar",
-        "tireDetails": "Bandengegevens",
-        "size": "Bandenmaat",
-        "quantity": "Aantal",
-        "purchasedFrom": "Gekocht Bij",
-        "serviceDetails": "Service Details",
-        "serviceType": "Service Type",
-        "appointmentDate": "Afspraakdatum",
-        "appointmentTime": "Afspraaktijd",
-        "status": "Status",
-        "technician": "Toegewezen Monteur",
-        "bay": "Service Werkplaats",
-        "price": "Service Prijs",
-        "additionalInfo": "Aanvullende Informatie",
-        "comments": "Opmerkingen"
-      },
-      "form": {
-        "createTitle": "Nieuwe Installatie Aanmaken",
-        "editTitle": "Installatie Bewerken",
-        "customerInfo": "Klantinformatie",
-        "vehicleInfo": "Voertuiginformatie",
-        "serviceInfo": "Service Informatie",
-        "additionalInfo": "Aanvullende Informatie",
-        "selectStatus": "Selecteer Status",
-        "selectTechnician": "Selecteer Monteur",
-        "selectBay": "Selecteer Werkplaats",
-        "submit": "Indienen",
-        "update": "Bijwerken",
-        "cancel": "Annuleren"
-      },
-      "notifications": {
-        "created": "Installatie succesvol aangemaakt",
-        "updated": "Installatie succesvol bijgewerkt",
-        "deleted": "Installatie succesvol verwijderd",
-        "completed": "Installatie als voltooid gemarkeerd",
-        "rescheduled": "Installatie succesvol opnieuw ingepland",
-        "canceled": "Installatie succesvol geannuleerd",
-        "error": "Er is een fout opgetreden. Probeer het opnieuw."
-      },
-      "empty": {
-        "title": "Geen Installaties Gevonden",
-        "description": "Er zijn geen installaties die aan je filters voldoen.",
-        "action": "Filters Wissen"
-      }
-    },
-    "Promotions": {
-      "title": "Promoties",
-      "description": "Beheer promotionele aanbiedingen en kortingen",
-      "addPromotion": "Promotie Toevoegen",
-      "addNewPromotion": "Nieuwe Promotie Toevoegen",
-      "editPromotion": "Promotie Bewerken",
-      "createPromotion": "Promotie Aanmaken",
-      "updatePromotion": "Promotie Bijwerken",
-      "searchPlaceholder": "Zoek promoties...",
-      "noPromotions": "Geen promoties gevonden",
-      "creating": "Aanmaken...",
-      "updating": "Bijwerken...",
-      "deletedSuccess": "Promotie succesvol verwijderd",
-      "deletedError": "Fout bij het verwijderen van promotie",
-      "activatedSuccess": "Promotie succesvol geactiveerd",
-      "deactivatedSuccess": "Promotie succesvol gedeactiveerd",
-      "toggleError": "Fout bij het bijwerken van promotie status",
-      "createdSuccess": "Promotie succesvol aangemaakt",
-      "createdError": "Fout bij het aanmaken van promotie",
-      "updatedSuccess": "Promotie succesvol bijgewerkt",
-      "updatedError": "Fout bij het bijwerken van promotie",
-      "deleteConfirm": "Weet je zeker dat je deze promotie wilt verwijderen?",
-      "deleteDescription": "Deze actie kan niet ongedaan worden gemaakt.",
-      "confirm": "Bevestigen",
-      "cancel": "Annuleren",
-      "delete": "Verwijderen",
-      "edit": "Bewerken",
-      "activate": "Activeren",
-      "deactivate": "Deactiveren",
-      "actions": "Acties",
-      "status": {
-        "active": "Actief",
-        "inactive": "Inactief",
-        "scheduled": "Gepland",
-        "expired": "Verlopen"
-      },
-      "table": {
-        "title": "Titel",
-        "type": "Type",
-        "value": "Waarde",
-        "badgeType": "Badge Type",
-        "startDate": "Startdatum",
-        "endDate": "Einddatum",
-        "status": "Status",
-        "actions": "Acties",
-        "edit": "Bewerken",
-        "delete": "Verwijderen",
-        "activate": "Activeren",
-        "deactivate": "Deactiveren",
-        "noPromotions": "Geen promoties gevonden",
-        "searchPromotions": "Promoties zoeken...",
-        "itemsPerPage": "Items per pagina",
-        "of": "van",
-        "next": "Volgende",
-        "previous": "Vorige"
-      },
-      "form": {
-        "title": "Promotie Titel",
-        "categories": "Categorieën",
-        "products": "Producten",
-        "brands": "Merken",
-        "models": "Modellen",
-        "selectCategories": "Selecteer Categorieën",
-        "selectProducts": "Selecteer Producten",
-        "selectBrands": "Selecteer Merken",
-        "selectModels": "Selecteer Modellen",
-        "selectCategoryFirst": "Selecteer Eerst Categorieën",
-        "selectProductFirst": "Selecteer Eerst Producten",
-        "selectBrandFirst": "Selecteer Eerst Merken",
-        "selectModelFirst": "Selecteer Eerst Modellen",
-        "description": "Promotie Omschrijving",
-        "type": "Promotie Type",
-        "value": "Waarde",
-        "percentageValue": "Percentage (%)",
-        "fixedValue": "Bedrag (€)",
-        "minPurchaseAmount": "Minimaal Aankoopbedrag (€)",
-        "buyQuantity": "Koop Aantal",
-        "getQuantity": "Krijg Aantal",
-        "image": "Promotie Afbeelding",
-        "imageUrl": "Afbeelding URL",
-        "badgeType": "Badge Type",
-        "howToRedeem": "Hoe In Te Wisselen",
-        "termAndConditions": "Voorwaarden en Condities",
-        "colorScheme": "Kleurenschema",
-        "startDate": "Startdatum",
-        "endDate": "Einddatum",
-        "promoCode": "Promotie Code",
-        "active": "Actief",
-        "inactive": "Inactief",
-        "activeDescription": "Wanneer actief, is deze promotie zichtbaar voor klanten",
-        "inactiveDescription": "Wanneer inactief, is deze promotie niet zichtbaar voor klanten",
-        "create": "Aanmaken",
-        "creating": "Aanmaken...",
-        "usageLimit": "Gebruikslimiet",
-        "target": "Doelgroep",
-        "isActive": "Actieve Status",
-        "isActiveDescription": "Wanneer actief, is deze promotie zichtbaar voor klanten indien binnen de datumperiode",
-        "selectType": "Selecteer een promotie type",
-        "selectBadgeType": "Selecteer een badge type",
-        "selectColor": "Selecteer een kleur",
-        "selectTarget": "Selecteer doelgroep",
-        "noEndDate": "Geen einddatum",
-        "optional": "optioneel",
-        "subscriberGroups": "Abonnee Groepen",
-        "selectSubscriberGroups": "Selecteer Abonnee Groepen",
-        "selectSubscriberGroupsDescription": "Selecteer de groepen die deze promotie kunnen gebruiken"
-      },
-      "types": {
-        "percentage": "Percentage Korting",
-        "fixedAmount": "Vast Bedrag Korting",
-        "buyXGetY": "Koop X Krijg Y Gratis",
-        "freeShipping": "Gratis Verzending",
-        "gift": "Gratis Cadeau"
-      },
-      "badgeTypes": {
-        "discount": "Korting",
-        "tag": "Label",
-        "gift": "Cadeau",
-        "new": "Nieuw",
-        "sale": "Uitverkoop"
-      },
-      "colors": {
-        "blue": "Blauw",
-        "green": "Groen",
-        "red": "Rood",
-        "purple": "Paars",
-        "orange": "Oranje"
-      },
-      "targets": {
-        "all": "Alle Klanten",
-        "registeredUsers": "Geregistreerde Gebruikers",
-        "firstTimeCustomers": "Nieuwe Klanten",
-        "returningCustomers": "Terugkerende Klanten",
-        "specificGroup": "Specifieke Groep"
-      }
-    }
-  },
-  "ProductDetail": {
-    "breadcrumb": {
-      "home": "Home",
-      "products": "Producten"
-    },
-    "badge": {
-      "featured": "Uitgelicht",
-      "runFlat": "Run Flat",
-      "reinforced": "Versterkt"
-    },
-    "reviews": {
-      "review": "review",
-      "reviews": "reviews",
-      "writeReview": "Schrijf een Review",
-      "seeAllReviews": "Bekijk alle reviews",
-      "noReviews": "Nog geen reviews. Wees de eerste om dit product te beoordelen!"
-    },
-    "price": {
-      "outOfStock": "Niet op voorraad",
-      "lowStock": "Beperkte voorraad - nog {count} beschikbaar",
-      "inStock": "Op voorraad - {count} beschikbaar"
-    },
-    "pricing": {
-      "wholesale": "Groothandelsprijs",
-      "retailPrice": "Retailprijs",
-      "discount": "{percent}% Korting",
-      "retailDiscount": "Retailkorting: {percent}%",
-      "wholesaleDiscount": "Groothandelskorting: {percent}%",
-      "wholesaleSalePrice": "Groothandels Actieprijs",
-      "wholesalePricing": "Groothandelsprijzen beschikbaar voor retailers"
-    },
-    "performance": {
-      "title": "Prestatiebeoordelingen",
-      "wetGrip": "Grip op nat wegdek",
-      "fuelEfficiency": "Brandstofefficiëntie",
-      "noise": "Geluid (dB)",
-      "ratings": {
-        "A": "Uitstekend",
-        "B": "Goed",
-        "C": "Redelijk",
-        "D": "Matig",
-        "E": "Zeer matig"
-      }
-    },
-    "tabs": {
-      "specifications": "Specificaties",
-      "performance": "Prestaties",
-      "details": "Aanvullende Details"
-    },
-    "addToCart": "In Winkelwagen",
-    "addToFavorites": "Toevoegen aan Favorieten",
-    "removeFromFavorites": "Verwijderen uit Favorieten",
-    "specifications": {
-      "size": "Maat",
-      "loadSpeed": "Belasting & Snelheidsrating",
-      "type": "Type",
-      "construction": "Constructie",
-      "treadDepth": "Profieldiepte",
-      "sidewall": "Zijwand",
-      "runFlat": "Run Flat",
-      "reinforced": "Versterkt",
-      "plyRating": "Ply Rating",
-      "maxPressure": "Maximale Druk",
-      "maxLoad": "Maximale Belasting",
-      "standard": "Standaard",
-      "yes": "Ja",
-      "no": "Nee"
-    },
-    "performanceTab": {
-      "treadPattern": "Profielpatroon",
-      "wetGrip": "Grip op nat wegdek",
-      "fuelEfficiency": "Brandstofefficiëntie",
-      "noiseLevel": "Geluidsniveau",
-      "snowRating": "Sneeuwclassificatie",
-      "utqgRating": "UTQG Rating",
-      "mileageWarranty": "Kilometergarantie",
-      "miles": "mijlen"
-    },
-    "detailsTab": {
-      "sku": "Artikelnummer",
-      "manufacturerPart": "Onderdeelnr. fabrikant",
-      "brand": "Merk",
-      "model": "Model",
-      "category": "Categorie",
-      "countryOrigin": "Land van herkomst",
-      "certifications": "Certificeringen",
-      "na": "N.v.t."
-    },
-    "search": {
-      "placeholder": "Zoek naar banden...",
-      "button": "Zoeken"
-    },
-    "recommendations": {
-      "title": "Wellicht ook interessant"
     }
   }
 }

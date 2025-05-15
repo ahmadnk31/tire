@@ -7,6 +7,7 @@ interface SubscriptionTemplateParams {
   unsubscribeUrl: string;
   siteUrl: string;
   siteName: string;
+  locale?: string;
 }
 
 interface VerificationTemplateParams {
@@ -15,6 +16,7 @@ interface VerificationTemplateParams {
   siteUrl: string;
   siteName: string;
   expiryHours: number;
+  locale?: string;
 }
 
 /**
@@ -25,11 +27,12 @@ export function getSubscriptionConfirmationHtml({
   unsubscribeUrl,
   siteUrl,
   siteName,
+  locale = "en",
 }: SubscriptionTemplateParams): string {
   const greeting = name ? `Hi ${name},` : "Hi there,";
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,6 +111,7 @@ export function getSubscriptionConfirmationText({
   unsubscribeUrl,
   siteUrl,
   siteName,
+  locale = "en",
 }: SubscriptionTemplateParams): string {
   const greeting = name ? `Hi ${name},` : "Hi there,";
 
@@ -137,11 +141,12 @@ export function getUnsubscribeConfirmationHtml({
   name = "",
   siteUrl,
   siteName,
+  locale = "en",
 }: Omit<SubscriptionTemplateParams, "unsubscribeUrl">): string {
   const greeting = name ? `Hi ${name},` : "Hi there,";
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -212,6 +217,7 @@ export function getUnsubscribeConfirmationText({
   name = "",
   siteUrl,
   siteName,
+  locale = "en",
 }: Omit<SubscriptionTemplateParams, "unsubscribeUrl">): string {
   const greeting = name ? `Hi ${name},` : "Hi there,";
 
@@ -237,11 +243,12 @@ export function getVerificationEmailHtml({
   siteUrl,
   siteName,
   expiryHours,
+  locale = "en",
 }: VerificationTemplateParams): string {
   const greeting = name ? `Hi ${name},` : "Hi there,";
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -324,6 +331,7 @@ export function getVerificationEmailText({
   siteUrl,
   siteName,
   expiryHours,
+  locale = "en",
 }: VerificationTemplateParams): string {
   const greeting = name ? `Hi ${name},` : "Hi there,";
 

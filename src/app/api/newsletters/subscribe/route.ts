@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { sendEmail } from "@/lib/email/aws-ses";
@@ -11,13 +11,15 @@ import {
 import { createHash } from "crypto";
 import { getIpAddress, validateCsrfToken } from "@/lib/security";
 import { rateLimit } from "@/lib/rate-limit";
+import { v4 as uuidv4 } from "uuid";
 
 // Validation schema
 const subscribeSchema = z.object({
   email: z.string().email("Invalid email address"),
   name: z.string().optional(),
-  source: z.string().optional().default("website"),
-  preferences: z.array(z.string()).optional().default([]),
+  source: z.string().optional(),
+  preferredLanguage: z.string().optional().default("en"),
+  groupIds: z.array(z.string()).optional(),
   csrfToken: z.string().min(1, "CSRF token is required"),
 });
 
@@ -28,7 +30,7 @@ const limiter = rateLimit({
   limit: 5,
 });
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     // Get client IP for rate limiting
     const ip = getIpAddress(request);
@@ -44,10 +46,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Get the user's locale from the Accept-Language header
+    const acceptLanguage = request.headers.get("Accept-Language") || "";
+    // Simple language detection (in reality you'd use a more robust solution)
+    const detectedLocale = acceptLanguage.includes("nl") ? "nl" : "en";
+    
     // Parse and validate request body
     const body = await request.json();
-    const validatedData = subscribeSchema.parse(body);
-    const { email, name, source, preferences, csrfToken } = validatedData;
+    const { email, name, source, preferredLanguage = detectedLocale, groupIds = [], csrfToken } = subscribeSchema.parse(body);
 
     // Validate CSRF token
     const csrfValid = await validateCsrfToken(csrfToken);
@@ -57,101 +63,105 @@ export async function POST(request: Request) {
     }
 
     // Check if subscriber already exists
-    const existingSubscriber = await prisma.subscriber.findUnique({
+    let subscriber = await prisma.subscriber.findUnique({
       where: { email },
-      include: { preferences: true },
+      include: {
+        groups: true,
+      },
     });
 
-    let subscriber;
     let isNewSubscription = false;
 
-    if (existingSubscriber) {
-      // If they exist but are unsubscribed, require reverification
-      if (!existingSubscriber.subscribed) {
+    if (subscriber) {
+      // Existing subscriber
+      if (subscriber.unsubscribedAt) {
+        // Previously unsubscribed, so resubscribe them
         subscriber = await prisma.subscriber.update({
-          where: { id: existingSubscriber.id },
+          where: { id: subscriber.id },
           data: {
-            // Don't set subscribed to true yet - require verification
-            verificationToken: createHash("sha256")
-              .update(`${email}:${Date.now()}`)
-              .digest("hex"),
-            verificationExpires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-            lastActive: new Date(),
-            name: name || existingSubscriber.name,
+            subscribed: true,
+            unsubscribedAt: null,
+            verifiedAt: new Date(), // They were verified before
+            updatedAt: new Date(),
+            preferredLanguage, // Update preferred language
           },
-          include: { preferences: true },
+          include: {
+            groups: true,
+          },
         });
+      } else if (!subscriber.verified) {
+        // Resend verification email for unverified subscribers
         isNewSubscription = true;
-      } else if (existingSubscriber.verified) {
-        // Already subscribed and verified
 
-        // Update preferences if needed
-        if (preferences.length > 0) {
-          const currentPrefs = existingSubscriber.preferences.map(
-            (p) => p.name
-          );
+        subscriber = await prisma.subscriber.update({
+          where: { id: subscriber.id },
+          data: {
+            name: name || subscriber.name,
+            source: source || subscriber.source,
+            verificationToken: uuidv4(),
+            verificationTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+            updatedAt: new Date(),
+            preferredLanguage, // Update preferred language
+          },
+          include: {
+            groups: true,
+          },
+        });
+      } else {
+        // Already subscribed and verified, just update their info
+        subscriber = await prisma.subscriber.update({
+          where: { id: subscriber.id },
+          data: {
+            name: name || subscriber.name,
+            source: source || subscriber.source,
+            updatedAt: new Date(),
+            preferredLanguage, // Update preferred language
+          },
+          include: {
+            groups: true,
+          },
+        });
+      }
 
-          // Add new preferences
-          const newPrefs = preferences.filter((p) => !currentPrefs.includes(p));
-          if (newPrefs.length > 0) {
-            await prisma.subscriberPreference.createMany({
-              data: newPrefs.map((name) => ({
-                subscriberId: existingSubscriber.id,
-                name,
-              })),
-            });
-          }
+      // Add to any new groups
+      if (groupIds.length > 0) {
+        const existingGroupIds = subscriber.groups.map((g) => g.id);
+        const newGroupIds = groupIds.filter((id) => !existingGroupIds.includes(id));
 
-          // Update last active timestamp
+        if (newGroupIds.length > 0) {
           await prisma.subscriber.update({
-            where: { id: existingSubscriber.id },
-            data: { lastActive: new Date() },
+            where: { id: subscriber.id },
+            data: {
+              groups: {
+                connect: newGroupIds.map((id) => ({ id })),
+              },
+            },
           });
         }
-
-        return NextResponse.json(
-          { message: "You are already subscribed to our newsletter" },
-          { status: 200 }
-        );
-      } else {
-        // Exists but not verified - resend verification
-        subscriber = await prisma.subscriber.update({
-          where: { id: existingSubscriber.id },
-          data: {
-            verificationToken: createHash("sha256")
-              .update(`${email}:${Date.now()}`)
-              .digest("hex"),
-            verificationExpires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-            lastActive: new Date(),
-          },
-          include: { preferences: true },
-        });
-        isNewSubscription = true;
       }
     } else {
-      // Create new subscriber - unverified initially
-      const verificationToken = createHash("sha256")
-        .update(`${email}:${Date.now()}`)
-        .digest("hex");
+      // New subscriber
+      isNewSubscription = true;
 
+      // Create new subscriber record
       subscriber = await prisma.subscriber.create({
         data: {
           email,
-          name,
-          source,
-          subscribed: false, // Start as false until verified
-          verified: false,
-          verificationToken,
-          verificationExpires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-          preferences: {
-            create: preferences.map((name) => ({
-              name,
-            })),
+          name: name || "",
+          source: source || "website",
+          subscribed: true,
+          verified: false, // Needs email verification
+          verificationToken: uuidv4(),
+          verificationTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+          preferredLanguage, // Set preferred language
+          groups: {
+            connect: groupIds.map((id) => ({ id })),
           },
         },
-        include: { preferences: true },
+        include: {
+          groups: true,
+        },
       });
-      isNewSubscription = true;
     }
 
     // Log subscription attempt
@@ -167,13 +177,14 @@ export async function POST(request: Request) {
 
       await sendEmail({
         to: email,
-        subject: "Verify Your Newsletter Subscription",
+        subject: preferredLanguage === "nl" ? "Verifieer Uw Nieuwsbrief Inschrijving" : "Verify Your Newsletter Subscription",
         htmlBody: getVerificationEmailHtml({
           name: name || "",
           verificationUrl,
           siteUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
           siteName: process.env.SITE_NAME || "Tire Shop",
           expiryHours: 24,
+          locale: preferredLanguage,
         }),
         textBody: getVerificationEmailText({
           name: name || "",
@@ -181,12 +192,15 @@ export async function POST(request: Request) {
           siteUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
           siteName: process.env.SITE_NAME || "Tire Shop",
           expiryHours: 24,
+          locale: preferredLanguage,
         }),
       });
 
       return NextResponse.json(
         {
-          message: "Please check your email to verify your subscription",
+          message: preferredLanguage === "nl" 
+            ? "Controleer uw e-mail om uw inschrijving te verifiëren" 
+            : "Please check your email to verify your subscription",
           subscriberId: subscriber.id,
           verified: false,
         },
@@ -204,24 +218,28 @@ export async function POST(request: Request) {
       // Send confirmation email
       await sendEmail({
         to: email,
-        subject: "Welcome to Our Newsletter!",
+        subject: preferredLanguage === "nl" ? "Welkom bij Onze Nieuwsbrief!" : "Welcome to Our Newsletter!",
         htmlBody: getSubscriptionConfirmationHtml({
           name: name || "",
           unsubscribeUrl,
           siteUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
           siteName: process.env.SITE_NAME || "Tire Shop",
+          locale: preferredLanguage,
         }),
         textBody: getSubscriptionConfirmationText({
           name: name || "",
           unsubscribeUrl,
           siteUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
           siteName: process.env.SITE_NAME || "Tire Shop",
+          locale: preferredLanguage,
         }),
       });
 
       return NextResponse.json(
         {
-          message: "Successfully subscribed to newsletter",
+          message: preferredLanguage === "nl" 
+            ? "Succesvol ingeschreven voor de nieuwsbrief" 
+            : "Successfully subscribed to newsletter",
           subscriberId: subscriber.id,
           verified: true,
         },
@@ -244,3 +262,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

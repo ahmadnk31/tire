@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth/auth-options"
 import { prisma } from "@/lib/db"
 import { PerformanceRating, SpeedRating, TireType, TreadwearRating } from "@prisma/client"
+// Use existing error logging or console.error
+// import { logApiError } from '@/lib/error-logging'
+import { calculateDiscountedPrice } from '@/lib/utils/discount-calculator'
 
 export async function PATCH(
   request: NextRequest,
@@ -19,6 +22,44 @@ export async function PATCH(
     // Extract all the fields from the formData
     const name = formData.get('name') as string;
     const description = formData.get('description') as string;
+    const short_description = formData.get('short_description') as string;
+      // Parse localized descriptions and attributes from JSON
+    let localized_descriptions: Record<string, string> | null = null;
+    let localized_short_descriptions: Record<string, string> | null = null;
+    let attributes: Record<string, string> | null = null;
+    
+    try {
+      const localizedDescriptionsJson = formData.get('localized_descriptions');
+      if (localizedDescriptionsJson) {
+        localized_descriptions = JSON.parse(localizedDescriptionsJson as string);
+      }
+      
+      const localizedShortDescriptionsJson = formData.get('localized_short_descriptions');
+      if (localizedShortDescriptionsJson) {
+        localized_short_descriptions = JSON.parse(localizedShortDescriptionsJson as string);
+      }
+        const attributesJson = formData.get('attributes');
+      if (attributesJson) {
+        // Handle empty string or invalid JSON
+        if (attributesJson === '') {
+          attributes = {};
+        } else {
+          attributes = JSON.parse(attributesJson as string);
+        }
+          // Convert to Record<string, string> by ensuring all values are strings
+        if (attributes) {
+          attributes = Object.entries(attributes).reduce((acc, [key, value]) => {
+            acc[key] = String(value);
+            return acc;
+          }, {} as Record<string, string>);
+        }
+        
+        console.log("Parsed product attributes:", attributes);
+      }
+    } catch (e) {
+      console.error("Error parsing JSON fields:", e);
+    }
+    
     const sku = formData.get('sku') as string;
     const brandId = formData.get('brandId') as string;
     const modelId = formData.get('modelId') as string;
@@ -59,9 +100,9 @@ export async function PATCH(
     const isDiscontinued = formData.get('isDiscontinued') === 'true';
     console.log("FormData:", formData);
 
-    // Calculate sale prices based on discounts
-    const salePrice = retailPrice - (retailPrice * (discount / 100));
-    const wholesaleSalePrice = wholesalePrice - (wholesalePrice * (retailerDiscount / 100));
+    // Calculate sale prices based on discounts using our utility function
+    const salePrice = calculateDiscountedPrice(retailPrice, discount);
+    const wholesaleSalePrice = calculateDiscountedPrice(wholesalePrice, retailerDiscount);
     
     // Extract image URLs - improved extraction logic
     let imageUrls: string[] = [];
@@ -124,22 +165,23 @@ export async function PATCH(
     // Verify the product exists before updating
     const existingProduct = await prisma.product.findUnique({
       where: { id: params.productId }
-    });
-
-    if (!existingProduct) {
+    });    if (!existingProduct) {
       return NextResponse.json(
         { error: 'Product not found' },
         { status: 404 }
       );
     }
-
+    
     const product = await prisma.product.update({
       where: {
         id: params.productId,
-      },
-      data: {
+      },      data: {
         name,
         description: description || null,
+        short_description: short_description || null,
+        localized_descriptions: localized_descriptions ? localized_descriptions as any : null,
+        localized_short_descriptions: localized_short_descriptions ? localized_short_descriptions as any : null,
+        attributes: attributes ? attributes as any : null,
         sku: sku || null,
         brandId,
         modelId,
@@ -183,8 +225,7 @@ export async function PATCH(
         // Always update the images field regardless of whether it's empty or not
         // This ensures we can clear images when needed
         images: imageUrls,
-      },
-      include: {
+      },      include: {
         brand: true,
         model: true,
         category: true
@@ -194,9 +235,26 @@ export async function PATCH(
     return NextResponse.json(product)
   } catch (error) {
     console.error("[PRODUCT_PATCH]", error)
+    
+    // Provide more specific error handling for JSON parsing issues
+    let errorMessage = "Internal server error";
+    let statusCode = 500;
+    
+    if (error instanceof SyntaxError && error.message.includes('JSON')) {
+      errorMessage = "Invalid JSON format in one of the fields";
+      statusCode = 400;
+      console.error("[PRODUCT_PATCH] JSON parsing error:", error.message);
+    } else if (error instanceof Error) {
+      errorMessage = error.message;
+      console.error("[PRODUCT_PATCH] Error details:", error.stack);
+    }
+    
     return NextResponse.json(
-      { error: "Internal server error", details: error instanceof Error ? error.message : String(error) },
-      { status: 500 }
+      { 
+        error: errorMessage, 
+        details: error instanceof Error ? error.message : String(error) 
+      },
+      { status: statusCode }
     )
   }
 }

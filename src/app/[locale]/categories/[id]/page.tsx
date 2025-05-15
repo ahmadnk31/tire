@@ -64,11 +64,44 @@ async function getCategoryWithProducts(categoryId: string) {
       orderBy: { createdAt: 'desc' }
     });
     
-    return { category, products };
+    // Parse any string-encoded JSON fields
+    const parsedProducts = products.map(product => {
+      const parsedProduct = { ...product };
+      
+      if (product?.localized_descriptions && typeof product.localized_descriptions === 'string') {
+        parsedProduct.localized_descriptions = JSON.parse(product.localized_descriptions as string);
+      }
+      
+      if (product?.localized_short_descriptions && typeof product.localized_short_descriptions === 'string') {
+        parsedProduct.localized_short_descriptions = JSON.parse(product.localized_short_descriptions as string);
+      }
+      
+      return parsedProduct;
+    });
+    
+    return { category, products: parsedProducts };
   } catch (error) {
     console.error("Error fetching category data:", error);
     return null;
   }
+}
+
+// Helper function to get localized content
+function getLocalizedContent(content: Record<string, string> | null, defaultContent: string | null, locale: string): string | null {
+  if (!content) return defaultContent;
+  
+  // Try to get content in the requested locale
+  if (content[locale]) return content[locale];
+  
+  // Fall back to English if available
+  if (content['en']) return content['en'];
+  
+  // Otherwise return the first available translation
+  const firstKey = Object.keys(content)[0];
+  if (firstKey) return content[firstKey];
+  
+  // If all else fails, return the default content
+  return defaultContent;
 }
 
 export default async function CategoryDetailPage({ params }: CategoryPageProps) {
@@ -153,6 +186,20 @@ export default async function CategoryDetailPage({ params }: CategoryPageProps) 
                 {product.brand && product.model && (
                   <p className="text-gray-500 text-sm mb-2">{product.brand.name} {product.model.name}</p>
                 )}
+                
+                {/* Display localized short description if available */}
+                {(() => {
+                  const localizedShortDescription = getLocalizedContent(
+                    product.localized_short_descriptions as Record<string, string> | null,
+                    product.short_description as string | null,
+                    locale
+                  );
+                  
+                  return localizedShortDescription ? (
+                    <p className="text-gray-600 text-sm line-clamp-2 mb-2">{localizedShortDescription}</p>
+                  ) : null;
+                })()}
+                
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex flex-col">
                     {product.salePrice ? (

@@ -15,8 +15,8 @@ interface BrandPageProps {
 }
 
 export async function generateMetadata({ params }: BrandPageProps) {
-  const { id, locale } = params;
-  const t = await getTranslations({ locale, namespace: "brandPage" });
+  const { id, locale } = await params;
+  const t = await getTranslations("brandPage");
   
   const brand = await prisma.brand.findUnique({
     where: { id },
@@ -64,12 +64,47 @@ async function getBrandWithProductsAndModels(brandId: string) {
     },
   });
   
+  // Parse localized content if stored as strings
+  if (brand && brand.products) {
+    brand.products = brand.products.map(product => {
+      const parsedProduct = { ...product };
+      
+      if (product?.localized_descriptions && typeof product.localized_descriptions === 'string') {
+        parsedProduct.localized_descriptions = JSON.parse(product.localized_descriptions as string);
+      }
+      
+      if (product?.localized_short_descriptions && typeof product.localized_short_descriptions === 'string') {
+        parsedProduct.localized_short_descriptions = JSON.parse(product.localized_short_descriptions as string);
+      }
+      
+      return parsedProduct;
+    });
+  }
+  
   return brand;
 }
 
+// Helper function to get localized content
+function getLocalizedContent(content: Record<string, string> | null, defaultContent: string | null, locale: string): string | null {
+  if (!content) return defaultContent;
+  
+  // Try to get content in the requested locale
+  if (content[locale]) return content[locale];
+  
+  // Fall back to English if available
+  if (content['en']) return content['en'];
+  
+  // Otherwise return the first available translation
+  const firstKey = Object.keys(content)[0];
+  if (firstKey) return content[firstKey];
+  
+  // If all else fails, return the default content
+  return defaultContent;
+}
+
 export default async function BrandDetailPage({ params }: BrandPageProps) {
-  const { id, locale } = params;
-  const t = await getTranslations({ locale, namespace: "brandPage" });
+  const { id, locale } = await params;
+  const t = await getTranslations("brandPage");
   const brand = await getBrandWithProductsAndModels(id);
   
   if (!brand) {
@@ -168,6 +203,20 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                       </div>
                       <h3 className="text-lg font-bold mb-1 truncate text-gray-900">{product.name}</h3>
                       <p className="text-gray-500 text-sm mb-2">{product.model.name}</p>
+                      
+                      {/* Display localized short description if available */}
+                      {(() => {
+                        const localizedShortDescription = getLocalizedContent(
+                          product.localized_short_descriptions as Record<string, string> | null,
+                          product.short_description as string | null,
+                          locale
+                        );
+                        
+                        return localizedShortDescription ? (
+                          <p className="text-gray-600 text-sm line-clamp-2 mb-2">{localizedShortDescription}</p>
+                        ) : null;
+                      })()}
+                      
                       <div className="flex justify-between items-center mt-4">
                         <div className="flex flex-col">
                           {product.salePrice ? (
@@ -239,6 +288,20 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                           </span>
                         </div>
                         <h3 className="text-lg font-bold mb-1 truncate text-gray-900">{product.name}</h3>
+                        
+                        {/* Display localized short description if available */}
+                        {(() => {
+                          const localizedShortDescription = getLocalizedContent(
+                            product.localized_short_descriptions as Record<string, string> | null,
+                            product.short_description as string | null,
+                            locale
+                          );
+                          
+                          return localizedShortDescription ? (
+                            <p className="text-gray-600 text-sm line-clamp-2 mb-2">{localizedShortDescription}</p>
+                          ) : null;
+                        })()}
+                        
                         <div className="flex justify-between items-center mt-4">
                           <div className="flex flex-col">
                             {product.salePrice ? (

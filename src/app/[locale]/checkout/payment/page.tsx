@@ -620,6 +620,7 @@ export default function PaymentPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
   const [paymentProgress, setPaymentProgress] = useState(0);
+  const [paymentIntentCreated, setPaymentIntentCreated] = useState(false); // Add this flag to prevent multiple creations
 
   // Shipping options
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
@@ -653,106 +654,111 @@ export default function PaymentPage() {
 
   // Check if required info is available and create payment intent
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Redirect if shipping information is missing
-      if (!shippingAddress || !selectedShippingOption) {
-        router.replace("/checkout");
-        return;
-      }
-
-      // Redirect if cart is empty
-      if (items.length === 0) {
-        router.replace("/cart");
-        return;
-      }
-
-      // Create a payment intent on component mount
-      const createIntent = async () => {
-        setIsLoading(true);
-        try {
-          // Show a realistic progress indicator during payment initialization
-          const progressInterval = setInterval(() => {
-            setPaymentProgress((prev) => {
-              if (prev >= 90) {
-                clearInterval(progressInterval);
-                return prev;
-              }
-              return prev + 10;
-            });
-          }, 300);
-          const response = await fetch("/api/payments/create-intent", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              amount: Math.round(summary.total * 100), // Convert to cents
-              currency: "eur",
-              metadata: {
-                orderId: `order_${Date.now()}`,
-                items: JSON.stringify(
-                  items.map((item) => ({
-                    id: item.id,
-                    name: item.name,
-                    quantity: item.quantity,
-                    price: item.price,
-                  }))
-                ),
-                promotions: JSON.stringify(
-                  appliedPromotions.map((promo) => ({
-                    id: promo.id,
-                    code: promo.promoCode || promo.code,
-                    title: promo.title,
-                    type: promo.type,
-                    value: promo.value,
-                  }))
-                ),
-                promotionsDiscount: summary.promotionsDiscount,
-                customer: JSON.stringify({
-                  name: `${shippingAddress.firstName} ${shippingAddress.lastName}`,
-                  email: shippingAddress.email,
-                  address: {
-                    line1: shippingAddress.addressLine1,
-                    line2: shippingAddress.addressLine2 || "",
-                    city: shippingAddress.city,
-                    state: shippingAddress.state,
-                    postal_code: shippingAddress.postalCode,
-                    country: shippingAddress.country,
-                  },
-                }),
-                shipping_method: selectedShippingOption.name,
-              },
-            }),
-          });
-
-          clearInterval(progressInterval);
-
-          if (!response.ok) {
-            throw new Error("Failed to create payment intent");
-          }
-
-          const data: CreatePaymentIntentResponse = await response.json();
-          setClientSecret(data.clientSecret);
-          setPaymentIntentId(data.paymentIntentId);
-          setPaymentProgress(100);
-        } catch (error) {
-          console.error("Error creating payment intent:", error);
-          setPaymentError("Failed to initialize payment. Please try again.");
-          toast.error("Failed to initialize payment. Please try again.");
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      createIntent();
+    // Prevent multiple intent creation attempts and only create if we have data needed
+    if (
+      paymentIntentCreated ||
+      clientSecret ||
+      !summary.total ||
+      !shippingAddress ||
+      !selectedShippingOption
+    ) {
+      return;
     }
+
+    const createIntent = async () => {
+      setPaymentIntentCreated(true); // Set flag to prevent future attempts
+      setIsLoading(true);
+      try {
+        // Show a realistic progress indicator during payment initialization
+        const progressInterval = setInterval(() => {
+          setPaymentProgress((prev) => {
+            if (prev >= 90) {
+              clearInterval(progressInterval);
+              return prev;
+            }
+            return prev + 10;
+          });
+        }, 300);
+
+        console.log("Creating payment intent for amount:", summary.total);
+
+        const response = await fetch("/api/payments/create-intent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: Math.round(summary.total * 100), // Convert to cents
+            currency: "eur",
+            metadata: {
+              orderId: `order_${Date.now()}`,
+              items: JSON.stringify(
+                items.map((item) => ({
+                  id: item.id,
+                  name: item.name,
+                  quantity: item.quantity,
+                  price: item.price,
+                }))
+              ),
+              promotions: JSON.stringify(
+                appliedPromotions.map((promo) => ({
+                  id: promo.id,
+                  code: promo.promoCode || promo.code,
+                  title: promo.title,
+                  type: promo.type,
+                  value: promo.value,
+                }))
+              ),
+              promotionsDiscount: summary.promotionsDiscount,
+              customer: JSON.stringify({
+                name: `${shippingAddress.firstName} ${shippingAddress.lastName}`,
+                email: shippingAddress.email,
+                address: {
+                  line1: shippingAddress.addressLine1,
+                  line2: shippingAddress.addressLine2 || "",
+                  city: shippingAddress.city,
+                  state: shippingAddress.state,
+                  postal_code: shippingAddress.postalCode,
+                  country: shippingAddress.country,
+                },
+              }),
+              shipping_method: selectedShippingOption.name,
+            },
+          }),
+        });
+
+        clearInterval(progressInterval);
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || "Failed to create payment intent");
+        }
+
+        const data: CreatePaymentIntentResponse = await response.json();
+        console.log("Payment intent created:", data.paymentIntentId);
+        setClientSecret(data.clientSecret);
+        setPaymentIntentId(data.paymentIntentId);
+        setPaymentProgress(100);
+      } catch (error) {
+        console.error("Error creating payment intent:", error);
+        setPaymentError("Failed to initialize payment. Please try again.");
+        toast.error("Failed to initialize payment. Please try again.");
+        setPaymentIntentCreated(false); // Reset flag to allow retry
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    createIntent();
   }, [
     items,
     shippingAddress,
     selectedShippingOption,
-    router,
     summary.total,
-    toast,
+    summary.promotionsDiscount,
+    paymentIntentCreated,
+    clientSecret,
+    appliedPromotions,
   ]);
 
   // Fetch available shipping options using the shipping service
@@ -1343,7 +1349,7 @@ export default function PaymentPage() {
                     </TabsList>
 
                     <TabsContent value='card'>
-                      {clientSecret && (
+                      {clientSecret ? (
                         <Elements
                           stripe={stripePromise}
                           options={{
@@ -1359,7 +1365,31 @@ export default function PaymentPage() {
                                 spacingUnit: "4px",
                                 borderRadius: "4px",
                               },
+                              rules: {
+                                ".Input": {
+                                  border: "1px solid #e2e8f0",
+                                  borderRadius: "6px",
+                                },
+                                ".Input:focus": {
+                                  boxShadow: "0 0 0 2px rgba(0, 112, 243, 0.3)",
+                                  borderColor: "#0070f3",
+                                },
+                                ".Label": {
+                                  fontWeight: "500",
+                                },
+                                ".Error": {
+                                  color: "#df1b41",
+                                },
+                              },
                             },
+                            locale: "auto",
+                            loader: "auto",
+                            fonts: [
+                              {
+                                cssSrc:
+                                  "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap",
+                              },
+                            ],
                           }}
                         >
                           <StripePaymentForm
@@ -1378,6 +1408,15 @@ export default function PaymentPage() {
                             }
                           />
                         </Elements>
+                      ) : (
+                        <div className='flex justify-center items-center p-12'>
+                          <div className='text-center'>
+                            <Loader2 className='mx-auto h-8 w-8 animate-spin text-primary' />
+                            <p className='mt-2 text-sm text-muted-foreground'>
+                              {t("loadingPaymentForm")}
+                            </p>
+                          </div>
+                        </div>
                       )}
                     </TabsContent>
 
@@ -1514,6 +1553,15 @@ export default function PaymentPage() {
                                   toast.error(
                                     "PayPal error: Please try again or use a different payment method"
                                   );
+                                  setPaymentErrorDetails({
+                                    code: "paypal_error",
+                                    message:
+                                      err.message || "PayPal payment failed",
+                                    technical: "Error during PayPal checkout",
+                                  });
+                                }}
+                                onCancel={() => {
+                                  toast.info("PayPal payment was cancelled");
                                 }}
                               />
                             </PayPalScriptProvider>
@@ -1558,6 +1606,20 @@ export default function PaymentPage() {
                             </AccordionItem>
                           </Accordion>
                         )}
+                        <Button
+                          className='mt-4 w-full'
+                          onClick={() => {
+                            setPaymentError(null);
+                            setPaymentErrorDetails(null);
+                            setPaymentIntentCreated(false);
+                            // Retry creating a payment intent
+                            setIsLoading(true);
+                          }}
+                        >
+                          <span className='flex items-center gap-2'>
+                            Try Again <Clock className='h-4 w-4' />
+                          </span>
+                        </Button>
                       </div>
                     </AlertDescription>
                   </Alert>

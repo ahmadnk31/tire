@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { InfoIcon, Loader2, Save, Trash } from "lucide-react"
+import { InfoIcon, Loader2, Save, Trash, MessageSquare } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { FileUpload } from "@/components/file-upload"
-import { Textarea } from "@/components/ui/textarea"
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Select,
@@ -39,6 +39,14 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { calculateDiscountAmount, calculateDiscountedPrice, calculateMarginPercentage } from "@/lib/utils/discount-calculator"
+import { AIDescriptionGenerator } from '@/components/admin/products/ai-description-generator'
+import { FullRichTextEditor } from "@/components/ui/full-rich-text-adapter"
+
+
+
+import { AttributesEditor } from "@/components/admin/products/attributes-editor"
+import { LocalizedEditor, type LocalizedContent } from "@/components/ui/localized-editor"
 
 // Interface matching our enhanced FileUpload component
 interface UploadedFile {
@@ -54,6 +62,10 @@ const productFormSchema = z.object({
   // Basic info
   name: z.string().min(2, { message: "Product name must be at least 2 characters" }),
   description: z.string().optional(),
+  short_description: z.string().optional(),
+  localized_descriptions: z.any().optional(),
+  localized_short_descriptions: z.any().optional(),
+  attributes: z.any().optional(), // Will be stored as JSON
   brandId: z.string().min(1, { message: "Brand is required" }),
   modelId: z.string().min(1, { message: "Model is required" }),
   categoryId: z.string().min(1, { message: "Category is required" }),
@@ -139,6 +151,10 @@ interface ProductFormProps {
     id: string
     name: string
     description?: string | null
+    short_description?: string | null
+    localized_descriptions?: Record<string, string> | null
+    localized_short_descriptions?: Record<string, string> | null
+    attributes?: any
     brandId: string
     modelId: string
     categoryId: string
@@ -201,12 +217,57 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
   });
   
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [showAIGenerator, setShowAIGenerator] = useState(false);
 
-  const form = useForm<ProductFormValues>({
+  const [productAttributes, setProductAttributes] = useState<Record<string, string>>(
+    initialData?.attributes ? (typeof initialData.attributes === 'string' 
+      ? JSON.parse(initialData.attributes) 
+      : initialData.attributes) 
+    : {}
+  );
+  // Safely parse and initialize localized descriptions with proper error handling
+  const [localizedDescriptions, setLocalizedDescriptions] = useState<LocalizedContent>(() => {
+    try {
+      if (initialData?.localized_descriptions) {
+        // Handle different data types gracefully
+        if (typeof initialData.localized_descriptions === 'string') {
+          return JSON.parse(initialData.localized_descriptions);
+        } else {
+          return initialData.localized_descriptions;
+        }
+      }
+    } catch (e) {
+      console.warn('Error parsing localized descriptions:', e);
+    }
+    // Default case - use the main description or empty string
+    return { en: initialData?.description || '' };
+  });
+
+  // Safely parse and initialize localized short descriptions with proper error handling
+  const [localizedShortDescriptions, setLocalizedShortDescriptions] = useState<LocalizedContent>(() => {
+    try {
+      if (initialData?.localized_short_descriptions) {
+        // Handle different data types gracefully
+        if (typeof initialData.localized_short_descriptions === 'string') {
+          return JSON.parse(initialData.localized_short_descriptions);
+        } else {
+          return initialData.localized_short_descriptions;
+        }
+      }
+    } catch (e) {
+      console.warn('Error parsing localized short descriptions:', e);
+    }
+    // Default case - use the main short description or empty string
+    return { en: initialData?.short_description || '' };
+  });  const form = useForm<z.infer<typeof productFormSchema>>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
       name: initialData?.name || "",
       description: initialData?.description || "",
+      short_description: initialData?.short_description || "",
+      localized_descriptions: localizedDescriptions,
+      localized_short_descriptions: localizedShortDescriptions,
+      attributes: initialData?.attributes || {},
       brandId: initialData?.brandId || "",
       modelId: initialData?.modelId || "",
       categoryId: initialData?.categoryId || "",
@@ -284,11 +345,14 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
       const brandId = form.watch("brandId");
       if (!brandId) return [];
       
+      console.log("Fetching models for brandId:", brandId);
       const response = await fetch(`/api/brands/${brandId}/models`);
       if (!response.ok) {
         throw new Error("Failed to fetch models");
       }
-      return response.json();
+      const modelData = await response.json();
+      console.log("Models API response:", modelData);
+      return modelData;
     },
     enabled: !!form.watch("brandId"),
   })
@@ -373,15 +437,44 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
 
   const onSubmit = async (values: ProductFormValues) => {
     try {
+      // Prepare attributes for submission
+      const attributesValue = values.attributes ? JSON.stringify(values.attributes) : null;
+      
+      // Prepare localized descriptions for submission
+      const localizedDescriptionsValue = Object.keys(localizedDescriptions).length > 0 
+        ? JSON.stringify(localizedDescriptions) 
+        : null;
+        
+      const localizedShortDescriptionsValue = Object.keys(localizedShortDescriptions).length > 0 
+        ? JSON.stringify(localizedShortDescriptions) 
+        : null;
+      
       // Create a FormData object
       const formData = new FormData();
       
       // Add all form fields to formData
       Object.entries(values).forEach(([key, value]) => {
-        if (value !== undefined && key !== "images") {
+        if (value !== undefined && 
+            key !== "images" && 
+            key !== "attributes" && 
+            key !== "localized_descriptions" &&
+            key !== "localized_short_descriptions") {
           formData.append(key, value.toString());
         }
       });
+      
+      // Add specialized fields separately after JSON stringifying
+      if (attributesValue) {
+        formData.append('attributes', attributesValue);
+      }
+      
+      if (localizedDescriptionsValue) {
+        formData.append('localized_descriptions', localizedDescriptionsValue);
+      }
+      
+      if (localizedShortDescriptionsValue) {
+        formData.append('localized_short_descriptions', localizedShortDescriptionsValue);
+      }
 
       // Add boolean values properly
       formData.set("isVisible", values.isVisible ? "true" : "false");
@@ -438,6 +531,12 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
       form.setValue('images', files);
     }
   }
+
+  const handleAIDescription = (description: string) => {
+    form.setValue('description', description, { shouldValidate: true });
+    setShowAIGenerator(false);
+    toast.success('Description updated from AI generator');
+  };
 
   const isLoading = brandsLoading || categoriesLoading || (!!form.watch("brandId") && modelsLoading);
   const isPending = createProductMutation.isPending || updateProductMutation.isPending || deleteProductMutation.isPending;
@@ -551,176 +650,283 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
                       </FormItem>
                     )}
                   />
-                  
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Enter product description" {...field} disabled={isPending} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="grid grid-cols-3 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="brandId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Brand</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isPending}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a brand" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {brands?.map((brand: any) => (
-                              <SelectItem key={brand.id} value={brand.id}>
-                                {brand.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="modelId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Model</FormLabel>
-                        <Select 
-                          onValueChange={field.onChange} 
-                          defaultValue={field.value} 
-                          disabled={isPending || !form.watch("brandId") || modelsLoading}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              {modelsLoading ? (
-                                <div className="flex items-center">
-                                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                  Loading...
+                    {/* Brand, model, category selection - note: models depend on brand selection */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="brandId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Brand</FormLabel>
+                          <Select 
+                            onValueChange={(value) => {
+                              // When brand changes, reset the model selection
+                              field.onChange(value);
+                              form.setValue("modelId", "");
+                            }} 
+                            defaultValue={field.value} 
+                            disabled={brandsLoading || isPending}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a brand" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {brandsLoading ? (
+                                <div className="flex items-center justify-center p-2">
+                                  <Loader2 className="h-4 w-4 animate-spin" />
                                 </div>
                               ) : (
-                                <SelectValue placeholder="Select a model" />
+                                brands?.map((brand: any) => (
+                                  <SelectItem key={brand.id} value={brand.id}>
+                                    {brand.name}
+                                  </SelectItem>
+                                ))
                               )}
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {models?.map((model: any) => (
-                              <SelectItem key={model.id} value={model.id}>
-                                {model.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                            Select a brand first to see its available models
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="modelId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Model</FormLabel>
+                          <Select 
+                            onValueChange={field.onChange} 
+                            
+                            value={field.value || ""}
+                            disabled={!form.watch("brandId") || modelsLoading || isPending}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={!form.watch("brandId") ? "Select a brand first" : "Select a model"} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {modelsLoading ? (
+                                <div className="flex items-center justify-center p-2">
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                </div>
+                              ) : models?.length > 0 ? (
+                                models?.map((model: any) => (
+                                  <SelectItem key={model.id} value={model.id}>
+                                    {model.name}
+                                  </SelectItem>
+                                ))
+                              ) : (
+                                <div className="p-2 text-center text-sm text-muted-foreground">
+                                  No models available for this brand
+                                </div>
+                              )}
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                            <span className="font-medium">Note:</span> Models depend on the selected brand
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="categoryId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Category</FormLabel>
+                          <Select 
+                            onValueChange={field.onChange} 
+                            defaultValue={field.value}
+                            value={field.value}
+                            disabled={categoriesLoading || isPending}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a category" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {categoriesLoading ? (
+                                <div className="flex items-center justify-center p-2">
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                </div>
+                              ) : (
+                                categories?.map((category: any) => (
+                                  <SelectItem key={category.id} value={category.id}>
+                                    {category.name}
+                                  </SelectItem>
+                                ))
+                              )}
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                            Product category is independent of brand and model
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   
-                  <FormField
-                    control={form.control}
-                    name="categoryId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isPending}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a category" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {categories?.map((category: any) => (
-                              <SelectItem key={category.id} value={category.id}>
-                                {category.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                  <div className="border-t pt-4 mt-2">
+                    <h3 className="text-lg font-medium mb-4">Product Descriptions</h3>
+                    
+                    <div className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="short_description"
+                        render={({ field }) => (                          <FormItem>
+                            <FormLabel>Short Description (Default Language)</FormLabel>                            <FormControl>
+                              <div>
+                                <FullRichTextEditor
+                                  value={field.value || ""}
+                                  onChange={field.onChange}
+                                  placeholder="Enter a brief product description"
+                                  height="120px"
+                                />
+                              </div>
+                            </FormControl>
+                            <FormDescription>
+                              A concise summary (1-2 sentences) that appears in product listings
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="localized_short_descriptions"
+                        render={({ field }) => (                          
+                        <FormItem className="mt-4">
+                            <FormLabel>Short Description (Multiple Languages)</FormLabel>                            <FormControl>
+                              <div>
+                                <LocalizedEditor
+                                  value={localizedShortDescriptions}
+                                  onChange={(value) => {
+                                    // Update both the local state and form field
+                                    setLocalizedShortDescriptions(value);
+                                    field.onChange(value);
+                                  }}
+                                  
+                                  useRichText={true}
+                                  fullRichText={false}
+                                  label=""
+                                  placeholder="Enter a brief product description"
+                                  height="120px"
+                                  minHeight="80px"
+                                  defaultLanguage="en"
+                                />
+                              </div>
+                            </FormControl>
+                            <FormDescription>
+                              Provide localized versions of the short description for international customers
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                {/* Product visibility controls */}
-                <div className="space-y-4 mt-4">
-                  <h3 className="text-lg font-medium">Product Visibility</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="isVisible"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              disabled={isPending}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>Visible</FormLabel>
-                            <FormDescription>
-                              Product is visible in catalog and search results
-                            </FormDescription>
-                          </div>
-                        </FormItem>
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <div className="flex items-center justify-between">
+                              <FormLabel>Full Description (Default Language)</FormLabel>                              <Button 
+                                type="button" 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => setShowAIGenerator(!showAIGenerator)}
+                                className="h-8 gap-1"
+                              >
+                                {showAIGenerator ? 'Hide AI Generator' : 'AI Generate Description'}
+                                <MessageSquare className="h-4 w-4" />
+                              </Button>
+                            </div>                            <FormControl>
+                              <div>
+                                <FullRichTextEditor
+                                  value={field.value || ""}
+                                  onChange={field.onChange}
+                                  placeholder="Enter detailed product description"
+                                  height="250px"
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      {showAIGenerator && (
+                        <div className="border rounded-md p-4 bg-slate-50">
+                          <AIDescriptionGenerator 
+                            productId={initialData?.id} 
+                            onDescriptionGenerated={handleAIDescription}
+                            initialDescription={form.getValues('description')}
+                          />
+                        </div>
                       )}
-                    />
-                    
-                    <FormField
+                      
+                      <FormField
+                        control={form.control}
+                        name="localized_descriptions"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Full Description (Multiple Languages)</FormLabel>                            <FormControl>
+                              <div>
+                                <LocalizedEditor
+                                  value={localizedDescriptions}
+                                  onChange={(value) => {
+                                    // Update both the local state and form field
+                                    setLocalizedDescriptions(value);
+                                    field.onChange(value);
+                                  }}
+                                  useRichText={true}
+                                  fullRichText={true}
+                                  label=""
+                                  placeholder="Enter detailed product description"
+                                  height="250px"
+                                  defaultLanguage="en"
+                                />
+                              </div>
+                            </FormControl>
+                            
+                            <FormDescription>
+                              Provide localized versions of the full description for international customers
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-md p-4 mt-4 bg-slate-50/50">                    <FormField
                       control={form.control}
-                      name="isFeatured"
+                      name="attributes"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                        <FormItem>
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
+                            <AttributesEditor 
+                              value={productAttributes}
+                              onChange={(attributes) => {
+                                setProductAttributes(attributes);
+                                field.onChange(attributes);
+                              }}
                               disabled={isPending}
                             />
                           </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>Featured</FormLabel>
-                            <FormDescription>
-                              Highlighted on homepage and category pages
-                            </FormDescription>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="isDiscontinued"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              disabled={isPending}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>Discontinued</FormLabel>
-                            <FormDescription>
-                              Mark product as discontinued (still visible but with discontinued label)
-                            </FormDescription>
-                          </div>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -1295,14 +1501,20 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
                         <div className="flex justify-between">
                           <span>Discount ({form.watch("discount") || "0"}%):</span>
                           <span className="font-medium text-red-500">
-                            -${(parseFloat(form.watch("retailPrice") || "0") * parseFloat(form.watch("discount") || "0") / 100).toFixed(2)}
+                            -${calculateDiscountAmount(
+                              parseFloat(form.watch("retailPrice") || "0"), 
+                              parseFloat(form.watch("discount") || "0")
+                            ).toFixed(2)}
                           </span>
                         </div>
                         <div className="h-px bg-gray-200 my-2"></div>
                         <div className="flex justify-between">
                           <span className="font-bold">Final Price:</span>
                           <span className="font-bold text-green-600">
-                            ${(parseFloat(form.watch("retailPrice") || "0") * (1 - parseFloat(form.watch("discount") || "0") / 100)).toFixed(2)}
+                            ${calculateDiscountedPrice(
+                              parseFloat(form.watch("retailPrice") || "0"), 
+                              parseFloat(form.watch("discount") || "0")
+                            ).toFixed(2)}
                           </span>
                         </div>
                       </div>
@@ -1319,14 +1531,20 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
                         <div className="flex justify-between">
                           <span>Retailer Discount ({form.watch("retailerDiscount") || "0"}%):</span>
                           <span className="font-medium text-red-500">
-                            -${(parseFloat(form.watch("wholesalePrice") || "0") * parseFloat(form.watch("retailerDiscount") || "0") / 100).toFixed(2)}
+                            -${calculateDiscountAmount(
+                              parseFloat(form.watch("wholesalePrice") || "0"), 
+                              parseFloat(form.watch("retailerDiscount") || "0")
+                            ).toFixed(2)}
                           </span>
                         </div>
                         <div className="h-px bg-gray-200 my-2"></div>
                         <div className="flex justify-between">
                           <span className="font-bold">Final Price:</span>
                           <span className="font-bold text-amber-600">
-                            ${(parseFloat(form.watch("wholesalePrice") || "0") * (1 - parseFloat(form.watch("retailerDiscount") || "0") / 100)).toFixed(2)}
+                            ${calculateDiscountedPrice(
+                              parseFloat(form.watch("wholesalePrice") || "0"), 
+                              parseFloat(form.watch("retailerDiscount") || "0")
+                            ).toFixed(2)}
                           </span>
                         </div>
                       </div>
@@ -1340,22 +1558,27 @@ export function ProductForm({ initialData, onClose }: ProductFormProps) {
                       <div>
                         <div className="text-xs text-gray-500">Retail-Wholesale Price Difference:</div>
                         <div className="font-medium">
-                          ${(Math.max(
-                            0,
-                            parseFloat(form.watch("retailPrice") || "0") - parseFloat(form.watch("discount") || "0")
-                          ) - Math.max(
-                            0,
-                            parseFloat(form.watch("wholesalePrice") || "0") - parseFloat(form.watch("retailerDiscount") || "0")
-                          )).toFixed(2)}
+                          ${(() => {
+                            const discountedRetailPrice = calculateDiscountedPrice(
+                              parseFloat(form.watch("retailPrice") || "0"), 
+                              parseFloat(form.watch("discount") || "0")
+                            );
+                            const discountedWholesalePrice = calculateDiscountedPrice(
+                              parseFloat(form.watch("wholesalePrice") || "0"), 
+                              parseFloat(form.watch("retailerDiscount") || "0")
+                            );
+                            return Math.max(0, discountedRetailPrice - discountedWholesalePrice).toFixed(2);
+                          })()}
                         </div>
                       </div>
                       <div>
                         <div className="text-xs text-gray-500">Retailer Margin:</div>
                         <div className="font-medium">
-                          {parseFloat(form.watch("wholesalePrice") || "0") > 0 ? 
-                            ((parseFloat(form.watch("retailPrice") || "0") - parseFloat(form.watch("wholesalePrice") || "0")) / 
-                              parseFloat(form.watch("retailPrice") || "1") * 100).toFixed(1) + "%" 
-                            : "0.0%"}
+                          {(() => {
+                            const retailPrice = parseFloat(form.watch("retailPrice") || "0");
+                            const wholesalePrice = parseFloat(form.watch("wholesalePrice") || "0");
+                            return calculateMarginPercentage(retailPrice, wholesalePrice) + "%";
+                          })()}
                         </div>
                       </div>
                     </div>

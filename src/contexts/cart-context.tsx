@@ -116,6 +116,55 @@ const CartContext = createContext<CartContextType>({
   updateSummary: () => {},
 });
 
+// Add a new method to fetch product details
+const fetchProductDetails = async (productId: string): Promise<{
+  weight?: number;
+  dimensions?: {
+    length: number;
+    width: number;
+    height: number;
+  };
+} | null> => {
+  try {
+    const response = await fetch(`/api/products/${productId}`);
+    if (!response.ok) return null;
+    
+    const product = await response.json();
+    
+    // Extract weight and dimensions from product specifications
+    // These values are estimates based on tire specifications
+    const width = product.width || 0;
+    const aspectRatio = product.aspectRatio || 0;
+    const rimDiameter = product.rimDiameter || 0;
+    
+    // Calculate approximate tire dimensions in centimeters
+    // These formulas are simplified estimates
+    const tireRadius = (width * aspectRatio / 100 / 10) + (rimDiameter * 2.54 / 2);
+    const tireDiameter = tireRadius * 2;
+    const tireWidth = width / 10;  // Convert mm to cm
+    
+    // Get weight from product or estimate based on dimensions
+    let weight = product.weight; // In kg
+    if (!weight) {
+      // Rough estimate of tire weight based on dimensions
+      // This is a very simplified estimate
+      weight = (tireDiameter * tireWidth * 0.01);
+    }
+    
+    return {
+      weight,
+      dimensions: {
+        length: Math.round(tireDiameter),
+        width: Math.round(tireDiameter),
+        height: Math.round(tireWidth)
+      }
+    };
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    return null;
+  }
+};
+
 // Provider component
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -178,7 +227,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const itemCount = items.reduce((total, item) => total + item.quantity, 0);
   
   // Add an item to cart
-  const addItem = (item: CartItem) => {
+  const addItem = async (item: CartItem) => {
+    // If item has no dimensions or weight, try to fetch them
+    if (!item.dimensions || !item.weight) {
+      const details = await fetchProductDetails(item.productId);
+      if (details) {
+        item = {
+          ...item,
+          weight: details.weight,
+          dimensions: details.dimensions
+        };
+      }
+    }
+    
     setItems(prev => {
       // Check if item already exists in cart
       const existingItemIndex = prev.findIndex(i => i.id === item.id);
@@ -235,12 +296,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return total;
     }, 0);
     
-    // Calculate promotions discount
-    const promotionsDiscount = calculateTotalDiscount(items, appliedPromotions);
-    
-    // Check for free shipping promotion
-    let shippingDiscount = 0;
-    const hasFreeShipping = appliedPromotions.some(promo => promo.type === 'free_shipping');
+    // Calculate promotions discount with our improved function
+    const promotionResult = calculateTotalDiscount(items, appliedPromotions);
+    const promotionsDiscount = promotionResult.discountAmount;
+    const hasFreeShipping = promotionResult.hasFreeShipping;
     
     // Calculate tax (e.g., 8.25%) - Apply after promotions discount
     const taxRate = 0.0825;
@@ -249,23 +308,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     
     // Get shipping cost from selected option, or default to 0
     let shipping = selectedShippingOption ? selectedShippingOption.price : 0;
-    if (hasFreeShipping) {
+    let shippingDiscount = 0;
+    
+    // Apply free shipping if a promotion provides it
+    if (hasFreeShipping && shipping > 0) {
       shippingDiscount = shipping;
       shipping = 0;
     }
-      // Calculate total (with all discounts applied)
-    // First add shipping discount to promotionsDiscount
-    const totalPromotionsDiscount = promotionsDiscount + shippingDiscount;
     
-    // Then calculate total with all discounts properly applied
-    const total = subtotal - totalPromotionsDiscount + tax + shipping;
+    // Calculate total (with all discounts applied)
+    const totalDiscount = promotionsDiscount + shippingDiscount;
+    const total = subtotal - totalDiscount + tax + shipping;
     
     return {
       subtotal,
       tax,
       shipping,
       discount,
-      promotionsDiscount: totalPromotionsDiscount,
+      promotionsDiscount: totalDiscount,
       total
     };
   };

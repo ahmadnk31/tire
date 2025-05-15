@@ -28,7 +28,7 @@ type Message = {
   id: string;
   message: string;
   user: string;
-  type: "agent" | "customer";
+  type: "agent" | "customer" | "system";
   timestamp: string;
   sessionId?: string;
 };
@@ -141,37 +141,60 @@ export function ChatSupportClient() {
     
     // Listen for new messages
     channel.bind("message", (data: Message) => {
-      // Handle both customer and agent messages
-      // For new sessions that don't exist in our list yet, we'll refresh the session list
-      const existingUserIndex = users.findIndex(user => 
-        (data.id && user.id === data.id) || user.name === data.user
-      );
+      console.log("Received new message via Pusher:", data);
       
-      if (existingUserIndex >= 0) {
-        // Update messages for existing user
-        const userId = users[existingUserIndex].id;
-        
-        // Update messages
+      // Ensure we have a valid type or default to customer
+      const messageType = data.type && ["agent", "customer", "system"].includes(data.type)
+        ? data.type
+        : "customer";
+      
+      // Normalize the message data
+      const normalizedData = {
+        ...data,
+        type: messageType,
+        user: data.user || "Unknown",
+        message: data.message || "",
+        timestamp: data.timestamp || new Date().toISOString(),
+      };
+      
+      // For system messages, we don't assign to a particular session
+      if (messageType === "system") {
+        // Show a notification or handle system messages
+        console.log("System message:", normalizedData.message);
+        return;
+      }
+      
+      // Handle session identification
+      let targetSessionId = normalizedData.sessionId;
+      
+      if (!targetSessionId) {
+        // Try to find the session by user name
+        const existingUser = users.find(user => user.name === normalizedData.user);
+        targetSessionId = existingUser?.id;
+      }
+      
+      if (targetSessionId) {
+        // Update messages for existing session
         setMessagesByUser(prev => ({
           ...prev,
-          [userId]: [...(prev[userId] || []), data],
+          [targetSessionId]: [...(prev[targetSessionId] || []), normalizedData],
         }));
         
         // Update user metadata
         setUsers(prevUsers => {
           return prevUsers.map(user => {
-            if (user.id === userId) {
+            if (user.id === targetSessionId) {
               return {
                 ...user,
-                lastMessage: data.message,
-                timestamp: data.timestamp,
-                unreadCount: userId === activeUserId ? 0 : user.unreadCount + 1,
+                lastMessage: normalizedData.message,
+                timestamp: normalizedData.timestamp,
+                unreadCount: targetSessionId === activeUserId ? 0 : user.unreadCount + 1,
               };
             }
             return user;
           });
         });
-      } else if (data.type === "customer") {
+      } else if (messageType === "customer") {
         // If it's a message from a customer we don't have in our list yet
         // This means it's probably a new chat session, so refresh the session list
         fetchChatSessions();
@@ -232,9 +255,10 @@ export function ChatSupportClient() {
       user: "Support Agent",
       type: "agent",
       timestamp: new Date().toISOString(),
+      sessionId: activeUserId,
     };
 
-    // Add to local state immediately
+    // Add to local state immediately for optimistic UI update
     setMessagesByUser(prev => ({
       ...prev,
       [activeUserId]: [...(prev[activeUserId] || []), agentMessage],
@@ -244,15 +268,42 @@ export function ChatSupportClient() {
 
     // Send to the server
     try {
-      await fetch("/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(agentMessage),
+        body: JSON.stringify({
+          message: agentMessage.message,
+          user: agentMessage.user,
+          type: agentMessage.type,
+          sessionId: activeUserId,
+        }),
       });
+
+      if (!response.ok) {
+        // If there's an error, we should handle it and potentially revert the optimistic update
+        const errorData = await response.json();
+        console.error("Error sending message:", errorData);
+        throw new Error(errorData.error || "Failed to send message");
+      }
+
+      // Message sent successfully
+      const data = await response.json();
+      console.log("Message sent successfully:", data);
     } catch (error) {
       console.error("Error sending message:", error);
+      // If there was an error, we could remove the optimistic update and show an error message
+      setMessagesByUser(prev => {
+        // Create a new array without the last message (our optimistic update)
+        const updatedMessages = [...prev[activeUserId]];
+        updatedMessages.pop();
+        
+        return {
+          ...prev,
+          [activeUserId]: updatedMessages,
+        };
+      });
     }
   };
 

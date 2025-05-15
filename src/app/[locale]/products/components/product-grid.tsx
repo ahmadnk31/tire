@@ -23,6 +23,9 @@ interface Product {
   id: string;
   name: string;
   description: string | null;
+  short_description: string | null;
+  localized_descriptions: Record<string, string> | null;
+  localized_short_descriptions: Record<string, string> | null;
   sku: string | null;
   // Brand and categorization
   brandId: string;
@@ -92,7 +95,7 @@ interface Product {
 }
 
 export function ProductGrid() {
-  const t = useTranslations("Products");
+  const t = useTranslations("ProductDetail");
   const { locale } = useParams();
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -307,7 +310,7 @@ export function ProductGrid() {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const t = useTranslations("Products.product");
+  const t = useTranslations("ProductDetail");
   const { locale } = useParams();
   const user = useSession();
   // Fetch the current user's role
@@ -345,6 +348,15 @@ function ProductCard({ product }: { product: Product }) {
   // Stock status - only show low stock when 3 or less
   const isLowStock = product.stock > 0 && product.stock <= 3;
   const isOutOfStock = product.stock === 0;
+
+  // Get localized short description based on current locale
+  const getLocalizedShortDescription = () => {
+    if (product.localized_short_descriptions && 
+        product.localized_short_descriptions[locale as string]) {
+      return product.localized_short_descriptions[locale as string];
+    }
+    return product.short_description;
+  };
 
   return (
     <Card className='overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow'>
@@ -396,6 +408,13 @@ function ProductCard({ product }: { product: Product }) {
             {product.brand.name} • {tireSize}
           </p>
         </div>
+
+        {/* Display localized short description if available */}
+        {getLocalizedShortDescription() && (
+          <p className='text-xs text-muted-foreground line-clamp-2'>
+            {getLocalizedShortDescription()}
+          </p>
+        )}
 
         <div className='text-xs sm:text-sm flex items-center gap-1 sm:gap-2 flex-wrap'>
           <Badge
