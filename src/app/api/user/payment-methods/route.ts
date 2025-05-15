@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 import { z } from "zod";
 import { stripe } from "@/lib/stripe";
+import { maskPaymentMethod } from "./maskPaymentMethod";
 
 
 
@@ -19,11 +20,14 @@ const paymentMethodSchema = z.object({
   cvc: z.string().optional(),
   
   // Billing details
-  billingName: z.string(),
-  billingEmail: z.string().email(),
+  billingAddressId: z.string().optional(), // Link to an existing UserAddress
+  
+  // Or provide raw address data
+  billingName: z.string().optional(),
+  billingEmail: z.string().email().optional(),
   billingPhone: z.string().optional(),
-  billingAddress: z.string(),
-  billingCity: z.string(),
+  billingAddress: z.string().optional(),
+  billingCity: z.string().optional(),
   billingState: z.string().optional(),
   billingPostalCode: z.string().optional(),
   billingCountry: z.string().optional(),
@@ -31,25 +35,7 @@ const paymentMethodSchema = z.object({
   isDefault: z.boolean().default(false),
 });
 
-// Helper function to mask sensitive card data
-function maskPaymentMethod(method: { expiryMonth: number | null; expiryYear: number | null; billingName: string | null; billingEmail: string | null; billingPhone: string | null; billingAddress: string | null; billingCity: string | null; billingState: string | null; billingPostalCode: string | null; billingCountry: string | null; isDefault: boolean; type: string; id: string; createdAt: Date; updatedAt: Date; userId: string; cardBrand: string | null; last4: string | null; providerPaymentId: string | null; }) {
-  return {
-    id: method.id,
-    type: method.type,
-    brand: method.cardBrand,
-    last4: method.last4,
-    expiryMonth: method.expiryMonth,
-    expiryYear: method.expiryYear,
-    isDefault: method.isDefault,
-    billingName: method.billingName,
-    billingEmail: method.billingEmail,
-    billingAddress: method.billingAddress,
-    billingCity: method.billingCity,
-    billingState: method.billingState,
-    billingPostalCode: method.billingPostalCode,
-    billingCountry: method.billingCountry,
-  };
-}
+// Helper function has been moved to ./maskPaymentMethod.ts
 
 // Helper function to get or create a Stripe customer for a user
 async function getOrCreateStripeCustomer(userId: string) {
@@ -108,13 +94,16 @@ export async function GET(request: NextRequest) {
       );
     }
     
-    // Get all payment methods for the current user
+  // Get all payment methods for the current user
     const paymentMethods = await prisma.paymentMethod.findMany({
       where: { userId: session.user.id },
       orderBy: [
         { isDefault: 'desc' },
         { createdAt: 'desc' }
       ],
+      include: {
+        billingAddress: true  // Include the related UserAddress for billing
+      }
     });
     
     // Map and mask sensitive data
@@ -261,9 +250,46 @@ export async function POST(request: NextRequest) {
         },
       });
     }
-    
-    // Extract card details from the Stripe payment method
+      // Extract card details from the Stripe payment method
     const card = stripePaymentMethod.card;
+    const billingDetails = stripePaymentMethod.billing_details || {};
+
+    // Check if we need to create or use an existing address
+    let billingAddressId = paymentData.billingAddressId;
+      // If no existing address ID was provided but we have address details, create a new address
+    if (!billingAddressId && 
+        (paymentData.billingAddress || (billingDetails.address && 'line1' in billingDetails.address))) {
+      try {
+        // Use address from Stripe payment method if available, otherwise use provided data
+        const address = billingDetails.address as Record<string, any> || {};
+        const name = billingDetails.name || paymentData.billingName || '';
+        const nameArray = name.split(' ');
+        const firstName = nameArray.length > 0 ? nameArray[0] : '';
+        const lastName = nameArray.length > 1 ? nameArray.slice(1).join(' ') : '';
+        
+        const newAddress = await prisma.userAddress.create({
+          data: {
+            userId: session.user.id,
+            addressType: 'BILLING',
+            firstName: firstName,
+            lastName: lastName,
+            addressLine1: ('line1' in address ? address.line1 : null) || paymentData.billingAddress || '',
+            addressLine2: ('line2' in address ? address.line2 : null) || null,
+            city: ('city' in address ? address.city : null) || paymentData.billingCity || '',
+            state: ('state' in address ? address.state : null) || paymentData.billingState || '',
+            postalCode: ('postal_code' in address ? address.postal_code : null) || paymentData.billingPostalCode || '',
+            country: ('country' in address ? address.country : null) || paymentData.billingCountry || '',
+            phoneNumber: billingDetails.phone || paymentData.billingPhone || null,
+            isDefault: false,
+          }
+        });
+        
+        billingAddressId = newAddress.id;
+      } catch (error) {
+        console.error("Failed to create user address:", error);
+        // Continue without setting the address ID
+      }
+    }
     
     // Create new payment method in our database
     const newPaymentMethod = await prisma.paymentMethod.create({
@@ -274,10 +300,13 @@ export async function POST(request: NextRequest) {
         last4: card?.last4,
         expiryMonth: card?.exp_month,
         expiryYear: card?.exp_year,
+        fingerprint: card?.fingerprint,
+        stripePaymentMethodId: stripePaymentMethod.id,
+        billingAddressId,        // Keep legacy fields for backward compatibility
         billingName: paymentData.billingName,
         billingEmail: paymentData.billingEmail,
         billingPhone: paymentData.billingPhone || null,
-        billingAddress: paymentData.billingAddress,
+        billingAddressLine: paymentData.billingAddress,
         billingCity: paymentData.billingCity,
         billingState: paymentData.billingState || null,
         billingPostalCode: paymentData.billingPostalCode || null,
@@ -286,6 +315,9 @@ export async function POST(request: NextRequest) {
         providerPaymentId: stripePaymentMethod.id,
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      include: {
+        billingAddress: true
       }
     });
     
@@ -410,11 +442,10 @@ export async function PATCH(request: NextRequest) {
     const updatedPaymentMethod = await prisma.paymentMethod.update({
       where: { id },
       data: {
-        isDefault: body.isDefault ?? paymentMethod.isDefault,
-        billingName: body.billingName ?? paymentMethod.billingName,
+        isDefault: body.isDefault ?? paymentMethod.isDefault,        billingName: body.billingName ?? paymentMethod.billingName,
         billingEmail: body.billingEmail ?? paymentMethod.billingEmail,
         billingPhone: body.billingPhone ?? paymentMethod.billingPhone,
-        billingAddress: body.billingAddress ?? paymentMethod.billingAddress,
+        billingAddressLine: body.billingAddress ?? paymentMethod.billingAddressLine,
         billingCity: body.billingCity ?? paymentMethod.billingCity,
         billingState: body.billingState ?? paymentMethod.billingState,
         billingPostalCode: body.billingPostalCode ?? paymentMethod.billingPostalCode,

@@ -26,7 +26,7 @@ export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const locale = searchParams.get("locale") || "en"
-  const callbackUrl = searchParams.get("callbackUrl") || `/${locale}/dashboard`
+  const callbackUrl = searchParams.get("callbackUrl") || `/${locale}`
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const t = useTranslations('Auth.login')
 
@@ -37,15 +37,14 @@ export default function LoginPage() {
       password: "",
     },
   })
-
   async function onSubmit(data: LoginFormValues) {
     setIsLoading(true)
 
-    try {
-      const response = await signIn("credentials", {
+    try {      const response = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
+        callbackUrl: callbackUrl
       })
 
       if (response?.error) {
@@ -54,6 +53,7 @@ export default function LoginPage() {
       }
 
       toast.success("Logged in successfully")
+      // Now handle redirection manually after the signIn is complete
       router.push(callbackUrl)
       router.refresh()
     } catch (error) {

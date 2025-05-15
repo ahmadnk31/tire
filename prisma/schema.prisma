@@ -202,6 +202,7 @@ model User {
   accounts        Account[]
   sessions        Session[]
   orders          Order[]
+  addresses       UserAddress[]
   notificationPreferences NotificationPreferences?
   appointments    Appointment[]
   paymentMethods  PaymentMethod[]
@@ -209,12 +210,14 @@ model User {
   reviewLikes     ReviewLike[]
   reviewComments  ReviewComment[]
   testimonials    Testimonial[]
-
   Favorite Favorite[]
 
   orderHistory orderHistory[]
 
   Installation Installation[]
+  ApiUsage ApiUsage[]
+  AIUsageLog AIUsageLog[]
+
 }
 
 model RetailerProfile {
@@ -224,7 +227,7 @@ model RetailerProfile {
   businessAddress String
   taxId           String?
   yearsInBusiness String
-
+  document String? // Storage key for the document file
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 }
@@ -582,7 +585,7 @@ model Order {
   id                  String      @id @default(cuid())
   orderNumber         String      @unique
   userId              String?
-  user                User?       @relation(fields: [userId], references: [id])
+  user                User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   status              OrderStatus @default(PENDING)
   total               Float
   subtotal            Float
@@ -590,15 +593,20 @@ model Order {
   trackingNumber      String?     
   trackingUrl         String?
   metadata            Json?       
+  // Legacy address fields (for backward compatibility)
   shippingAddressLine1 String
   shippingAddressLine2 String?
   shippingCity        String
   shippingState       String
   shippingPostalCode  String
   shippingCountry     String
-  billingAddress      String
+  // New address reference fields
+  shippingAddressId   String?
+  shippingAddress     UserAddress? @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  billingAddressId    String?
+  billingAddress      UserAddress? @relation("BillingAddress", fields: [billingAddressId], references: [id])
   paymentMethod       String
-  carrier            String @default("DHL") // Default carrier
+  carrier             String @default("DHL") // Default carrier
   paymentStatus       PaymentStatus @default(PENDING)
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
@@ -610,7 +618,10 @@ model Order {
   @@index([isRetailerOrder])
   @@index([status])
   @@index([paymentStatus])
+  @@index([shippingAddressId])
+  @@index([billingAddressId])
   orderHistory orderHistory[]
+  @@index([createdAt])
 }
 
 model OrderItem {
@@ -783,29 +794,73 @@ model BusinessHours {
   @@unique([dayOfWeek])
 }
 
-model PaymentMethod {
-  id            String   @id @default(cuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type          String   // 'card', 'bank_account', etc.
-  cardBrand     String?  // 'visa', 'mastercard', 'amex', etc.
-  last4         String?  // Last 4 digits of card or account
-  expiryMonth   Int?     // Expiry month for cards
-  expiryYear    Int?     // Expiry year for cards
-  isDefault     Boolean  @default(false)
-  billingName   String?
-  billingEmail  String?
-  billingPhone  String?
-  billingAddress String?
-  billingCity   String?
-  billingState  String?
-  billingPostalCode String?
-  billingCountry String?
-  providerPaymentId String? // ID from payment provider (e.g., Stripe)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+// User Address model for storing multiple addresses per user
+model UserAddress {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addressType     AddressType @default(SHIPPING) // SHIPPING, BILLING, or BOTH
+  isDefault       Boolean   @default(false)
+  firstName       String
+  lastName        String
+  addressLine1    String
+  addressLine2    String?
+  city            String
+  state           String
+  postalCode      String
+  country         String
+  countryCode     String?   // ISO country code for shipping APIs
+  phoneNumber     String?
+  company         String?   // Optional company name
+  deliveryInstructions String? // Special instructions for delivery
+  validated       Boolean   @default(false) // Whether this address has been validated by a service
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  paymentMethods  PaymentMethod[]
+  shippingOrders  Order[] @relation("ShippingAddress")
+  billingOrders   Order[] @relation("BillingAddress")
 
   @@index([userId])
+  @@index([addressType])
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+  BOTH
+}
+
+model PaymentMethod {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String   // 'card', 'bank_account', etc.
+  cardBrand         String?  // 'visa', 'mastercard', 'amex', etc.
+  last4             String?  // Last 4 digits of card or account
+  expiryMonth       Int?     // Expiry month for cards
+  expiryYear        Int?     // Expiry year for cards
+  fingerprint       String?  // Card fingerprint from Stripe for detecting duplicates
+  isDefault         Boolean  @default(false)
+  stripePaymentMethodId String? // Direct reference to Stripe payment method ID
+  billingAddressId  String?  // Reference to a UserAddress for billing
+  billingAddress    UserAddress? @relation(fields: [billingAddressId], references: [id], onDelete: SetNull)
+  providerPaymentId String? // ID from payment provider (e.g., Stripe)
+  // Legacy billing fields for backward compatibility
+  billingName       String?
+  billingEmail      String?
+  billingPhone      String?
+  billingAddressLine String? // Renamed from billingAddress to avoid conflict
+  billingCity       String?
+  billingState      String?
+  billingPostalCode String?
+  billingCountry    String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([stripePaymentMethodId])
 }
 
 enum AppointmentStatus {
@@ -1013,17 +1068,41 @@ model ApiUsage {
   timestamp DateTime
   metadata  String?  @db.Text
   createdAt DateTime @default(now())
-
+  updatedAt DateTime @updatedAt
+  userId    String?  // Optional reference to the user who made the API call
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([provider, eventType])
   @@index([timestamp])
 }
+model EmailLog {
+  id          String   @id @default(cuid())
+  recipient   String
+  subject     String
+  content       String   @db.Text
+  status      EmailStatus @default(PENDING)
+  userId      String?  // Optional reference to the user who triggered the email
+  sendByUserId String? // Optional reference to the user who sent the email
+  error       String?
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
+  @@index([recipient])
+  @@index([status])
+}
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  QUEUED
+}
 // AI Usage Logging
 model AIUsageLog {
   id              String    @id @default(cuid())
   feature         String    // E.g., PRODUCT_DESCRIPTION, CUSTOMER_SUPPORT, etc.
   productId       String?   // Optional reference to a product
   userId          String?   // Optional reference to the user who triggered the AI
+  user            User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   processingTimeMs Int?     // Time taken to process the request
   prompt          String?   @db.Text  // The prompt sent to the AI service
   result          String?   @db.Text  // Result from the AI service (truncated if needed)

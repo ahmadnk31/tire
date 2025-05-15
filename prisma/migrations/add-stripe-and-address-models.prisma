@@ -1,0 +1,72 @@
+ This is a Prisma schema update for adding Stripe integration and shipping address models
+
+// Add a UserAddress model for storing multiple addresses per user
+model UserAddress {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addressType     AddressType @default(SHIPPING) // SHIPPING, BILLING, or BOTH
+  isDefault       Boolean   @default(false)
+  firstName       String
+  lastName        String
+  addressLine1    String
+  addressLine2    String?
+  city            String
+  state           String
+  postalCode      String
+  country         String
+  countryCode     String?   // ISO country code for shipping APIs
+  phoneNumber     String?
+  company         String?   // Optional company name
+  deliveryInstructions String? // Special instructions for delivery
+  validated       Boolean   @default(false) // Whether this address has been validated by a service
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([addressType])
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+  BOTH
+}
+
+// Update the PaymentMethod model to include Stripe-specific fields
+model PaymentMethod {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String   // 'card', 'bank_account', etc.
+  cardBrand         String?  // 'visa', 'mastercard', 'amex', etc.
+  last4             String?  // Last 4 digits of card or account
+  expiryMonth       Int?     // Expiry month for cards
+  expiryYear        Int?     // Expiry year for cards
+  fingerprint       String?  // Card fingerprint from Stripe for detecting duplicates
+  isDefault         Boolean  @default(false)
+  stripePaymentMethodId String? // Direct reference to Stripe payment method ID
+  billingAddressId  String?  // Reference to a UserAddress for billing
+  billingAddress    UserAddress? @relation(fields: [billingAddressId], references: [id], onDelete: SetNull)
+  providerPaymentId String?  // ID from payment provider (e.g., Stripe)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([stripePaymentMethodId])
+}
+
+// Update User model relation to include addresses
+model User {
+  // ...existing fields
+  addresses UserAddress[]
+}
+
+// Update Order model to reference addresses directly
+model Order {
+  // ...existing fields
+  shippingAddressId String?
+  shippingAddress   UserAddress? @relation(fields: [shippingAddressId], references: [id])
+  billingAddressId  String?
+  billingAddress    UserAddress? @relation(fields: [billingAddressId], references: [id])
+}

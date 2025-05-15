@@ -23,6 +23,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { FileUpload } from "@/components/file-upload";
+import { AddressManager } from "@/components/account/address-manager";
+import { AddressesTab } from "./addresses-tab";
 
 // Form schemas
 const profileFormSchema = z.object({
@@ -606,8 +608,9 @@ export default function SettingsPage() {
       </div>
       <Separator />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList>
+        <TabsList className="grid grid-cols-1 md:grid-cols-5">
           <TabsTrigger value="profile">{t('tabs.profile')}</TabsTrigger>
+          <TabsTrigger value="addresses">{t('tabs.addresses')}</TabsTrigger>
           <TabsTrigger value="notifications">{t('tabs.notifications')}</TabsTrigger>
           <TabsTrigger value="security">{t('tabs.security')}</TabsTrigger>
           <TabsTrigger value="payment">{t('tabs.payment')}</TabsTrigger>
@@ -615,6 +618,9 @@ export default function SettingsPage() {
             <TabsTrigger value="retailer">{t('tabs.retailer')}</TabsTrigger>
           )}
         </TabsList>
+        
+        {/* Addresses Tab Content */}
+        <AddressesTab t={t} />
         
         {/* Profile Tab Content */}
         <TabsContent value="profile" className="space-y-4">
@@ -1040,8 +1046,7 @@ export default function SettingsPage() {
                         {t('payment.addDescription')}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <Elements stripe={stripePromise}>
+                    <CardContent>                      <Elements stripe={stripePromise}>
                         <PaymentMethodForm 
                           onSubmit={onPaymentMethodSubmit}
                           isSubmitting={isAddingPaymentMethod}

@@ -11,6 +11,26 @@ export interface User {
   retailerProfile?: RetailerProfile;
 }
 
+export interface UserAddress {
+  id: string;
+  addressType: 'SHIPPING' | 'BILLING' | 'BOTH';
+  isDefault: boolean;
+  firstName: string;
+  lastName: string;
+  addressLine1: string;
+  addressLine2?: string | null;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  countryCode?: string | null;
+  phoneNumber?: string | null;
+  company?: string | null;
+  deliveryInstructions?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface UserNotificationPreferences {
   emailNotifications: boolean;
   orderUpdates: boolean;
@@ -27,6 +47,9 @@ export interface PaymentMethod {
   expiryMonth: number;
   expiryYear: number;
   isDefault: boolean;
+  stripePaymentMethodId?: string;
+  billingAddressId?: string;
+  billingAddress?: UserAddress;
 }
 
 export interface RetailerProfile {
@@ -226,4 +249,72 @@ export async function updateRetailerProfile(data: Partial<RetailerProfile>): Pro
   }
   
   return response.json();
+}
+
+// Fetch all addresses for the current user
+export async function fetchUserAddresses(): Promise<UserAddress[]> {
+  const response = await fetch('/api/user/addresses');
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    throw new Error(errorData?.error || 'Failed to fetch addresses');
+  }
+  return response.json();
+}
+
+// Fetch a specific address by ID
+export async function fetchUserAddress(id: string): Promise<UserAddress> {
+  const response = await fetch(`/api/user/addresses/${id}`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    throw new Error(errorData?.error || 'Failed to fetch address');
+  }
+  return response.json();
+}
+
+// Create a new address
+export async function createUserAddress(data: Partial<UserAddress>): Promise<UserAddress> {
+  const response = await fetch('/api/user/addresses', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    throw new Error(errorData?.error || 'Failed to create address');
+  }
+  
+  return response.json();
+}
+
+// Update an existing address
+export async function updateUserAddress(id: string, data: Partial<UserAddress>): Promise<UserAddress> {
+  const response = await fetch(`/api/user/addresses/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    throw new Error(errorData?.error || 'Failed to update address');
+  }
+  
+  return response.json();
+}
+
+// Delete an address
+export async function deleteUserAddress(id: string): Promise<void> {
+  const response = await fetch(`/api/user/addresses/${id}`, {
+    method: 'DELETE',
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    throw new Error(errorData?.error || 'Failed to delete address');
+  }
 }

@@ -3,6 +3,8 @@
     "logoShort": "ABC b.v.",
     "navigation": "Navigation",
     "account": "Account",
+    "close": "Close",
+    "open": "Open",
     "navLinks": {
       "allTires": "All Tires",
       "tireFinder": "Tire Finder",
@@ -1241,7 +1243,10 @@
       "emailLabel": "Email",
       "emailPlaceholder": "m@example.com",
       "passwordLabel": "Password",
+      "terms": "By signing up, you agree to our {terms} of Service and {PrivacyPolicy}.",
       "passwordPlaceholder": "Create a password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "confirmPasswordLabel": "Confirm Password",
       "signupButton": "Sign up",
       "signingUp": "Signing up...",
       "orContinueWith": "Or continue with",
@@ -1262,8 +1267,7 @@
       "emailSentMessage": "We've sent you an email with a link to reset your password. Please check your inbox.",
       "success": "Password reset link sent to your email",
       "error": "Failed to send reset link. Please try again."
-    },
-    "resetPassword": {
+    },    "resetPassword": {
       "title": "Reset your password",
       "subtitle": "Enter your new password below",
       "passwordLabel": "New Password",
@@ -1276,6 +1280,46 @@
       "success": "Password reset successfully",
       "error": "Failed to reset password. Please try again.",
       "mismatchError": "Passwords don't match"
+    },
+    "verifyEmail": {
+      "title": {
+        "verifying": "Verifying Email",
+        "verified": "Email Verified",
+        "failed": "Verification Failed"
+      },
+      "description": {
+        "verifying": "Please wait while we verify your email address...",
+        "verified": "Your email has been verified successfully. You can now sign in to your account.",
+        "failed": "We couldn't verify your email address."
+      },
+      "message": {
+        "verified": "Thank you for verifying your email. We've sent you a welcome email with more information about our services.",
+        "failed": "The verification link is invalid or has expired.",
+        "help": "Please try registering again or contact our support team for assistance.",
+        "missing": "Verification token is missing"
+      },
+      "button": {
+        "signIn": "Sign in to your account",
+        "register": "Register again"
+      },
+      "error": {
+        "general": "Something went wrong during verification"
+      }
+    },
+    "verifyRequired": {
+      "title": "Email Verification Required",
+      "description": "Please verify your email address to access this page",
+      "message": "We sent a verification link to your email address. Please check your inbox and click the link to verify your account.",
+      "button": {
+        "resend": "Resend verification email",
+        "sending": "Sending...",
+        "signOut": "Sign out",
+        "returnHome": "Return to Home"
+      },
+      "alert": {
+        "success": "Verification email has been resent. Please check your inbox.",
+        "error": "Failed to resend verification email. Please try again later."
+      }
     }
   },
   "StoreStatus": {
@@ -1805,6 +1849,7 @@
     }
   },
   "Account": {
+    
     "testimonials": {
       "title": "My Testimonials",
       "description": "View and manage your testimonials",
@@ -1864,6 +1909,74 @@
       "error": "Error"
     },
     "settings": {
+      "common":{
+        "cancel": "Cancel"
+      },
+      "addresses": {
+  "title": "My Addresses",
+  "description": "Manage your shipping and billing information",
+  "default": "Default",
+  "deleted": "Address successfully deleted",
+  "deleteError": "Error deleting address",
+  "defaultUpdated": "Default address updated",
+  "updateError": "Error updating address",
+  "noAddresses": "You haven't added any addresses yet",
+  "addAddress": "Add Address",
+  "editTitle": "Edit Address",
+  "editDescription": "Update your address details",
+  "addTitle": "New Address",
+  "addDescription": "Add a new shipping or billing address",
+  "edit": "Edit",
+  "remove": "Remove",
+  "setDefault": "Set as Default",
+  "phone": "Phone",
+  "created": "Address successfully added",
+  "createError": "Error adding address",
+  "updated": "Address successfully updated",
+  "add": "Add Address",
+  "update": "Update",
+  "tabs":{
+    "profile": "Profile",
+    "addresses": "Addresses",
+    "payment": "Payment Methods",
+    "notifications": "Notifications"
+  },
+  "fields": {
+    "type": "Address Type",
+    "default": "Default Address",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "address1": "Address Line 1",
+    "address2": "Address Line 2",
+    "city": "City",
+    "state": "State/Province",
+    "postalCode": "Postal Code",
+    "country": "Country",
+    "phone": "Phone Number",
+    "company": "Company Name",
+    "instructions": "Delivery Instructions"
+  },
+  "selectType": "Select address type",
+  "defaultDescription": "Set this as the default address for this type",
+  "firstNamePlaceholder": "Enter your first name",
+  "lastNamePlaceholder": "Enter your last name",
+  "address1Placeholder": "Street and house number",
+  "address2Placeholder": "Apartment, suite, etc. (optional)",
+  "cityPlaceholder": "Enter your city",
+  "statePlaceholder": "Enter your province/state",
+  "postalCodePlaceholder": "Enter your postal code",
+  "countryPlaceholder": "Enter your country",
+  "phonePlaceholder": "Enter your phone number",
+  "companyPlaceholder": "Enter your company name (optional)",
+  "instructionsPlaceholder": "Special delivery instructions (optional)",
+  "useStripeElement": "Use Stripe Address Form",
+  "types": {
+    "shipping": "Shipping Address",
+    "billing": "Billing Address",
+    "both": "Shipping and Billing Address"
+  }
+}
+,
       "title": "Account Settings",
       "description": "Manage your account settings and preferences",
       "error": {

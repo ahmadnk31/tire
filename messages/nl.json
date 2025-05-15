@@ -1,8 +1,11 @@
-{    "navbar":{
+{    
+  "navbar":{
     "logo": "Ariana Bandencentrale b.v.",
     "logoShort": "ABC b.v.",
     "navigation": "Navigatie",
     "account": "Account",
+    "close": "Sluiten",
+    "open": "Open",
     "navLinks":{
       "allTires":"Alle Banden",
       "tireFinder":"Bandenzoeker",
@@ -42,6 +45,7 @@
     }
   },
   "Account": {
+    
   "testimonials": {
     "title": "Mijn Testimonials",
     "description": "Bekijk en beheer je testimonials",
@@ -210,15 +214,82 @@
     "error": "Fout"
   },
   "settings": {
+    "common":{
+      "cancel": "Annuleren"
+    },
+    "addresses": {
+      "tabs":{
+        "profile": "Profiel",
+        "notifications": "Meldingen",
+        "addresses": "Adressen",
+        "payment": "Betaalmethoden"
+      },
+      "title": "Mijn Adressen",
+      "description": "Beheer je verzend- en factuurgegevens",
+      "default": "Standaard",
+      "deleted": "Adres succesvol verwijderd",
+      "deleteError": "Fout bij het verwijderen van adres",
+      "defaultUpdated": "Standaardadres bijgewerkt",
+      "updateError": "Fout bij het bijwerken van adres",
+      "noAddresses": "Je hebt nog geen adressen toegevoegd",
+      "addAddress": "Adres Toevoegen",
+      "editTitle": "Adres Bewerken",
+      "editDescription": "Werk je adresgegevens bij",
+      "addTitle": "Nieuw Adres",
+      "addDescription": "Voeg een nieuw verzend- of factuuradres toe",
+      "edit": "Bewerken",
+      "remove": "Verwijderen",
+      "setDefault": "Als Standaard Instellen",
+      "phone": "Tel",
+      "created": "Adres succesvol toegevoegd",
+      "createError": "Fout bij het toevoegen van adres",
+      "updated": "Adres succesvol bijgewerkt",
+      "add": "Adres Toevoegen",
+      "update": "Bijwerken",
+      "fields": {
+        "type": "Adrestype",
+        "default": "Standaardadres",
+        "firstName": "Voornaam",
+        "lastName": "Achternaam",
+        "address1": "Adres Regel 1",
+        "address2": "Adres Regel 2",
+        "city": "Plaats",
+        "state": "Provincie",
+        "postalCode": "Postcode",
+        "country": "Land",
+        "phone": "Telefoonnummer",
+        "company": "Bedrijfsnaam",
+        "instructions": "Bezorginstructies"
+      },
+      "selectType": "Selecteer adrestype",
+      "defaultDescription": "Dit adres als standaard instellen voor dit adrestype",
+      "firstNamePlaceholder": "Voer je voornaam in",
+      "lastNamePlaceholder": "Voer je achternaam in",
+      "address1Placeholder": "Straat en huisnummer",
+      "address2Placeholder": "Appartement, suite, etc. (optioneel)",
+      "cityPlaceholder": "Voer je plaats in",
+      "statePlaceholder": "Voer je provincie in",
+      "postalCodePlaceholder": "Voer je postcode in",
+      "countryPlaceholder": "Voer je land in",
+      "phonePlaceholder": "Voer je telefoonnummer in",
+      "companyPlaceholder": "Voer je bedrijfsnaam in (optioneel)",
+      "instructionsPlaceholder": "Speciale instructies voor bezorging (optioneel)",
+      "useStripeElement": "Gebruik Stripe Adresformulier",
+      "types": {
+        "shipping": "Verzendadres",
+        "billing": "Factuuradres",
+        "both": "Verzend- en Factuuradres"
+      }
+    },
     "title": "Accountinstellingen",
     "description": "Beheer je accountinstellingen en voorkeuren",
     "error": {
       "title": "Fout",
       "message": "Gebruikersgegevens laden mislukt. Probeer het later opnieuw.",
       "retry": "Opnieuw Proberen"
-    },
-    "tabs": {
+    },    "tabs": {
       "profile": "Profiel",
+      "addresses": "Adressen",
       "notifications": "Meldingen",
       "security": "Beveiliging",
       "payment": "Betaalmethoden",
@@ -339,6 +410,7 @@
       "error": "Bijwerken van bedrijfsprofiel mislukt"
     }
   }
+  
 },
   "Footer": {
     "companyName": "Ariana Bandencentrale BV",
@@ -556,6 +628,9 @@
       "emailPlaceholder": "m@voorbeeld.com",
       "passwordLabel": "Wachtwoord",
       "passwordPlaceholder": "Maak een wachtwoord aan",
+      "confirmPasswordLabel": "Bevestig Wachtwoord",
+      "confirmPasswordPlaceholder": "Bevestig je wachtwoord",
+      "terms": "Ik ga akkoord met de {terms} en {privacy}",
       "signupButton": "Registreren",
       "signingUp": "Bezig met registreren...",
       "orContinueWith": "Of ga verder met",
@@ -576,8 +651,7 @@
       "emailSentMessage": "We hebben je een e-mail gestuurd met een link om je wachtwoord te resetten. Controleer je inbox.",
       "success": "Wachtwoord reset link is naar je e-mail verstuurd",
       "error": "Versturen van reset link is mislukt. Probeer het opnieuw."
-    },
-    "resetPassword": {
+    },    "resetPassword": {
       "title": "Reset je wachtwoord",
       "subtitle": "Voer je nieuwe wachtwoord in",
       "passwordLabel": "Nieuw wachtwoord",
@@ -590,6 +664,46 @@
       "success": "Wachtwoord is succesvol gereset",
       "error": "Reset van wachtwoord is mislukt. Probeer het opnieuw.",
       "mismatchError": "Wachtwoorden komen niet overeen"
+    },
+    "verifyEmail": {
+      "title": {
+        "verifying": "E-mail wordt geverifieerd",
+        "verified": "E-mail geverifieerd",
+        "failed": "Verificatie mislukt"
+      },
+      "description": {
+        "verifying": "Even geduld terwijl we je e-mailadres verifiëren...",
+        "verified": "Je e-mail is succesvol geverifieerd. Je kunt nu inloggen op je account.",
+        "failed": "We konden je e-mailadres niet verifiëren."
+      },
+      "message": {
+        "verified": "Bedankt voor het verifiëren van je e-mail. We hebben je een welkomstmail gestuurd met meer informatie over onze diensten.",
+        "failed": "De verificatielink is ongeldig of verlopen.",
+        "help": "Probeer je opnieuw te registreren of neem contact op met onze klantenservice voor hulp.",
+        "missing": "Verificatietoken ontbreekt"
+      },
+      "button": {
+        "signIn": "Inloggen op je account",
+        "register": "Opnieuw registreren"
+      },
+      "error": {
+        "general": "Er is iets misgegaan tijdens de verificatie"
+      }
+    },
+    "verifyRequired": {
+      "title": "E-mailverificatie vereist",
+      "description": "Verifieer je e-mailadres om toegang te krijgen tot deze pagina",
+      "message": "We hebben een verificatielink naar je e-mailadres gestuurd. Controleer je inbox en klik op de link om je account te verifiëren.",
+      "button": {
+        "resend": "Verificatie-e-mail opnieuw versturen",
+        "sending": "Versturen...",
+        "signOut": "Uitloggen",
+        "returnHome": "Terug naar home"
+      },
+      "alert": {
+        "success": "Verificatie-e-mail is opnieuw verzonden. Controleer je inbox.",
+        "error": "Kon verificatie-e-mail niet opnieuw versturen. Probeer het later nog eens."
+      }
     }
   },
   "StoreStatus": {

@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
@@ -11,6 +12,7 @@ export default function VerifyEmailPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
+  const t = useTranslations('Auth.verifyEmail')
   
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [isVerified, setIsVerified] = React.useState<boolean>(false)
@@ -19,7 +21,7 @@ export default function VerifyEmailPage() {
   React.useEffect(() => {
     if (!token) {
       setIsLoading(false)
-      setError("Verification token is missing")
+      setError(t("message.missing"))
       return
     }
 
@@ -32,42 +34,41 @@ export default function VerifyEmailPage() {
         const data = await response.json()
 
         if (!response.ok) {
-          setError(data.error || "Verification failed")
-          toast.error(data.error || "Verification failed")
+          setError(data.error || t("message.failed"))
+          toast.error(data.error || t("message.failed"))
         } else {
           setIsVerified(true)
-          toast.success("Email verified successfully!")
+          toast.success(t("description.verified"))
         }
       } catch (error) {
         console.error("Verification error:", error)
-        setError("Something went wrong during verification")
-        toast.error("Something went wrong during verification")
+        setError(t("error.general"))
+        toast.error(t("error.general"))
       } finally {
         setIsLoading(false)
       }
     }
 
     verifyEmail()
-  }, [token])
-
+  }, [token, t])
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
             {isLoading 
-              ? "Verifying Email" 
+              ? t("title.verifying")
               : isVerified 
-                ? "Email Verified" 
-                : "Verification Failed"
+                ? t("title.verified")
+                : t("title.failed")
             }
           </CardTitle>
           <CardDescription className="text-center">
             {isLoading 
-              ? "Please wait while we verify your email address..." 
+              ? t("description.verifying")
               : isVerified 
-                ? "Your email has been verified successfully. You can now sign in to your account." 
-                : "We couldn't verify your email address."
+                ? t("description.verified")
+                : t("description.failed")
             }
           </CardDescription>
         </CardHeader>
@@ -95,7 +96,7 @@ export default function VerifyEmailPage() {
                 </svg>
               </div>
               <p className="text-center text-sm text-muted-foreground">
-                Thank you for verifying your email. We've sent you a welcome email with more information about our services.
+                {t("message.verified")}
               </p>
             </div>
           ) : (
@@ -117,10 +118,10 @@ export default function VerifyEmailPage() {
                 </svg>
               </div>
               <p className="text-center text-sm text-destructive">
-                {error || "The verification link is invalid or has expired."}
+                {error || t("message.failed")}
               </p>
               <p className="text-center text-sm text-muted-foreground">
-                Please try registering again or contact our support team for assistance.
+                {t("message.help")}
               </p>
             </div>
           )}
@@ -129,11 +130,11 @@ export default function VerifyEmailPage() {
           {!isLoading && (
             isVerified ? (
               <Button onClick={() => router.push("/login")}>
-                Sign in to your account
+                {t("button.signIn")}
               </Button>
             ) : (
               <Button asChild variant="outline">
-                <Link href="/register">Register again</Link>
+                <Link href="/register">{t("button.register")}</Link>
               </Button>
             )
           )}

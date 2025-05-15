@@ -3,13 +3,16 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { toast } from "sonner"
 
 export default function VerifyRequiredPage() {
   const router = useRouter()
   const { data: session } = useSession()
   const [isResending, setIsResending] = React.useState(false)
+  const t = useTranslations('Auth.verifyRequired')
 
   const handleResendEmail = async () => {
     setIsResending(true)
@@ -25,30 +28,29 @@ export default function VerifyRequiredPage() {
       })
 
       if (!response.ok) {
-        throw new Error("Failed to resend verification email")
+        throw new Error(t("alert.error"))
       }
 
-      alert("Verification email has been resent. Please check your inbox.")
+      toast.success(t("alert.success"))
     } catch (error) {
       console.error("Error resending verification email:", error)
-      alert("Failed to resend verification email. Please try again later.")
+      toast.error(t("alert.error"))
     } finally {
       setIsResending(false)
     }
   }
-
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Email Verification Required</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t("title")}</CardTitle>
           <CardDescription className="text-center">
-            Please verify your email address to access this page
+            {t("description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-center text-sm text-muted-foreground">
-            We sent a verification link to your email address. Please check your inbox and click the link to verify your account.
+            {t("message")}
           </p>
           <div className="flex flex-col items-center gap-2">
             <Button
@@ -56,7 +58,7 @@ export default function VerifyRequiredPage() {
               onClick={handleResendEmail}
               disabled={isResending}
             >
-              {isResending ? "Sending..." : "Resend verification email"}
+              {isResending ? t("button.sending") : t("button.resend")}
             </Button>
           </div>
         </CardContent>
@@ -65,13 +67,13 @@ export default function VerifyRequiredPage() {
             variant="ghost"
             onClick={() => signOut({ callbackUrl: "/login" })}
           >
-            Sign out
+            {t("button.signOut")}
           </Button>
           <Button
             variant="default"
             onClick={() => router.push("/")}
           >
-            Return to Home
+            {t("button.returnHome")}
           </Button>
         </CardFooter>
       </Card>

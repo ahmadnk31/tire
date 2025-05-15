@@ -6,6 +6,7 @@ import {
   UserNotificationPreferences,
   PaymentMethod,
   RetailerProfile,
+  UserAddress,
   fetchUserProfile,
   updateUserProfile,
   updateUserAvatar,
@@ -17,6 +18,11 @@ import {
   updatePassword,
   fetchRetailerProfile,
   updateRetailerProfile,
+  fetchUserAddresses,
+  fetchUserAddress,
+  createUserAddress,
+  updateUserAddress,
+  deleteUserAddress,
 } from "@/lib/api/user-api";
 
 // Query keys for caching
@@ -25,6 +31,8 @@ export const userQueryKeys = {
   notifications: ["user", "notifications"],
   paymentMethods: ["user", "payment-methods"],
   retailerProfile: ["user", "retailer-profile"],
+  addresses: ["user", "addresses"],
+  address: (id: string) => ["user", "addresses", id],
 };
 
 // Hook for fetching user profile
@@ -185,6 +193,82 @@ export function useUpdateRetailerProfile() {
       );
       
       return updatedProfile;
+    },
+  });
+}
+
+// Hook for fetching all user addresses
+export function useUserAddresses() {
+  return useQuery({
+    queryKey: userQueryKeys.addresses,
+    queryFn: fetchUserAddresses,
+  });
+}
+
+// Hook for fetching a specific address
+export function useUserAddress(id: string) {
+  return useQuery({
+    queryKey: userQueryKeys.address(id),
+    queryFn: () => fetchUserAddress(id),
+    enabled: !!id, // Only fetch when ID is provided
+  });
+}
+
+// Hook for creating a new address
+export function useCreateUserAddress() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (addressData: Partial<UserAddress>) => createUserAddress(addressData),
+    onSuccess: (newAddress) => {
+      queryClient.setQueryData<UserAddress[]>(
+        userQueryKeys.addresses,
+        (oldAddresses = []) => [...oldAddresses, newAddress]
+      );
+      return newAddress;
+    },
+  });
+}
+
+// Hook for updating an address
+export function useUpdateUserAddress() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<UserAddress> }) => 
+      updateUserAddress(id, data),
+    onSuccess: (updatedAddress) => {
+      // Update in the list of addresses
+      queryClient.setQueryData<UserAddress[]>(
+        userQueryKeys.addresses,
+        (oldAddresses = []) => oldAddresses.map(addr => 
+          addr.id === updatedAddress.id ? updatedAddress : addr
+        )
+      );
+      
+      // Update the individual address cache
+      queryClient.setQueryData(
+        userQueryKeys.address(updatedAddress.id),
+        updatedAddress
+      );
+      
+      return updatedAddress;
+    },
+  });
+}
+
+// Hook for deleting an address
+export function useDeleteUserAddress() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (id: string) => deleteUserAddress(id),
+    onSuccess: (_, deletedId) => {
+      queryClient.setQueryData<UserAddress[]>(
+        userQueryKeys.addresses,
+        (oldAddresses = []) => oldAddresses.filter(addr => addr.id !== deletedId)
+      );
+      queryClient.removeQueries({ queryKey: userQueryKeys.address(deletedId) });
     },
   });
 }
