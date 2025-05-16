@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { FileUploader } from "@/components/ui/file-uploader"
 
 export default function BecomeRetailerPage() {
   const t = useTranslations('retailer');
@@ -37,6 +38,8 @@ export default function BecomeRetailerPage() {
     taxId: z.string().optional(),
     yearsInBusiness: z.string().min(1, { message: t('form.fields.yearsInBusiness.error') }),
     additionalInfo: z.string().optional(),
+    businessDocument: z.string().optional(),
+    businessDocumentName: z.string().optional(),
   })
 
   type RetailerFormValues = z.infer<typeof retailerFormSchema>
@@ -52,6 +55,8 @@ export default function BecomeRetailerPage() {
       taxId: "",
       yearsInBusiness: "",
       additionalInfo: "",
+      businessDocument: "",
+      businessDocumentName: "",
     },
   })
 
@@ -227,6 +232,30 @@ export default function BecomeRetailerPage() {
                           {...field}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="businessDocument"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Business Documents</FormLabel>
+                      <FormControl>
+                        <FileUploader
+                          buttonText="Upload Business Document"
+                          hintText="Upload business registration, license or other relevant documents (PDF, DOC, JPG)"
+                          onFileUpload={(url, fileName) => {
+                            field.onChange(url);
+                            form.setValue("businessDocumentName", fileName);
+                          }}
+                          value={field.value}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Please provide official documentation to verify your business.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

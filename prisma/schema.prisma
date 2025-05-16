@@ -233,18 +233,20 @@ model RetailerProfile {
 }
 
 model RetailerRequest {
-  id              String         @id @default(cuid())
-  name            String
-  email           String
-  companyName     String
-  phone           String
-  businessAddress String
-  taxId           String?
-  yearsInBusiness String
-  additionalInfo  String?
-  status          RequestStatus  @default(PENDING)
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @default(now())
+  id                   String         @id @default(cuid())
+  name                 String
+  email                String
+  companyName          String
+  phone                String
+  businessAddress      String
+  taxId                String?
+  yearsInBusiness      String
+  additionalInfo       String?
+  businessDocument     String?        // URL to the uploaded business document
+  businessDocumentName String?        // Name of the uploaded document
+  status               RequestStatus  @default(PENDING)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @default(now())
 }
 
 model Account {

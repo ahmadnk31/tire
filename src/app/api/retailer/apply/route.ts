@@ -13,6 +13,8 @@ const retailerRequestSchema = z.object({
   taxId: z.string().optional(),
   yearsInBusiness: z.string(),
   additionalInfo: z.string().optional(),
+  businessDocument: z.string().optional(),
+  businessDocumentName: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -27,8 +29,18 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
-    const { name, email, companyName, phone, businessAddress, taxId, yearsInBusiness, additionalInfo } = result.data;
+      const { 
+      name, 
+      email, 
+      companyName, 
+      phone, 
+      businessAddress, 
+      taxId, 
+      yearsInBusiness, 
+      additionalInfo, 
+      businessDocument, 
+      businessDocumentName 
+    } = result.data;
     
     // Check if an application with this email already exists
     const existingRequest = await prisma.retailerRequest.findFirst({
@@ -56,6 +68,8 @@ export async function POST(request: NextRequest) {
         taxId,
         yearsInBusiness,
         additionalInfo,
+        businessDocument,
+        businessDocumentName,
       },
     });
     
@@ -98,8 +112,7 @@ export async function POST(request: NextRequest) {
     // Notify admin about new retailer request
     try {
       const adminEmail = process.env.ADMIN_EMAIL || 'admin@yourtirestore.com';
-      const subject = 'New Retailer Application';
-      const htmlBody = `
+      const subject = 'New Retailer Application';      const htmlBody = `
         <html>
           <body>
             <h1>New Retailer Application Received</h1>
@@ -115,11 +128,11 @@ export async function POST(request: NextRequest) {
               <li><strong>Years in Business:</strong> ${yearsInBusiness}</li>
               ${taxId ? `<li><strong>Tax ID:</strong> ${taxId}</li>` : ''}
               ${additionalInfo ? `<li><strong>Additional Info:</strong> ${additionalInfo}</li>` : ''}
+              ${businessDocument ? `<li><strong>Business Document:</strong> <a href="${businessDocument}">${businessDocumentName || 'View Document'}</a></li>` : ''}
             </ul>
           </body>
         </html>
-      `;
-      const textBody = `
+      `;      const textBody = `
         New Retailer Application Received
         
         A new retailer application has been submitted by ${name} from ${companyName}.
@@ -135,6 +148,7 @@ export async function POST(request: NextRequest) {
         - Years in Business: ${yearsInBusiness}
         ${taxId ? `- Tax ID: ${taxId}` : ''}
         ${additionalInfo ? `- Additional Info: ${additionalInfo}` : ''}
+        ${businessDocument ? `- Business Document: ${businessDocument}` : ''}
       `;
       
       await sendEmail(adminEmail, subject, htmlBody, textBody);

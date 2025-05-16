@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { signIn } from "next-auth/react"
-import Link from "next/link"
+
 import { useTranslations } from "next-intl"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
+import { Link } from "@/i18n/navigation"
 
 type LoginFormValues = {
   email: string;
@@ -80,8 +81,7 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('emailLabel')}</FormLabel>
-                    <FormControl>
+                    <FormLabel>{t('emailLabel')}</FormLabel>                    <FormControl>
                       <Input 
                         placeholder={t('emailPlaceholder')} 
                         type="email" 
@@ -99,8 +99,8 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('passwordLabel')}</FormLabel>
-                    <FormControl>                      <Input 
+                    <FormLabel>{t('passwordLabel')}</FormLabel>                    <FormControl>
+                      <Input 
                         placeholder={t('passwordPlaceholder')} 
                         type="password" 
                         autoComplete="current-password"
