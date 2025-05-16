@@ -23,8 +23,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { FileUpload } from "@/components/file-upload";
-import { AddressManager } from "@/components/account/address-manager";
+
 import { AddressesTab } from "./addresses-tab";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Form schemas
 const profileFormSchema = z.object({
@@ -36,6 +37,7 @@ const profileFormSchema = z.object({
   }),
   phoneNumber: z.string().optional(),
   address: z.string().optional(),
+  preferredLanguage: z.enum(["en", "nl"]).optional(),
 });
 
 const notificationsFormSchema = z.object({
@@ -53,6 +55,7 @@ const passwordFormSchema = z.object({
 }).refine((data) => data.newPassword === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],
+
 });
 
 const retailerProfileFormSchema = z.object({
@@ -387,6 +390,7 @@ export default function SettingsPage() {
       email: "",
       phoneNumber: "",
       address: "",
+      preferredLanguage: "en",
     },
   });
 
@@ -421,6 +425,7 @@ export default function SettingsPage() {
       businessAddress: "",
       taxId: "",
       yearsInBusiness: "",
+      
     },
   });
 
@@ -439,6 +444,7 @@ export default function SettingsPage() {
         email: userData.email,
         phoneNumber: userData.phoneNumber || "",
         address: userData.address || "",
+        preferredLanguage: userData.preferredLanguage || "en",
       });
       
       notificationsForm.reset(userData.notifications);
@@ -692,7 +698,30 @@ export default function SettingsPage() {
                           </FormItem>
                         )}
                       />
-                      
+                      <FormField
+  control={form.control}
+  name="preferredLanguage"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Preferred Language</FormLabel>
+      <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select your preferred language" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="en">English</SelectItem>
+          <SelectItem value="nl">Dutch</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormDescription>
+        Choose the language you prefer for the interface and communications.
+      </FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
                       <FormField
                         control={profileForm.control}
                         name="phoneNumber"

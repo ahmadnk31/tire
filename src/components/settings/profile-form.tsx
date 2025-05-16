@@ -11,11 +11,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { User, RetailerProfile } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const profileFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   image: z.string().optional(),
+  preferredLanguage: z.enum(["en", "nl"]).optional(),
 });
 
 const retailerFormSchema = z.object({
@@ -23,7 +25,6 @@ const retailerFormSchema = z.object({
   phone: z.string().optional(),
   businessAddress: z.string().optional(),
   taxId: z.string().optional(),
-  yearsInBusiness: z.string().optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -31,19 +32,18 @@ type RetailerFormValues = z.infer<typeof retailerFormSchema>;
 
 export default function ProfileForm({ user, retailerProfile }: { user: User; retailerProfile: RetailerProfile | null }) {
   const [isLoading, setIsLoading] = useState(false);
-
   const form = useForm<ProfileFormValues & RetailerFormValues>({
     resolver: zodResolver(profileFormSchema.merge(retailerFormSchema)),
     defaultValues: {
       name: user.name || "",
       email: user.email || "",
       image: user.image || "",
+      preferredLanguage: user.preferredLanguage || "en",
       companyName: retailerProfile?.companyName || "",
       phone: retailerProfile?.phone || "",
       businessAddress: retailerProfile?.businessAddress || "",
       taxId: retailerProfile?.taxId || "",
-      yearsInBusiness: retailerProfile?.yearsInBusiness || "",
-    },
+    } as ProfileFormValues & RetailerFormValues,
   });
 
   async function onSubmit(data: ProfileFormValues & RetailerFormValues) {
@@ -122,11 +122,60 @@ export default function ProfileForm({ user, retailerProfile }: { user: User; ret
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="your.email@example.com" {...field} type="email" />
+              <FormControl>                <Input placeholder="your.email@example.com" {...field} type="email" />
               </FormControl>
               <FormDescription>
                 This is the email address used for account communications.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="preferredLanguage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Preferred Language</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your preferred language" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="nl">Dutch</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Choose the language you prefer for the interface and communications.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="preferredLanguage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Preferred Language</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your preferred language" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="nl">Dutch</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Choose the language you prefer for the interface and communications.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -188,21 +237,6 @@ export default function ProfileForm({ user, retailerProfile }: { user: User; ret
                 <Input placeholder="XX-XXXXXXX" {...field} />
               </FormControl>
               <FormDescription>Your business tax identification number or EIN.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="yearsInBusiness"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Years in Business</FormLabel>
-              <FormControl>
-                <Input placeholder="5" {...field} />
-              </FormControl>
-              <FormDescription>How long your business has been operating.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -7,16 +7,17 @@ import { sendVerificationEmail } from "@/lib/email/auth-emails";
 
 // Validation schema for registration
 const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+  preferredLanguage: z.enum(['en', 'nl']).default('en')
 });
 
 export async function POST(request: Request) {
   try {
     // Parse and validate the request body
     const body = await request.json();
-    const { name, email, password } = registerSchema.parse(body);
+    const { name, email, password, preferredLanguage } = registerSchema.parse(body);
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -39,6 +40,7 @@ export async function POST(request: Request) {
         name,
         email,
         password: hashedPassword,
+        preferredLanguage
       },
     });
 

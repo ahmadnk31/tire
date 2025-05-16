@@ -511,15 +511,14 @@
       "orderConfirmation": "Orderbevestiging",
       "appointmentConfirmation": "Afspraakbevestiging",
       "appointmentReminder": "Herinnering: Uw Aankomende Afspraak"
-    },
-    "verification": {
+    },    "verification": {
       "title": "Verifieer Uw E-mailadres",
       "greeting": "Hallo {{userName}},",
       "message": "Bedankt voor het aanmelden! Verifieer uw e-mailadres door op de onderstaande knop te klikken.",
       "buttonText": "E-mail Verifiëren",
       "alternativeText": "Of kopieer en plak deze URL in uw browser:",
       "expiryMessage": "Deze verificatielink vervalt over {{hours}} uur.",
-      "footer": "Als u geen account heeft aangemaakt, is geen verdere actie nodig."
+      "footer": "Als u geen account heeft aangemaakt, is geen verdere actie nodig. Voor ondersteuning, neem contact op via support@arianabandencentralebv.be"
     },
     "passwordReset": {
       "title": "Reset Uw Wachtwoord",
@@ -541,9 +540,8 @@
       "benefit3": "Ontvang exclusieve aanbiedingen en kortingen",
       "benefit4": "Snelle checkout voor sneller winkelen",
       "buttonText": "Ga naar Mijn Account",
-      "closingMessage": "Als je vragen hebt over je account of hulp nodig hebt bij het vinden van de perfecte banden, staat ons team voor je klaar.",
-      "signature": "Met vriendelijke groet,\nHet Bandenwinkel Team",
-      "footer": "© 2025 Bandenwinkel. Alle rechten voorbehouden."
+      "closingMessage": "Als je vragen hebt over je account of hulp nodig hebt bij het vinden van de perfecte banden, staat ons team voor je klaar.",      "signature": "Met vriendelijke groet,\nAriana Bandencentrale b.v. Team",
+      "footer": "© 2025 Ariana Bandencentrale b.v. Alle rechten voorbehouden. Neem contact met ons op via info@arianabandencentralebv.be"
     },
     "orderConfirmation": {
       "title": "Orderbevestiging",
@@ -567,7 +565,7 @@
     "appointment": {
       "confirmation": {
         "title": "Afspraakbevestiging",
-        "greeting": "Hallo {{userName}},",
+        "greeting": "Hallo {userName},",
         "message": "Uw afspraak is bevestigd. We kijken ernaar uit u te ontmoeten!",
         "detailsTitle": "Afspraakgegevens",
         "serviceType": "Soort Service",
@@ -585,7 +583,7 @@
       },
       "reminder": {
         "title": "Herinnering: Uw Aankomende Afspraak",
-        "greeting": "Hallo {{userName}},",
+        "greeting": "Hallo {userName},",
         "message": "Dit is een vriendelijke herinnering aan uw aankomende afspraak bij ons.",
         "detailsTitle": "Afspraakgegevens",
         "serviceType": "Soort Service",
@@ -611,13 +609,22 @@
       "emailPlaceholder": "m@voorbeeld.com",
       "passwordLabel": "Wachtwoord",
       "forgotPassword": "Wachtwoord vergeten?",
+      "passwordPlaceholder": "Voer je wachtwoord in",
+      "rememberMe": "Onthoud mij",
       "loginButton": "Inloggen",
       "loggingIn": "Bezig met inloggen...",
       "orContinueWith": "Of ga verder met",
       "loginWithGithub": "Inloggen met GitHub",
       "noAccount": "Heb je nog geen account?",
-      "signUpLink": "Registreren",
-      "error": "Inloggen mislukt. Probeer het opnieuw."
+      "signUpLink": "Registreren",      "error": "Inloggen mislukt. Probeer het opnieuw.",
+      "validation": {
+        "email": "Voer een geldig e-mailadres in",
+        "password": "Wachtwoord moet minstens 8 tekens bevatten"
+      },
+      "errors": {
+        "invalidCredentials": "Ongeldig e-mailadres of wachtwoord"
+      },
+      "success": "Succesvol ingelogd"
     },
     "signup": {
       "title": "Registreer je account",

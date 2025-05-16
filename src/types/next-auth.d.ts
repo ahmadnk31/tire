@@ -9,6 +9,7 @@ declare module "next-auth" {
       role: Role;
       retailerId?: string;
       emailVerified?: boolean;
+      preferredLanguage: string;
     } & DefaultSession["user"];
   }
 
@@ -17,6 +18,7 @@ declare module "next-auth" {
     role: Role;
     retailerId?: string;
     emailVerified?: boolean;
+    preferredLanguage: string;
   }
 }
 
@@ -27,5 +29,6 @@ declare module "next-auth/jwt" {
     role: Role;
     retailerId?: string;
     emailVerified?: boolean;
+    preferredLanguage: string;
   }
 }

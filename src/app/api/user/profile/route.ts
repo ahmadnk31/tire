@@ -10,6 +10,7 @@ const profileUpdateSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   phoneNumber: z.string().optional(),
   address: z.string().optional(),
+  preferredLanguage: z.enum(['en', 'nl']).optional()
 });
 
 export async function GET(request: NextRequest) {
@@ -84,27 +85,27 @@ export async function PATCH(request: NextRequest) {
     
     const body = await request.json();
     
-    // Validate request data
+    // Validate request body
     const result = profileUpdateSchema.safeParse(body);
     if (!result.success) {
       return NextResponse.json(
-        { error: "Invalid input data", details: result.error.format() },
+        { error: "Invalid input", details: result.error.format() },
         { status: 400 }
       );
     }
     
-    const { name, email, phoneNumber, address } = result.data;
+    const { name, email, phoneNumber, address, preferredLanguage } = result.data;
     
-    // Check if email is already used by another user
+    // Check if email is being changed and already exists
     if (email !== session.user.email) {
       const existingUser = await prisma.user.findUnique({
         where: { email },
       });
       
-      if (existingUser && existingUser.id !== session.user.id) {
+      if (existingUser) {
         return NextResponse.json(
-          { error: "Email is already in use by another account" },
-          { status: 400 }
+          { error: "Email is already taken" },
+          { status: 409 }
         );
       }
     }
@@ -115,6 +116,7 @@ export async function PATCH(request: NextRequest) {
       data: {
         name,
         email,
+        preferredLanguage: preferredLanguage || undefined,
         // Add phoneNumber and address to your User model or handle them separately
       },
     });
@@ -126,8 +128,8 @@ export async function PATCH(request: NextRequest) {
         name: updatedUser.name,
         email: updatedUser.email,
         avatar: updatedUser.image,
-        phoneNumber, // You'd need to add this field to your User model
-        address, // You'd need to add this field to your User model
+        preferredLanguage: updatedUser.preferredLanguage,
+        // Include other fields as needed
       },
     });
   } catch (error) {

@@ -15,12 +15,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 
-const loginSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
-})
-
-type LoginFormValues = z.infer<typeof loginSchema>
+type LoginFormValues = {
+  email: string;
+  password: string;
+}
 
 export default function LoginPage() {
   const router = useRouter()
@@ -29,6 +27,11 @@ export default function LoginPage() {
   const callbackUrl = searchParams.get("callbackUrl") || `/${locale}`
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const t = useTranslations('Auth.login')
+
+  const loginSchema = z.object({
+    email: z.string().email({ message: t('validation.email') }),
+    password: z.string().min(8, { message: t('validation.password') }),
+  })
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -45,19 +48,17 @@ export default function LoginPage() {
         password: data.password,
         redirect: false,
         callbackUrl: callbackUrl
-      })
-
+      })      
       if (response?.error) {
-        toast.error("Invalid email or password")
+        toast.error(t('errors.invalidCredentials'))
         return
       }
 
-      toast.success("Logged in successfully")
+      toast.success(t('success'))
       // Now handle redirection manually after the signIn is complete
       router.push(callbackUrl)
-      router.refresh()
-    } catch (error) {
-      toast.error("Something went wrong")
+      router.refresh()    } catch (error) {
+      toast.error(t('error'))
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -99,9 +100,8 @@ export default function LoginPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t('passwordLabel')}</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="********" 
+                    <FormControl>                      <Input 
+                        placeholder={t('passwordPlaceholder')} 
                         type="password" 
                         autoComplete="current-password"
                         disabled={isLoading} 

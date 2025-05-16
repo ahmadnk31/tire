@@ -36,21 +36,31 @@ const authMiddleware = withAuth(
       return null;
     }
 
-    // Find the protected route configuration that matches the current path
+    // Check if the current route is protected
     const matchedRoute = protectedRoutes.find((route) =>
       pathname.startsWith(route.path)
     );
 
     if (matchedRoute) {
-      // Check if email verification is required and user's email is not verified
-      if (matchedRoute.requireVerification && !token.emailVerified) {
-        return NextResponse.redirect(new URL('/verify-required', req.url));
+      // Check role requirements
+      if (!matchedRoute.roles.includes(token.role)) {
+        return NextResponse.redirect(new URL('/', req.url));
       }
 
-      // Check if user has the required role for this route
-      if (!matchedRoute.roles.includes(token.role as string)) {
-        // If user is not ADMIN or RETAILER, redirect them to home page
-        return NextResponse.redirect(new URL('/', req.url));
+      // Check email verification if required
+      if (matchedRoute.requireVerification && !token.emailVerified) {
+        return NextResponse.redirect(new URL('/verify-email', req.url));
+      }
+    }
+
+    // Use user's preferred language if available
+    if (token.preferredLanguage && !pathname.startsWith(`/${token.preferredLanguage}`)) {
+      // Only redirect if the current locale is different from the preferred language
+      const currentLocale = pathname.split('/')[1];
+      if (currentLocale !== token.preferredLanguage) {
+        const newUrl = new URL(req.url);
+        newUrl.pathname = `/${token.preferredLanguage}${pathname}`;
+        return NextResponse.redirect(newUrl);
       }
     }
 

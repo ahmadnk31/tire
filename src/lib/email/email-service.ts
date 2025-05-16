@@ -11,7 +11,7 @@ const sesClient = new SESClient({
 });
 
 // Default sender email
-const DEFAULT_FROM_EMAIL = process.env.DEFAULT_FROM_EMAIL || "noreply@yourdomain.com";
+const DEFAULT_FROM_EMAIL = process.env.DEFAULT_FROM_EMAIL || "no-reply@arianabandencentralebv.be";
 
 /**
  * Send an email with content based on the user's language preference
