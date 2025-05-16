@@ -121,8 +121,7 @@ export async function POST(request: Request) {
       default:
         basePrice = 20 * tireQuantity; // STANDARD
     }
-    
-    // Calculate total price including additional services
+      // Calculate total price including additional services
     const additionalServicesTotal = additionalServices.reduce(
       (total: number, service: { price: number }) => total + service.price, 
       0
@@ -130,20 +129,51 @@ export async function POST(request: Request) {
     
     const totalPrice = basePrice + additionalServicesTotal;
     
+    // Validate additionalServices format
+    if (additionalServices && !Array.isArray(additionalServices)) {
+      return NextResponse.json({ error: 'additionalServices must be an array' }, { status: 400 });
+    }
+      // Filter out any malformed additional services
+    const validAdditionalServices = Array.isArray(additionalServices) 
+      ? additionalServices.filter((service: any) => 
+          service && typeof service === 'object' && 
+          service.serviceName && 
+          typeof service.price === 'number')
+      : [];
+    
     // Parse date and time to create a proper appointment DateTime
-    const [year, month, day] = appointmentDate.split('-').map(Number);
-    const [hours, minutes] = appointmentTime.split(':').map(Number);
-    const appointmentDateTime = new Date(year, month - 1, day, hours, minutes);
+    let appointmentDateTime;
+    
+    try {
+      if (typeof appointmentDate === 'string') {
+        const [year, month, day] = appointmentDate.split('-').map(Number);
+        const [hours, minutes] = appointmentTime.split(':').map(Number);
+        appointmentDateTime = new Date(year, month - 1, day, hours, minutes);
+      } else {
+        // In case the date is already a Date object
+        appointmentDateTime = new Date(appointmentDate);
+        // Add time
+        const [hours, minutes] = appointmentTime.split(':').map(Number);
+        appointmentDateTime.setHours(hours, minutes);
+      }
+      
+      // Validate date
+      if (isNaN(appointmentDateTime.getTime())) {
+        throw new Error('Invalid date format');
+      }
+    } catch (error) {
+      console.error('Error parsing date:', error, { appointmentDate, appointmentTime });
+      return NextResponse.json({ error: 'Invalid date or time format' }, { status: 400 });
+    }
     
     // Create the installation record
     const installation = await prisma.installation.create({
       data: {
-        vehicleMake,
-        vehicleModel,
+        vehicleMake,        vehicleModel,
         vehicleYear,
         tireSize,
         tireQuantity,
-        purchasedFrom: purchasedFrom === 'us' ? PurchaseLocation.OUR_STORE : PurchaseLocation.ELSEWHERE,
+        purchasedFrom,
         appointmentDate: appointmentDateTime,
         appointmentTime,
         customerName,
@@ -152,10 +182,9 @@ export async function POST(request: Request) {
         comments,
         serviceType: serviceType as InstallationServiceType,
         basePrice,
-        totalPrice,
-        status: InstallationStatus.SCHEDULED,
+        totalPrice,        status: InstallationStatus.SCHEDULED,
         additionalServices: {
-          create: additionalServices.map((service: { serviceName: string, price: number }) => ({
+          create: validAdditionalServices.map((service: { serviceName: string, price: number }) => ({
             serviceName: service.serviceName,
             price: service.price,
           })),

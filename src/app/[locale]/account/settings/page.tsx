@@ -444,7 +444,7 @@ export default function SettingsPage() {
         email: userData.email,
         phoneNumber: userData.phoneNumber || "",
         address: userData.address || "",
-        preferredLanguage: userData.preferredLanguage || "en",
+        preferredLanguage: (userData as any).preferredLanguage || "en",
       });
       
       notificationsForm.reset(userData.notifications);

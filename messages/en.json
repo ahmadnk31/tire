@@ -1505,7 +1505,21 @@
       "tireTypes": "Tire Types",
       "priceRange": "Price Range",
       "specifications": "Specifications",
-      "sizes": "Tire Sizes"
+      "sizes": "Tire Sizes",
+      "selectWidth": "Select Width",
+      "selectAspectRatio": "Select Aspect Ratio",
+      "selectDiameter": "Select Diameter",
+      "width": "Width",
+      "aspect": "Aspect Ratio",
+      "selectRatio": "Select Ratio",
+      "any": "Any",
+      "selectCategory": "Select Category",
+      "selectBrand": "Select Brand",
+      "selectTireType": "Select Tire Type",
+      "rimDiameter": "Rim Diameter",
+      "loadIndex": "Load Index",
+      "activeFilter": "Active Filter",
+      "clearAll": "Remove All"
     },
     "sort": {
       "title": "Sort By",
@@ -1780,12 +1794,21 @@
           "email": "Email",
           "emailPlaceholder": "john.doe@example.com",
           "phone": "Phone Number",
-          "phonePlaceholder": "+1 (555) 123-4567",
-          "comments": "Additional Comments",
+          "phonePlaceholder": "+1 (555) 123-4567",          "comments": "Additional Comments",
           "commentsPlaceholder": "Any special requirements or additional information...",
           "submit": "Schedule Installation",
-          "consent": "I agree to be contacted about my installation appointment",
-          "success": "Thank you! Your installation has been scheduled. We'll contact you shortly to confirm.",
+          "submitting": "Scheduling...",
+          "additionalServices": "Additional Services",
+          "serviceName": "Service",
+          "description": "Description",
+          "price": "Price",
+          "priceSummary": "Price Summary",
+          "basePrice": "Base Price",
+          "additionalServicesTotal": "Additional Services",
+          "totalPrice": "Total Price",          "consent": "I agree to be contacted about my installation appointment",
+          "success": "Installation Scheduled",
+          "successMessage": "Thank you! Your installation has been scheduled. We'll contact you shortly to confirm.",
+          "submitAnother": "Submit Another Request",
           "error": "There was an error scheduling your installation. Please try again or contact us directly."
         }
       },
@@ -2431,6 +2454,29 @@
     },
     "recommendations": {
       "title": "You May Also Like"
+    },
+    "filters": {
+      "title": "Active Filters",
+      "clear": "Clear All",
+      "brands": "Brands",
+      "categories": "Categories",
+      "tireTypes": "Tire Types",
+      "priceRange": "Price Range",
+      "sizes": "Tire Sizes",
+      "width": "Width",
+      "aspectRatio": "Aspect Ratio",
+      "rimDiameter": "Rim Diameter",
+      "selectWidth": "Select width",
+      "selectRatio": "Select aspect ratio",
+      "selectDiameter": "Select rim diameter",
+      "any": "Any",
+      "apply": "Apply Filters"
+    },
+    "results": {
+      "found": "{count} products found",
+      "showing": "Showing {count} of {total} products",
+      "empty": "No products found",
+      "noResults": "No products match your search criteria"
     }
   },
   

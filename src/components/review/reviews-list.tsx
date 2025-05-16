@@ -32,13 +32,12 @@ import { toast } from 'sonner';
 
 interface ReviewsListProps {
   productId: string;
+  initialReviews?: Review[];
 }
 
-export function ReviewsList({ productId }: ReviewsListProps) {
+export function ReviewsList({ productId, initialReviews }: ReviewsListProps) {
   const t = useTranslations('Account.Reviews.list');
   const tReviews = useTranslations('Account.Reviews');
-  console.log(t)
-  console.log(tReviews)
   const { data: session } = useSession();
   const [page, setPage] = useState(1);
   const [rating, setRating] = useState<string>('all');
@@ -65,7 +64,6 @@ export function ReviewsList({ productId }: ReviewsListProps) {
     sortField = 'createdAt';
     sortOrder = 'asc';
   }
-
   const { data, isLoading, refetch } = useGetReviews({
     productId,
     page,
@@ -74,6 +72,13 @@ export function ReviewsList({ productId }: ReviewsListProps) {
     sortBy: sortField,
     order: sortOrder
   });
+
+  // Use initialReviews on first render if available and we're on page 1 with no filters
+  const shouldUseInitialReviews = initialReviews && page === 1 && rating === 'all' && sortBy === 'newest';
+  
+  // Determine which reviews to show - either the initial ones or fetched ones
+  const displayedReviews = shouldUseInitialReviews ? initialReviews : data?.reviews;
+  const displayLoading = isLoading && !shouldUseInitialReviews;
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -110,26 +115,36 @@ export function ReviewsList({ productId }: ReviewsListProps) {
     setEditingReview(null);
     refetch();
   };
+  // Calculate average rating and rating counts based on displayed reviews
+  const totalReviews = data?.meta?.totalCount || (initialReviews?.length || 0);
+  
+  // Calculate average rating and rating counts - use either fetched data or initial reviews
+  const ratingStats = shouldUseInitialReviews && initialReviews
+    ? initialReviews.reduce(
+        (acc, review) => {
+          acc.total += review.rating;
+          acc.counts[review.rating - 1]++;
+          return acc;
+        },
+        { total: 0, counts: [0, 0, 0, 0, 0] }
+      )
+    : data?.reviews.reduce(
+        (acc, review) => {
+          acc.total += review.rating;
+          acc.counts[review.rating - 1]++;
+          return acc;
+        },
+        { total: 0, counts: [0, 0, 0, 0, 0] }
+      );
 
-  // Calculate average rating and rating counts if data is available
-  const ratingStats = data?.reviews.reduce(
-    (acc, review) => {
-      acc.total += review.rating;
-      acc.counts[review.rating - 1]++;
-      return acc;
-    },
-    { total: 0, counts: [0, 0, 0, 0, 0] }
-  );
-
-  const averageRating = ratingStats && data?.meta?.totalCount && data.meta.totalCount > 0
-    ? (ratingStats.total / data.meta.totalCount).toFixed(1)
+  const averageRating = ratingStats && totalReviews > 0
+    ? (ratingStats.total / totalReviews).toFixed(1)
     : '0.0';
 
   return (
-    <div className="mt-6">      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-        <div>
+    <div className="mt-6">      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">        <div>
           <h3 className="text-2xl font-semibold">{t('title')}</h3>
-          {data?.meta.totalCount === 0 ? (
+          {(shouldUseInitialReviews ? initialReviews?.length === 0 : data?.meta.totalCount === 0) ? (
             <p className="text-muted-foreground">{t('noReviewsYet')}</p>
           ) : (
             <div className="flex items-center gap-2 mt-1">
@@ -139,7 +154,7 @@ export function ReviewsList({ productId }: ReviewsListProps) {
               </div>
               <span className="text-muted-foreground">•</span>
               <span className="text-muted-foreground">
-                {data?.meta.totalCount} {data?.meta.totalCount === 1 ? t('review') : t('reviews')}
+                {totalReviews} {totalReviews === 1 ? t('review') : t('reviews')}
               </span>
             </div>
           )}
@@ -236,11 +251,11 @@ export function ReviewsList({ productId }: ReviewsListProps) {
             </TabsList>
           </Tabs>
         </div>
-      </div>      {isLoading ? (
+      </div>      {displayLoading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-primary" aria-label={t('loading')} />
         </div>
-      ) : data?.reviews.length === 0 ? (
+      ) : displayedReviews?.length === 0 ? (
         <div className="border rounded-lg p-6 text-center">
           <p className="text-muted-foreground mb-4">{t('noReviewsFound')}</p>
           {rating !== 'all' && (
@@ -251,7 +266,7 @@ export function ReviewsList({ productId }: ReviewsListProps) {
         </div>
       ) : (
         <div className="space-y-4">
-          {data?.reviews.map(review => (
+          {displayedReviews?.map(review => (
             <ReviewCard 
               key={review.id} 
               review={review}

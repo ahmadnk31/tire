@@ -85,9 +85,10 @@ export async function POST(
         userId: params.userId,
         subject: subject,
         content: content,
+        recipient: user.email,
         sentAt: new Date(),
         status: "SENT",
-        sentByUserId: (await getServerSession(authOptions))?.user.id || "Unknown",
+        sendByUserId: (await getServerSession(authOptions))?.user.id || "Unknown",
       },
     });
     

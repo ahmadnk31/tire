@@ -968,7 +968,22 @@
       "tireTypes": "Bandentypes",
       "priceRange": "Prijsbereik",
       "specifications": "Specificaties",
-      "sizes": "Bandenmaten"
+      "sizes": "Bandenmaten",
+      "selectDiameter": "Selecteer Diameter",
+      "selectWidth": "Selecteer Breedte",
+      "selectRatio": "Selecteer Hoogte-breedteverhouding",
+      "selectLoadIndex": "Selecteer Laadindex",
+      "width": "Breedte",
+      "aspectRatio": "Hoogte-breedteverhouding",
+      "diameter": "Diameter",
+      "any": "Elke",
+      "rimDiameter": "Velgrootte",
+      "loadIndex": "Laadindex",
+      "speedRating": "Snelheidsindex",
+      "season": "Seizoen",
+      "allSeason": "Alle Seizoenen",
+      "activeFilter": "Actieve Filter",
+      "clearAll": "Verwijder alles"
     },
     "noProducts": {
       "title": "Geen producten gevonden",
@@ -1236,6 +1251,15 @@
             "3pm": "15:00 uur",
             "4pm": "16:00 uur"
           },
+          "submitting": "Bezig met inplannen...",
+  "additionalServices": "Aanvullende Diensten",
+  "serviceName": "Dienst",
+  "description": "Beschrijving",
+  "price": "Prijs",
+  "priceSummary": "Prijsoverzicht",
+  "basePrice": "Basisprijs",
+  "additionalServicesTotal": "Aanvullende Diensten",
+  "totalPrice": "Totale Prijs",
           "contact": "Contactgegevens",
           "name": "Volledige Naam",
           "namePlaceholder": "Jan Jansen",
@@ -1367,6 +1391,23 @@
       "runFlat": "Run-Flat",
       "reinforced": "Versterkt"
     },
+    "filters": {
+  "title": "Actieve Filters",
+  "clear": "Alles Wissen",
+  "brands": "Merken",
+  "categories": "Categorieën",
+  "tireTypes": "Banden Types",
+  "priceRange": "Prijsklasse",
+  "sizes": "Bandenmaten",
+  "width": "Breedte",
+  "aspectRatio": "Hoogte-Breedteverhouding",
+  "rimDiameter": "Velgdiameter",
+  "selectWidth": "Selecteer breedte",
+  "selectRatio": "Selecteer hoogte-breedteverhouding",
+  "selectDiameter": "Selecteer velgdiameter",
+  "any": "Alle",
+  "apply": "Filters Toepassen"
+},
     "addToCart": "In Winkelwagen",
     "addToFavorites": "Toevoegen aan Favorieten",
     "removeFromFavorites": "Verwijderen uit Favorieten",
@@ -1457,6 +1498,10 @@
     },
     "recommendations": {
       "title": "Wellicht ook interessant"
+    },
+    "results": {
+      "found": "{count} producten gevonden",
+      "empty": "Geen producten gevonden"
     }
   },
   "FAQ": {

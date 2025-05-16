@@ -35,7 +35,6 @@ export function InstallationForm() {
   const t = useTranslations("Homepage.services.installationPage.form");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
   const [selectedServices, setSelectedServices] = useState<Array<{id: string, serviceName: string, price: number}>>([]);
   
   // Fetch available additional services
@@ -64,6 +63,7 @@ export function InstallationForm() {
       message: "You must agree to be contacted",
     }),
   });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,8 +74,6 @@ export function InstallationForm() {
       tireQuantity: "",
       purchasedFrom: undefined,
       serviceType: InstallationServiceType.STANDARD,
-      appointmentDate: undefined,
-      appointmentTime: "",
       customerName: "",
       customerEmail: "",
       customerPhone: "",
@@ -94,66 +92,49 @@ export function InstallationForm() {
     additionalServicesTotal: 0,
     totalPrice: 0
   });
+  
   // Update price calculation when relevant values change
   useEffect(() => {
-    try {
-      // Calculate base price
-      const qty = parseInt(tireQuantity || '0');
-      let basePrice = 0;
-      
-      if (serviceType) {
-        switch (serviceType) {
-          case InstallationServiceType.PREMIUM:
-            basePrice = 30 * qty;
-            break;
-          case InstallationServiceType.SPECIALTY:
-            basePrice = 40 * qty;
-            break;
-          default:
-            basePrice = 20 * qty; // STANDARD
-        }
+    // Calculate base price
+    const qty = parseInt(tireQuantity || '0');
+    let basePrice = 0;
+    
+    if (serviceType) {
+      switch (serviceType) {
+        case InstallationServiceType.PREMIUM:
+          basePrice = 30 * qty;
+          break;
+        case InstallationServiceType.SPECIALTY:
+          basePrice = 40 * qty;
+          break;
+        default:
+          basePrice = 20 * qty; // STANDARD
       }
+    }
     
     // Calculate additional services total
     const additionalServicesTotal = selectedServices.reduce(
-      (total, service) => total + (service.price || 0),
+      (total, service) => total + service.price,
       0
-    );      // Set the price breakdown
-      setPriceBreakdown({
-        basePrice,
-        additionalServicesTotal,
-        totalPrice: basePrice + additionalServicesTotal
-      });
-    } catch (error) {
-      console.error("Error calculating price:", error);
-      // Set safe default values if calculation fails
-      setPriceBreakdown({
-        basePrice: 0,
-        additionalServicesTotal: 0,
-        totalPrice: 0
-      });
-    }
+    );
+    
+    // Set the price breakdown
+    setPriceBreakdown({
+      basePrice,
+      additionalServicesTotal,
+      totalPrice: basePrice + additionalServicesTotal
+    });
   }, [serviceType, tireQuantity, selectedServices]);
 
   // Import the useCreateInstallation hook
   const { mutateAsync: createInstallation } = useCreateInstallation();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {      setIsSubmitting(true);
-      setSubmitError(null);
+    try {
+      setIsSubmitting(true);
       
       // Calculate base price based on service type and quantity
-      const tireQty = parseInt(values.tireQuantity) || 0;      if (tireQty <= 0) {
-        throw new Error("Please select a valid tire quantity");
-      }
-      
-      // Validate appointment date is in the future
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      if (values.appointmentDate < today) {
-        throw new Error("Please select a future date for your appointment");
-      }
-      
+      const tireQty = parseInt(values.tireQuantity);
       let basePrice = 0;
       
       switch (values.serviceType) {
@@ -165,20 +146,16 @@ export function InstallationForm() {
           break;
         default:
           basePrice = 20 * tireQty; // STANDARD
-      }      // Calculate total price including additional services
+      }
+      
+      // Calculate total price including additional services
       const additionalServicesTotal = selectedServices.reduce(
-        (total, service) => total + (service.price || 0),
+        (total, service) => total + service.price,
         0
       );
       
-      const totalPrice = basePrice + additionalServicesTotal;      // Format the appointment date
-      const formattedDate = format(values.appointmentDate, 'yyyy-MM-dd');
+      const totalPrice = basePrice + additionalServicesTotal;
       
-      // Ensure we have a valid date
-      if (!formattedDate) {
-        throw new Error("Please select a valid appointment date");
-      }
-
       // Set default status for new installation requests
       const installationData = {
         ...values,
@@ -186,61 +163,32 @@ export function InstallationForm() {
         basePrice: basePrice,
         tireQuantity: tireQty, // Convert to number
         totalPrice: totalPrice,
-        additionalServices: selectedServices,
-        // Format appointmentDate to ISO string for API (YYYY-MM-DD)
-        appointmentDate: formattedDate
+        additionalServices: selectedServices
       };
-        console.log("Submitting installation data:", installationData);
       
-      // Submit the form data to the API using our hook      
-      try {
-        await createInstallation(installationData);
-        
-        // Show success state after submission
-        setSubmitted(true);
-      } catch (error) {
-        console.error("Error from API:", error);
-        throw error; // Rethrow to be caught by outer try/catch
-      }    } catch (error) {
+      console.log("Submitting installation data:", installationData);
+      
+      // Submit the form data to the API using our hook
+      await createInstallation(installationData);
+      
+      // Show success state after submission
+      setSubmitted(true);
+    } catch (error) {
       console.error("Error submitting installation form:", error);
-      setSubmitError(error instanceof Error ? error.message : "Failed to submit the form. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   }
+
   if (submitted) {
-    return (      <div className="p-8 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
+    return (
+      <div className="p-8 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
         <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-2">
           {t("success")}
         </h3>
-        <p className="text-green-600 dark:text-green-400 mb-4">
+        <p className="text-green-600 dark:text-green-400">
           {t("successMessage")}
         </p>
-        <Button 
-          variant="outline" 
-          onClick={() => {
-            setSubmitted(false);
-            form.reset({
-              vehicleMake: "",
-              vehicleModel: "",
-              vehicleYear: "",
-              tireSize: "",
-              tireQuantity: "",
-              purchasedFrom: undefined,
-              serviceType: InstallationServiceType.STANDARD,
-              appointmentDate: undefined,
-              appointmentTime: "",
-              customerName: "",
-              customerEmail: "",
-              customerPhone: "",
-              comments: "",
-              consent: false,
-            });
-            setSelectedServices([]);
-          }}
-        >
-          {t("submitAnother")}
-        </Button>
       </div>
     );
   }
@@ -311,7 +259,8 @@ export function InstallationForm() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />              <FormField
+              />
+              <FormField
                 control={form.control}
                 name="tireQuantity"
                 render={({ field }) => (
@@ -333,7 +282,8 @@ export function InstallationForm() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />              <FormField
+              />
+              <FormField
                 control={form.control}
                 name="purchasedFrom"
                 render={({ field }) => (
@@ -360,13 +310,14 @@ export function InstallationForm() {
           {/* Service Type */}
           <div>
             <h3 className="text-lg font-semibold mb-4">{t("serviceType")}</h3>
-            <div className="grid grid-cols-1 gap-6">              <FormField
+            <div className="grid grid-cols-1 gap-6">
+              <FormField
                 control={form.control}
                 name="serviceType"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("serviceTypeLabel")}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={t("selectServiceType")} />
@@ -528,13 +479,13 @@ export function InstallationForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />          {/* Additional Services Section */}
+          />
+
+          {/* Additional Services Section */}
           <div>
             <h3 className="text-lg font-semibold mb-4">{t("additionalServices")}</h3>
             {servicesLoading ? (
-              <div className="flex items-center justify-center p-8 border rounded-md bg-slate-50 dark:bg-slate-900/20">
-                <div className="animate-pulse">Loading services...</div>
-              </div>
+              <p>Loading services...</p>
             ) : availableServices.length > 0 ? (
               <div className="border rounded-md p-4">
                 <Table>
@@ -549,16 +500,12 @@ export function InstallationForm() {
                   <TableBody>
                     {availableServices.map((service) => (
                       <TableRow key={service.id}>
-                        <TableCell>                          <Checkbox 
-                            checked={selectedServices.some(s => s.id === service.id)}                            onCheckedChange={(checked) => {
+                        <TableCell>
+                          <Checkbox 
+                            checked={selectedServices.some(s => s.id === service.id)}
+                            onCheckedChange={(checked) => {
                               if (checked) {
-                                // Include only the fields needed by the API
-                                setSelectedServices([...selectedServices, {
-                                  id: service.id,
-                                  serviceName: service.serviceName,
-                                  price: service.price,
-                                  description: service.description || ""
-                                }]);
+                                setSelectedServices([...selectedServices, service]);
                               } else {
                                 setSelectedServices(selectedServices.filter(s => s.id !== service.id));
                               }
@@ -576,20 +523,15 @@ export function InstallationForm() {
             ) : (
               <p className="text-muted-foreground">No additional services available.</p>
             )}
-          </div>          {/* Price Summary */}
+          </div>
+
+          {/* Price Summary */}
           <Card className="bg-slate-50 dark:bg-slate-900/50">
             <CardContent className="p-4">
               <h3 className="text-lg font-semibold mb-2">{t("priceSummary")}</h3>
               <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <span>{t("basePrice")}:</span>
-                    {tireQuantity && serviceType ? (
-                      <span className="ml-1 text-xs text-muted-foreground">
-                        ({tireQuantity} × {formatPrice(priceBreakdown.basePrice / parseInt(tireQuantity || '1'))})
-                      </span>
-                    ) : null}
-                  </div>
+                <div className="flex justify-between">
+                  <span>{t("basePrice")}:</span>
                   <span>{formatPrice(priceBreakdown.basePrice)}</span>
                 </div>
                 {priceBreakdown.additionalServicesTotal > 0 && (
@@ -625,23 +567,11 @@ export function InstallationForm() {
                 </div>
               </FormItem>
             )}
-          />          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <span className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                {t("submitting")}
-              </span>
-            ) : t("submit")}
+          />
+
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? t("submitting") : t("submit")}
           </Button>
-          
-          {submitError && (
-            <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-md text-sm">
-              <p>{submitError}</p>
-            </div>
-          )}
         </form>
       </Form>
     </div>

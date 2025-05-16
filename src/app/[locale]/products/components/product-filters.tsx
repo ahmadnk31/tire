@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -119,17 +119,16 @@ export function ProductFilters() {
 
     fetchFilterOptions();
   }, []);
-
   // Load filters from URL on initial load
   useEffect(() => {
     // Parse URL parameters here
-    const brandIds = searchParams.get('brandIds')?.split(',') || [];
-    const categoryIds = searchParams.get('categoryIds')?.split(',') || [];
+    const brandIds = searchParams.get('brand')?.split(',') || [];
+    const categoryIds = searchParams.get('category')?.split(',') || [];
     const tireType = searchParams.get('tireType')?.split(',') || [];
-    const widths = searchParams.get('widths')?.split(',').map(Number) || [];
-    const aspectRatios = searchParams.get('aspectRatios')?.split(',').map(Number) || [];
-    const rimDiameters = searchParams.get('rimDiameters')?.split(',').map(Number) || [];
-    const speedRatings = searchParams.get('speedRatings')?.split(',') || [];
+    const widths = searchParams.get('width')?.split(',').map(Number) || [];
+    const aspectRatios = searchParams.get('aspectRatio')?.split(',').map(Number) || [];
+    const rimDiameters = searchParams.get('rimDiameter')?.split(',').map(Number) || [];
+    const speedRatings = searchParams.get('speedRating')?.split(',') || [];
     const runFlat = searchParams.get('runFlat') === 'true' ? true : searchParams.get('runFlat') === 'false' ? false : null;
     const reinforced = searchParams.get('reinforced') === 'true' ? true : searchParams.get('reinforced') === 'false' ? false : null;
     const minPrice = Number(searchParams.get('minPrice') || 50);
@@ -153,30 +152,30 @@ export function ProductFilters() {
     // Update price range slider
     setPriceRange([minPrice, maxPrice]);
   }, [searchParams]);
-
   // Apply filters
   const applyFilters = () => {
     const params = new URLSearchParams();
+    const locale = window.location.pathname.split('/')[1] || 'en'; // Default to 'en' if no locale found
 
     // Add all active filters to the URL
-    if (filters.brands.length > 0) params.set('brandIds', filters.brands.join(','));
-    if (filters.categories.length > 0) params.set('categoryIds', filters.categories.join(','));
-    if (filters.tireType.length > 0) params.set('tireType', filters.tireType.join(','));
-    if (filters.widths.length > 0) params.set('widths', filters.widths.join(','));
-    if (filters.aspectRatios.length > 0) params.set('aspectRatios', filters.aspectRatios.join(','));
-    if (filters.rimDiameters.length > 0) params.set('rimDiameters', filters.rimDiameters.join(','));
-    if (filters.speedRatings.length > 0) params.set('speedRatings', filters.speedRatings.join(','));
+    if (filters.brands.length > 0) params.set('brand', filters.brands.join(','));
+    if (filters.categories.length > 0) params.set('category', filters.categories.join(','));
+    if (filters.tireType.length > 0) params.set('tireType', filters.tireType[0]); // API only supports single tire type
+    if (filters.widths.length > 0) params.set('width', filters.widths[0].toString());
+    if (filters.aspectRatios.length > 0) params.set('aspectRatio', filters.aspectRatios[0].toString());
+    if (filters.rimDiameters.length > 0) params.set('rimDiameter', filters.rimDiameters[0].toString());
+    if (filters.speedRatings.length > 0) params.set('speedRating', filters.speedRatings.join(','));
     if (filters.runFlat !== null) params.set('runFlat', filters.runFlat.toString());
-    if (filters.reinforced !== null) params.set('reinforced', filters.reinforced.toString());
-    params.set('minPrice', filters.minPrice.toString());
+    if (filters.reinforced !== null) params.set('reinforced', filters.reinforced.toString());    params.set('minPrice', filters.minPrice.toString());
     params.set('maxPrice', filters.maxPrice.toString());
 
-    // Update the URL
-    router.push(`/products?${params.toString()}`);
+    // Update the URL with locale
+    router.push(`/${locale}/products?${params.toString()}`);
   };
-
   // Clear all filters
   const clearAllFilters = () => {
+    const locale = window.location.pathname.split('/')[1] || 'en'; // Default to 'en' if no locale found
+    
     setFilters({
       brands: [],
       categories: [],
@@ -191,8 +190,11 @@ export function ProductFilters() {
       maxPrice: 500
     });
     
+    // Update price range slider
+    setPriceRange([50, 500]);
+    
     // Clear URL params and redirect
-    router.push('/products');
+    router.push(`/${locale}/products`);
   };
 
   // Render loading state
@@ -232,7 +234,7 @@ export function ProductFilters() {
   };
 
   return (
-    <div className="space-y-6 px-4 lg:px-6 py-4 lg:py-6 bg-white rounded-lg shadow-sm border">
+    <div className="space-y-6  px-4 lg:px-6 py-4 overflow-y-auto lg:py-6 bg-white rounded-lg shadow-sm border">
       {renderActiveFiltersBadge()}
       
       <Accordion type="multiple" defaultValue={["brands", "categories", "tireTypes"]}>
@@ -338,17 +340,24 @@ export function ProductFilters() {
             {t("filters.priceRange")}
           </AccordionTrigger>
           <AccordionContent className="pt-1 pb-3">
-            <div className="space-y-6 px-1">
+            <div className="space-y-6 px-1 pt-4">              
               <Slider
                 defaultValue={priceRange}
                 min={0}
                 max={1000}
                 step={10}
-                onValueChange={setPriceRange}
+                onValueChange={(value) => {
+                  setPriceRange(value);
+                  setFilters({
+                    ...filters,
+                    minPrice: value[0],
+                    maxPrice: value[1]
+                  });
+                }}
               />
               <div className="flex items-center justify-between">
                 <p className="text-sm">
-                  ${priceRange[0]} - ${priceRange[1]}
+                  {priceRange[0]} - {priceRange[1]}
                 </p>
               </div>
             </div>
@@ -362,19 +371,21 @@ export function ProductFilters() {
           </AccordionTrigger>
           <AccordionContent className="pt-1 pb-3">
             <div className="space-y-3">
-              <div className="space-y-1">
-                <Label className="text-sm text-muted-foreground">Width</Label>
-                <Select
+              <div className="space-y-1">                <Label className="text-sm text-muted-foreground">{t("filters.width")}</Label>                <Select
                   value={filters.widths[0]?.toString() || ""}
                   onValueChange={(value) => {
-                    setFilters({...filters, widths: [parseInt(value)]});
+                    if (value === "all") {
+                      setFilters({...filters, widths: []});
+                    } else {
+                      setFilters({...filters, widths: [parseInt(value)]});
+                    }
                   }}
                 >
                   <SelectTrigger className="h-8">
-                    <SelectValue placeholder="Select width" />
+                    <SelectValue placeholder={t("filters.selectWidth")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Any</SelectItem>
+                    <SelectItem value="all">{t("filters.any")}</SelectItem>
                     {filterOptions.widths.map((width) => (
                       <SelectItem key={width} value={width.toString()}>
                         {width}mm
@@ -383,9 +394,8 @@ export function ProductFilters() {
                   </SelectContent>
                 </Select>
               </div>
-              
-              <div className="space-y-1">
-                <Label className="text-sm text-muted-foreground">Aspect Ratio</Label>
+                <div className="space-y-1">
+                <Label className="text-sm text-muted-foreground">{t("filters.aspectRatio")}</Label>
                 <Select
                   value={filters.aspectRatios[0]?.toString() || ""}
                   onValueChange={(value) => {
@@ -393,10 +403,10 @@ export function ProductFilters() {
                   }}
                 >
                   <SelectTrigger className="h-8">
-                    <SelectValue placeholder="Select ratio" />
+                    <SelectValue placeholder={t("filters.selectRatio")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Any</SelectItem>
+                    <SelectItem value="all">{t("filters.any")}</SelectItem>
                     {filterOptions.aspectRatios.map((ratio) => (
                       <SelectItem key={ratio} value={ratio.toString()}>
                         {ratio}%
@@ -405,9 +415,8 @@ export function ProductFilters() {
                   </SelectContent>
                 </Select>
               </div>
-              
-              <div className="space-y-1">
-                <Label className="text-sm text-muted-foreground">Rim Diameter</Label>
+                <div className="space-y-1">
+                <Label className="text-sm text-muted-foreground">{t("filters.rimDiameter")}</Label>
                 <Select
                   value={filters.rimDiameters[0]?.toString() || ""}
                   onValueChange={(value) => {
@@ -415,10 +424,10 @@ export function ProductFilters() {
                   }}
                 >
                   <SelectTrigger className="h-8">
-                    <SelectValue placeholder="Select diameter" />
+                    <SelectValue placeholder={t("filters.selectDiameter")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Any</SelectItem>
+                    <SelectItem value="all">{t("filters.any")}</SelectItem>
                     {filterOptions.rimDiameters.map((diameter) => (
                       <SelectItem key={diameter} value={diameter.toString()}>
                         {diameter}"
@@ -431,9 +440,8 @@ export function ProductFilters() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      
-      {/* Apply filters button for mobile */}
-      <div className="lg:hidden pt-2">
+        {/* Apply filters button - visible on all screen sizes */}
+      <div className="pt-2">
         <Button 
           className="w-full" 
           onClick={applyFilters}

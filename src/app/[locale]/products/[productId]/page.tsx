@@ -692,7 +692,7 @@ export default async function ProductPage({
         <div className='mt-16'>
           <h2 className='text-2xl font-bold mb-6'>{t("reviews.customerReviews")}</h2>
           {product.reviews.length > 0 ? (
-            <ReviewsList initialReviews={product.reviews} productId={product.id} />
+            <ReviewsList productId={product.id}  />
           ) : (
             <div className='text-center py-8 border border-dashed rounded-lg'>
               <p className='text-gray-500 mb-4'>{t("reviews.noReviews")}</p>
@@ -704,9 +704,14 @@ export default async function ProductPage({
         <div className='mt-16'>
           <h2 className='text-2xl font-bold mb-6'>{t("recommendations.title")}</h2>
           <ProductRecommendations
-            currentProductId={product.id}
+            productId={product.id}
             categoryId={product.categoryId}
             brandId={product.brandId}
+            tireSpecs={{
+              width: product.width,
+              aspectRatio: product.aspectRatio,
+              rimDiameter: product.rimDiameter,
+            }}
           />
         </div>
       </div>

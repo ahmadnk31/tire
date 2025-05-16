@@ -38,7 +38,7 @@ export const InstallationFormSchema = z.object({
   comments: z.string().optional(),
   technician: z.string().optional(),
   bay: z.string().optional(),
-  basePrice: z.string(),
+  basePrice: z.number(),
   status: z.nativeEnum(InstallationStatus),
 });
 

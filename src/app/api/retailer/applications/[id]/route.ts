@@ -69,7 +69,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
         where: { email: retailerRequest.email }
       })
 
-      const hashedPassword = existingUser ? undefined : await hash("TempPass123!", 12)      if (existingUser) {
+      const hashedPassword = existingUser ? undefined : await hash("TempPass123!", 12)      
+      if (existingUser) {
         // Update existing user to retailer role
         user = await prisma.user.update({
           where: { id: existingUser.id },
@@ -96,12 +97,12 @@ export async function PATCH(request: NextRequest, { params }: Params) {
             password: hashedPassword!,
             role: "RETAILER",
             retailerProfile: {
-              create: {
-                companyName: retailerRequest.companyName,
+              create: {                companyName: retailerRequest.companyName,
                 phone: retailerRequest.phone,
                 businessAddress: retailerRequest.businessAddress,
                 taxId: retailerRequest.taxId,
                 yearsInBusiness: retailerRequest.yearsInBusiness,
+                document: retailerRequest.businessDocument,
               }
             }
           }
